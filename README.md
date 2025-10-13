@@ -1,6 +1,4 @@
-Why you chose your dataset
 What you've learned from IDA/EDA
-What preprocessing steps you've completed
 What you've tried with Streamlit so far
 
 # About the project
@@ -11,8 +9,8 @@ This project is to examine infrastructure projects
 1. Project Metadata (_projectid_787_alldata.csv_)
     - Source: World Bank
     - 787 projects with sector (Energy/Transportation/Water), region, initial/final costs, and dates (of approval and closing).
-    - This data includes projects that were closed between 2000 to 2019, making the total of 20-year span.
-    - This is to avoid any confounding factors that could manifest in project cost and schedule due to Covid-19.
+    - This data includes projects that were closed between 2000 to 2019, making the total of 20-year span. This is to avoid any confounding factors that could manifest in project cost and schedule due to Covid-19.
+    - It also has preliminary evaluation of environmental impact assessment in A, B, C, F, U, and Not Available.
 2. Price Level Ration data (_WB_PLR.csv_): 
     - Source: World Bank
     - Price Level Ratio data for 266 countries from 1990 to 2024
