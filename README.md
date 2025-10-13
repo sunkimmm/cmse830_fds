@@ -6,9 +6,9 @@ This project is to examine infrastructure projects
 
 # Data
 ## Dataset
-1. Project Metadata (_projectid_675_alldata.csv_)
+1. Project Metadata (_projectid_674_alldata.csv_)
     - Source: World Bank
-    - 675 projects with sector (Energy/Transportation/Water), region, initial/final costs, and dates (of approval and closing).
+    - 674 projects with sector (Energy/Transportation/Water), region, initial/final costs, and dates (of approval and closing).
     - This data includes projects that were closed between 2000 to 2019, making the total of 20-year span. This is to avoid any confounding factors that could manifest in project cost and schedule due to Covid-19.
     - It also has preliminary evaluation of environmental impact assessment in A, B, C, F, U, and Not Available.
 2. Price Level Ration data (_WB_PLR.csv_): 
