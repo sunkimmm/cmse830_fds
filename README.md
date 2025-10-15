@@ -3,7 +3,7 @@ This project is to examine large-scale infrastructure projects in three differen
 
 # Data
 ## Dataset
-1. Project data (_adb_426.csv_)
+1. Project data (_adb_426.csv_, _adb_clean_416.csv_)
     - Source: Asian Development Bank
     - 426 projects with sector (Energy/Transportation/Water), country, region, initial/final costs, dates (initial/actual closing date, approval date), and preliminary evaluation of environmental and social impact assessmemt in A, B, C, and D. This letter scale is ordinal, from A meaning the highest risk, and C meaning minimal risk, and D meaning no impact/risk.
     - This data includes projects that were closed between 2002 and 2019, making the total of 18-year span. This is to avoid any confounding factors that could manifest in project cost and schedule due to Covid-19.
