@@ -1,8 +1,5 @@
-What you've learned from IDA/EDA
-What you've tried with Streamlit so far
-
 # About the project
-This project is to examine large-scale infrastructure projects in three different sectors (energy, transportation, and water), and how they have evolved over time. Further, to examine whether, if environmental and social risks are involved in each project, how would it impact the outcome of the project in terms of cost overrun, delay, and overall performance.
+This project is to examine large-scale infrastructure projects in three different sectors (energy, transportation, and water), and how they have evolved over time. Specifically, I am interested in environmental and social risks and how they impact the project delay. But in this exploratory phase, I am looking at the data from multiple perspectives.
 
 # Data
 ## Dataset
