@@ -39,14 +39,14 @@ def load_data():
 df_clean1 = load_data()
 
 # Sidebar
-st.sidebar.title("🏗️ ADB Project Analysis")
+st.sidebar.title("🏗️ Large-scale Infrastructure Project Analysis")
 st.sidebar.markdown("---")
-# st.sidebar.info(
-#     """
-#     This dashboard analyzes Asian Development Bank infrastructure projects 
-#     across Energy, Transportation, and Water sectors from 2002-2019.
-#     """
-# )
+st.sidebar.info(
+    """
+    This dashboard analyzes Asian Development Bank infrastructure projects 
+    across Energy, Transportation, and Water sectors from 2002-2019.
+    """
+)
 st.sidebar.markdown("---")
 
 # Filters
