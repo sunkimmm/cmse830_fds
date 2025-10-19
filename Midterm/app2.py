@@ -338,15 +338,10 @@ with tab1:
     st.plotly_chart(fig_dist, use_container_width=True)
 
 # ============================================================================
-# TAB 2: PROJECT SECTOR & SIZE ANALYSIS
+# TAB 2: PROJECT SECTOR ANALYSIS
 # ============================================================================
 with tab2:
     st.title("🏭 Project Sector Analysis")
-    
-    # ========================================================================
-    # SECTOR ANALYSIS
-    # ========================================================================
-    #st.header("📊 Sector Analysis")
     
     st.markdown("### How do delays vary across sectors?")
     
@@ -367,8 +362,7 @@ with tab2:
     
     st.markdown("---")
     
-    # Detailed statistics table
-# Raincloud plot for sector delays
+    # Raincloud plot for sector delays
     st.subheader("📈 Delay Distribution by Sector")
 
     fig_sector = go.Figure()
@@ -385,11 +379,11 @@ with tab2:
             box_visible=True,
             meanline_visible=True,
             points='all',
-            pointpos=-0.5,        # ← From your IDA/EDA code
-            jitter=0.3,           # ← From your IDA/EDA code
+            pointpos=-0.5,
+            jitter=0.3,
             marker=dict(color=sector_colors[sector]),
             scalemode='width',
-            width=0.6,            # ← From your IDA/EDA code
+            width=0.6,
             side='positive',
             line=dict(color=sector_colors[sector], width=2)
         ))
@@ -420,6 +414,107 @@ with tab2:
     )
 
     st.plotly_chart(fig_sector, use_container_width=True)
+    
+    st.markdown("---")
+    
+    # Three-panel bar chart: Cost, Duration, Delay
+    st.subheader("📊 Project Metrics by Sector")
+    
+    avg_cost = df.groupby('sector1')['totalcost_initial_adj'].mean().sort_values(ascending=False)
+    avg_duration = df.groupby('sector1')['duration_final'].mean().reindex(avg_cost.index)
+    avg_delay = df.groupby('sector1')['delay'].mean().reindex(avg_cost.index)
+    
+    fig_metrics = make_subplots(
+        rows=1, cols=3,
+        subplot_titles=('Average Cost', 'Average Duration', 'Average Delay'),
+        horizontal_spacing=0.12
+    )
+    
+    # Cost
+    fig_metrics.add_trace(
+        go.Bar(
+            x=avg_cost.index,
+            y=avg_cost.values,
+            marker=dict(
+                color=[sector_colors.get(sector, '#95a5a6') for sector in avg_cost.index],
+                line=dict(width=0)
+            ),
+            text=[f'${val:.0f}M' for val in avg_cost.values],
+            textposition='auto',
+            textfont=dict(size=12, color='white', family='Arial'),
+            opacity=0.8,
+            showlegend=False
+        ),
+        row=1, col=1
+    )
+    
+    # Duration
+    fig_metrics.add_trace(
+        go.Bar(
+            x=avg_duration.index,
+            y=avg_duration.values,
+            marker=dict(
+                color=[sector_colors.get(sector, '#95a5a6') for sector in avg_duration.index],
+                line=dict(width=0)
+            ),
+            text=[f'{val:.1f}y' for val in avg_duration.values],
+            textposition='auto',
+            textfont=dict(size=12, color='white', family='Arial'),
+            opacity=0.8,
+            showlegend=False
+        ),
+        row=1, col=2
+    )
+    
+    # Delay
+    fig_metrics.add_trace(
+        go.Bar(
+            x=avg_delay.index,
+            y=avg_delay.values,
+            marker=dict(
+                color=[sector_colors.get(sector, '#95a5a6') for sector in avg_delay.index],
+                line=dict(width=0)
+            ),
+            text=[f'{val:.1f}y' for val in avg_delay.values],
+            textposition='auto',
+            textfont=dict(size=12, color='white', family='Arial'),
+            opacity=0.8,
+            showlegend=False
+        ),
+        row=1, col=3
+    )
+    
+    # Update axes
+    fig_metrics.update_xaxes(title_text='Sector', tickfont=dict(family='Arial', size=11), 
+                            title_font=dict(size=12, family='Arial'), row=1, col=1)
+    fig_metrics.update_xaxes(title_text='Sector', tickfont=dict(family='Arial', size=11), 
+                            title_font=dict(size=12, family='Arial'), row=1, col=2)
+    fig_metrics.update_xaxes(title_text='Sector', tickfont=dict(family='Arial', size=11), 
+                            title_font=dict(size=12, family='Arial'), row=1, col=3)
+    
+    fig_metrics.update_yaxes(title_text='Million USD', gridcolor='lightgray', gridwidth=0.5, 
+                            tickfont=dict(family='Arial', size=11), 
+                            title_font=dict(size=12, family='Arial'), row=1, col=1)
+    fig_metrics.update_yaxes(title_text='Years', gridcolor='lightgray', gridwidth=0.5, 
+                            tickfont=dict(family='Arial', size=11), 
+                            title_font=dict(size=12, family='Arial'), row=1, col=2)
+    fig_metrics.update_yaxes(title_text='Years', gridcolor='lightgray', gridwidth=0.5, 
+                            tickfont=dict(family='Arial', size=11), 
+                            title_font=dict(size=12, family='Arial'), row=1, col=3)
+    
+    fig_metrics.update_layout(
+        title=dict(
+            text='Project Metrics by Sector',
+            font=dict(size=18, family='Arial', color='black'),
+            x=0.5,
+            xanchor='center'
+        ),
+        plot_bgcolor='white',
+        height=500,
+        font=dict(family='Arial')
+    )
+    
+    st.plotly_chart(fig_metrics, use_container_width=True)
 
 # ============================================================================
 # TAB 3: RISK ANALYSIS
