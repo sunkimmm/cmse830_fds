@@ -560,7 +560,7 @@ with tab1:
     st.plotly_chart(fig_metrics, use_container_width=True)
     st.info("""
     💡 **Insight**: 
-    - On average, Energy projects have the highest project cost but has the highest delay.<br>
+    - On average, Energy projects have the highest project cost but has the highest delay.
     - On average, Water projects have the lowest project cost, but takes the longest with moderate delay.
     """)
     
@@ -911,10 +911,7 @@ with tab2:
     st.plotly_chart(fig_heatmaps, use_container_width=True)
     st.info("""
     💡 **Insight**:
-        - Water projects have the highest initially planned project duration. No risk projects have notably shorter duration.<br>
-        - Delay occurs both in Energy and Water projects. <br>
-        - Projects without any pre-evaluated risks also suffer from delays, except for Water projects.<br>
-            - It suggests that Water projects are less prone to unforseen risks that may cause project delays.
+        - Water projects have the highest initially planned project duration. No risk projects have notably shorter duration.  - Delay occurs both in Energy and Water projects.  - Projects without any pre-evaluated risks also suffer from delays, except for Water projects.  - It suggests that Water projects are less prone to unforseen risks that may cause project
     """)
     st.markdown("---")
     
@@ -923,10 +920,10 @@ with tab2:
     # ========================================================================
     st.header("🎯 Large vs Mega Projects by Risk Level")
     
-    st.markdown("""
-    ### Does project size interact with risk level to affect delays?
-    Comparing **Large projects ($500M-$1B)** vs **Mega projects (≥$1B)** across different risk levels.
-    """)
+    # st.markdown("""
+    # ### Does project size interact with risk level to affect delays?
+    # Comparing **Large projects ($500M-$1B)** vs **Mega projects (≥$1B)** across different risk levels.
+    # """)
     
     # Filter to large and mega only
     df_large_mega = df[df['project_size'].isin(['large', 'mega'])]
@@ -1002,8 +999,7 @@ with tab2:
     
     st.info("""
     **Key Observation**: 
-    - Mega projects with single risk show notably higher delays (2.61 years) compared to Large projects with Single Risk (1.59 years)
-    - Suggests mega projects may be particularly vulnerable when facing a risk
+    - Mega projects with single risk show notably higher delays (2.61 years) compared to Large projects with Single Risk (1.59 years)  - Suggests mega projects may be particularly vulnerable when facing a risk
     """)
     
     st.markdown("---")
@@ -1144,7 +1140,7 @@ with tab2:
     st.plotly_chart(fig_severity, use_container_width=True)
     
     # Summary statistics by severity
-    st.subheader("📋 Delay Statistics by Severity Level")
+    st.subheader("Delay Statistics by Severity Level")
     
     col1, col2 = st.columns(2)
     
@@ -1175,8 +1171,6 @@ with tab2:
                     'Median Delay': f"{sev_data['delay'].median():.2f}y"
                 })
         st.dataframe(pd.DataFrame(soc_severity_summary), use_container_width=True, hide_index=True)
-    
-    st.markdown("---")
     st.markdown("---")
     
     # ========================================================================
@@ -1186,7 +1180,7 @@ with tab2:
     
     st.markdown("""
     ### Do planners account for risks when estimating project duration?
-    Comparing **planned duration** (initial estimates) vs **actual delays** across risk levels.
+    Comparing planned duration (initial estimates) vs actual delays across risk levels.
     """)
     
     # Calculate statistics
@@ -1204,7 +1198,7 @@ with tab2:
     
     risk_planning_df = pd.DataFrame(risk_planning_data)
     
-    st.subheader("📊 Planning vs Reality")
+    st.subheader("Planning vs Reality")
     st.dataframe(risk_planning_df.style.format({
         'Mean Initial Duration (years)': '{:.2f}',
         'Mean Final Duration (years)': '{:.2f}',
@@ -1342,11 +1336,7 @@ with tab2:
     
     st.info("""
     💡 **Insight**: 
-    - **Higher risk projects have LONGER planned durations** - planners anticipate complexity <br>
-    - However, **actual delays remain similar across risk levels** - risks are being managed<br>
-    - This suggests that risk identification leads to appropriate planning buffers<br>
-    - Projects correctly assessed as high-risk receive adequate time allocations upfront
-    """)
+    - **Higher risk projects have LONGER planned durations** - planners anticipate complexity  - However, **actual delays remain similar across risk levels** - risks are being managed  - This suggests that risk identification leads to appropriate planning buffers  - Projects correctly assessed as high-risk receive adequate time allocations upfront""")
 
 # ============================================================================
 # TAB 4: KEY FINDINGS
