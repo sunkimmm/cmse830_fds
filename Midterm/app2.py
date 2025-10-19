@@ -271,7 +271,8 @@ with tab1:
     fig_bubble.update_layout(height=700, font=dict(family='Arial'))
     
     st.plotly_chart(fig_bubble, use_container_width=True)
-    
+    st.info("💡 **Insight**: In most countries, transportation is the dominant sector. In India, Energy projects are the second most dominant sector while in China, Water is the second most dominant sector." \
+    "Overall, Transportation is the most common, followed by Energy projects.")
     st.markdown("---")
     
     # Distribution charts
