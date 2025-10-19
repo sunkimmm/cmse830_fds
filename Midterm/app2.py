@@ -278,6 +278,23 @@ with tab1:
     # Distribution charts
     st.subheader("📊 Project Distribution")
     
+    # Summary statistics by sector
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        energy_data = df[df['sector1'] == 'Energy']
+        st.metric("Energy Projects", len(energy_data), f"{energy_data['delay'].mean():.2f}y avg delay")
+    
+    with col2:
+        transport_data = df[df['sector1'] == 'Transportation']
+        st.metric("Transportation Projects", len(transport_data), f"{transport_data['delay'].mean():.2f}y avg delay")
+    
+    with col3:
+        water_data = df[df['sector1'] == 'Water']
+        st.metric("Water Projects", len(water_data), f"{water_data['delay'].mean():.2f}y avg delay")
+    
+    st.markdown("---")
+    
     fig_dist = make_subplots(
         rows=1, cols=2, 
         subplot_titles=('Projects by Sector', 'Projects by Region and Sector'), 
@@ -338,26 +355,11 @@ with tab1:
     
     st.plotly_chart(fig_dist, use_container_width=True)
 
-    st.title("🏭 Project Sector Analysis")
+    #st.title("🏭 Project Sector Analysis")
     
-    st.markdown("### How do delays vary across sectors?")
+    #st.markdown("### How do delays vary across sectors?")
     
-    # Summary statistics by sector
-    col1, col2, col3 = st.columns(3)
     
-    with col1:
-        energy_data = df[df['sector1'] == 'Energy']
-        st.metric("Energy Projects", len(energy_data), f"{energy_data['delay'].mean():.2f}y avg delay")
-    
-    with col2:
-        transport_data = df[df['sector1'] == 'Transportation']
-        st.metric("Transportation Projects", len(transport_data), f"{transport_data['delay'].mean():.2f}y avg delay")
-    
-    with col3:
-        water_data = df[df['sector1'] == 'Water']
-        st.metric("Water Projects", len(water_data), f"{water_data['delay'].mean():.2f}y avg delay")
-    
-    st.markdown("---")
     
     # Raincloud plot for sector delays
     st.subheader("📈 Delay Distribution by Sector")
@@ -512,7 +514,7 @@ with tab1:
     )
     
     st.plotly_chart(fig_metrics, use_container_width=True)
-    
+
 # ============================================================================
 # TAB 2: PROJECT SECTOR ANALYSIS
 # ============================================================================
