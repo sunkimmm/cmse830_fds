@@ -50,6 +50,27 @@ def load_data():
         }
         df['risk_level'] = df['risk_category'].map(risk_level_map)
     
+    # Create social_severity column (maximum of indigenous and resettlement risks)
+    if 'safe_ind' in df.columns and 'safe_res' in df.columns:
+        def get_max_severity(row):
+            severities = []
+            if pd.notna(row['safe_ind']) and row['safe_ind'] in ['A', 'B', 'C']:
+                severities.append(row['safe_ind'])
+            if pd.notna(row['safe_res']) and row['safe_res'] in ['A', 'B', 'C']:
+                severities.append(row['safe_res'])
+            
+            if not severities:
+                return None
+            # Return the highest severity (A > B > C)
+            if 'A' in severities:
+                return 'A'
+            elif 'B' in severities:
+                return 'B'
+            else:
+                return 'C'
+        
+        df['social_severity'] = df.apply(get_max_severity, axis=1)
+    
     return df
 
 df = load_data()
