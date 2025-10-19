@@ -119,23 +119,5 @@ cost_adj2 = cost_adj1 × (GDP_2019 / GDP_year)
 
 </details>
 
-## 🚀 Quick Start
-
-### View the Dashboard
-Visit the [live Streamlit app](https://cmse830fds-midterm-adbprojects.streamlit.app/)
-
-### Run Locally
-```bash
-cd Midterm
-pip install -r requirements.txt
-streamlit run app2.py
-```
-
-## 📧 Contact
-
-For questions about this analysis, please open an issue in this repository.
-
----
-
 **Course**: CMSE830 Foundations of Data Science  
 **Semester**: Fall 2025
