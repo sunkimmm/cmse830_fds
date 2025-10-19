@@ -104,7 +104,7 @@ tab1, tab2, tab3, tab4 = st.tabs([
 # TAB 1: OVERVIEW
 # ============================================================================
 with tab1:
-    st.title("📊 Project Overview")
+    st.title("Project Overview")
     
     # Key metrics at the top
     col1, col2, col3, col4 = st.columns(4)
@@ -122,7 +122,7 @@ with tab1:
     st.markdown("---")
     
     # Geographic Maps
-    st.subheader("🗺️ Geographic Distribution")
+    st.subheader("Geographic Distribution")
     
     # Prepare data for choropleth maps
     country_total = df.groupby('countryname').agg({
@@ -199,7 +199,7 @@ with tab1:
     st.markdown("---")
     
     # Bubble map by sector
-    st.subheader("🌏 Projects by Country and Sector")
+    st.subheader("Projects by Country and Sector")
     
     # Aggregate by country AND sector
     country_sector_data = df.groupby(['countryname', 'sector1']).agg({
@@ -238,7 +238,7 @@ with tab1:
     }
     
     # Add coordinates
-    np.random.seed(42)
+    np.random.seed(114)
     country_sector_data['lat'] = country_sector_data['country'].map(lambda x: country_coords.get(x, (None, None))[0])
     country_sector_data['lon'] = country_sector_data['country'].map(lambda x: country_coords.get(x, (None, None))[1])
     
@@ -275,7 +275,7 @@ with tab1:
     st.markdown("---")
     
     # Distribution charts
-    st.subheader("📊 Project Distribution")
+    st.subheader("Project Distribution")
     
     # Summary statistics by sector
     col1, col2, col3 = st.columns(3)
@@ -354,14 +354,14 @@ with tab1:
     
     st.plotly_chart(fig_dist, use_container_width=True)
 
-    #st.title("🏭 Project Sector Analysis")
+    #st.title("Project Sector Analysis")
     
     #st.markdown("### How do delays vary across sectors?")
     
     
     
     # Raincloud plot for sector delays
-    st.subheader("📈 Delay Distribution by Sector")
+    st.subheader("Delay Distribution by Sector")
 
     fig_sector = go.Figure()
 
@@ -416,7 +416,7 @@ with tab1:
     st.markdown("---")
     
     # Three-panel bar chart: Cost, Duration, Delay
-    st.subheader("📊 Project Metrics by Sector")
+    st.subheader("Project Metrics by Sector")
     
     avg_cost = df.groupby('sector1')['totalcost_initial_adj'].mean().sort_values(ascending=False)
     avg_duration = df.groupby('sector1')['duration_final'].mean().reindex(avg_cost.index)
@@ -519,7 +519,7 @@ with tab1:
 # TAB 2: RISK ANALYSIS
 # ============================================================================
 with tab2:
-    st.title("⚠️ Risk Analysis")
+    st.title("Risk Analysis")
     
     st.markdown("""
     This section examines how different types of risks affect project delays.
@@ -569,14 +569,14 @@ with tab2:
     st.markdown("---")
     
     # Social Risk Section
-    st.subheader("👥 Social Risk")
+    st.subheader("Social Risk")
     
     st.markdown("""
     Social risks encompass two critical areas that affect communities around development projects:
     """)
     
     # Indigenous Peoples
-    st.markdown("#### 1️⃣ Indigenous Peoples")
+    st.markdown("#### Indigenous Peoples")
     
     col1, col2 = st.columns([2, 1])
     
@@ -605,7 +605,7 @@ with tab2:
     st.markdown("")
     
     # Involuntary Resettlement
-    st.markdown("#### 2️⃣ Involuntary Resettlement")
+    st.markdown("#### Involuntary Resettlement")
     
     col1, col2 = st.columns([2, 1])
     
@@ -635,7 +635,7 @@ with tab2:
     st.markdown("---")
     
     # Risk Classification System
-    st.subheader("📊 Risk Classification System")
+    st.subheader("Risk Classification System")
     
     st.markdown("""
     All three risk types use the same classification system:
@@ -680,7 +680,7 @@ with tab2:
     # ========================================================================
     # RISK DISTRIBUTION BY SECTOR
     # ========================================================================
-    st.header("📊 Risk Distribution by Sector")
+    st.header("Risk Distribution by Sector")
     
     st.markdown("### How are risks distributed across sectors?")
     
@@ -757,7 +757,7 @@ with tab2:
     # ========================================================================
     # DURATION AND DELAY BY RISK LEVEL AND SECTOR
     # ========================================================================
-    st.header("🔥 Duration and Delay by Risk Level")
+    st.header("Duration and Delay by Risk Level")
     
     st.markdown("### How do risk levels affect project duration and delays across sectors?")
     
@@ -944,16 +944,15 @@ with tab2:
     st.plotly_chart(fig_size_risk, use_container_width=True)
     
     st.warning("""
-    ⚠️ **Key Observation**: 
-    - **Mega projects with Single Risk** show notably higher delays (2.61 years) compared to Large projects with Single Risk (1.59 years)
-    - This pattern is not observed for projects with No Risk or Both Risks
-    - Suggests mega projects may be particularly vulnerable when facing a single type of risk
+    **Key Observation**: 
+    - Mega projects with single risk show notably higher delays (2.61 years) compared to Large projects with Single Risk (1.59 years)
+    - Suggests mega projects may be particularly vulnerable when facing a risk
     """)
     
     st.markdown("---")
     
     # Environmental-Only vs Social-Only breakdown for Single Risk
-    st.subheader("🔍 Single Risk Breakdown: Environmental vs Social")
+    st.subheader("Single Risk Breakdown: Environmental vs Social")
     
     col1, col2 = st.columns(2)
     
@@ -993,7 +992,7 @@ with tab2:
     # ========================================================================
     # RISK SEVERITY ANALYSIS (A, B, C)
     # ========================================================================
-    st.header("📊 Risk Severity Analysis")
+    st.header("Risk Severity Analysis")
     
     st.markdown("""
     ### How do different severity levels (A, B, C) affect project delays?
@@ -1126,7 +1125,7 @@ with tab2:
     # ========================================================================
     # RISK PLANNING: DURATION VS DELAY
     # ========================================================================
-    st.header("📅 Risk Awareness in Project Planning")
+    st.header("Risk Awareness in Project Planning")
     
     st.markdown("""
     ### Do planners account for risks when estimating project duration?
@@ -1237,7 +1236,7 @@ with tab2:
     st.markdown("---")
     
     # Bar chart comparison
-    st.subheader("📊 Duration vs Delay Comparison")
+    st.subheader("Duration vs Delay Comparison")
     
     fig_compare = go.Figure()
     
@@ -1285,7 +1284,7 @@ with tab2:
     st.plotly_chart(fig_compare, use_container_width=True)
     
     st.success("""
-    ✅ **Key Insight**: 
+    💡 **Insight**: 
     - **Higher risk projects have LONGER planned durations** - planners anticipate complexity
     - However, **actual delays remain similar across risk levels** - risks are being managed
     - This suggests that risk identification leads to appropriate planning buffers
@@ -1296,20 +1295,20 @@ with tab2:
 # TAB 4: KEY FINDINGS
 # ============================================================================
 with tab4:
-    st.title("🔍 Key Findings Summary")
-    st.info("🚧 Coming next - highlights of all findings!")
+    st.title("Key Findings Summary")
+    st.info("Coming next - highlights of all findings!")
 
 # ============================================================================
 # TAB 5: DATA & PROCESSING
 # ============================================================================
 with tab5:
-    st.title("📋 Raw Data")
+    st.title("Raw Data")
     st.dataframe(df.head(100), use_container_width=True)
     
     # Download button
     csv = df.to_csv(index=False).encode('utf-8')
     st.download_button(
-        label="📥 Download Full Dataset",
+        label="Download Full Dataset",
         data=csv,
         file_name='project_data.csv',
         mime='text/csv',
