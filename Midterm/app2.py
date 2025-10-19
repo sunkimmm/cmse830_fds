@@ -341,10 +341,10 @@ with tab1:
 # TAB 2: PROJECT SECTOR & SIZE ANALYSIS
 # ============================================================================
 with tab2:
-    st.title("🏭 Project Sector & Size Analysis")
+    st.title("🏭 Project Sector Analysis")
     
     # ========================================================================
-    # SECTION 1: SECTOR ANALYSIS
+    # SECTOR ANALYSIS
     # ========================================================================
     st.header("📊 Sector Analysis")
     
@@ -394,12 +394,14 @@ with tab2:
     
     st.markdown("---")
     
-    # Violin plot for sector delays
+    # Raincloud plot for sector delays
     st.subheader("📈 Delay Distribution by Sector")
     
     fig_sector = go.Figure()
     
-    for sector in ['Energy', 'Transportation', 'Water']:
+    sector_order = ['Energy', 'Transportation', 'Water']
+    
+    for sector in sector_order:
         sector_data = df[df['sector1'] == sector]
         
         fig_sector.add_trace(go.Violin(
@@ -408,236 +410,44 @@ with tab2:
             name=sector,
             box_visible=True,
             meanline_visible=True,
-            marker=dict(color=sector_colors[sector]),
-            line=dict(color=sector_colors[sector], width=2),
-            fillcolor=sector_colors[sector],
-            opacity=0.6,
-            points='all',      # Shows all points
-            pointpos=-1.5,     # Changed from -0.5 to -1.5 (pushes points further left)
-            jitter=0.05,       # Reduced jitter for cleaner look
-            side='positive',   # Only show right half of violin
-            width=2            # Make violin wider
-        ))
-    
-    fig_sector.update_layout(
-        title='Project Delay Distribution by Sector',
-        xaxis_title='Sector',
-        yaxis_title='Delay (years)',
-        height=600,
-        showlegend=False,
-        plot_bgcolor='white',
-        font=dict(family='Arial')
-    )
-    
-    fig_sector.update_yaxes(gridcolor='lightgray')
-    
-    st.plotly_chart(fig_sector, use_container_width=True)
-    
-    st.markdown("---")
-    st.markdown("---")
-    
-    # ========================================================================
-    # SECTION 2: PROJECT SIZE ANALYSIS (LARGE vs MEGA ONLY)
-    # ========================================================================
-    st.header("📏 Project Size Analysis: Large vs Mega")
-    
-    st.markdown("""
-    ### Does project size affect delays?
-    Comparing **Large projects ($500M-$1B)** vs **Mega projects (≥$1B)**
-    """)
-    
-    # Filter to only large and mega projects
-    df_large_mega = df[df['project_size'].isin(['large', 'mega'])]
-    
-    # Size distribution
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.subheader("Project Distribution")
-        size_counts = df_large_mega['project_size'].value_counts()
-        
-        fig_size_pie = go.Figure(data=[go.Pie(
-            labels=['Large ($500M-$1B)', 'Mega (≥$1B)'],
-            values=[size_counts.get('large', 0), size_counts.get('mega', 0)],
-            marker=dict(colors=['#8bd646', '#2fb47c']),
-            hole=.3,
-            textinfo='label+value+percent',
-            textfont=dict(size=12)
-        )])
-        
-        fig_size_pie.update_layout(title='Large vs Mega Projects', height=400, font=dict(family='Arial'))
-        
-        st.plotly_chart(fig_size_pie, use_container_width=True)
-    
-    with col2:
-        st.subheader("Key Metrics")
-        
-        large_count = len(df_large_mega[df_large_mega['project_size'] == 'large'])
-        mega_count = len(df_large_mega[df_large_mega['project_size'] == 'mega'])
-        
-        st.metric("Large Projects", large_count, f"{large_count/(large_count+mega_count)*100:.1f}%")
-        st.metric("Mega Projects", mega_count, f"{mega_count/(large_count+mega_count)*100:.1f}%")
-        st.metric("Total", large_count + mega_count)
-    
-    st.markdown("---")
-    
-    # Summary statistics by size
-    st.subheader("📊 Delay Statistics: Large vs Mega")
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        large_data = df_large_mega[df_large_mega['project_size'] == 'large']
-        st.metric("Large Projects ($500M-$1B)", len(large_data), f"{large_data['delay'].mean():.2f}y avg delay")
-        
-        st.write("**Statistics:**")
-        st.write(f"- Median: {large_data['delay'].median():.2f} years")
-        st.write(f"- Std Dev: {large_data['delay'].std():.2f} years")
-        st.write(f"- Range: {large_data['delay'].min():.2f} to {large_data['delay'].max():.2f} years")
-    
-    with col2:
-        mega_data = df_large_mega[df_large_mega['project_size'] == 'mega']
-        st.metric("Mega Projects (≥$1B)", len(mega_data), f"{mega_data['delay'].mean():.2f}y avg delay")
-        
-        st.write("**Statistics:**")
-        st.write(f"- Median: {mega_data['delay'].median():.2f} years")
-        st.write(f"- Std Dev: {mega_data['delay'].std():.2f} years")
-        st.write(f"- Range: {mega_data['delay'].min():.2f} to {mega_data['delay'].max():.2f} years")
-    
-    st.markdown("---")
-    
-    # Violin plot: Large vs Mega
-    st.subheader("📈 Delay Distribution: Large vs Mega")
-    
-    fig_size = go.Figure()
-    
-    for size, label, color in [('large', 'Large ($500M-$1B)', '#8bd646'), 
-                                ('mega', 'Mega (≥$1B)', '#2fb47c')]:
-        size_data = df_large_mega[df_large_mega['project_size'] == size]
-        
-        fig_size.add_trace(go.Violin(
-            y=size_data['delay'],
-            x=[label] * len(size_data),
-            name=label,
-            box_visible=True,
-            meanline_visible=True,
-            marker=dict(color=color),
-            line=dict(color=color, width=2),
-            fillcolor=color,
-            opacity=0.6,
             points='all',
             pointpos=-1.5,
             jitter=0.05,
-            side = 'positive',
-            width = 2
+            marker=dict(color=sector_colors[sector]),
+            fillcolor=sector_colors[sector],
+            opacity=0.6,
+            scalemode='width',
+            width=2,
+            side='positive',
+            line=dict(color=sector_colors[sector], width=2)
         ))
     
-    fig_size.update_layout(
-        title='Project Delay Distribution: Large vs Mega',
-        xaxis_title='Project Size',
-        yaxis_title='Delay (years)',
+    fig_sector.update_layout(
+        title=dict(
+            text='Project Delay Distribution by Sector',
+            font=dict(size=18, family='Arial', color='black'),
+            x=0.5,
+            xanchor='center'
+        ),
+        xaxis=dict(
+            title=dict(text='Sector', font=dict(size=14, family='Arial')),
+            tickfont=dict(family='Arial', size=12),
+            categoryorder='array',
+            categoryarray=sector_order
+        ),
+        yaxis=dict(
+            title=dict(text='Delay (years)', font=dict(size=14, family='Arial')),
+            gridcolor='lightgray',
+            gridwidth=0.5,
+            tickfont=dict(family='Arial', size=12)
+        ),
+        plot_bgcolor='white',
         height=600,
-        showlegend=False,
-        plot_bgcolor='white',
-        font=dict(family='Arial')
-    )
-    
-    fig_size.update_yaxes(gridcolor='lightgray')
-    
-    st.plotly_chart(fig_size, use_container_width=True)
-    
-    st.markdown("---")
-    
-    # Size by Sector breakdown
-    st.subheader("🔍 Large vs Mega Distribution by Sector")
-    
-    fig_size_sector = go.Figure()
-    
-    sectors = ['Energy', 'Transportation', 'Water']
-    
-    for size, label, color in [('large', 'Large', '#8bd646'), ('mega', 'Mega', '#2fb47c')]:
-        size_counts_by_sector = []
-        for sector in sectors:
-            count = len(df_large_mega[(df_large_mega['sector1'] == sector) & 
-                                      (df_large_mega['project_size'] == size)])
-            size_counts_by_sector.append(count)
-        
-        fig_size_sector.add_trace(go.Bar(
-            x=sectors,
-            y=size_counts_by_sector,
-            name=label,
-            marker=dict(color=color),
-            text=size_counts_by_sector,
-            textposition='inside',
-            textfont=dict(color='white', size=11)
-        ))
-    
-    fig_size_sector.update_layout(
-        title='Large vs Mega Projects by Sector',
-        xaxis_title='Sector',
-        yaxis_title='Number of Projects',
-        barmode='group',
-        height=500,
-        plot_bgcolor='white',
         font=dict(family='Arial'),
-        legend=dict(
-            title=dict(text='Project Size'),
-            orientation='h',
-            yanchor='bottom',
-            y=1.02,
-            xanchor='center',
-            x=0.5
-        )
+        showlegend=False
     )
     
-    fig_size_sector.update_yaxes(gridcolor='lightgray')
-    
-    st.plotly_chart(fig_size_sector, use_container_width=True)
-    
-    st.markdown("---")
-    
-    # Delay by sector AND size
-    st.subheader("📊 Mean Delay by Sector and Size")
-    
-    # Create heatmap data
-    heatmap_data = []
-    heatmap_text = []
-    for sector in ['Energy', 'Transportation', 'Water']:
-        row = []
-        text_row = []
-        for size, label in [('large', 'Large'), ('mega', 'Mega')]:
-            sector_size_data = df_large_mega[(df_large_mega['sector1'] == sector) & 
-                                             (df_large_mega['project_size'] == size)]
-            if len(sector_size_data) > 0:
-                mean_delay = sector_size_data['delay'].mean()
-                row.append(mean_delay)
-                text_row.append(f'{mean_delay:.2f}y<br>(n={len(sector_size_data)})')
-            else:
-                row.append(None)
-                text_row.append('N/A')
-        heatmap_data.append(row)
-        heatmap_text.append(text_row)
-    
-    fig_heatmap = go.Figure(data=go.Heatmap(
-        z=heatmap_data,
-        x=['Large ($500M-$1B)', 'Mega (≥$1B)'],
-        y=['Energy', 'Transportation', 'Water'],
-        colorscale='RdYlGn_r',
-        text=heatmap_text,
-        texttemplate='%{text}',
-        textfont=dict(size=14),
-        colorbar=dict(title='Delay (years)')
-    ))
-    
-    fig_heatmap.update_layout(
-        title='Mean Delay Heatmap: Sector × Size (Large vs Mega)',
-        xaxis_title='Project Size',
-        yaxis_title='Sector',
-        height=400,
-        font=dict(family='Arial')
-    )
-    
-    st.plotly_chart(fig_heatmap, use_container_width=True)
+    st.plotly_chart(fig_sector, use_container_width=True)
 
 # ============================================================================
 # TAB 3: RISK ANALYSIS
