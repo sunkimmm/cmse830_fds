@@ -1353,262 +1353,9 @@ with tab4:
     st.title("Data & Processing")
     
     # Create sub-tabs for better organization
-    subtab1, subtab2 = st.tabs(["Preprocessing Steps", "Raw Data"])
+    subtab1, subtab2 = st.tabs(["Raw Data", "Preprocessing Steps"])
     
     with subtab1:
-        st.header("Data Merging and Preprocessing")
-        
-        st.markdown("""
-        This document summarizes the data merging and preprocessing steps performed to create a clean dataset 
-        of 310 Asian Development Bank (ADB) sovereign projects for analysis.
-        """)
-        
-        st.markdown("---")
-        
-        # 1. Initial Datasets
-        st.subheader("1. Initial Datasets")
-        
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            st.markdown("**df_adb_1** (`adb_sov_projects.csv`)")
-            st.metric("Projects", "527")
-            st.markdown("""
-            - Project identifiers
-            - Country information
-            - Project modality and status
-            - Approval dates and numbers
-            - Sector classifications
-            - Safeguard categories
-            """)
-        
-        with col2:
-            st.markdown("**df_adb_2** (`adb_success_rate.csv`)")
-            st.metric("Entries", "1,019")
-            st.markdown("""
-            - Multiple project identifiers
-            - Country codes and names
-            - Financial data
-            - Date information
-            - Total project costs
-            - Performance ratings
-            """)
-        
-        col3, col4 = st.columns(2)
-        
-        with col3:
-            st.markdown("**df_region** (`adb_country_code.csv`)")
-            st.metric("Entries", "225")
-            st.markdown("""
-            - Regional member information
-            - Country codes
-            - Subregion classifications
-            """)
-        
-        with col4:
-            st.markdown("**World Bank Data**")
-            st.metric("Countries", "266")
-            st.markdown("""
-            - Prime Lending Rate (1960-2024)
-            - GDP Deflator (1960-2024)
-            """)
-        
-        st.markdown("---")
-        
-        # 2. Merging Process
-        st.subheader("2. Merging df_adb_1 and df_adb_2")
-        
-        st.markdown("""
-        **Objective**: Merge project-level data with financial and performance data
-        """)
-        
-        merge_steps = pd.DataFrame({
-            'Step': ['Exact Project ID Match', 'projectid_head + projectname', 
-                     'projectid_head + approvaldate', 'Fuzzy Match (80%)', 
-                     'Fuzzy Match (75%)'],
-            'Matches': [386, 2, 0, 11, '3-4'],
-            'Description': [
-                'Matched projectid across multiple columns',
-                'Matched on ID head and exact name',
-                'Matched on ID head and approval date',
-                'String similarity ≥80%',
-                'String similarity ≥75%'
-            ]
-        })
-        
-        st.dataframe(merge_steps, use_container_width=True, hide_index=True)
-        
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            st.metric("Total Matched", "424 projects")
-        with col2:
-            st.metric("Unmatched", "109 projects")
-        with col3:
-            st.metric("Retention Rate", "80.5%")
-        
-        st.markdown("---")
-        
-        # 3. Region Integration
-        st.subheader("3. Region Data Integration")
-        st.success("✓ All 424 projects successfully matched with region information")
-        
-        st.markdown("---")
-        
-        # 4. Manual Data Collection
-        st.subheader("4. Manual Data Collection")
-        
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            st.metric("Missing Cost Data", "41 projects")
-        with col2:
-            st.metric("Manually Filled", "31 projects")
-        with col3:
-            st.metric("Final Dataset", "414 projects")
-        
-        st.info("💡 Manually reviewed Project Completion Reports to fill missing cost data")
-        
-        st.markdown("---")
-        
-        # 5. Feature Engineering
-        st.subheader("5. Feature Engineering")
-        
-        st.markdown("**Duration Metrics** (in years)")
-        st.code("""
-duration_initial = (closingdate_initial - approvaldate) / 365.25
-duration_final = (closingdate_final - approvaldate) / 365.25
-delay = (closingdate_final - closingdate_initial) / 365.25
-        """, language="python")
-        
-        st.markdown("**Cost Metrics**")
-        st.code("""
-cost_overrun = totalcost_final - totalcost_initial
-cost_overrun_mark = cost_overrun > 0  # Boolean
-delay_mark = delay > 0  # Boolean
-        """, language="python")
-        
-        st.markdown("**Temporal Features**")
-        st.code("""
-approval_year = year from approvaldate
-closing_year = year from closingdate_final
-beforecovid = closing_year <= 2019  # Boolean
-        """, language="python")
-        
-        st.markdown("---")
-        
-        # 6. Data Quality Corrections
-        st.subheader("6. Data Quality Corrections")
-        
-        st.markdown("**Negative Duration Corrections**")
-        st.warning("⚠️ 3 projects had negative durations (closing before approval)")
-        st.success("✓ Manually verified and corrected dates for all 3 projects")
-        
-        st.markdown("---")
-        
-        # 7. Dataset Filtering
-        st.subheader("7. Dataset Filtering")
-        
-        filter_data = pd.DataFrame({
-            'Filter': ['Pre-COVID Projects', 'Duration > 2 years', 'Economic Indicators Available'],
-            'Criteria': ['Closed by 2019', 'duration_final > 2', 'Present in PLR & GDP data'],
-            'Result': ['341 projects', '338 projects', '310 projects']
-        })
-        
-        st.dataframe(filter_data, use_container_width=True, hide_index=True)
-        
-        st.markdown("---")
-        
-        # 8. Cost Adjustments
-        st.subheader("8. Cost Adjustments to 2019 Constant Dollars")
-        
-        st.markdown("**Two-Step Adjustment Process**")
-        
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            st.markdown("**Step 1: Prime Lending Rate Adjustment**")
-            st.code("""
-totalcost_adj1 = totalcost / PLR(year, country)
-            """, language="python")
-            st.caption("Adjust for country-specific borrowing costs")
-        
-        with col2:
-            st.markdown("**Step 2: GDP Deflator Adjustment**")
-            st.code("""
-totalcost_adj2 = totalcost_adj1 × 
-    (GDP_deflator_2019 / GDP_deflator_year)
-            """, language="python")
-            st.caption("Adjust for inflation to 2019 constant prices")
-        
-        st.markdown("---")
-        
-        # 9. Outlier Detection
-        st.subheader("9. Outlier Detection and Removal")
-        
-        st.markdown("**Z-Score Analysis**")
-        st.code("""
-z_score = (value - mean) / standard_deviation
-outlier_threshold = 3  # Remove if |z-score| > 3
-        """, language="python")
-        
-        st.info("💡 Removed projects with extreme adjustment ratios indicating data quality issues")
-        
-        st.markdown("---")
-        
-        # 10. Project Size Classification
-        st.subheader("10. Project Size Classification")
-        
-        size_data = pd.DataFrame({
-            'Category': ['Small', 'Medium', 'Large', 'Mega'],
-            'Cost Range': ['< $100M', '$100M - $500M', '$500M - $1B', '≥ $1B']
-        })
-        
-        st.dataframe(size_data, use_container_width=True, hide_index=True)
-        
-        st.markdown("---")
-        
-        # 11. Final Dataset
-        st.subheader("11. Final Dataset Characteristics")
-        
-        col1, col2, col3 = st.columns(3)
-        
-        with col1:
-            st.metric("Final Projects", "310")
-        with col2:
-            st.metric("Original Projects", "527")
-        with col3:
-            st.metric("Retention Rate", "58.8%")
-        
-        st.markdown("**Quality Criteria Met:**")
-        st.markdown("""
-        ✓ Closed before 2020 (pre-COVID)  
-        ✓ Duration > 2 years  
-        ✓ Complete cost data (initial and final)  
-        ✓ Successful cost adjustment to 2019 constant dollars  
-        ✓ No outlier adjustment ratios  
-        ✓ Available economic indicators (PLR and GDP deflator)
-        """)
-        
-        st.markdown("---")
-        
-        # 12. Final Schema
-        st.subheader("12. Final Dataset Schema")
-        
-        st.markdown("**36 columns across 10 categories:**")
-        
-        schema_data = pd.DataFrame({
-            'Category': [
-                'Project identifiers', 'Financial data (nominal)', 
-                'Financial data (adjusted)', 'Duration metrics',
-                'Cost performance', 'Performance flags',
-                'Temporal features', 'Geographic information',
-                'Sector & safeguard', 'Derived features'
-            ],
-            'Columns': [6, 2, 6, 3, 2, 2, 5, 3, 6, 1]
-        })
-        
-        st.dataframe(schema_data, use_container_width=True, hide_index=True)
-    
-    with subtab2:
         st.header("Raw Data Preview")
         st.dataframe(df.head(100), use_container_width=True)
         
@@ -1620,6 +1367,219 @@ outlier_threshold = 3  # Remove if |z-score| > 3
             file_name='adb_projects_clean_final.csv',
             mime='text/csv',
         )
+    
+    with subtab2:
+        st.header("Data Merging and Preprocessing")
+        
+        st.markdown("""
+        This summarizes the data merging and preprocessing steps performed to create a clean dataset 
+        of **310 Asian Development Bank (ADB) sovereign projects** for analysis.
+        """)
+        
+        st.markdown("---")
+        
+        # 1. Initial Datasets
+        st.subheader("1. Initial Datasets")
+        
+        col1, col2, col3, col4 = st.columns(4)
+        
+        with col1:
+            st.markdown("**ADB Projects**")
+            st.metric("Records", "527")
+            st.caption("Project metadata, sectors, safeguards")
+        
+        with col2:
+            st.markdown("**ADB Financial**")
+            st.metric("Records", "1,019")
+            st.caption("Costs, dates, performance")
+        
+        with col3:
+            st.markdown("**Region Data**")
+            st.metric("Records", "225")
+            st.caption("Country codes, regions")
+        
+        with col4:
+            st.markdown("**World Bank**")
+            st.metric("Countries", "266")
+            st.caption("PLR, GDP deflator")
+        
+        st.markdown("---")
+        
+        # 2. Data Merging
+        st.subheader("2. Data Merging Process")
+        
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.metric("Total Matched", "424 projects")
+        with col2:
+            st.metric("Unmatched", "109 projects")
+        with col3:
+            st.metric("Retention", "80.5%")
+        
+        with st.expander("View Merging Steps"):
+            merge_steps = pd.DataFrame({
+                'Step': ['Exact ID Match', 'ID + Name Match', 'Fuzzy Match (80%)', 'Fuzzy Match (75%)'],
+                'Matches': [386, 2, 11, '3-4'],
+                'Method': [
+                    'Matched projectid across columns',
+                    'Matched on ID head and exact name',
+                    'String similarity ≥80%',
+                    'String similarity ≥75%'
+                ]
+            })
+            st.dataframe(merge_steps, use_container_width=True, hide_index=True)
+        
+        st.markdown("---")
+        
+        # 3. Data Collection & Corrections
+        st.subheader("3. Manual Data Collection & Quality Corrections")
+        
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.markdown("**Missing Cost Data**")
+            col_a, col_b = st.columns(2)
+            with col_a:
+                st.metric("Missing", "41")
+            with col_b:
+                st.metric("Filled", "31")
+            st.caption("✓ Reviewed Project Completion Reports")
+        
+        with col2:
+            st.markdown("**Data Quality Issues**")
+            st.metric("Negative Durations", "3 projects")
+            st.caption("✓ Manually verified and corrected")
+        
+        st.markdown("---")
+        
+        # 4. Feature Engineering
+        st.subheader("4. Feature Engineering")
+        
+        col1, col2, col3 = st.columns(3)
+        
+        with col1:
+            st.markdown("**Duration Metrics**")
+            st.code("""
+duration_initial
+duration_final
+delay
+            """)
+        
+        with col2:
+            st.markdown("**Cost Metrics**")
+            st.code("""
+cost_overrun
+cost_overrun_mark
+delay_mark
+            """)
+        
+        with col3:
+            st.markdown("**Temporal Features**")
+            st.code("""
+approval_year
+closing_year
+beforecovid
+            """)
+        
+        st.markdown("---")
+        
+        # 5. Filtering & Cost Adjustments
+        st.subheader("5. Dataset Filtering")
+        
+        filter_data = pd.DataFrame({
+            'Filter': ['Pre-COVID', 'Duration > 2y', 'Economic Data', 'Outlier Removal'],
+            'Result': ['341', '338', '320', '310'],
+            'Rationale': [
+                'Exclude COVID impacts',
+                'Focus on substantial projects',
+                'Enable cost adjustments',
+                'Remove data quality issues'
+            ]
+        })
+        
+        st.dataframe(filter_data, use_container_width=True, hide_index=True)
+        
+        st.markdown("---")
+        
+        # 6. Cost Adjustments
+        st.subheader("6. Cost Adjustments to 2019 Constant Dollars")
+        
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.markdown("**Step 1: PLR Adjustment**")
+            st.code("cost_adj = cost / PLR(year, country)")
+            st.caption("Adjust for borrowing costs")
+        
+        with col2:
+            st.markdown("**Step 2: GDP Deflator**")
+            st.code("cost_final = cost_adj × (GDP₂₀₁₉ / GDPᵧₑₐᵣ)")
+            st.caption("Adjust for inflation")
+        
+        st.markdown("---")
+        
+        # 7. Project Classification
+        st.subheader("7. Project Size Classification")
+        
+        size_data = pd.DataFrame({
+            'Category': ['Small', 'Medium', 'Large', 'Mega'],
+            'Cost Range': ['< $100M', '$100M - $500M', '$500M - $1B', '≥ $1B']
+        })
+        
+        col1, col2 = st.columns([1, 2])
+        with col1:
+            st.dataframe(size_data, use_container_width=True, hide_index=True)
+        
+        with col2:
+            st.markdown("")
+            st.markdown("")
+            st.info("💡 Classification based on adjusted initial cost")
+        
+        st.markdown("---")
+        
+        # 8. Final Dataset
+        st.subheader("8. Final Dataset Characteristics")
+        
+        col1, col2, col3, col4 = st.columns(4)
+        
+        with col1:
+            st.metric("Final Projects", "310")
+        with col2:
+            st.metric("Original", "527")
+        with col3:
+            st.metric("Retention", "58.8%")
+        with col4:
+            st.metric("Columns", "36")
+        
+        st.markdown("**Quality Criteria:**")
+        st.markdown("""
+        ✓ Closed before 2020 (pre-COVID)  
+        ✓ Duration > 2 years  
+        ✓ Complete cost data  
+        ✓ Adjusted to 2019 constant dollars  
+        ✓ No outliers  
+        ✓ Full economic indicators
+        """)
+        
+        st.markdown("---")
+        
+        # 9. Schema
+        with st.expander("View Dataset Schema (36 columns)"):
+            schema_data = pd.DataFrame({
+                'Category': [
+                    'Project identifiers', 'Financial (nominal)', 
+                    'Financial (adjusted)', 'Duration metrics',
+                    'Cost performance', 'Performance flags',
+                    'Temporal features', 'Geographic info',
+                    'Sector & safeguard', 'Derived features'
+                ],
+                'Columns': [6, 2, 6, 3, 2, 2, 5, 3, 6, 1]
+            })
+            st.dataframe(schema_data, use_container_width=True, hide_index=True)
+
+# Footer
+st.markdown("---")
+st.caption("Infrastructure Project Risk Analysis | Data: Asian Development Bank")
 
 # Footer
 st.markdown("---")
