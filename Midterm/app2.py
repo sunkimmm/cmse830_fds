@@ -358,9 +358,7 @@ with tab1:
     
     #st.markdown("### How do delays vary across sectors?")
     
-    
-    
-    # Raincloud plot for sector delays
+# Raincloud plot for sector delays
     st.subheader("Delay Distribution by Sector")
 
     fig_sector = go.Figure()
@@ -412,7 +410,61 @@ with tab1:
     )
 
     st.plotly_chart(fig_sector, use_container_width=True)
-    
+    st.info("💡 **Insight**: There are no significant differences in delays among sectors.")
+
+    st.markdown("---")
+
+    # Raincloud plot for initial duration by sector
+    st.subheader("Initial Planned Duration Distribution by Sector")
+
+    fig_duration = go.Figure()
+
+    for sector in sector_order:
+        sector_data = df[df['sector1'] == sector]
+        
+        fig_duration.add_trace(go.Violin(
+            y=sector_data['duration_initial'],
+            x=[sector] * len(sector_data),
+            name=sector,
+            box_visible=True,
+            meanline_visible=True,
+            points='all',
+            pointpos=-0.5,
+            jitter=0.3,
+            marker=dict(color=sector_colors[sector]),
+            scalemode='width',
+            width=0.6,
+            side='positive',
+            line=dict(color=sector_colors[sector], width=2)
+        ))
+
+    fig_duration.update_layout(
+        title=dict(
+            text='Initial Planned Duration Distribution by Sector',
+            font=dict(size=18, family='Arial', color='black'),
+            x=0.5,
+            xanchor='center'
+        ),
+        xaxis=dict(
+            title=dict(text='Sector', font=dict(size=14, family='Arial')),
+            tickfont=dict(family='Arial', size=12),
+            categoryorder='array',
+            categoryarray=sector_order
+        ),
+        yaxis=dict(
+            title=dict(text='Initial Duration (years)', font=dict(size=14, family='Arial')),
+            gridcolor='lightgray',
+            gridwidth=0.5,
+            tickfont=dict(family='Arial', size=12)
+        ),
+        plot_bgcolor='white',
+        height=600,
+        font=dict(family='Arial'),
+        showlegend=False
+    )
+
+    st.plotly_chart(fig_duration, use_container_width=True)
+
     st.markdown("---")
     
     # Three-panel bar chart: Cost, Duration, Delay
