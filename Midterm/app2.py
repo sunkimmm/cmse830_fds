@@ -76,16 +76,16 @@ def load_data():
 df = load_data()
 
 # Sidebar
-st.sidebar.title("🏗️ Infrastructure Project Risk Analysis")
-st.sidebar.markdown("---")
-st.sidebar.info(
-    """
-    Analysis of Asian Development Bank infrastructure projects examining
-    how project size and risk interact to affect delays.
+st.sidebar.title("Large-scale Infrastructure Project Risk Analysis")
+st.sidebar.markdown("Analysis of Asian Development Bank infrastructure projects examining how project size and risk interact to affect delays.")
+# st.sidebar.info(
+#     """
+#     Analysis of Asian Development Bank infrastructure projects examining
+#     how project size and risk interact to affect delays.
     
-    **Key Focus**: Large vs Mega projects and Risk Analysis
-    """
-)
+#     **Key Focus**: Large vs Mega projects and Risk Analysis
+#     """
+# )
 
 # ADD GLOBAL FILTERS HERE
 st.sidebar.markdown("---")
