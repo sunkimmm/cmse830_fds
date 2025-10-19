@@ -562,8 +562,6 @@ with tab1:
     💡 **Insight**: 
     - On average, Energy projects have the highest project cost but has the highest delay.  - On average, Water projects have the lowest project cost, but takes the longest with moderate delay.
     """)
-    
-    st.markdown("---")
 
 # ============================================================================
 # TAB 2: RISK ANALYSIS
@@ -1342,7 +1340,8 @@ with tab2:
 # TAB 3: KEY FINDINGS
 # ============================================================================
 with tab3:
-    st.title("Key Findings")
+    st.title("Additional Analysis & Key Findings")
+    st.header("Additional Analysis - Project Cost & Delay")
 
 # ============================================================================
 # TAB 4: DATA & PROCESSING
