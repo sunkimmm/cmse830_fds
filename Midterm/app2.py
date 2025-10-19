@@ -1487,157 +1487,138 @@ with tab3:
     - **Risk Level view**: Shows delays by number of risks present
     """)
     
-    st.markdown("---")
-    
-    # ========================================================================
-    # DELAY VS COST OVERRUN ANALYSIS
-    # ========================================================================
-    st.header("Delay vs Cost Overrun Relationship")
-    
-    st.markdown("""
-    ### Is there a relationship between project delays and cost overruns?
-    Examining the correlation between how long a project is delayed and how much it exceeds budget.
+    st.warning("""
+    ⚠️ **Data Limitation**: More importantly, a manual inspection revealed that the data misses information on 
+    whether the project has been cancelled or restructured (downsized or upsized). Need further investigation.
     """)
     
-    # Calculate cost overrun percentage
-    if 'cost_overrun' not in df.columns:
-        df['cost_overrun'] = df['totalcost_final_adj'] - df['totalcost_initial_adj']
-    if 'cost_overrun_pct' not in df.columns:
-        df['cost_overrun_pct'] = (df['cost_overrun'] / df['totalcost_initial_adj']) * 100
-    
-    # Remove rows with missing values
-    data_complete = df[['delay', 'cost_overrun_pct']].dropna()
-    
-    # Summary statistics
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.metric("Mean Delay", f"{df['delay'].mean():.2f} years")
-        st.caption(f"Range: {df['delay'].min():.2f} to {df['delay'].max():.2f} years")
-    
-    with col2:
-        st.metric("Mean Cost Overrun", f"{df['cost_overrun_pct'].mean():.2f}%")
-        st.caption(f"Range: {df['cost_overrun_pct'].min():.2f}% to {df['cost_overrun_pct'].max():.2f}%")
-    
     st.markdown("---")
     
-    # Correlation analysis
-    st.subheader("Correlation Analysis")
+    # ========================================================================
+    # REGIONAL ANALYSIS
+    # ========================================================================
+    st.header("Regional Analysis: Delay by Region")
     
-    # Pearson correlation
-    pearson_corr, pearson_p = stats.pearsonr(data_complete['delay'], data_complete['cost_overrun_pct'])
+    st.markdown("""
+    ### Do project delays vary across different Asian regions?
+    Examining regional patterns in project delays and risk distribution.
+    """)
     
-    # Spearman correlation
-    spearman_corr, spearman_p = stats.spearmanr(data_complete['delay'], data_complete['cost_overrun_pct'])
-    
-    # Linear regression
-    slope, intercept, r_value, p_value, std_err = stats.linregress(data_complete['delay'], data_complete['cost_overrun_pct'])
-    
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
-        st.metric("Pearson Correlation", f"{pearson_corr:.3f}")
-        st.caption(f"p-value: {pearson_p:.4f}")
-    
-    with col2:
-        st.metric("Spearman Correlation", f"{spearman_corr:.3f}")
-        st.caption(f"p-value: {spearman_p:.4f}")
-    
-    with col3:
-        st.metric("R-squared", f"{r_value**2:.3f}")
-        st.caption(f"Linear regression")
-    
-    st.markdown("---")
-    
-    # Scatter plot with regression line
-    st.subheader("Delay vs Cost Overrun by Sector")
-    
-    fig_scatter = go.Figure()
-    
-    # Add scatter points colored by sector
-    for sector in ['Energy', 'Transportation', 'Water']:
-        sector_data = df[df['sector1'] == sector]
-        fig_scatter.add_trace(go.Scatter(
-            x=sector_data['delay'],
-            y=sector_data['cost_overrun_pct'],
-            mode='markers',
-            name=sector,
-            marker=dict(
-                color=sector_colors[sector],
-                size=8,
-                opacity=0.6,
-                line=dict(width=0.5, color='white')
-            )
-        ))
-    
-    # Add regression line
-    x_range = np.array([data_complete['delay'].min(), data_complete['delay'].max()])
-    y_pred = intercept + slope * x_range
-    
-    fig_scatter.add_trace(go.Scatter(
-        x=x_range,
-        y=y_pred,
-        mode='lines',
-        name=f'Regression (R²={r_value**2:.3f})',
-        line=dict(color='red', width=2, dash='dash'),
-        showlegend=True
-    ))
-    
-    fig_scatter.update_layout(
-        title=dict(
-            text=f'Delay vs Cost Overrun<br><sub>Pearson r={pearson_corr:.3f}, p={pearson_p:.4f}</sub>',
-            font=dict(size=18, family='Arial', color='black'),
-            x=0.5,
-            xanchor='center'
-        ),
-        xaxis=dict(
-            title='Delay (years)',
-            gridcolor='lightgray',
-            gridwidth=0.5,
-            tickfont=dict(family='Arial', size=12),
-            title_font=dict(size=14, family='Arial')
-        ),
-        yaxis=dict(
-            title='Cost Overrun (%)',
-            gridcolor='lightgray',
-            gridwidth=0.5,
-            tickfont=dict(family='Arial', size=12),
-            title_font=dict(size=14, family='Arial')
-        ),
-        plot_bgcolor='white',
-        height=600,
-        font=dict(family='Arial'),
-        legend=dict(
-            orientation='v',
-            yanchor='top',
-            y=0.99,
-            xanchor='right',
-            x=0.99,
-            font=dict(family='Arial', size=11)
-        ),
-        hovermode='closest'
-    )
-    
-    st.plotly_chart(fig_scatter, use_container_width=True)
-    
-    # Interpretation
-    if pearson_p < 0.05 and pearson_corr > 0:
-        st.success(f"""
-        **Significant Positive Correlation Found**  
-        Regression equation: Cost Overrun (%) = {intercept:.2f} + {slope:.2f} × Delay (years)  
-        For each additional year of delay, cost overrun increases by approximately {slope:.2f}%
-        """)
-    elif pearson_p < 0.05 and pearson_corr < 0:
-        st.warning(f"""
-        **Significant Negative Correlation Found**  
-        Longer delays are associated with lower cost overruns (unusual finding)
-        """)
+    if 'region' in df.columns:
+        # Summary statistics
+        st.subheader("Regional Summary Statistics")
+        
+        region_summary = []
+        for region in sorted(df['region'].unique()):
+            region_data = df[df['region'] == region]
+            region_summary.append({
+                'Region': region,
+                'Projects': len(region_data),
+                'Mean Delay (years)': region_data['delay'].mean(),
+                'Median Delay (years)': region_data['delay'].median(),
+                'Std Dev': region_data['delay'].std()
+            })
+        
+        region_summary_df = pd.DataFrame(region_summary)
+        st.dataframe(region_summary_df.style.format({
+            'Mean Delay (years)': '{:.2f}',
+            'Median Delay (years)': '{:.2f}',
+            'Std Dev': '{:.2f}'
+        }), use_container_width=True, hide_index=True)
+        
+        st.markdown("---")
+        
+        # Box plot by region
+        st.subheader("Delay Distribution by Region")
+        
+        fig_region = go.Figure()
+        
+        for region in sorted(df['region'].unique()):
+            region_data = df[df['region'] == region]
+            
+            fig_region.add_trace(go.Box(
+                y=region_data['delay'],
+                name=region,
+                boxmean='sd',
+                marker=dict(opacity=0.7),
+                line=dict(width=2)
+            ))
+        
+        fig_region.update_layout(
+            title=dict(
+                text='Project Delay Distribution by Region',
+                font=dict(size=18, family='Arial', color='black'),
+                x=0.5,
+                xanchor='center'
+            ),
+            xaxis=dict(
+                title='Region',
+                tickfont=dict(family='Arial', size=11),
+                tickangle=-45,
+                title_font=dict(size=14, family='Arial')
+            ),
+            yaxis=dict(
+                title='Delay (years)',
+                gridcolor='lightgray',
+                gridwidth=0.5,
+                tickfont=dict(family='Arial', size=12),
+                title_font=dict(size=14, family='Arial')
+            ),
+            plot_bgcolor='white',
+            height=600,
+            font=dict(family='Arial'),
+            showlegend=False
+        )
+        
+        st.plotly_chart(fig_region, use_container_width=True)
+        
+        st.markdown("---")
+        
+        # Risk distribution by region
+        st.subheader("Risk Distribution by Region")
+        
+        with st.expander("View detailed risk breakdown by region"):
+            for region in sorted(df['region'].unique()):
+                region_data = df[df['region'] == region]
+                st.markdown(f"**{region}** (n={len(region_data)})")
+                
+                risk_dist = region_data['risk_level'].value_counts().sort_index()
+                risk_level_names = {0: 'No Risk', 1: 'Single Risk', 2: 'Both Risks'}
+                
+                cols = st.columns(3)
+                for i, (risk_level, count) in enumerate(risk_dist.items()):
+                    pct = (count / len(region_data) * 100)
+                    with cols[i % 3]:
+                        st.metric(risk_level_names[risk_level], f"{count} ({pct:.1f}%)")
+                
+                st.markdown("---")
+        
+        # Statistical test
+        region_groups = []
+        region_names = []
+        for region in df['region'].unique():
+            region_data = df[df['region'] == region]['delay'].dropna()
+            if len(region_data) > 5:
+                region_groups.append(region_data)
+                region_names.append(region)
+        
+        if len(region_groups) > 1:
+            h_stat, p_value = stats.kruskal(*region_groups)
+            
+            if p_value < 0.05:
+                st.success(f"""
+                ✅ **Significant Regional Differences Found**  
+                Kruskal-Wallis H = {h_stat:.3f}, p = {p_value:.4f}  
+                Project delays differ significantly across regions
+                """)
+            else:
+                st.info(f"""
+                💡 **No Significant Regional Differences**  
+                Kruskal-Wallis H = {h_stat:.3f}, p = {p_value:.4f}  
+                Delays are relatively consistent across regions
+                """)
     else:
-        st.info("""
-        💡 **No Significant Linear Relationship**  
-        Project delays and cost overruns do not show a strong linear correlation  
-        Other factors may be more important in determining cost overruns
-        """)
+        st.error("Region column not found in dataset.")
 
 # ============================================================================
 # TAB 4: DATA & PROCESSING
