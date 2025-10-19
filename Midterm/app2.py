@@ -1571,7 +1571,9 @@ with tab3:
         )
         
         st.plotly_chart(fig_region, use_container_width=True)
-        
+        st.info("""
+    💡 **Insight**: Regions have different delays. Further investigation of the contributing factors of heterogeneous delays could be interesting.
+    """)
         st.markdown("---")
         
     #     # Risk distribution by region
