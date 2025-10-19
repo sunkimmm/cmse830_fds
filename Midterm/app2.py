@@ -582,7 +582,7 @@ with tab2:
     # ========================================================================
     # RISK TYPE INTRODUCTION
     # ========================================================================
-    st.header("📋 Understanding Environmental and Social Risks")
+    st.header("Understanding Environmental and Social Risks")
     
     st.markdown("""
     Infrastructure projects are assessed for three types of risks before approval.
@@ -592,7 +592,7 @@ with tab2:
     st.markdown("---")
     
     # Environmental Risk
-    st.subheader("🌍 Environmental Risk")
+    st.subheader("Environmental Risk")
     
     col1, col2 = st.columns([2, 1])
     
@@ -726,14 +726,13 @@ with tab2:
     """)
     
     st.markdown("---")
-    st.markdown("---")
     
     # ========================================================================
     # RISK DISTRIBUTION BY SECTOR
     # ========================================================================
     st.header("Risk Distribution by Sector")
     
-    st.markdown("### How are risks distributed across sectors?")
+    # st.markdown("### How are risks distributed across sectors?")
     
     # Risk profile by sector
     sector_order = ['Energy', 'Transportation', 'Water']
@@ -802,7 +801,9 @@ with tab2:
     )
     
     st.plotly_chart(fig_risk_sector, use_container_width=True)
-    
+    st.info("""
+    💡 **Insight**: Environmental risk is the most common across sectors, and most of the projects are subject to both risks.
+    """)
     st.markdown("---")
     
     # ========================================================================
@@ -908,8 +909,13 @@ with tab2:
     )
     
     st.plotly_chart(fig_heatmaps, use_container_width=True)
-    
-    st.markdown("---")
+    st.info("""
+    💡 **Insight**:
+        - Water projects have the highest initially planned project duration. No risk projects have notably shorter duration.
+        - Delay occurs both in Energy and Water projects. 
+        - Projects without any pre-evaluated risks also suffer from delays, except for Water projects.
+            - It suggests that Water projects are less prone to unforseen risks that may cause project delays.
+    """)
     st.markdown("---")
     
     # ========================================================================
@@ -994,7 +1000,7 @@ with tab2:
     
     st.plotly_chart(fig_size_risk, use_container_width=True)
     
-    st.warning("""
+    st.info("""
     **Key Observation**: 
     - Mega projects with single risk show notably higher delays (2.61 years) compared to Large projects with Single Risk (1.59 years)
     - Suggests mega projects may be particularly vulnerable when facing a risk
@@ -1334,7 +1340,7 @@ with tab2:
     
     st.plotly_chart(fig_compare, use_container_width=True)
     
-    st.success("""
+    st.info("""
     💡 **Insight**: 
     - **Higher risk projects have LONGER planned durations** - planners anticipate complexity
     - However, **actual delays remain similar across risk levels** - risks are being managed
