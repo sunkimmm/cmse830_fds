@@ -1295,13 +1295,6 @@ with tab2:
 # TAB 4: KEY FINDINGS
 # ============================================================================
 with tab4:
-    st.title("Key Findings Summary")
-    st.info("Coming next - highlights of all findings!")
-
-# ============================================================================
-# TAB 5: DATA & PROCESSING
-# ============================================================================
-with tab5:
     st.title("Raw Data")
     st.dataframe(df.head(100), use_container_width=True)
     
