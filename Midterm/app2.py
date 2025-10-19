@@ -1067,17 +1067,15 @@ with tab2:
                 name=f'Level {severity}',
                 box_visible=True,
                 meanline_visible=True,
+                points='all',
+                pointpos=-0.5,
+                jitter=0.3,
                 marker=dict(color=severity_colors_map[severity]),
-                line=dict(color=severity_colors_map[severity], width=2),
-                fillcolor=severity_colors_map[severity],
-                opacity=0.6,
-                showlegend=False,
                 scalemode='width',
                 width=0.6,
-                points='all',
-                pointpos=-1.5,
-                jitter=0.05,
                 side='positive',
+                line=dict(color=severity_colors_map[severity], width=2),
+                showlegend=False
             ),
             row=1, col=1
         )
@@ -1093,17 +1091,15 @@ with tab2:
                 name=f'Level {severity}',
                 box_visible=True,
                 meanline_visible=True,
+                points='all',
+                pointpos=-0.5,
+                jitter=0.3,
                 marker=dict(color=severity_colors_map[severity]),
-                line=dict(color=severity_colors_map[severity], width=2),
-                fillcolor=severity_colors_map[severity],
-                opacity=0.6,
-                showlegend=False,
                 scalemode='width',
                 width=0.6,
-                points='all',
-                pointpos=-1.5,
-                jitter=0.05,
                 side='positive',
+                line=dict(color=severity_colors_map[severity], width=2),
+                showlegend=False
             ),
             row=1, col=2
         )
@@ -1194,6 +1190,7 @@ with tab2:
             text=[f'{val:.2f}y' for val in env_means],
             textposition='auto',
             textfont=dict(size=12, color='white', family='Arial'),
+            opacity=0.8,
             showlegend=False
         ),
         row=1, col=1
@@ -1216,6 +1213,7 @@ with tab2:
             text=[f'{val:.2f}y' for val in soc_means],
             textposition='auto',
             textfont=dict(size=12, color='white', family='Arial'),
+            opacity=0.8,
             showlegend=False
         ),
         row=1, col=2
