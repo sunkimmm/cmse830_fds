@@ -93,9 +93,8 @@ risk_level_colors = {0: '#fcc5c0', 1: '#fa9fb5', 2: '#c51b8a'}
 size_colors = {'medium': '#dfe318', 'large': '#8bd646', 'mega': '#2fb47c'}
 
 # Create tabs
-tab1, tab2, tab3, tab4, tab5 = st.tabs([
+tab1, tab2, tab3, tab4 = st.tabs([
     "Project Overview",
-    "Project Sector & Size Analysis",
     "Risk Analysis",
     "Key Findings",
     "Data & Processing"
