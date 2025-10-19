@@ -1574,8 +1574,7 @@ with tab3:
         st.info("""
     💡 **Insight**: Regions have different delays. Further investigation of the contributing factors of heterogeneous delays could be interesting.
     """)
-        st.markdown("---")
-        
+       
     #     # Risk distribution by region
     #     st.subheader("Risk Distribution by Region")
         
