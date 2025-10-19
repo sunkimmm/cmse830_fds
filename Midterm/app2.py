@@ -1259,7 +1259,7 @@ with tab2:
     st.plotly_chart(fig_severity_bars, use_container_width=True)
 
     st.markdown("---")
-    
+
     # ========================================================================
     # RISK PLANNING: DURATION VS DELAY
     # ========================================================================
@@ -1297,6 +1297,7 @@ with tab2:
     # VIOLIN PLOTS - Distribution Comparison
     st.subheader("Distribution Comparison")
 
+    # Create violin plots in subplots (SAME STRUCTURE AS SEVERITY ANALYSIS)
     fig_violins = make_subplots(
         rows=1, cols=2,
         subplot_titles=('Initial Planned Duration', 'Actual Delay'),
@@ -1314,15 +1315,15 @@ with tab2:
                 name=risk_level_labels[risk_level],
                 box_visible=True,
                 meanline_visible=True,
-                marker=dict(color=risk_level_colors[risk_level]),
-                line=dict(color=risk_level_colors[risk_level], width=2),
-                fillcolor=risk_level_colors[risk_level],
-                opacity=0.6,
-                showlegend=False,
                 points='all',
-                pointpos=-1.5,
-                jitter=0.05,
+                pointpos=-0.5,
+                jitter=0.3,
+                marker=dict(color=risk_level_colors[risk_level]),
+                scalemode='width',
+                width=0.6,
                 side='positive',
+                line=dict(color=risk_level_colors[risk_level], width=2),
+                showlegend=False
             ),
             row=1, col=1
         )
@@ -1338,28 +1339,35 @@ with tab2:
                 name=risk_level_labels[risk_level],
                 box_visible=True,
                 meanline_visible=True,
-                marker=dict(color=risk_level_colors[risk_level]),
-                line=dict(color=risk_level_colors[risk_level], width=2),
-                fillcolor=risk_level_colors[risk_level],
-                opacity=0.6,
-                showlegend=False,
                 points='all',
-                pointpos=-1.5,
-                jitter=0.05,
+                pointpos=-0.5,
+                jitter=0.3,
+                marker=dict(color=risk_level_colors[risk_level]),
+                scalemode='width',
+                width=0.6,
                 side='positive',
+                line=dict(color=risk_level_colors[risk_level], width=2),
+                showlegend=False
             ),
             row=1, col=2
         )
 
-    fig_violins.update_xaxes(title='Risk Level', tickfont=dict(family='Arial', size=11), row=1, col=1)
-    fig_violins.update_xaxes(title='Risk Level', tickfont=dict(family='Arial', size=11), row=1, col=2)
-    fig_violins.update_yaxes(title='Duration (years)', gridcolor='lightgray', gridwidth=0.5, row=1, col=1)
-    fig_violins.update_yaxes(title='Delay (years)', gridcolor='lightgray', gridwidth=0.5, row=1, col=2)
+    # Update axes
+    fig_violins.update_xaxes(
+        title='Risk Level',
+        row=1, col=1
+    )
+    fig_violins.update_xaxes(
+        title='Risk Level',
+        row=1, col=2
+    )
+    fig_violins.update_yaxes(title='Duration (years)', gridcolor='lightgray', row=1, col=1)
+    fig_violins.update_yaxes(title='Delay (years)', gridcolor='lightgray', row=1, col=2)
 
     fig_violins.update_layout(
         title='Distribution by Risk Level',
         plot_bgcolor='white',
-        height=500,
+        height=600,
         font=dict(family='Arial')
     )
 
@@ -1514,6 +1522,7 @@ with tab2:
     This suggests that risk identification leads to appropriate planning buffers  
     Projects correctly assessed as high-risk receive adequate time allocations upfront
     """)
+
 # ============================================================================
 # TAB 3: ADDITIONAL ANALYSIS & KEY FINDINGS
 # ============================================================================
