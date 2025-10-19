@@ -1040,22 +1040,22 @@ with tab2:
     # RISK SEVERITY ANALYSIS (A, B, C)
     # ========================================================================
     st.header("Risk Severity Analysis")
-    
+
     st.markdown("""
     ### How do different severity levels (A, B, C) affect project delays?
     Examining delays across **High (A)**, **Medium (B)**, and **Low (C)** risk severity levels.
     """)
-    
+
     # Create severity comparison plots
     fig_severity = make_subplots(
         rows=1, cols=2,
         subplot_titles=('Environmental Risk Severity', 'Social Risk Severity'),
         horizontal_spacing=0.15
     )
-    
+
     severity_colors_map = {'A': '#db4325', 'B': '#dea247', 'C': '#bbd4a6'}
     severity_order = ['C', 'B', 'A']
-    
+
     # Environmental Risk Severity
     for severity in severity_order:
         env_severity_data = df[df['safe_env'] == severity]
@@ -1081,7 +1081,7 @@ with tab2:
             ),
             row=1, col=1
         )
-    
+
     # Social Risk Severity (combined indigenous + resettlement)
     for severity in severity_order:
         soc_severity_data = df[df['social_severity'] == severity]
@@ -1107,7 +1107,7 @@ with tab2:
             ),
             row=1, col=2
         )
-    
+
     # Update axes
     fig_severity.update_xaxes(
         title='Severity Level',
@@ -1123,21 +1123,21 @@ with tab2:
     )
     fig_severity.update_yaxes(title='Delay (years)', gridcolor='lightgray', row=1, col=1)
     fig_severity.update_yaxes(title='Delay (years)', gridcolor='lightgray', row=1, col=2)
-    
+
     fig_severity.update_layout(
         title='Project Delay by Risk Severity Level',
         plot_bgcolor='white',
         height=600,
         font=dict(family='Arial')
     )
-    
+
     st.plotly_chart(fig_severity, use_container_width=True)
-    
+
     # Summary statistics by severity
     st.subheader("Delay Statistics by Severity Level")
-    
+
     col1, col2 = st.columns(2)
-    
+
     with col1:
         st.markdown("**Environmental Risk**")
         env_severity_summary = []
@@ -1151,7 +1151,7 @@ with tab2:
                     'Median Delay': f"{sev_data['delay'].median():.2f}y"
                 })
         st.dataframe(pd.DataFrame(env_severity_summary), use_container_width=True, hide_index=True)
-    
+
     with col2:
         st.markdown("**Social Risk**")
         soc_severity_summary = []
@@ -1165,6 +1165,101 @@ with tab2:
                     'Median Delay': f"{sev_data['delay'].median():.2f}y"
                 })
         st.dataframe(pd.DataFrame(soc_severity_summary), use_container_width=True, hide_index=True)
+
+    st.markdown("---")
+
+    # ADD BAR CHARTS FOR MEAN DELAY
+    st.subheader("Mean Delay Comparison by Severity")
+
+    fig_severity_bars = make_subplots(
+        rows=1, cols=2,
+        subplot_titles=('Environmental Risk', 'Social Risk'),
+        horizontal_spacing=0.15
+    )
+
+    # Environmental Risk Bar Chart
+    env_means = []
+    for severity in ['C', 'B', 'A']:
+        sev_data = df[df['safe_env'] == severity]
+        env_means.append(sev_data['delay'].mean() if len(sev_data) > 0 else 0)
+
+    fig_severity_bars.add_trace(
+        go.Bar(
+            x=[f'Level {s}' for s in ['C', 'B', 'A']],
+            y=env_means,
+            marker=dict(
+                color=[severity_colors_map[s] for s in ['C', 'B', 'A']],
+                line=dict(width=0)
+            ),
+            text=[f'{val:.2f}y' for val in env_means],
+            textposition='auto',
+            textfont=dict(size=12, color='white', family='Arial'),
+            showlegend=False
+        ),
+        row=1, col=1
+    )
+
+    # Social Risk Bar Chart
+    soc_means = []
+    for severity in ['C', 'B', 'A']:
+        sev_data = df[df['social_severity'] == severity]
+        soc_means.append(sev_data['delay'].mean() if len(sev_data) > 0 else 0)
+
+    fig_severity_bars.add_trace(
+        go.Bar(
+            x=[f'Level {s}' for s in ['C', 'B', 'A']],
+            y=soc_means,
+            marker=dict(
+                color=[severity_colors_map[s] for s in ['C', 'B', 'A']],
+                line=dict(width=0)
+            ),
+            text=[f'{val:.2f}y' for val in soc_means],
+            textposition='auto',
+            textfont=dict(size=12, color='white', family='Arial'),
+            showlegend=False
+        ),
+        row=1, col=2
+    )
+
+    # Update axes
+    fig_severity_bars.update_xaxes(
+        title='Severity Level',
+        categoryorder='array',
+        categoryarray=['Level C', 'Level B', 'Level A'],
+        tickfont=dict(family='Arial', size=11),
+        row=1, col=1
+    )
+    fig_severity_bars.update_xaxes(
+        title='Severity Level',
+        categoryorder='array',
+        categoryarray=['Level C', 'Level B', 'Level A'],
+        tickfont=dict(family='Arial', size=11),
+        row=1, col=2
+    )
+    fig_severity_bars.update_yaxes(
+        title='Mean Delay (years)',
+        gridcolor='lightgray',
+        gridwidth=0.5,
+        tickfont=dict(family='Arial', size=11),
+        row=1, col=1
+    )
+    fig_severity_bars.update_yaxes(
+        title='Mean Delay (years)',
+        gridcolor='lightgray',
+        gridwidth=0.5,
+        tickfont=dict(family='Arial', size=11),
+        row=1, col=2
+    )
+
+    fig_severity_bars.update_layout(
+        title='Mean Delay by Risk Severity Level',
+        plot_bgcolor='white',
+        height=500,
+        font=dict(family='Arial')
+    )
+
+    st.plotly_chart(fig_severity_bars, use_container_width=True)
+
     st.markdown("---")
     
     # ========================================================================
