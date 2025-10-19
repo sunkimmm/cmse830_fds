@@ -132,8 +132,9 @@ risk_level_colors = {0: '#fcc5c0', 1: '#fa9fb5', 2: '#c51b8a'}
 size_colors = {'medium': '#dfe318', 'large': '#8bd646', 'mega': '#2fb47c'}
 
 # Create tabs
-tab1, tab2, tab3, tab4 = st.tabs([
+tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "🔍 Project Overview",
+    "📌 Key Findings Summary",
     "⚠️ Risk Analysis",
     "👀 Additional Analysis",
     "📊 Data & Processing"
@@ -603,9 +604,54 @@ with tab1:
     """)
 
 # ============================================================================
-# TAB 2: RISK ANALYSIS
+# TAB 2: KEY FINDINGS
 # ============================================================================
 with tab2:
+    st.title("📌 Key Findings")
+    
+    # st.markdown("""
+    # This section summarizes the main insights from the initial and exploratory analysis of 310 ADB infrastructure projects.
+    # """)
+    st.subheader("1. Differences among Sectors in Duration, but Not in Delay.")
+    
+    st.success("""
+    - Water projects has the longest duration, followed by Transportation and Energy
+               
+    - Project delays show no differences among sectors
+               
+    - Energy and Transporation have significantly higher per-project cost
+    """)
+
+    st.subheader("2. Risks are Accounted for in Planning.")
+    
+    st.success("""  
+    - When planning, presence of risk matters than severity of risks, indicating time buffer whenever any type of risk is present
+               
+    - Risk presence in Water projects lead to higher duration
+               
+    - No risk projects have significantly lower duration
+               
+    - No risk projects in Water and Transportation experience delays similar to risk-presented projects. But no-risk Water projects do not experience such delays.
+    """)
+
+    st.subheader("3. Risk Presence matters more than Risk Type or Risk Severity.")
+    
+    st.success("""
+    - No-risk projects have shorter duration and shorter delays than projects with risk present
+    - Projects with single identified risk (either environmental or social) has longer delays than projects with double identified risk (environment and social).
+    """)
+    
+    # Section 3: Recommendations
+    st.header("💡 Bottom Line")
+    
+    st.markdown("""
+    Large-scale infrastructure projects are subject to delays, regardless of pre-identification of risks. Types of risks or severity of risks do not play significant roles.
+    """)
+
+# ============================================================================
+# TAB 3: RISK ANALYSIS
+# ============================================================================
+with tab3:
     st.title("⚠️ Risk Analysis")
     
     st.markdown("""
@@ -1563,9 +1609,9 @@ with tab2:
     """)
 
 # ============================================================================
-# TAB 3: ADDITIONAL ANALYSIS & KEY FINDINGS
+# TAB 4: ADDITIONAL ANALYSIS 
 # ============================================================================
-with tab3:
+with tab4:
     st.title("👀 Additional Analysis")
     
     # ========================================================================
@@ -1852,9 +1898,9 @@ with tab3:
     #     st.error("Region column not found in dataset.")
 
 # ============================================================================
-# TAB 4: DATA & PROCESSING
+# TAB 5: DATA & PROCESSING
 # ============================================================================
-with tab4:
+with tab5:
     st.title("📊 Data & Processing")
     
     # Create sub-tabs for better organization
