@@ -94,17 +94,17 @@ size_colors = {'medium': '#dfe318', 'large': '#8bd646', 'mega': '#2fb47c'}
 
 # Create tabs
 tab1, tab2, tab3, tab4 = st.tabs([
-    "Project Overview",
-    "Risk Analysis",
-    "Additional Analysis & Key Findings",
-    "Data & Processing"
+    "🔍 Project Overview",
+    "⚠️ Risk Analysis",
+    "👀 Additional Analysis",
+    "📊 Data & Processing"
 ])
 
 # ============================================================================
 # TAB 1: OVERVIEW
 # ============================================================================
 with tab1:
-    st.title("Project Overview")
+    st.title("🔍 Project Overview")
     
     # Key metrics at the top
     col1, col2, col3, col4 = st.columns(4)
@@ -567,7 +567,7 @@ with tab1:
 # TAB 2: RISK ANALYSIS
 # ============================================================================
 with tab2:
-    st.title("Risk Analysis")
+    st.title("⚠️ Risk Analysis")
     
     st.markdown("""
     This section examines how different types of risks affect project delays.
@@ -1340,7 +1340,7 @@ with tab2:
 # TAB 3: ADDITIONAL ANALYSIS & KEY FINDINGS
 # ============================================================================
 with tab3:
-    st.title("Additional Analysis & Key Findings")
+    st.title("👀 Additional Analysis")
     
     # ========================================================================
     # INITIAL COST VS DELAY
@@ -1625,7 +1625,7 @@ with tab3:
 # TAB 4: DATA & PROCESSING
 # ============================================================================
 with tab4:
-    st.title("Data & Processing")
+    st.title("📊 Data & Processing")
     
     # Create sub-tabs for better organization
     subtab1, subtab2 = st.tabs(["Raw Data", "Preprocessing Steps"])
