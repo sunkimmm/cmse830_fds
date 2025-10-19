@@ -456,7 +456,7 @@ with tab1:
     )
 
     st.plotly_chart(fig_combined, use_container_width=True)
-    st.info("💡 **Insight**: There are no significant differences in delays among sectors.")
+    st.info("💡 **Insight**: On average, water projects tend to have the longest project implementation duration, followed by transportation and energy projects. However, there are no significant differences in delays among sectors.")
 
     st.markdown("---")
     
@@ -558,7 +558,13 @@ with tab1:
     )
     
     st.plotly_chart(fig_metrics, use_container_width=True)
-
+    st.info("""
+    💡 **Insight**: 
+    - On average, Energy projects have the highest project cost but has the highest delay.
+    - On average, Water projects have the lowest project cost, but takes the longest with moderate delay.
+    """)
+    
+    st.markdown("---")
 
 # ============================================================================
 # TAB 2: RISK ANALYSIS
