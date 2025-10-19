@@ -87,6 +87,45 @@ st.sidebar.info(
     """
 )
 
+# ADD GLOBAL FILTERS HERE
+st.sidebar.markdown("---")
+st.sidebar.subheader("🔍 Filters")
+
+# Sector filter
+sector_options = ['All Sectors'] + sorted(df['sector1'].unique().tolist())
+selected_sector = st.sidebar.selectbox(
+    "Select Sector",
+    options=sector_options,
+    index=0,
+    key='global_sector_filter'
+)
+
+# Project Size filter (Large vs Mega)
+size_options = ['All Sizes', 'Large ($500M-$1B)', 'Mega (≥$1B)']
+selected_size = st.sidebar.selectbox(
+    "Select Project Size",
+    options=size_options,
+    index=0,
+    key='global_size_filter'
+)
+
+# Apply filters to create filtered dataframe
+df_filtered = df.copy()
+
+if selected_sector != 'All Sectors':
+    df_filtered = df_filtered[df_filtered['sector1'] == selected_sector]
+
+if selected_size == 'Large ($500M-$1B)':
+    df_filtered = df_filtered[df_filtered['project_size'] == 'large']
+elif selected_size == 'Mega (≥$1B)':
+    df_filtered = df_filtered[df_filtered['project_size'] == 'mega']
+
+# Display filter summary in sidebar
+st.sidebar.markdown("---")
+st.sidebar.metric("Filtered Projects", len(df_filtered))
+st.sidebar.metric("Avg Delay", f"{df_filtered['delay'].mean():.2f}y" if len(df_filtered) > 0 else "N/A")
+st.sidebar.metric("Avg Cost", f"${df_filtered['totalcost_initial_adj'].mean():.0f}M" if len(df_filtered) > 0 else "N/A")
+
 # Color schemes (consistent across all charts)
 sector_colors = {'Energy': '#d95f02', 'Transportation': '#57c4ad', 'Water': '#0571b0'}
 risk_level_colors = {0: '#fcc5c0', 1: '#fa9fb5', 2: '#c51b8a'}
@@ -1549,86 +1588,90 @@ with tab3:
     
     fig_cost_delay = go.Figure()
     
-    # Add sector data (visible by default)
+    # Add sector data (visible by default) - USING df_filtered
     for sector in ['Energy', 'Transportation', 'Water']:
-        sector_data = df[df['sector1'] == sector]
-        fig_cost_delay.add_trace(
-            go.Scatter(
-                x=sector_data['totalcost_initial_adj'],
-                y=sector_data['delay'],
-                mode='markers',
-                name=sector,
-                marker=dict(
-                    color=sector_colors[sector],
-                    size=8,
-                    opacity=0.6,
-                    line=dict(width=0.5, color='white'),
-                    symbol='circle'
-                ),
-                legendgroup='sector',
-                legendgrouptitle_text='Sector',
-                showlegend=True
+        sector_data = df_filtered[df_filtered['sector1'] == sector]
+        if len(sector_data) > 0:
+            fig_cost_delay.add_trace(
+                go.Scatter(
+                    x=sector_data['totalcost_initial_adj'],
+                    y=sector_data['delay'],
+                    mode='markers',
+                    name=sector,
+                    marker=dict(
+                        color=sector_colors[sector],
+                        size=8,
+                        opacity=0.6,
+                        line=dict(width=0.5, color='white'),
+                        symbol='circle'
+                    ),
+                    legendgroup='sector',
+                    legendgrouptitle_text='Sector',
+                    showlegend=True
+                )
             )
-        )
     
-    # Add risk category data (hidden by default)
+    # Add risk category data (hidden by default) - USING df_filtered
     for risk_cat in ['No Risk', 'Environmental Only', 'Social Only', 'Both']:
-        risk_data = df[df['risk_category'] == risk_cat]
-        fig_cost_delay.add_trace(
-            go.Scatter(
-                x=risk_data['totalcost_initial_adj'],
-                y=risk_data['delay'],
-                mode='markers',
-                name=risk_cat,
-                marker=dict(
-                    color=risk_colors[risk_cat],
-                    size=8,
-                    opacity=0.6,
-                    line=dict(width=0.5, color='white'),
-                    symbol='square'
-                ),
-                legendgroup='risk_cat',
-                legendgrouptitle_text='Risk Category',
-                showlegend=True,
-                visible='legendonly'
+        risk_data = df_filtered[df_filtered['risk_category'] == risk_cat]
+        if len(risk_data) > 0:
+            fig_cost_delay.add_trace(
+                go.Scatter(
+                    x=risk_data['totalcost_initial_adj'],
+                    y=risk_data['delay'],
+                    mode='markers',
+                    name=risk_cat,
+                    marker=dict(
+                        color=risk_colors[risk_cat],
+                        size=8,
+                        opacity=0.6,
+                        line=dict(width=0.5, color='white'),
+                        symbol='square'
+                    ),
+                    legendgroup='risk_cat',
+                    legendgrouptitle_text='Risk Category',
+                    showlegend=True,
+                    visible='legendonly'
+                )
             )
-        )
     
-    # Add risk level data (hidden by default)
+    # Add risk level data (hidden by default) - USING df_filtered
     risk_level_labels = {0: 'No Risk', 1: 'Single Risk', 2: 'Both Risks'}
     for risk_level in [0, 1, 2]:
-        level_data = df[df['risk_level'] == risk_level]
-        fig_cost_delay.add_trace(
-            go.Scatter(
-                x=level_data['totalcost_initial_adj'],
-                y=level_data['delay'],
-                mode='markers',
-                name=risk_level_labels[risk_level],
-                marker=dict(
-                    color=risk_level_colors[risk_level],
-                    size=8,
-                    opacity=0.6,
-                    line=dict(width=0.5, color='white'),
-                    symbol='diamond'
-                ),
-                legendgroup='risk_level',
-                legendgrouptitle_text='Risk Level',
-                showlegend=True,
-                visible='legendonly'
+        level_data = df_filtered[df_filtered['risk_level'] == risk_level]
+        if len(level_data) > 0:
+            fig_cost_delay.add_trace(
+                go.Scatter(
+                    x=level_data['totalcost_initial_adj'],
+                    y=level_data['delay'],
+                    mode='markers',
+                    name=risk_level_labels[risk_level],
+                    marker=dict(
+                        color=risk_level_colors[risk_level],
+                        size=8,
+                        opacity=0.6,
+                        line=dict(width=0.5, color='white'),
+                        symbol='diamond'
+                    ),
+                    legendgroup='risk_level',
+                    legendgrouptitle_text='Risk Level',
+                    showlegend=True,
+                    visible='legendonly'
+                )
             )
-        )
     
     # Add horizontal reference line at y=0
-    fig_cost_delay.add_trace(
-        go.Scatter(
-            x=[df['totalcost_initial_adj'].min(), df['totalcost_initial_adj'].max()],
-            y=[0, 0],
-            mode='lines',
-            line=dict(color='gray', width=1, dash='dash'),
-            showlegend=False,
-            hoverinfo='skip'
+    if len(df_filtered) > 0:
+        fig_cost_delay.add_trace(
+            go.Scatter(
+                x=[df_filtered['totalcost_initial_adj'].min(), df_filtered['totalcost_initial_adj'].max()],
+                y=[0, 0],
+                mode='lines',
+                line=dict(color='gray', width=1, dash='dash'),
+                showlegend=False,
+                hoverinfo='skip'
+            )
         )
-    )
     
     # Update layout
     fig_cost_delay.update_layout(
