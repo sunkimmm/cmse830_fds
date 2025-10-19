@@ -1574,51 +1574,51 @@ with tab3:
         
         st.markdown("---")
         
-        # Risk distribution by region
-        st.subheader("Risk Distribution by Region")
+    #     # Risk distribution by region
+    #     st.subheader("Risk Distribution by Region")
         
-        with st.expander("View detailed risk breakdown by region"):
-            for region in sorted(df['region'].unique()):
-                region_data = df[df['region'] == region]
-                st.markdown(f"**{region}** (n={len(region_data)})")
+    #     with st.expander("View detailed risk breakdown by region"):
+    #         for region in sorted(df['region'].unique()):
+    #             region_data = df[df['region'] == region]
+    #             st.markdown(f"**{region}** (n={len(region_data)})")
                 
-                risk_dist = region_data['risk_level'].value_counts().sort_index()
-                risk_level_names = {0: 'No Risk', 1: 'Single Risk', 2: 'Both Risks'}
+    #             risk_dist = region_data['risk_level'].value_counts().sort_index()
+    #             risk_level_names = {0: 'No Risk', 1: 'Single Risk', 2: 'Both Risks'}
                 
-                cols = st.columns(3)
-                for i, (risk_level, count) in enumerate(risk_dist.items()):
-                    pct = (count / len(region_data) * 100)
-                    with cols[i % 3]:
-                        st.metric(risk_level_names[risk_level], f"{count} ({pct:.1f}%)")
+    #             cols = st.columns(3)
+    #             for i, (risk_level, count) in enumerate(risk_dist.items()):
+    #                 pct = (count / len(region_data) * 100)
+    #                 with cols[i % 3]:
+    #                     st.metric(risk_level_names[risk_level], f"{count} ({pct:.1f}%)")
                 
-                st.markdown("---")
+    #             st.markdown("---")
         
-        # Statistical test
-        region_groups = []
-        region_names = []
-        for region in df['region'].unique():
-            region_data = df[df['region'] == region]['delay'].dropna()
-            if len(region_data) > 5:
-                region_groups.append(region_data)
-                region_names.append(region)
+    #     # Statistical test
+    #     region_groups = []
+    #     region_names = []
+    #     for region in df['region'].unique():
+    #         region_data = df[df['region'] == region]['delay'].dropna()
+    #         if len(region_data) > 5:
+    #             region_groups.append(region_data)
+    #             region_names.append(region)
         
-        if len(region_groups) > 1:
-            h_stat, p_value = stats.kruskal(*region_groups)
+    #     if len(region_groups) > 1:
+    #         h_stat, p_value = stats.kruskal(*region_groups)
             
-            if p_value < 0.05:
-                st.success(f"""
-                ✅ **Significant Regional Differences Found**  
-                Kruskal-Wallis H = {h_stat:.3f}, p = {p_value:.4f}  
-                Project delays differ significantly across regions
-                """)
-            else:
-                st.info(f"""
-                💡 **No Significant Regional Differences**  
-                Kruskal-Wallis H = {h_stat:.3f}, p = {p_value:.4f}  
-                Delays are relatively consistent across regions
-                """)
-    else:
-        st.error("Region column not found in dataset.")
+    #         if p_value < 0.05:
+    #             st.success(f"""
+    #             ✅ **Significant Regional Differences Found**  
+    #             Kruskal-Wallis H = {h_stat:.3f}, p = {p_value:.4f}  
+    #             Project delays differ significantly across regions
+    #             """)
+    #         else:
+    #             st.info(f"""
+    #             💡 **No Significant Regional Differences**  
+    #             Kruskal-Wallis H = {h_stat:.3f}, p = {p_value:.4f}  
+    #             Delays are relatively consistent across regions
+    #             """)
+    # else:
+    #     st.error("Region column not found in dataset.")
 
 # ============================================================================
 # TAB 4: DATA & PROCESSING
