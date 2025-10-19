@@ -1002,7 +1002,7 @@ with tab2:
     
     # Environmental-Only vs Social-Only breakdown for Single Risk
     st.subheader("Single Risk Breakdown: Environmental vs Social")
-    
+    df_large_mega = df[df['project_size'].isin(['large', 'mega'])]
     col1, col2 = st.columns(2)
     
     with col1:
