@@ -1,67 +1,283 @@
 # About the project
-This project is to examine large-scale infrastructure projects in three different sectors (energy, transportation, and water), and how they have evolved over time. Specifically, I am interested in environmental and social risks and how they impact the project delay. But in this exploratory phase, I am looking at the data from multiple perspectives.
+This project is to examine large-scale infrastructure projects in three different sectors (energy, transportation, and water), and how they have evolved over time. Specifically, I am interested in environmental and social risks and how they impact the project performance.
 
-# Data
-## Dataset
-1. Project data (_adb_426.csv_, _adb_clean_416.csv_)
-    - Source: Asian Development Bank
-    - 426 projects with sector (Energy/Transportation/Water), country, region, initial/final costs, dates (initial/actual closing date, approval date), and preliminary evaluation of environmental and social impact assessmemt in A, B, C, and D. This letter scale is ordinal, from A meaning the highest risk, and C meaning minimal risk, and D meaning no impact/risk.
-    - This data includes projects that were closed between 2002 and 2019, making the total of 18-year span. This is to avoid any confounding factors that could manifest in project cost and schedule due to Covid-19.
-    - **This is the data that I preprocessed using the following two.**
-2. Price Level Ration data (_WB_PLR.csv_): 
-    - Source: World Bank
-    - Price Level Ratio data for 266 countries from 1990 to 2024
-    - This is to convert the nominal cost for 'place' (i.e., country). A large portion of an infrastructure project's cost is for local labor, local materials, and land acquisition. These are "non-tradable" goods and services, and their prices vary dramatically between countries. A nominal $500 million in Kenya commands a vastly larger quantity of these inputs than $500 million in the United States. Therefore, it is necessary to put costs of projects on the equal footing by converting the project's cost that reflects its own national economy's scale to the USD-equivalent cost.
-3. GDP Deflator data (_WB_GDPDeflator.csv_)
-    - Source: World Bank
-    - GDP deflator data for 266 countries from 1990 to 2024 for inflation adjustment
-    - This is to convert the PLR-adjusted cost of projects for 'time'. What would have cost in 2002 is different from what the same amount of cost can do in today's value. Since the final year of the data is 2019, I converted costs equivalent to the value of 2019.
 
-## Preprocessing
-1. Excluded multi-country projects (n=5) from the analysis because for those, project cost conversion is not posssible and imputation is also not possible.
-2. I applied two-step ==preprocessing== of the data to adjust costs to the 2019-USD-equivalent value for comparison across projects. It was done for both _initial_ total cost and _final_ total cost.
-3. Outliers were excluded.
-4. Any project that took less than 2 years (duration_years) were dropped, considering the definition of 'large-scale infrastructure projects' as the ones that take at least a few years (a widely-accepted definition in practice and in the literature).
-5. Projects were categorized by size based on adjusted initial cost:
-   - Small: < $500M
-   - Major: $500M - $1B  
-   - Mega: ≥ $1B
-6. From 426 original data points, 10 were excluded, and 416 left.
+# Data Merging and Preprocessing
+## Overview
+This document summarizes the data merging and preprocessing steps performed to create a clean dataset of 310 Asian Development Bank (ADB) sovereign projects for analysis.
 
-### 2-step Cost Adjustments
-#### For Initial Costs
-**Step 1: PLR Adjustment**
-- What was done: Convert local currency to USD equivalent at the _approval year_
-- Formula: `Adjusted = Nominal / PLR_ratio`
-- Example: Burkina Faso 2001 project with 206M nominal → 752M USD-equivalent
-**Step 2: GDP Deflator**
-- What was done: Adjust to 2019 constant dollars to reflect the time value of money
-- Formula: `2019_USD = Step1_USD × (GDP_2019 / GDP_approval_year)`
-- Converts all projects to comparable 2019 purchasing power
-#### For Final Costs (reference: closing year)
-- Same two-step process using _closing year_ instead of approval year
-- Captures actual spending patterns at project completion
+## 1. Initial Datasets
 
-### Outlier Treatment
-#### Problem: Hyperinflation Distortions
-Early 1990s hyperinflation created extreme adjustment ratios:
-- Uzbekistan 1998-2007 (3 unique projects): Adjustment ratio z-score >3, excluded from the data
-- While technically correct, maybe the project cost is not as precise as others and being 3 projects, they were excluded.
-#### Solution: Z-Score Flagging
-- Calculate z-score for adjustment ratios: `(ratio - mean) / std`
-- Flag outliers where |z-score| > 3 (99.7th percentile)
-- **Result**: 3 initial cost outlier, 2 final cost outliers flagged (2 of them are overlapping projects, 3 in total)
-- **Approach**: Keep values but flag for exclusion in analysis
+### Source Data
+- **df_adb_1** (`adb_sov_projects.csv`): 527 projects
+  - Project identifiers (projectid, projectid_head, projectname)
+  - Country information
+  - Project modality and status
+  - Approval dates and approval numbers
+  - Sector classifications (sector1, sector1a)
+  - Safeguard categories (safe_env, safe_ind, safe_res)
 
-### Missing Data Treatment
-- **Environmental/Social Risk Ratings**: Projects with 'FI' (Further Investigation) ratings 
-  were excluded from risk-specific analyses as these represent incomplete assessments
-- **Performance Ratings**: Analysis of IED ratings used only projects with complete 
-  evaluation data (excluded 'na', 'nr', and null values)
+- **df_adb_2** (`adb_success_rate.csv`): 1,019 entries
+  - Multiple project identifier columns (projectid, projectid1-4)
+  - Country codes and names
+  - Financial data (approved, disbursed, committed amounts)
+  - Date information (approval, effective, closing dates - initial and final)
+  - Total project costs (initial and final)
+  - Project performance ratings
 
-### Final Analytical Sample
-- **Total projects**: 416 (from 426 original)
-- **Excluded**: 10 projects (5 multi-country, 3 outliers, 2 duration < 2 years)
-- **By size**: Small: 119, Major: 78, Mega: 219
-- **By sector**: Energy: 122, Transport: 197, Water: 97
-- **By region**: South Asia: 141, Central and West Asia: 89, East Asia: 83, Southeast Asia: 76, Pacific: 27
+- **df_region** (`adb_country_code.csv`): 225 entries
+  - Regional member information
+  - Country codes (Alpha-3 and ADB-specific)
+  - Subregion classifications
+
+- **df_plr** (`WB_PLR.csv`): 266 countries
+  - Prime Lending Rate data from 1960-2024
+  - World Bank indicator for borrowing costs
+
+- **df_gdp** (`WB_GDPDeflator.csv`): 266 countries
+  - GDP Deflator data from 1960-2024
+  - World Bank indicator for price level changes
+
+## 2. Merging df_adb_1 and df_adb_2
+
+### Objective
+Merge project-level data (df_adb_1) with financial and performance data (df_adb_2) while maintaining df_adb_1 as the base dataset.
+
+### Merging Strategy
+
+#### Step 1: Exact Project ID Matching
+- **Method**: Matched df_adb_1['projectid'] against df_adb_2['projectid', 'projectid1', 'projectid2', 'projectid3', 'projectid4']
+- **Result**: 386 matches
+- **Columns extracted**: countrycode, closingdate_initial, closingdate_final, totalcost_initial, totalcost_final
+
+#### Step 2: projectid_head + projectname Matching
+- **Method**: For unmatched rows, matched on both projectid_head and exact projectname
+- **Result**: 2 additional matches
+
+#### Step 3: projectid_head + approvaldate Matching
+- **Method**: For remaining unmatched rows, matched on both projectid_head and approvaldate
+- **Result**: 0 additional matches
+
+#### Step 4: Fuzzy Matching (80% Similarity Threshold)
+- **Method**: For rows with matching projectid_head but different project names, calculated string similarity
+- **Rationale**: Account for minor naming differences (e.g., "GMS:" vs "Greater Mekong Subregion:")
+- **Result**: 11 additional matches
+
+#### Step 5: Lower Threshold Fuzzy Matching (75% Similarity)
+- **Method**: Lowered similarity threshold to capture borderline cases
+- **Result**: 3-4 additional matches
+
+#### Final Merging Results
+- **Total matched**: 424 projects
+- **Unmatched**: 109 projects
+  - 96 projects: No matching projectid_head in df_adb_2
+  - 13 projects: Matching projectid_head but very different names (likely different project phases)
+- **Decision**: Dropped all 109 unmatched projects as they lacked essential financial data
+
+
+## 3. Region Data Integration
+
+### Objective
+Fill missing region information in the merged dataset.
+
+### Method
+- Matched df_merged['countrycode'] with df_region['ADB Country Code']
+- Extracted df_region['Subregion'] for matched countries
+- **Result**: All 424 projects now have region information
+
+
+## 4. Manual Data Collection
+
+### Missing Cost Data
+- **Identified**: 41 projects with missing totalcost_initial or totalcost_final
+- **Action**: Manually reviewed Project Completion Reports
+- **Filled**: 31 projects with data from reports
+- **Unavailable**: 10 projects (data not available even in completion reports)
+- **Result**: 414 projects with complete cost data (10 projects dropped)
+
+
+## 5. Feature Engineering
+
+### Created Columns
+
+#### Duration Metrics (in years, rounded to 2 decimal places)
+```python
+duration_initial = (closingdate_initial - approvaldate) / 365.25
+duration_final = (closingdate_final - approvaldate) / 365.25
+delay = (closingdate_final - closingdate_initial) / 365.25
+```
+
+#### Cost Metrics
+```python
+cost_overrun = totalcost_final - totalcost_initial
+cost_overrun_mark = cost_overrun > 0  # Boolean
+delay_mark = delay > 0  # Boolean
+```
+
+#### Temporal Features
+```python
+approval_year = year from approvaldate
+closing_year = year from closingdate_final
+beforecovid = closing_year <= 2019  # Boolean
+```
+
+
+## 6. Data Quality Corrections
+
+### Negative Duration Corrections
+- **Issue**: 3 projects had negative durations (closing date before approval date)
+- **Action**: Manually verified and corrected dates for:
+  - projectid 31280-013
+  - projectid 41682-039
+  - projectid 43141-044
+- **Result**: All durations now positive
+
+
+## 7. Dataset Filtering
+
+### Filter 1: Project Completion Timing
+- **Criteria**: Keep only projects where `beforecovid == True` (closed by 2019)
+- **Rationale**: Exclude COVID-19 impacts on project performance
+- **Result**: 341 projects retained
+
+### Filter 2: Project Duration
+- **Criteria**: Keep only projects where `duration_final > 2 years`
+- **Rationale**: Focus on substantial multi-year projects
+- **Result**: 338 projects retained (98.3% of pre-COVID projects)
+
+### Filter 3: Economic Indicator Availability
+- **Criteria**: Keep only countries present in both df_plr and df_gdp
+- **Action**: 
+  - Identified countries in df_project missing from PLR or GDP datasets
+  - Dropped projects from countries without complete economic indicator data
+- **Result**: Dataset further reduced for cost adjustment feasibility
+
+
+## 8. Cost Adjustments to 2019 Constant Dollars
+
+### Objective
+Adjust all project costs to 2019 constant dollars to enable fair comparisons across time and countries.
+
+### Two-Step Adjustment Process
+
+#### For Initial Costs (at Approval)
+
+**Step 1: Prime Lending Rate (PLR) Adjustment**
+```python
+totalcost_initial_adj1_plr = totalcost_initial / PLR(approval_year, country)
+```
+- **Purpose**: Adjust for country-specific borrowing costs
+- **Data source**: World Bank Prime Lending Rate by country and year
+
+**Step 2: GDP Deflator Adjustment to 2019 Base**
+```python
+totalcost_initial_adj2_2019 = totalcost_initial_adj1_plr × (GDP_deflator_2019 / GDP_deflator_approval_year)
+```
+- **Purpose**: Adjust for inflation to 2019 constant prices
+- **Data source**: World Bank GDP Deflator by country and year
+
+#### For Final Costs (at Closing)
+
+**Step 1: Prime Lending Rate (PLR) Adjustment**
+```python
+totalcost_final_adj1_plr = totalcost_final / PLR(closing_year, country)
+```
+
+**Step 2: GDP Deflator Adjustment to 2019 Base**
+```python
+totalcost_final_adj2_2019 = totalcost_final_adj1_plr × (GDP_deflator_2019 / GDP_deflator_closing_year)
+```
+
+### Adjustment Results
+- Successfully adjusted costs for projects with available PLR and GDP deflator data
+- Some projects failed adjustment due to:
+  - Missing PLR values for specific country-year combinations
+  - Missing GDP deflator values
+  - Countries not in World Bank datasets
+
+
+## 9. Outlier Detection and Removal
+
+### Methodology: Z-Score Analysis
+
+#### Adjustment Ratio Calculation
+```python
+initial_adjustment_ratio = totalcost_initial_adj2_2019 / totalcost_initial
+final_adjustment_ratio = totalcost_final_adj2_2019 / totalcost_final
+```
+
+#### Z-Score Outlier Detection
+```python
+z_score = (value - mean) / standard_deviation
+outlier_threshold = 3  # Projects with |z-score| > 3
+```
+
+### Outlier Removal
+- **Criteria**: Remove projects with outlier adjustment ratios in either initial or final costs
+- **Rationale**: Extreme adjustment ratios may indicate data quality issues or exceptional circumstances
+- **Result**: Projects with clean, reasonable adjustment ratios retained
+
+
+## 10. Final Feature Creation
+
+### Simplified Cost Columns
+```python
+totalcost_initial_adj = round(totalcost_initial_adj2_2019, 2)
+totalcost_final_adj = round(totalcost_final_adj2_2019, 2)
+```
+
+### Project Size Classification
+Based on adjusted initial cost (totalcost_initial_adj):
+- **Small**: < $100M
+- **Medium**: $100M - $500M
+- **Large**: $500M - $1,000M
+- **Mega**: ≥ $1,000M
+
+## 11. Final Dataset Characteristics
+
+### Dataset Size
+- **Final projects**: 310
+- **Reduction from original**: 527 → 310 (58.8% retention rate)
+
+### Completeness
+- **All projects have**:
+  - Complete financial data (initial and final costs)
+  - Adjusted costs in 2019 constant dollars
+  - Duration metrics (initial, final, delay)
+  - Cost overrun calculations
+  - Region and country information
+  - Sector classifications
+  - Safeguard categories
+  - Project size classification
+
+### Quality Criteria Met
+✓ Closed before 2020 (pre-COVID)  
+✓ Duration > 2 years  
+✓ Complete cost data (initial and final)  
+✓ Successful cost adjustment to 2019 constant dollars  
+✓ No outlier adjustment ratios  
+✓ Available economic indicators (PLR and GDP deflator)
+
+## 12. Column Cleanup
+
+### Dropped Columns
+- Unnamed index columns (Unnamed: 0, Unnamed: 0.1)
+- projectid_head (redundant identifier)
+- beforecovid (all True after filtering)
+- Intermediate calculation columns
+
+### Final Schema (36 columns)
+1. Project identifiers and metadata (6 columns)
+2. Financial data - nominal (2 columns)
+3. Financial data - adjusted (6 columns)
+4. Duration metrics (3 columns)
+5. Cost performance metrics (2 columns)
+6. Performance flags (2 columns)
+7. Temporal features (5 columns)
+8. Geographic information (3 columns)
+9. Sector and safeguard information (6 columns)
+10. Derived features (1 column: project_size)
+
+## Summary
+
+This preprocessing workflow transformed raw project data from multiple sources into a clean, analysis-ready dataset. The final dataset of 310 projects represents substantial, multi-year ADB sovereign projects completed before COVID-19, with costs standardized to 2019 constant dollars for meaningful cross-project and cross-temporal comparisons. All projects have complete financial, temporal, and performance data suitable for exploratory data analysis and inferential statistical analysis.
