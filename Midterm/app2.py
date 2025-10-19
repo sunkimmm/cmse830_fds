@@ -96,7 +96,7 @@ size_colors = {'medium': '#dfe318', 'large': '#8bd646', 'mega': '#2fb47c'}
 tab1, tab2, tab3, tab4 = st.tabs([
     "Project Overview",
     "Risk Analysis",
-    "Key Findings",
+    "Additional Analysis & Key Findings",
     "Data & Processing"
 ])
 
@@ -720,9 +720,7 @@ with tab2:
     st.markdown("---")
     
     st.info("""
-    💡 **Note**: This analysis examines projects with **Level A, B, and C** classifications 
-    based on their potential environmental and social impacts.
-    """)
+    💡 **Note**: This analysis first examines projects with Environmental and Social risks, and then proceed to a deeper analysis with more granular risk level represented in A, B, and C classifications.""")
     
     st.markdown("---")
     
@@ -913,94 +911,94 @@ with tab2:
         Water projects have the highest initially planned project duration. No risk projects have notably shorter duration  - Delay occurs both in Energy and Water projects  - Projects without any pre-evaluated risks also suffer from delays, except for Water projects  - It suggests that Water projects are less prone to unforseen risks that may cause project """)
     st.markdown("---")
     
-    # ========================================================================
-    # LARGE VS MEGA BY RISK LEVEL (KEY FINDING!)
-    # ========================================================================
-    st.header("🎯 Large vs Mega Projects by Risk Level")
+    # # ========================================================================
+    # # LARGE VS MEGA BY RISK LEVEL (KEY FINDING!)
+    # # ========================================================================
+    # st.header("Large vs Mega Projects by Risk Level")
     
-    # st.markdown("""
-    # ### Does project size interact with risk level to affect delays?
-    # Comparing **Large projects ($500M-$1B)** vs **Mega projects (≥$1B)** across different risk levels.
+    # # st.markdown("""
+    # # ### Does project size interact with risk level to affect delays?
+    # # Comparing **Large projects ($500M-$1B)** vs **Mega projects (≥$1B)** across different risk levels.
+    # # """)
+    
+    # # Filter to large and mega only
+    # df_large_mega = df[df['project_size'].isin(['large', 'mega'])]
+    
+    # # Summary statistics table
+    # st.subheader("📊 Mean Delay by Size and Risk Level")
+    
+    # summary_size_risk = []
+    # for size, size_label in [('large', 'Large ($500M-$1B)'), ('mega', 'Mega (≥$1B)')]:
+    #     for risk_level in [0, 1, 2]:
+    #         data = df_large_mega[(df_large_mega['project_size'] == size) & 
+    #                              (df_large_mega['risk_level'] == risk_level)]
+    #         if len(data) > 0:
+    #             summary_size_risk.append({
+    #                 'Size': size_label,
+    #                 'Risk Level': risk_level_labels[risk_level],
+    #                 'Projects': len(data),
+    #                 'Mean Delay (years)': data['delay'].mean(),
+    #                 'Median Delay (years)': data['delay'].median()
+    #             })
+    
+    # summary_size_risk_df = pd.DataFrame(summary_size_risk)
+    # st.dataframe(summary_size_risk_df.style.format({
+    #     'Mean Delay (years)': '{:.2f}',
+    #     'Median Delay (years)': '{:.2f}'
+    # }), use_container_width=True)
+    
+    # st.markdown("---")
+    
+    # # Grouped bar chart: Size × Risk Level
+    # st.subheader("📈 Delay Comparison: Large vs Mega by Risk Level")
+    
+    # fig_size_risk = go.Figure()
+    
+    # for risk_level in [0, 1, 2]:
+    #     delays = []
+    #     for size, label in [('large', 'Large'), ('mega', 'Mega')]:
+    #         data = df_large_mega[(df_large_mega['project_size'] == size) & 
+    #                              (df_large_mega['risk_level'] == risk_level)]
+    #         delays.append(data['delay'].mean() if len(data) > 0 else 0)
+        
+    #     fig_size_risk.add_trace(go.Bar(
+    #         x=['Large ($500M-$1B)', 'Mega (≥$1B)'],
+    #         y=delays,
+    #         name=risk_level_labels[risk_level],
+    #         marker=dict(color=risk_level_colors[risk_level]),
+    #         text=[f'{val:.2f}y' for val in delays],
+    #         textposition='auto',
+    #         textfont=dict(size=11, color='white')
+    #     ))
+    
+    # fig_size_risk.update_layout(
+    #     title='Mean Delay by Project Size and Risk Level',
+    #     xaxis_title='Project Size',
+    #     yaxis_title='Mean Delay (years)',
+    #     barmode='group',
+    #     height=550,
+    #     plot_bgcolor='white',
+    #     font=dict(family='Arial'),
+    #     legend=dict(
+    #         title=dict(text='Risk Level'),
+    #         orientation='h',
+    #         yanchor='bottom',
+    #         y=1.02,
+    #         xanchor='center',
+    #         x=0.5
+    #     )
+    # )
+    
+    # fig_size_risk.update_yaxes(gridcolor='lightgray')
+    
+    # st.plotly_chart(fig_size_risk, use_container_width=True)
+    
+    # st.info("""
+    # **Key Observation**: 
+    # - Mega projects with single risk show notably higher delays (2.61 years) compared to Large projects with Single Risk (1.59 years)  - Suggests mega projects may be particularly vulnerable when facing a risk
     # """)
     
-    # Filter to large and mega only
-    df_large_mega = df[df['project_size'].isin(['large', 'mega'])]
-    
-    # Summary statistics table
-    st.subheader("📊 Mean Delay by Size and Risk Level")
-    
-    summary_size_risk = []
-    for size, size_label in [('large', 'Large ($500M-$1B)'), ('mega', 'Mega (≥$1B)')]:
-        for risk_level in [0, 1, 2]:
-            data = df_large_mega[(df_large_mega['project_size'] == size) & 
-                                 (df_large_mega['risk_level'] == risk_level)]
-            if len(data) > 0:
-                summary_size_risk.append({
-                    'Size': size_label,
-                    'Risk Level': risk_level_labels[risk_level],
-                    'Projects': len(data),
-                    'Mean Delay (years)': data['delay'].mean(),
-                    'Median Delay (years)': data['delay'].median()
-                })
-    
-    summary_size_risk_df = pd.DataFrame(summary_size_risk)
-    st.dataframe(summary_size_risk_df.style.format({
-        'Mean Delay (years)': '{:.2f}',
-        'Median Delay (years)': '{:.2f}'
-    }), use_container_width=True)
-    
-    st.markdown("---")
-    
-    # Grouped bar chart: Size × Risk Level
-    st.subheader("📈 Delay Comparison: Large vs Mega by Risk Level")
-    
-    fig_size_risk = go.Figure()
-    
-    for risk_level in [0, 1, 2]:
-        delays = []
-        for size, label in [('large', 'Large'), ('mega', 'Mega')]:
-            data = df_large_mega[(df_large_mega['project_size'] == size) & 
-                                 (df_large_mega['risk_level'] == risk_level)]
-            delays.append(data['delay'].mean() if len(data) > 0 else 0)
-        
-        fig_size_risk.add_trace(go.Bar(
-            x=['Large ($500M-$1B)', 'Mega (≥$1B)'],
-            y=delays,
-            name=risk_level_labels[risk_level],
-            marker=dict(color=risk_level_colors[risk_level]),
-            text=[f'{val:.2f}y' for val in delays],
-            textposition='auto',
-            textfont=dict(size=11, color='white')
-        ))
-    
-    fig_size_risk.update_layout(
-        title='Mean Delay by Project Size and Risk Level',
-        xaxis_title='Project Size',
-        yaxis_title='Mean Delay (years)',
-        barmode='group',
-        height=550,
-        plot_bgcolor='white',
-        font=dict(family='Arial'),
-        legend=dict(
-            title=dict(text='Risk Level'),
-            orientation='h',
-            yanchor='bottom',
-            y=1.02,
-            xanchor='center',
-            x=0.5
-        )
-    )
-    
-    fig_size_risk.update_yaxes(gridcolor='lightgray')
-    
-    st.plotly_chart(fig_size_risk, use_container_width=True)
-    
-    st.info("""
-    **Key Observation**: 
-    - Mega projects with single risk show notably higher delays (2.61 years) compared to Large projects with Single Risk (1.59 years)  - Suggests mega projects may be particularly vulnerable when facing a risk
-    """)
-    
-    st.markdown("---")
+    # st.markdown("---")
     
     # Environmental-Only vs Social-Only breakdown for Single Risk
     st.subheader("Single Risk Breakdown: Environmental vs Social")
