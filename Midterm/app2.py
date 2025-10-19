@@ -910,7 +910,7 @@ with tab2:
     st.plotly_chart(fig_heatmaps, use_container_width=True)
     st.info("""
     💡 **Insight**:
-        - Water projects have the highest initially planned project duration. No risk projects have notably shorter duration  - Delay occurs both in Energy and Water projects  - Projects without any pre-evaluated risks also suffer from delays, except for Water projects  - It suggests that Water projects are less prone to unforseen risks that may cause project """)
+        Water projects have the highest initially planned project duration. No risk projects have notably shorter duration  - Delay occurs both in Energy and Water projects  - Projects without any pre-evaluated risks also suffer from delays, except for Water projects  - It suggests that Water projects are less prone to unforseen risks that may cause project """)
     st.markdown("---")
     
     # ========================================================================
@@ -1333,8 +1333,12 @@ with tab2:
     st.plotly_chart(fig_compare, use_container_width=True)
     
     st.info("""
-    💡 **Insight**: 
-    - **Higher risk projects have LONGER planned durations** - planners anticipate complexity  - However, **actual delays remain similar across risk levels** - risks are being managed  - This suggests that risk identification leads to appropriate planning buffers  - Projects correctly assessed as high-risk receive adequate time allocations upfront""")
+    💡 **Insight**:  
+    **Higher risk projects have LONGER planned durations** - planners anticipate complexity  
+    However, **actual delays remain similar across risk levels** - risks are being managed  
+    This suggests that risk identification leads to appropriate planning buffers  
+    Projects correctly assessed as high-risk receive adequate time allocations upfront
+    """)
 
 # ============================================================================
 # TAB 4: KEY FINDINGS
