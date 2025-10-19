@@ -149,14 +149,14 @@ with tab1:
     # Key metrics at the top
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        st.metric("Total Projects", len(df))
+        st.metric("Total Projects", len(df_filtered))
     with col2:
-        st.metric("Countries", df['countryname'].nunique())
+        st.metric("Countries", df_filtered['countryname'].nunique())
     with col3:
-        total_investment = df['totalcost_initial_adj'].sum() / 1000
+        total_investment = df_filtered['totalcost_initial_adj'].sum() / 1000
         st.metric("Total Investment", f"${total_investment:.1f}B")
     with col4:
-        avg_delay = df['delay'].mean()
+        avg_delay = df_filtered['delay'].mean()
         st.metric("Average Delay", f"{avg_delay:.2f} years")
     
     st.markdown("---")
@@ -165,13 +165,13 @@ with tab1:
     st.subheader("Geographic Distribution")
     
     # Prepare data for choropleth maps
-    country_total = df.groupby('countryname').agg({
+    country_total = df_filtered.groupby('countryname').agg({
         'projectid': 'count',
         'sector1': lambda x: ', '.join(x.value_counts().index[:3])
     }).reset_index()
     country_total.columns = ['countryname', 'total_projects', 'main_sectors']
     
-    country_avg_cost = df.groupby('countryname').agg({
+    country_avg_cost = df_filtered.groupby('countryname').agg({
         'projectid': 'count',
         'totalcost_initial_adj': 'mean',
         'sector1': lambda x: ', '.join(x.value_counts().index[:3])
@@ -242,7 +242,7 @@ with tab1:
     st.subheader("Projects by Country and Sector")
     
     # Aggregate by country AND sector
-    country_sector_data = df.groupby(['countryname', 'sector1']).agg({
+    country_sector_data = df_filtered.groupby(['countryname', 'sector1']).agg({
         'projectid': 'count',
         'totalcost_initial_adj': 'sum'
     }).reset_index()
@@ -310,7 +310,7 @@ with tab1:
     fig_bubble.update_layout(height=700, font=dict(family='Arial'))
     
     st.plotly_chart(fig_bubble, use_container_width=True)
-    st.info("💡 **Insight**: In most countries, transportation is the dominant sector. In India, Energy projects are the second most dominant sector while in China, Water is the second most dominant sector." \
+    st.info("💡 **Insight**: In most countries, transportation is the dominant sector. In India, Energy projects are the second most dominant sector while in China, Water is the second most dominant sector. " \
     "Overall, Transportation is the most common, followed by Energy projects.")
     st.markdown("---")
     
@@ -321,16 +321,16 @@ with tab1:
     col1, col2, col3 = st.columns(3)
     
     with col1:
-        energy_data = df[df['sector1'] == 'Energy']
-        st.metric("Energy Projects", len(energy_data), f"{energy_data['delay'].mean():.2f}y avg delay")
+        energy_data = df_filtered[df_filtered['sector1'] == 'Energy']
+        st.metric("Energy Projects", len(energy_data), f"{energy_data['delay'].mean():.2f}y avg delay" if len(energy_data) > 0 else "N/A")
     
     with col2:
-        transport_data = df[df['sector1'] == 'Transportation']
-        st.metric("Transportation Projects", len(transport_data), f"{transport_data['delay'].mean():.2f}y avg delay")
+        transport_data = df_filtered[df_filtered['sector1'] == 'Transportation']
+        st.metric("Transportation Projects", len(transport_data), f"{transport_data['delay'].mean():.2f}y avg delay" if len(transport_data) > 0 else "N/A")
     
     with col3:
-        water_data = df[df['sector1'] == 'Water']
-        st.metric("Water Projects", len(water_data), f"{water_data['delay'].mean():.2f}y avg delay")
+        water_data = df_filtered[df_filtered['sector1'] == 'Water']
+        st.metric("Water Projects", len(water_data), f"{water_data['delay'].mean():.2f}y avg delay" if len(water_data) > 0 else "N/A")
     
     st.markdown("---")
 
@@ -341,7 +341,7 @@ with tab1:
     )
     
     sector_order = ['Energy', 'Transportation', 'Water']
-    sector_counts = df['sector1'].value_counts()
+    sector_counts = df_filtered['sector1'].value_counts()
     sector_counts = sector_counts.reindex(sector_order, fill_value=0)
     
     # Add first subplot (Projects by Sector)
@@ -357,11 +357,11 @@ with tab1:
     )
     
     # Add second subplot (Projects by Region and Sector)
-    region_counts = df['region'].value_counts().sort_values(ascending=False)
+    region_counts = df_filtered['region'].value_counts().sort_values(ascending=False)
     regions = region_counts.index
     
     for sector in sector_order:
-        sector_by_region = df[df['sector1'] == sector].groupby('region').size()
+        sector_by_region = df_filtered[df_filtered['sector1'] == sector].groupby('region').size()
         sector_by_region = sector_by_region.reindex(regions, fill_value=0)
         
         fig_dist.add_trace(
@@ -394,10 +394,6 @@ with tab1:
     
     st.plotly_chart(fig_dist, use_container_width=True)
 
-    #st.title("Project Sector Analysis")
-    
-    #st.markdown("### How do delays vary across sectors?")
-    
     # Raincloud plots for delay and initial duration by sector
     st.subheader("Initial Duration and Delay Distribution by Sector")
 
@@ -411,45 +407,47 @@ with tab1:
 
     # Add initial duration violin plots (left panel)
     for sector in sector_order:
-        sector_data = df[df['sector1'] == sector]
+        sector_data = df_filtered[df_filtered['sector1'] == sector]
         
-        fig_combined.add_trace(go.Violin(
-            y=sector_data['duration_initial'],
-            x=[sector] * len(sector_data),
-            name=sector,
-            box_visible=True,
-            meanline_visible=True,
-            points='all',
-            pointpos=-0.5,
-            jitter=0.3,
-            marker=dict(color=sector_colors[sector]),
-            scalemode='width',
-            width=0.6,
-            side='positive',
-            line=dict(color=sector_colors[sector], width=2),
-            showlegend=False
-        ), row=1, col=1)
+        if len(sector_data) > 0:
+            fig_combined.add_trace(go.Violin(
+                y=sector_data['duration_initial'],
+                x=[sector] * len(sector_data),
+                name=sector,
+                box_visible=True,
+                meanline_visible=True,
+                points='all',
+                pointpos=-0.5,
+                jitter=0.3,
+                marker=dict(color=sector_colors[sector]),
+                scalemode='width',
+                width=0.6,
+                side='positive',
+                line=dict(color=sector_colors[sector], width=2),
+                showlegend=False
+            ), row=1, col=1)
 
     # Add delay violin plots (right panel)
     for sector in sector_order:
-        sector_data = df[df['sector1'] == sector]
+        sector_data = df_filtered[df_filtered['sector1'] == sector]
         
-        fig_combined.add_trace(go.Violin(
-            y=sector_data['delay'],
-            x=[sector] * len(sector_data),
-            name=sector,
-            box_visible=True,
-            meanline_visible=True,
-            points='all',
-            pointpos=-0.5,
-            jitter=0.3,
-            marker=dict(color=sector_colors[sector]),
-            scalemode='width',
-            width=0.6,
-            side='positive',
-            line=dict(color=sector_colors[sector], width=2),
-            showlegend=False
-        ), row=1, col=2)
+        if len(sector_data) > 0:
+            fig_combined.add_trace(go.Violin(
+                y=sector_data['delay'],
+                x=[sector] * len(sector_data),
+                name=sector,
+                box_visible=True,
+                meanline_visible=True,
+                points='all',
+                pointpos=-0.5,
+                jitter=0.3,
+                marker=dict(color=sector_colors[sector]),
+                scalemode='width',
+                width=0.6,
+                side='positive',
+                line=dict(color=sector_colors[sector], width=2),
+                showlegend=False
+            ), row=1, col=2)
 
     # Update axes
     fig_combined.update_xaxes(
@@ -503,9 +501,9 @@ with tab1:
     # Three-panel bar chart: Cost, Duration, Delay
     st.subheader("Project Metrics by Sector")
     
-    avg_cost = df.groupby('sector1')['totalcost_initial_adj'].mean().sort_values(ascending=False)
-    avg_duration = df.groupby('sector1')['duration_final'].mean().reindex(avg_cost.index)
-    avg_delay = df.groupby('sector1')['delay'].mean().reindex(avg_cost.index)
+    avg_cost = df_filtered.groupby('sector1')['totalcost_initial_adj'].mean().sort_values(ascending=False)
+    avg_duration = df_filtered.groupby('sector1')['duration_final'].mean().reindex(avg_cost.index)
+    avg_delay = df_filtered.groupby('sector1')['delay'].mean().reindex(avg_cost.index)
     
     fig_metrics = make_subplots(
         rows=1, cols=3,
@@ -600,7 +598,8 @@ with tab1:
     st.plotly_chart(fig_metrics, use_container_width=True)
     st.info("""
     💡 **Insight**: 
-    - On average, Energy projects have the highest project cost but has the highest delay.  - On average, Water projects have the lowest project cost, but takes the longest with moderate delay.
+    - On average, Energy projects have the highest project cost but has the highest delay.
+    - On average, Water projects have the lowest project cost, but takes the longest with moderate delay.
     """)
 
 # ============================================================================
