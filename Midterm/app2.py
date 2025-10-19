@@ -1036,7 +1036,7 @@ with tab2:
                   f"{soc_only_mega['delay'].mean():.2f}y avg" if len(soc_only_mega) > 0 else "N/A")
     
     st.markdown("---")
-    st.markdown("---")
+
     
     # ========================================================================
     # RISK SEVERITY ANALYSIS (A, B, C)
