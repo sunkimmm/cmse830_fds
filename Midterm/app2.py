@@ -412,9 +412,11 @@ with tab2:
             line=dict(color=sector_colors[sector], width=2),
             fillcolor=sector_colors[sector],
             opacity=0.6,
-            points='all',
-            pointpos=-0.5,
-            jitter=0.3
+            points='all',      # Shows all points
+            pointpos=-1.5,     # Changed from -0.5 to -1.5 (pushes points further left)
+            jitter=0.05,       # Reduced jitter for cleaner look
+            side='positive',   # Only show right half of violin
+            width=2            # Make violin wider
         ))
     
     fig_sector.update_layout(
@@ -524,8 +526,10 @@ with tab2:
             fillcolor=color,
             opacity=0.6,
             points='all',
-            pointpos=-0.5,
-            jitter=0.3
+            pointpos=-1.5,
+            jitter=0.05,
+            side = 'positive',
+            width = 2
         ))
     
     fig_size.update_layout(
@@ -761,7 +765,7 @@ with tab3:
     All three risk types use the same classification system:
     """)
     
-    col1, col2, col3, col4 = st.columns(4)
+    col1, col2, col3 = st.columns(3)
     
     with col1:
         st.markdown("""
@@ -787,19 +791,11 @@ with tab3:
         Minimal or no adverse impacts
         """)
     
-    with col4:
-        st.markdown("""
-        **Level D**  
-        ⚪ No Impact
-        
-        Activities with no safeguard concerns (e.g., technical assistance)
-        """)
-    
     st.markdown("---")
     
     st.info("""
-    💡 **Note**: In this analysis, we focus on projects with **Level A, B, or C** classifications, 
-    as Level D projects typically represent activities without significant safeguard risks.
+    💡 **Note**: This analysis examines projects with **Level A, B, and C** classifications 
+    based on their potential environmental and social impacts.
     """)
     
     st.markdown("---")
@@ -1155,7 +1151,11 @@ with tab3:
                 opacity=0.6,
                 showlegend=False,
                 scalemode='width',
-                width=0.6
+                width=0.6,
+                points='all',
+                pointpos=-1.5,
+                jitter=0.05,
+                side='positive',
             ),
             row=1, col=1
         )
@@ -1177,7 +1177,11 @@ with tab3:
                 opacity=0.6,
                 showlegend=False,
                 scalemode='width',
-                width=0.6
+                width=0.6,
+                points='all',
+                pointpos=-1.5,
+                jitter=0.05,
+                side='positive',
             ),
             row=1, col=2
         )
@@ -1298,7 +1302,11 @@ with tab3:
                 line=dict(color=risk_level_colors[risk_level], width=2),
                 fillcolor=risk_level_colors[risk_level],
                 opacity=0.6,
-                showlegend=False
+                showlegend=False,
+                points='all',
+                pointpos=-1.5,
+                jitter=0.05,
+                side='positive',
             ))
         
         fig_duration.update_layout(
@@ -1331,7 +1339,11 @@ with tab3:
                 line=dict(color=risk_level_colors[risk_level], width=2),
                 fillcolor=risk_level_colors[risk_level],
                 opacity=0.6,
-                showlegend=False
+                showlegend=False,
+                points='all',
+                pointpos=-1.5,
+                jitter=0.05,
+                side='positive',
             ))
         
         fig_delay_risk.update_layout(
