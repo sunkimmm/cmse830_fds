@@ -1260,268 +1260,268 @@ with tab2:
 
     st.markdown("---")
     
-# ========================================================================
-# RISK PLANNING: DURATION VS DELAY
-# ========================================================================
-st.header("Risk Awareness in Project Planning")
+    # ========================================================================
+    # RISK PLANNING: DURATION VS DELAY
+    # ========================================================================
+    st.header("Risk Awareness in Project Planning")
 
-st.markdown("""
-### Do planners account for risks when estimating project duration?
-Comparing planned duration (initial estimates) vs actual delays across risk levels.
-""")
+    st.markdown("""
+    ### Do planners account for risks when estimating project duration?
+    Comparing planned duration (initial estimates) vs actual delays across risk levels.
+    """)
 
-# Calculate statistics
-risk_planning_data = []
-for risk_level in [0, 1, 2]:
-    risk_data = df[df['risk_level'] == risk_level]
-    if len(risk_data) > 0:
-        risk_planning_data.append({
-            'Risk Level': risk_level_labels[risk_level],
-            'Projects': len(risk_data),
-            'Mean Initial Duration (years)': risk_data['duration_initial'].mean(),
-            'Mean Final Duration (years)': risk_data['duration_final'].mean(),
-            'Mean Delay (years)': risk_data['delay'].mean()
-        })
-
-risk_planning_df = pd.DataFrame(risk_planning_data)
-
-st.subheader("Planning vs Reality")
-st.dataframe(risk_planning_df.style.format({
-    'Mean Initial Duration (years)': '{:.2f}',
-    'Mean Final Duration (years)': '{:.2f}',
-    'Mean Delay (years)': '{:.2f}'
-}), use_container_width=True)
-
-st.markdown("---")
-
-# Side-by-side comparison - VIOLIN PLOTS
-st.subheader("Distribution Comparison")
-
-col1, col2 = st.columns(2)
-
-with col1:
-    st.markdown("**Planned Duration by Risk Level**")
-    
-    fig_duration = go.Figure()
-    
+    # Calculate statistics
+    risk_planning_data = []
     for risk_level in [0, 1, 2]:
         risk_data = df[df['risk_level'] == risk_level]
-        
-        fig_duration.add_trace(go.Violin(
-            y=risk_data['duration_initial'],
-            x=[risk_level_labels[risk_level]] * len(risk_data),
-            name=risk_level_labels[risk_level],
-            box_visible=True,
-            meanline_visible=True,
-            marker=dict(color=risk_level_colors[risk_level]),
-            line=dict(color=risk_level_colors[risk_level], width=2),
-            fillcolor=risk_level_colors[risk_level],
-            opacity=0.6,
-            showlegend=False,
-            points='all',
-            pointpos=-1.5,
-            jitter=0.05,
-            side='positive',
-        ))
-    
-    fig_duration.update_layout(
-        title='Initial Planned Duration',
-        xaxis_title='Risk Level',
-        yaxis_title='Duration (years)',
-        height=500,
-        plot_bgcolor='white',
-        font=dict(family='Arial')
-    )
-    fig_duration.update_yaxes(gridcolor='lightgray')
-    
-    st.plotly_chart(fig_duration, use_container_width=True)
+        if len(risk_data) > 0:
+            risk_planning_data.append({
+                'Risk Level': risk_level_labels[risk_level],
+                'Projects': len(risk_data),
+                'Mean Initial Duration (years)': risk_data['duration_initial'].mean(),
+                'Mean Final Duration (years)': risk_data['duration_final'].mean(),
+                'Mean Delay (years)': risk_data['delay'].mean()
+            })
 
-with col2:
-    st.markdown("**Actual Delay by Risk Level**")
-    
-    fig_delay_risk = go.Figure()
-    
+    risk_planning_df = pd.DataFrame(risk_planning_data)
+
+    st.subheader("Planning vs Reality")
+    st.dataframe(risk_planning_df.style.format({
+        'Mean Initial Duration (years)': '{:.2f}',
+        'Mean Final Duration (years)': '{:.2f}',
+        'Mean Delay (years)': '{:.2f}'
+    }), use_container_width=True)
+
+    st.markdown("---")
+
+    # Side-by-side comparison - VIOLIN PLOTS
+    st.subheader("Distribution Comparison")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.markdown("**Planned Duration by Risk Level**")
+        
+        fig_duration = go.Figure()
+        
+        for risk_level in [0, 1, 2]:
+            risk_data = df[df['risk_level'] == risk_level]
+            
+            fig_duration.add_trace(go.Violin(
+                y=risk_data['duration_initial'],
+                x=[risk_level_labels[risk_level]] * len(risk_data),
+                name=risk_level_labels[risk_level],
+                box_visible=True,
+                meanline_visible=True,
+                marker=dict(color=risk_level_colors[risk_level]),
+                line=dict(color=risk_level_colors[risk_level], width=2),
+                fillcolor=risk_level_colors[risk_level],
+                opacity=0.6,
+                showlegend=False,
+                points='all',
+                pointpos=-1.5,
+                jitter=0.05,
+                side='positive',
+            ))
+        
+        fig_duration.update_layout(
+            title='Initial Planned Duration',
+            xaxis_title='Risk Level',
+            yaxis_title='Duration (years)',
+            height=500,
+            plot_bgcolor='white',
+            font=dict(family='Arial')
+        )
+        fig_duration.update_yaxes(gridcolor='lightgray')
+        
+        st.plotly_chart(fig_duration, use_container_width=True)
+
+    with col2:
+        st.markdown("**Actual Delay by Risk Level**")
+        
+        fig_delay_risk = go.Figure()
+        
+        for risk_level in [0, 1, 2]:
+            risk_data = df[df['risk_level'] == risk_level]
+            
+            fig_delay_risk.add_trace(go.Violin(
+                y=risk_data['delay'],
+                x=[risk_level_labels[risk_level]] * len(risk_data),
+                name=risk_level_labels[risk_level],
+                box_visible=True,
+                meanline_visible=True,
+                marker=dict(color=risk_level_colors[risk_level]),
+                line=dict(color=risk_level_colors[risk_level], width=2),
+                fillcolor=risk_level_colors[risk_level],
+                opacity=0.6,
+                showlegend=False,
+                points='all',
+                pointpos=-1.5,
+                jitter=0.05,
+                side='positive',
+            ))
+        
+        fig_delay_risk.update_layout(
+            title='Actual Delay',
+            xaxis_title='Risk Level',
+            yaxis_title='Delay (years)',
+            height=500,
+            plot_bgcolor='white',
+            font=dict(family='Arial')
+        )
+        fig_delay_risk.update_yaxes(gridcolor='lightgray')
+        
+        st.plotly_chart(fig_delay_risk, use_container_width=True)
+
+    st.markdown("---")
+
+    # ADD BAR CHARTS FOR MEAN VALUES
+    st.subheader("Mean Comparison by Risk Level")
+
+    fig_risk_bars = make_subplots(
+        rows=1, cols=2,
+        subplot_titles=('Mean Planned Duration', 'Mean Actual Delay'),
+        horizontal_spacing=0.15
+    )
+
+    # Planned Duration Bar Chart
+    duration_means = []
     for risk_level in [0, 1, 2]:
         risk_data = df[df['risk_level'] == risk_level]
-        
-        fig_delay_risk.add_trace(go.Violin(
-            y=risk_data['delay'],
-            x=[risk_level_labels[risk_level]] * len(risk_data),
-            name=risk_level_labels[risk_level],
-            box_visible=True,
-            meanline_visible=True,
-            marker=dict(color=risk_level_colors[risk_level]),
-            line=dict(color=risk_level_colors[risk_level], width=2),
-            fillcolor=risk_level_colors[risk_level],
-            opacity=0.6,
-            showlegend=False,
-            points='all',
-            pointpos=-1.5,
-            jitter=0.05,
-            side='positive',
-        ))
-    
-    fig_delay_risk.update_layout(
-        title='Actual Delay',
-        xaxis_title='Risk Level',
-        yaxis_title='Delay (years)',
-        height=500,
+        duration_means.append(risk_data['duration_initial'].mean() if len(risk_data) > 0 else 0)
+
+    fig_risk_bars.add_trace(
+        go.Bar(
+            x=[risk_level_labels[rl] for rl in [0, 1, 2]],
+            y=duration_means,
+            marker=dict(
+                color=[risk_level_colors[rl] for rl in [0, 1, 2]],
+                line=dict(width=0)
+            ),
+            text=[f'{val:.2f}y' for val in duration_means],
+            textposition='auto',
+            textfont=dict(size=12, color='white', family='Arial'),
+            opacity=0.8,
+            showlegend=False
+        ),
+        row=1, col=1
+    )
+
+    # Actual Delay Bar Chart
+    delay_means = []
+    for risk_level in [0, 1, 2]:
+        risk_data = df[df['risk_level'] == risk_level]
+        delay_means.append(risk_data['delay'].mean() if len(risk_data) > 0 else 0)
+
+    fig_risk_bars.add_trace(
+        go.Bar(
+            x=[risk_level_labels[rl] for rl in [0, 1, 2]],
+            y=delay_means,
+            marker=dict(
+                color=[risk_level_colors[rl] for rl in [0, 1, 2]],
+                line=dict(width=0)
+            ),
+            text=[f'{val:.2f}y' for val in delay_means],
+            textposition='auto',
+            textfont=dict(size=12, color='white', family='Arial'),
+            opacity=0.8,
+            showlegend=False
+        ),
+        row=1, col=2
+    )
+
+    # Update axes
+    fig_risk_bars.update_xaxes(
+        title='Risk Level',
+        tickfont=dict(family='Arial', size=11),
+        row=1, col=1
+    )
+    fig_risk_bars.update_xaxes(
+        title='Risk Level',
+        tickfont=dict(family='Arial', size=11),
+        row=1, col=2
+    )
+    fig_risk_bars.update_yaxes(
+        title='Mean Duration (years)',
+        gridcolor='lightgray',
+        gridwidth=0.5,
+        tickfont=dict(family='Arial', size=11),
+        row=1, col=1
+    )
+    fig_risk_bars.update_yaxes(
+        title='Mean Delay (years)',
+        gridcolor='lightgray',
+        gridwidth=0.5,
+        tickfont=dict(family='Arial', size=11),
+        row=1, col=2
+    )
+
+    fig_risk_bars.update_layout(
+        title='Mean Values by Risk Level',
         plot_bgcolor='white',
+        height=500,
         font=dict(family='Arial')
     )
-    fig_delay_risk.update_yaxes(gridcolor='lightgray')
-    
-    st.plotly_chart(fig_delay_risk, use_container_width=True)
 
-st.markdown("---")
+    st.plotly_chart(fig_risk_bars, use_container_width=True)
 
-# ADD BAR CHARTS FOR MEAN VALUES
-st.subheader("Mean Comparison by Risk Level")
+    st.markdown("---")
 
-fig_risk_bars = make_subplots(
-    rows=1, cols=2,
-    subplot_titles=('Mean Planned Duration', 'Mean Actual Delay'),
-    horizontal_spacing=0.15
-)
+    # Bar chart comparison - KEEP THE GROUPED BAR CHART
+    st.subheader("Duration vs Delay Comparison")
 
-# Planned Duration Bar Chart
-duration_means = []
-for risk_level in [0, 1, 2]:
-    risk_data = df[df['risk_level'] == risk_level]
-    duration_means.append(risk_data['duration_initial'].mean() if len(risk_data) > 0 else 0)
+    fig_compare = go.Figure()
 
-fig_risk_bars.add_trace(
-    go.Bar(
+    # Planned duration
+    durations = [df[df['risk_level'] == rl]['duration_initial'].mean() for rl in [0, 1, 2]]
+    fig_compare.add_trace(go.Bar(
         x=[risk_level_labels[rl] for rl in [0, 1, 2]],
-        y=duration_means,
-        marker=dict(
-            color=[risk_level_colors[rl] for rl in [0, 1, 2]],
-            line=dict(width=0)
-        ),
-        text=[f'{val:.2f}y' for val in duration_means],
-        textposition='auto',
-        textfont=dict(size=12, color='white', family='Arial'),
-        opacity=0.8,
-        showlegend=False
-    ),
-    row=1, col=1
-)
+        y=durations,
+        name='Planned Duration',
+        marker=dict(color='#3498db'),
+        text=[f'{val:.2f}y' for val in durations],
+        textposition='auto'
+    ))
 
-# Actual Delay Bar Chart
-delay_means = []
-for risk_level in [0, 1, 2]:
-    risk_data = df[df['risk_level'] == risk_level]
-    delay_means.append(risk_data['delay'].mean() if len(risk_data) > 0 else 0)
-
-fig_risk_bars.add_trace(
-    go.Bar(
+    # Actual delay
+    delays = [df[df['risk_level'] == rl]['delay'].mean() for rl in [0, 1, 2]]
+    fig_compare.add_trace(go.Bar(
         x=[risk_level_labels[rl] for rl in [0, 1, 2]],
-        y=delay_means,
-        marker=dict(
-            color=[risk_level_colors[rl] for rl in [0, 1, 2]],
-            line=dict(width=0)
-        ),
-        text=[f'{val:.2f}y' for val in delay_means],
-        textposition='auto',
-        textfont=dict(size=12, color='white', family='Arial'),
-        opacity=0.8,
-        showlegend=False
-    ),
-    row=1, col=2
-)
+        y=delays,
+        name='Actual Delay',
+        marker=dict(color='#e74c3c'),
+        text=[f'{val:.2f}y' for val in delays],
+        textposition='auto'
+    ))
 
-# Update axes
-fig_risk_bars.update_xaxes(
-    title='Risk Level',
-    tickfont=dict(family='Arial', size=11),
-    row=1, col=1
-)
-fig_risk_bars.update_xaxes(
-    title='Risk Level',
-    tickfont=dict(family='Arial', size=11),
-    row=1, col=2
-)
-fig_risk_bars.update_yaxes(
-    title='Mean Duration (years)',
-    gridcolor='lightgray',
-    gridwidth=0.5,
-    tickfont=dict(family='Arial', size=11),
-    row=1, col=1
-)
-fig_risk_bars.update_yaxes(
-    title='Mean Delay (years)',
-    gridcolor='lightgray',
-    gridwidth=0.5,
-    tickfont=dict(family='Arial', size=11),
-    row=1, col=2
-)
-
-fig_risk_bars.update_layout(
-    title='Mean Values by Risk Level',
-    plot_bgcolor='white',
-    height=500,
-    font=dict(family='Arial')
-)
-
-st.plotly_chart(fig_risk_bars, use_container_width=True)
-
-st.markdown("---")
-
-# Bar chart comparison - KEEP THE GROUPED BAR CHART
-st.subheader("Duration vs Delay Comparison")
-
-fig_compare = go.Figure()
-
-# Planned duration
-durations = [df[df['risk_level'] == rl]['duration_initial'].mean() for rl in [0, 1, 2]]
-fig_compare.add_trace(go.Bar(
-    x=[risk_level_labels[rl] for rl in [0, 1, 2]],
-    y=durations,
-    name='Planned Duration',
-    marker=dict(color='#3498db'),
-    text=[f'{val:.2f}y' for val in durations],
-    textposition='auto'
-))
-
-# Actual delay
-delays = [df[df['risk_level'] == rl]['delay'].mean() for rl in [0, 1, 2]]
-fig_compare.add_trace(go.Bar(
-    x=[risk_level_labels[rl] for rl in [0, 1, 2]],
-    y=delays,
-    name='Actual Delay',
-    marker=dict(color='#e74c3c'),
-    text=[f'{val:.2f}y' for val in delays],
-    textposition='auto'
-))
-
-fig_compare.update_layout(
-    title='Planned Duration vs Actual Delay by Risk Level',
-    xaxis_title='Risk Level',
-    yaxis_title='Years',
-    barmode='group',
-    height=500,
-    plot_bgcolor='white',
-    font=dict(family='Arial'),
-    legend=dict(
-        orientation='h',
-        yanchor='bottom',
-        y=1.02,
-        xanchor='center',
-        x=0.5
+    fig_compare.update_layout(
+        title='Planned Duration vs Actual Delay by Risk Level',
+        xaxis_title='Risk Level',
+        yaxis_title='Years',
+        barmode='group',
+        height=500,
+        plot_bgcolor='white',
+        font=dict(family='Arial'),
+        legend=dict(
+            orientation='h',
+            yanchor='bottom',
+            y=1.02,
+            xanchor='center',
+            x=0.5
+        )
     )
-)
 
-fig_compare.update_yaxes(gridcolor='lightgray')
+    fig_compare.update_yaxes(gridcolor='lightgray')
 
-st.plotly_chart(fig_compare, use_container_width=True)
+    st.plotly_chart(fig_compare, use_container_width=True)
 
-st.info("""
-💡 **Insight**:  
-Higher risk projects have longer planned durations - planners anticipate complexity  
-However, actual delays remain similar across risk levels - risks are being managed  
-This suggests that risk identification leads to appropriate planning buffers  
-Projects correctly assessed as high-risk receive adequate time allocations upfront
-""")
+    st.info("""
+    💡 **Insight**:  
+    Higher risk projects have longer planned durations - planners anticipate complexity  
+    However, actual delays remain similar across risk levels - risks are being managed  
+    This suggests that risk identification leads to appropriate planning buffers  
+    Projects correctly assessed as high-risk receive adequate time allocations upfront
+    """)
 # ============================================================================
 # TAB 3: ADDITIONAL ANALYSIS & KEY FINDINGS
 # ============================================================================
