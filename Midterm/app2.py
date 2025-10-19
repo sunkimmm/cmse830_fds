@@ -358,17 +358,22 @@ with tab1:
     
     #st.markdown("### How do delays vary across sectors?")
     
-# Raincloud plot for sector delays
-    st.subheader("Delay Distribution by Sector")
+    # Raincloud plots for delay and initial duration by sector
+    st.subheader("Delay and Initial Duration Distribution by Sector")
 
-    fig_sector = go.Figure()
+    fig_combined = make_subplots(
+        rows=1, cols=2,
+        subplot_titles=('Project Delay Distribution', 'Initial Planned Duration Distribution'),
+        horizontal_spacing=0.12
+    )
 
     sector_order = ['Energy', 'Transportation', 'Water']
 
+    # Add delay violin plots (left panel)
     for sector in sector_order:
         sector_data = df[df['sector1'] == sector]
         
-        fig_sector.add_trace(go.Violin(
+        fig_combined.add_trace(go.Violin(
             y=sector_data['delay'],
             x=[sector] * len(sector_data),
             name=sector,
@@ -381,48 +386,15 @@ with tab1:
             scalemode='width',
             width=0.6,
             side='positive',
-            line=dict(color=sector_colors[sector], width=2)
-        ))
+            line=dict(color=sector_colors[sector], width=2),
+            showlegend=False
+        ), row=1, col=1)
 
-    fig_sector.update_layout(
-        title=dict(
-            text='Project Delay Distribution by Sector',
-            font=dict(size=18, family='Arial', color='black'),
-            x=0.5,
-            xanchor='center'
-        ),
-        xaxis=dict(
-            title=dict(text='Sector', font=dict(size=14, family='Arial')),
-            tickfont=dict(family='Arial', size=12),
-            categoryorder='array',
-            categoryarray=sector_order
-        ),
-        yaxis=dict(
-            title=dict(text='Delay (years)', font=dict(size=14, family='Arial')),
-            gridcolor='lightgray',
-            gridwidth=0.5,
-            tickfont=dict(family='Arial', size=12)
-        ),
-        plot_bgcolor='white',
-        height=600,
-        font=dict(family='Arial'),
-        showlegend=False
-    )
-
-    st.plotly_chart(fig_sector, use_container_width=True)
-    st.info("💡 **Insight**: There are no significant differences in delays among sectors.")
-
-    st.markdown("---")
-
-    # Raincloud plot for initial duration by sector
-    st.subheader("Initial Planned Duration Distribution by Sector")
-
-    fig_duration = go.Figure()
-
+    # Add initial duration violin plots (right panel)
     for sector in sector_order:
         sector_data = df[df['sector1'] == sector]
         
-        fig_duration.add_trace(go.Violin(
+        fig_combined.add_trace(go.Violin(
             y=sector_data['duration_initial'],
             x=[sector] * len(sector_data),
             name=sector,
@@ -435,35 +407,56 @@ with tab1:
             scalemode='width',
             width=0.6,
             side='positive',
-            line=dict(color=sector_colors[sector], width=2)
-        ))
+            line=dict(color=sector_colors[sector], width=2),
+            showlegend=False
+        ), row=1, col=2)
 
-    fig_duration.update_layout(
+    # Update axes
+    fig_combined.update_xaxes(
+        title_text='Sector', 
+        tickfont=dict(family='Arial', size=12),
+        categoryorder='array',
+        categoryarray=sector_order,
+        row=1, col=1
+    )
+    fig_combined.update_xaxes(
+        title_text='Sector', 
+        tickfont=dict(family='Arial', size=12),
+        categoryorder='array',
+        categoryarray=sector_order,
+        row=1, col=2
+    )
+
+    fig_combined.update_yaxes(
+        title_text='Delay (years)', 
+        gridcolor='lightgray',
+        gridwidth=0.5,
+        tickfont=dict(family='Arial', size=12),
+        row=1, col=1
+    )
+    fig_combined.update_yaxes(
+        title_text='Initial Duration (years)', 
+        gridcolor='lightgray',
+        gridwidth=0.5,
+        tickfont=dict(family='Arial', size=12),
+        row=1, col=2
+    )
+
+    # Update layout
+    fig_combined.update_layout(
         title=dict(
-            text='Initial Planned Duration Distribution by Sector',
+            text='Project Delay and Initial Duration Distribution by Sector',
             font=dict(size=18, family='Arial', color='black'),
             x=0.5,
             xanchor='center'
         ),
-        xaxis=dict(
-            title=dict(text='Sector', font=dict(size=14, family='Arial')),
-            tickfont=dict(family='Arial', size=12),
-            categoryorder='array',
-            categoryarray=sector_order
-        ),
-        yaxis=dict(
-            title=dict(text='Initial Duration (years)', font=dict(size=14, family='Arial')),
-            gridcolor='lightgray',
-            gridwidth=0.5,
-            tickfont=dict(family='Arial', size=12)
-        ),
         plot_bgcolor='white',
         height=600,
-        font=dict(family='Arial'),
-        showlegend=False
+        font=dict(family='Arial')
     )
 
-    st.plotly_chart(fig_duration, use_container_width=True)
+    st.plotly_chart(fig_combined, use_container_width=True)
+    st.info("💡 **Insight**: There are no significant differences in delays among sectors.")
 
     st.markdown("---")
     
