@@ -359,22 +359,22 @@ with tab1:
     #st.markdown("### How do delays vary across sectors?")
     
     # Raincloud plots for delay and initial duration by sector
-    st.subheader("Delay and Initial Duration Distribution by Sector")
+    st.subheader("Initial Duration and Delay Distribution by Sector")
 
     fig_combined = make_subplots(
         rows=1, cols=2,
-        subplot_titles=('Project Delay Distribution', 'Initial Planned Duration Distribution'),
+        subplot_titles=('Initial Planned Duration Distribution', 'Project Delay Distribution'),
         horizontal_spacing=0.12
     )
 
     sector_order = ['Energy', 'Transportation', 'Water']
 
-    # Add delay violin plots (left panel)
+    # Add initial duration violin plots (left panel)
     for sector in sector_order:
         sector_data = df[df['sector1'] == sector]
         
         fig_combined.add_trace(go.Violin(
-            y=sector_data['delay'],
+            y=sector_data['duration_initial'],
             x=[sector] * len(sector_data),
             name=sector,
             box_visible=True,
@@ -390,12 +390,12 @@ with tab1:
             showlegend=False
         ), row=1, col=1)
 
-    # Add initial duration violin plots (right panel)
+    # Add delay violin plots (right panel)
     for sector in sector_order:
         sector_data = df[df['sector1'] == sector]
         
         fig_combined.add_trace(go.Violin(
-            y=sector_data['duration_initial'],
+            y=sector_data['delay'],
             x=[sector] * len(sector_data),
             name=sector,
             box_visible=True,
@@ -428,14 +428,14 @@ with tab1:
     )
 
     fig_combined.update_yaxes(
-        title_text='Delay (years)', 
+        title_text='Initial Duration (years)', 
         gridcolor='lightgray',
         gridwidth=0.5,
         tickfont=dict(family='Arial', size=12),
         row=1, col=1
     )
     fig_combined.update_yaxes(
-        title_text='Initial Duration (years)', 
+        title_text='Delay (years)', 
         gridcolor='lightgray',
         gridwidth=0.5,
         tickfont=dict(family='Arial', size=12),
@@ -445,7 +445,7 @@ with tab1:
     # Update layout
     fig_combined.update_layout(
         title=dict(
-            text='Project Delay and Initial Duration Distribution by Sector',
+            text='Initial Duration and Delay Distribution by Sector',
             font=dict(size=18, family='Arial', color='black'),
             x=0.5,
             xanchor='center'
