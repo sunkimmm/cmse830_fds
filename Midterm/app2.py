@@ -1294,20 +1294,21 @@ with tab2:
 
     st.markdown("---")
 
-    # Side-by-side comparison - VIOLIN PLOTS
+    # VIOLIN PLOTS - Distribution Comparison
     st.subheader("Distribution Comparison")
 
-    col1, col2 = st.columns(2)
+    fig_violins = make_subplots(
+        rows=1, cols=2,
+        subplot_titles=('Initial Planned Duration', 'Actual Delay'),
+        horizontal_spacing=0.15
+    )
 
-    with col1:
-        st.markdown("**Planned Duration by Risk Level**")
+    # Left: Planned Duration Violins
+    for risk_level in [0, 1, 2]:
+        risk_data = df[df['risk_level'] == risk_level]
         
-        fig_duration = go.Figure()
-        
-        for risk_level in [0, 1, 2]:
-            risk_data = df[df['risk_level'] == risk_level]
-            
-            fig_duration.add_trace(go.Violin(
+        fig_violins.add_trace(
+            go.Violin(
                 y=risk_data['duration_initial'],
                 x=[risk_level_labels[risk_level]] * len(risk_data),
                 name=risk_level_labels[risk_level],
@@ -1322,29 +1323,16 @@ with tab2:
                 pointpos=-1.5,
                 jitter=0.05,
                 side='positive',
-            ))
-        
-        fig_duration.update_layout(
-            title='Initial Planned Duration',
-            xaxis_title='Risk Level',
-            yaxis_title='Duration (years)',
-            height=500,
-            plot_bgcolor='white',
-            font=dict(family='Arial')
+            ),
+            row=1, col=1
         )
-        fig_duration.update_yaxes(gridcolor='lightgray')
-        
-        st.plotly_chart(fig_duration, use_container_width=True)
 
-    with col2:
-        st.markdown("**Actual Delay by Risk Level**")
+    # Right: Actual Delay Violins
+    for risk_level in [0, 1, 2]:
+        risk_data = df[df['risk_level'] == risk_level]
         
-        fig_delay_risk = go.Figure()
-        
-        for risk_level in [0, 1, 2]:
-            risk_data = df[df['risk_level'] == risk_level]
-            
-            fig_delay_risk.add_trace(go.Violin(
+        fig_violins.add_trace(
+            go.Violin(
                 y=risk_data['delay'],
                 x=[risk_level_labels[risk_level]] * len(risk_data),
                 name=risk_level_labels[risk_level],
@@ -1359,23 +1347,27 @@ with tab2:
                 pointpos=-1.5,
                 jitter=0.05,
                 side='positive',
-            ))
-        
-        fig_delay_risk.update_layout(
-            title='Actual Delay',
-            xaxis_title='Risk Level',
-            yaxis_title='Delay (years)',
-            height=500,
-            plot_bgcolor='white',
-            font=dict(family='Arial')
+            ),
+            row=1, col=2
         )
-        fig_delay_risk.update_yaxes(gridcolor='lightgray')
-        
-        st.plotly_chart(fig_delay_risk, use_container_width=True)
+
+    fig_violins.update_xaxes(title='Risk Level', tickfont=dict(family='Arial', size=11), row=1, col=1)
+    fig_violins.update_xaxes(title='Risk Level', tickfont=dict(family='Arial', size=11), row=1, col=2)
+    fig_violins.update_yaxes(title='Duration (years)', gridcolor='lightgray', gridwidth=0.5, row=1, col=1)
+    fig_violins.update_yaxes(title='Delay (years)', gridcolor='lightgray', gridwidth=0.5, row=1, col=2)
+
+    fig_violins.update_layout(
+        title='Distribution by Risk Level',
+        plot_bgcolor='white',
+        height=500,
+        font=dict(family='Arial')
+    )
+
+    st.plotly_chart(fig_violins, use_container_width=True)
 
     st.markdown("---")
 
-    # ADD BAR CHARTS FOR MEAN VALUES
+    # BAR CHARTS - Mean Values Comparison
     st.subheader("Mean Comparison by Risk Level")
 
     fig_risk_bars = make_subplots(
@@ -1467,7 +1459,7 @@ with tab2:
 
     st.markdown("---")
 
-    # Bar chart comparison - KEEP THE GROUPED BAR CHART
+    # Grouped bar chart comparison
     st.subheader("Duration vs Delay Comparison")
 
     fig_compare = go.Figure()
