@@ -368,39 +368,13 @@ with tab2:
     st.markdown("---")
     
     # Detailed statistics table
-    st.subheader("📋 Summary Statistics by Sector")
-    
-    summary_data = []
-    for sector in ['Energy', 'Transportation', 'Water']:
-        sector_data = df[df['sector1'] == sector]
-        summary_data.append({
-            'Sector': sector,
-            'Projects': len(sector_data),
-            'Mean Delay (years)': sector_data['delay'].mean(),
-            'Median Delay (years)': sector_data['delay'].median(),
-            'Std Dev': sector_data['delay'].std(),
-            'Min': sector_data['delay'].min(),
-            'Max': sector_data['delay'].max()
-        })
-    
-    summary_df = pd.DataFrame(summary_data)
-    st.dataframe(summary_df.style.format({
-        'Mean Delay (years)': '{:.2f}',
-        'Median Delay (years)': '{:.2f}',
-        'Std Dev': '{:.2f}',
-        'Min': '{:.2f}',
-        'Max': '{:.2f}'
-    }), use_container_width=True)
-    
-    st.markdown("---")
-    
-    # Raincloud plot for sector delays
+# Raincloud plot for sector delays
     st.subheader("📈 Delay Distribution by Sector")
-    
+
     fig_sector = go.Figure()
-    
+
     sector_order = ['Energy', 'Transportation', 'Water']
-    
+
     for sector in sector_order:
         sector_data = df[df['sector1'] == sector]
         
@@ -411,17 +385,15 @@ with tab2:
             box_visible=True,
             meanline_visible=True,
             points='all',
-            pointpos=-1.5,
-            jitter=0.05,
+            pointpos=-0.5,        # ← From your IDA/EDA code
+            jitter=0.3,           # ← From your IDA/EDA code
             marker=dict(color=sector_colors[sector]),
-            fillcolor=sector_colors[sector],
-            opacity=0.6,
             scalemode='width',
-            width=2,
+            width=0.6,            # ← From your IDA/EDA code
             side='positive',
             line=dict(color=sector_colors[sector], width=2)
         ))
-    
+
     fig_sector.update_layout(
         title=dict(
             text='Project Delay Distribution by Sector',
@@ -446,7 +418,7 @@ with tab2:
         font=dict(family='Arial'),
         showlegend=False
     )
-    
+
     st.plotly_chart(fig_sector, use_container_width=True)
 
 # ============================================================================
@@ -456,7 +428,7 @@ with tab3:
     st.title("⚠️ Risk Analysis")
     
     st.markdown("""
-    This section examines how different types of safeguard risks affect project delays.
+    This section examines how different types of risks affect project delays.
     ADB categorizes projects based on their potential environmental and social impacts.
     """)
     
@@ -465,10 +437,10 @@ with tab3:
     # ========================================================================
     # RISK TYPE INTRODUCTION
     # ========================================================================
-    st.header("📋 Understanding Safeguard Risks")
+    st.header("📋 Understanding Environmental and Social Risks")
     
     st.markdown("""
-    Infrastructure projects are assessed for three types of safeguard risks before approval.
+    Infrastructure projects are assessed for three types of risks before approval.
     These assessments help ensure projects minimize harm and maximize sustainable development.
     """)
     
