@@ -1579,6 +1579,6 @@ beforecovid
 st.markdown("---")
 st.caption("Infrastructure Project Risk Analysis | Data: Asian Development Bank")
 
-# Footer
-st.markdown("---")
-st.caption("Infrastructure Project Risk Analysis | Data: Asian Development Bank")
+# # Footer
+# st.markdown("---")
+# st.caption("Infrastructure Project Risk Analysis | Data: Asian Development Bank")
