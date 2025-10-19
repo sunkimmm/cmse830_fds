@@ -1,283 +1,123 @@
-# About the project
-This project is to examine large-scale infrastructure projects in three different sectors (energy, transportation, and water), and how they have evolved over time. Specifically, I am interested in environmental and social risks and how they impact the project performance.
+# ADB Infrastructure Projects Analysis
 
+This repository contains analysis of Asian Development Bank (ADB) infrastructure projects for CMSE830 (Fall 2025).
 
-# Data Merging and Preprocessing
-## Overview
-This document summarizes the data merging and preprocessing steps performed to create a clean dataset of 310 Asian Development Bank (ADB) sovereign projects for analysis.
+## 📊 Live Dashboard
 
-## 1. Initial Datasets
+- **Streamlit App**: [View Dashboard](https://cmse830fds-midterm-adbprojects.streamlit.app/)
+- **Project Folder**: [`Midterm/`](./Midterm)
 
-### Source Data
-- **df_adb_1** (`adb_sov_projects.csv`): 527 projects
-  - Project identifiers (projectid, projectid_head, projectname)
-  - Country information
-  - Project modality and status
-  - Approval dates and approval numbers
-  - Sector classifications (sector1, sector1a)
-  - Safeguard categories (safe_env, safe_ind, safe_res)
+## 📂 Repository Structure
+```
+├── Midterm/
+│   ├── app2.py                          # Streamlit dashboard
+│   ├── adb_projects_clean_final.csv     # Clean dataset (310 projects)
+│   ├── processing_ida_eda_all_codes.py  # Full preprocessing code
+│   ├── requirements.txt
+│   └── Merging&Preprocessing/           # Raw data and preprocessing scripts
+│       ├── adb_sov_projects.csv         # Original ADB project data
+│       ├── adb_success_rate.csv         # Financial & performance data
+│       ├── adb_country_code.csv         # Country codes & regions
+│       ├── WB_PLR.csv                   # World Bank Prime Lending Rate
+│       └── WB_GDPDeflator.csv           # World Bank GDP Deflator
+└── README.md
+```
 
-- **df_adb_2** (`adb_success_rate.csv`): 1,019 entries
-  - Multiple project identifier columns (projectid, projectid1-4)
-  - Country codes and names
-  - Financial data (approved, disbursed, committed amounts)
-  - Date information (approval, effective, closing dates - initial and final)
-  - Total project costs (initial and final)
-  - Project performance ratings
+## 🎯 Project Overview
 
-- **df_region** (`adb_country_code.csv`): 225 entries
-  - Regional member information
-  - Country codes (Alpha-3 and ADB-specific)
-  - Subregion classifications
+This analysis examines **310 ADB sovereign infrastructure projects** completed between 1970-2019, focusing on:
+- Project delays and cost overruns
+- Risk analysis (environmental and social safeguards)
+- Sector-based performance comparisons
+- Regional patterns across Asia-Pacific
 
-- **df_plr** (`WB_PLR.csv`): 266 countries
-  - Prime Lending Rate data from 1960-2024
-  - World Bank indicator for borrowing costs
+## 📊 Dataset Summary
 
-- **df_gdp** (`WB_GDPDeflator.csv`): 266 countries
-  - GDP Deflator data from 1960-2024
-  - World Bank indicator for price level changes
+| Metric | Value |
+|--------|-------|
+| **Projects** | 310 |
+| **Countries** | 30+ |
+| **Sectors** | Energy, Transportation, Water |
+| **Time Period** | 1970-2019 (pre-COVID) |
+| **Total Investment** | $82.5B (2019 USD) |
 
-## 2. Merging df_adb_1 and df_adb_2
+### Key Features
+- **Duration Metrics**: Initial planned vs. actual duration, delays
+- **Cost Metrics**: Initial vs. final costs (adjusted to 2019 constant USD)
+- **Risk Categories**: Environmental, Social (Indigenous Peoples, Resettlement)
+- **Project Sizes**: Small (<$100M), Medium ($100M-$500M), Large ($500M-$1B), Mega (≥$1B)
 
-### Objective
-Merge project-level data (df_adb_1) with financial and performance data (df_adb_2) while maintaining df_adb_1 as the base dataset.
+## 🔧 Data Processing
 
-### Merging Strategy
+The dataset was created through:
+1. **Merging** multiple ADB data sources (527 → 424 projects)
+2. **Cost Adjustment** to 2019 constant USD using World Bank PLR and GDP Deflator
+3. **Quality Control**: Removing incomplete data and outliers
+4. **Filtering**: Pre-COVID projects with duration >2 years
+5. **Feature Engineering**: Duration, delay, cost overrun metrics
 
-#### Step 1: Exact Project ID Matching
-- **Method**: Matched df_adb_1['projectid'] against df_adb_2['projectid', 'projectid1', 'projectid2', 'projectid3', 'projectid4']
-- **Result**: 386 matches
-- **Columns extracted**: countrycode, closingdate_initial, closingdate_final, totalcost_initial, totalcost_final
+**Final dataset**: 310 projects with complete financial, temporal, and performance data.
 
-#### Step 2: projectid_head + projectname Matching
-- **Method**: For unmatched rows, matched on both projectid_head and exact projectname
-- **Result**: 2 additional matches
+<details>
+<summary>📖 Detailed Preprocessing Documentation</summary>
 
-#### Step 3: projectid_head + approvaldate Matching
-- **Method**: For remaining unmatched rows, matched on both projectid_head and approvaldate
-- **Result**: 0 additional matches
+### Data Sources
+1. **ADB Projects** (527 records): Project metadata, sectors, safeguards
+2. **ADB Financial** (1,019 records): Costs, dates, performance ratings
+3. **Country Codes** (225 entries): Regional classifications
+4. **World Bank PLR**: Prime Lending Rate (1960-2024)
+5. **World Bank GDP Deflator**: Price level changes (1960-2024)
 
-#### Step 4: Fuzzy Matching (80% Similarity Threshold)
-- **Method**: For rows with matching projectid_head but different project names, calculated string similarity
-- **Rationale**: Account for minor naming differences (e.g., "GMS:" vs "Greater Mekong Subregion:")
-- **Result**: 11 additional matches
+### Preprocessing Steps
 
-#### Step 5: Lower Threshold Fuzzy Matching (75% Similarity)
-- **Method**: Lowered similarity threshold to capture borderline cases
-- **Result**: 3-4 additional matches
+#### 1. Data Merging
+- Matched 424/527 projects using multiple strategies:
+  - Exact project ID matching (386 projects)
+  - ID + name matching (2 projects)
+  - Fuzzy matching at 80% similarity (11 projects)
+  - Lower threshold fuzzy matching at 75% (3-4 projects)
+- Dropped 109 unmatched projects (missing financial data)
 
-#### Final Merging Results
-- **Total matched**: 424 projects
-- **Unmatched**: 109 projects
-  - 96 projects: No matching projectid_head in df_adb_2
-  - 13 projects: Matching projectid_head but very different names (likely different project phases)
-- **Decision**: Dropped all 109 unmatched projects as they lacked essential financial data
-
-
-## 3. Region Data Integration
-
-### Objective
-Fill missing region information in the merged dataset.
-
-### Method
-- Matched df_merged['countrycode'] with df_region['ADB Country Code']
-- Extracted df_region['Subregion'] for matched countries
-- **Result**: All 424 projects now have region information
-
-
-## 4. Manual Data Collection
-
-### Missing Cost Data
-- **Identified**: 41 projects with missing totalcost_initial or totalcost_final
-- **Action**: Manually reviewed Project Completion Reports
-- **Filled**: 31 projects with data from reports
-- **Unavailable**: 10 projects (data not available even in completion reports)
-- **Result**: 414 projects with complete cost data (10 projects dropped)
-
-
-## 5. Feature Engineering
-
-### Created Columns
-
-#### Duration Metrics (in years, rounded to 2 decimal places)
+#### 2. Feature Engineering
 ```python
+# Duration metrics (years)
 duration_initial = (closingdate_initial - approvaldate) / 365.25
 duration_final = (closingdate_final - approvaldate) / 365.25
-delay = (closingdate_final - closingdate_initial) / 365.25
-```
+delay = duration_final - duration_initial
 
-#### Cost Metrics
-```python
+# Cost metrics
 cost_overrun = totalcost_final - totalcost_initial
-cost_overrun_mark = cost_overrun > 0  # Boolean
-delay_mark = delay > 0  # Boolean
 ```
 
-#### Temporal Features
+#### 3. Cost Adjustment to 2019 Constant USD
+Two-step process:
 ```python
-approval_year = year from approvaldate
-closing_year = year from closingdate_final
-beforecovid = closing_year <= 2019  # Boolean
+# Step 1: PLR adjustment (borrowing costs)
+cost_adj1 = cost / PLR(year, country)
+
+# Step 2: GDP deflator adjustment (inflation)
+cost_adj2 = cost_adj1 × (GDP_2019 / GDP_year)
 ```
 
+#### 4. Quality Control
+- Fixed 3 projects with negative durations (data entry errors)
+- Manually filled 31 missing cost values from completion reports
+- Removed outliers using z-score analysis (threshold: |z| > 3)
 
-## 6. Data Quality Corrections
+#### 5. Filtering
+- Pre-COVID only (closed ≤ 2019): 341 projects
+- Duration > 2 years: 338 projects
+- Complete economic indicators: 320 projects
+- After outlier removal: **310 final projects**
 
-### Negative Duration Corrections
-- **Issue**: 3 projects had negative durations (closing date before approval date)
-- **Action**: Manually verified and corrected dates for:
-  - projectid 31280-013
-  - projectid 41682-039
-  - projectid 43141-044
-- **Result**: All durations now positive
+### Data Quality
+✅ Complete financial data (initial & final costs)  
+✅ All costs in 2019 constant USD  
+✅ No missing values in key variables  
+✅ Pre-COVID timeline (excludes pandemic effects)  
+✅ Substantial projects only (>2 years duration)
 
+</details>
 
-## 7. Dataset Filtering
-
-### Filter 1: Project Completion Timing
-- **Criteria**: Keep only projects where `beforecovid == True` (closed by 2019)
-- **Rationale**: Exclude COVID-19 impacts on project performance
-- **Result**: 341 projects retained
-
-### Filter 2: Project Duration
-- **Criteria**: Keep only projects where `duration_final > 2 years`
-- **Rationale**: Focus on substantial multi-year projects
-- **Result**: 338 projects retained (98.3% of pre-COVID projects)
-
-### Filter 3: Economic Indicator Availability
-- **Criteria**: Keep only countries present in both df_plr and df_gdp
-- **Action**: 
-  - Identified countries in df_project missing from PLR or GDP datasets
-  - Dropped projects from countries without complete economic indicator data
-- **Result**: Dataset further reduced for cost adjustment feasibility
-
-
-## 8. Cost Adjustments to 2019 Constant Dollars
-
-### Objective
-Adjust all project costs to 2019 constant dollars to enable fair comparisons across time and countries.
-
-### Two-Step Adjustment Process
-
-#### For Initial Costs (at Approval)
-
-**Step 1: Prime Lending Rate (PLR) Adjustment**
-```python
-totalcost_initial_adj1_plr = totalcost_initial / PLR(approval_year, country)
-```
-- **Purpose**: Adjust for country-specific borrowing costs
-- **Data source**: World Bank Prime Lending Rate by country and year
-
-**Step 2: GDP Deflator Adjustment to 2019 Base**
-```python
-totalcost_initial_adj2_2019 = totalcost_initial_adj1_plr × (GDP_deflator_2019 / GDP_deflator_approval_year)
-```
-- **Purpose**: Adjust for inflation to 2019 constant prices
-- **Data source**: World Bank GDP Deflator by country and year
-
-#### For Final Costs (at Closing)
-
-**Step 1: Prime Lending Rate (PLR) Adjustment**
-```python
-totalcost_final_adj1_plr = totalcost_final / PLR(closing_year, country)
-```
-
-**Step 2: GDP Deflator Adjustment to 2019 Base**
-```python
-totalcost_final_adj2_2019 = totalcost_final_adj1_plr × (GDP_deflator_2019 / GDP_deflator_closing_year)
-```
-
-### Adjustment Results
-- Successfully adjusted costs for projects with available PLR and GDP deflator data
-- Some projects failed adjustment due to:
-  - Missing PLR values for specific country-year combinations
-  - Missing GDP deflator values
-  - Countries not in World Bank datasets
-
-
-## 9. Outlier Detection and Removal
-
-### Methodology: Z-Score Analysis
-
-#### Adjustment Ratio Calculation
-```python
-initial_adjustment_ratio = totalcost_initial_adj2_2019 / totalcost_initial
-final_adjustment_ratio = totalcost_final_adj2_2019 / totalcost_final
-```
-
-#### Z-Score Outlier Detection
-```python
-z_score = (value - mean) / standard_deviation
-outlier_threshold = 3  # Projects with |z-score| > 3
-```
-
-### Outlier Removal
-- **Criteria**: Remove projects with outlier adjustment ratios in either initial or final costs
-- **Rationale**: Extreme adjustment ratios may indicate data quality issues or exceptional circumstances
-- **Result**: Projects with clean, reasonable adjustment ratios retained
-
-
-## 10. Final Feature Creation
-
-### Simplified Cost Columns
-```python
-totalcost_initial_adj = round(totalcost_initial_adj2_2019, 2)
-totalcost_final_adj = round(totalcost_final_adj2_2019, 2)
-```
-
-### Project Size Classification
-Based on adjusted initial cost (totalcost_initial_adj):
-- **Small**: < $100M
-- **Medium**: $100M - $500M
-- **Large**: $500M - $1,000M
-- **Mega**: ≥ $1,000M
-
-## 11. Final Dataset Characteristics
-
-### Dataset Size
-- **Final projects**: 310
-- **Reduction from original**: 527 → 310 (58.8% retention rate)
-
-### Completeness
-- **All projects have**:
-  - Complete financial data (initial and final costs)
-  - Adjusted costs in 2019 constant dollars
-  - Duration metrics (initial, final, delay)
-  - Cost overrun calculations
-  - Region and country information
-  - Sector classifications
-  - Safeguard categories
-  - Project size classification
-
-### Quality Criteria Met
-✓ Closed before 2020 (pre-COVID)  
-✓ Duration > 2 years  
-✓ Complete cost data (initial and final)  
-✓ Successful cost adjustment to 2019 constant dollars  
-✓ No outlier adjustment ratios  
-✓ Available economic indicators (PLR and GDP deflator)
-
-## 12. Column Cleanup
-
-### Dropped Columns
-- Unnamed index columns (Unnamed: 0, Unnamed: 0.1)
-- projectid_head (redundant identifier)
-- beforecovid (all True after filtering)
-- Intermediate calculation columns
-
-### Final Schema (36 columns)
-1. Project identifiers and metadata (6 columns)
-2. Financial data - nominal (2 columns)
-3. Financial data - adjusted (6 columns)
-4. Duration metrics (3 columns)
-5. Cost performance metrics (2 columns)
-6. Performance flags (2 columns)
-7. Temporal features (5 columns)
-8. Geographic information (3 columns)
-9. Sector and safeguard information (6 columns)
-10. Derived features (1 column: project_size)
-
-## Summary
-
-This preprocessing workflow transformed raw project data from multiple sources into a clean, analysis-ready dataset. The final dataset of 310 projects represents substantial, multi-year ADB sovereign projects completed before COVID-19, with costs standardized to 2019 constant dollars for meaningful cross-project and cross-temporal comparisons. All projects have complete financial, temporal, and performance data suitable for exploratory data analysis and inferential statistical analysis.
+**Course**: CMSE830 Foundations of Data Science  
+**Semester**: Fall 2025
