@@ -27,7 +27,11 @@ st.markdown("""
 # Load data
 @st.cache_data
 def load_data():
-    df = pd.read_csv('adb_projects_clean_final.csv')
+    import os
+    # Get the directory where this script is located
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    csv_path = os.path.join(script_dir, 'adb_projects_clean_final.csv')
+    df = pd.read_csv(csv_path)
     
     # Create derived columns based on your analysis
     df['size_binary'] = df['project_size'].map({
