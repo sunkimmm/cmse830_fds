@@ -346,7 +346,7 @@ with tab2:
     # ========================================================================
     # SECTOR ANALYSIS
     # ========================================================================
-    st.header("📊 Sector Analysis")
+    #st.header("📊 Sector Analysis")
     
     st.markdown("### How do delays vary across sectors?")
     
