@@ -1337,11 +1337,307 @@ with tab2:
     """)
 
 # ============================================================================
-# TAB 3: KEY FINDINGS
+# TAB 3: ADDITIONAL ANALYSIS & KEY FINDINGS
 # ============================================================================
 with tab3:
     st.title("Additional Analysis & Key Findings")
-    st.header("Additional Analysis - Project Cost & Delay")
+    
+    # ========================================================================
+    # INITIAL COST VS DELAY
+    # ========================================================================
+    st.header("Project Cost vs Delay")
+    
+    st.markdown("""
+    ### How does initial project cost relate to delays?
+    Explore the relationship between project cost and delays across sectors and risk categories.
+    """)
+    
+    # Color schemes
+    risk_colors = {
+        'No Risk': '#fee5d9',
+        'Environmental Only': '#1b9e77',
+        'Social Only': '#e6ab02',
+        'Both': '#a6761d'
+    }
+    
+    fig_cost_delay = go.Figure()
+    
+    # Add sector data (visible by default)
+    for sector in ['Energy', 'Transportation', 'Water']:
+        sector_data = df[df['sector1'] == sector]
+        fig_cost_delay.add_trace(
+            go.Scatter(
+                x=sector_data['totalcost_initial_adj'],
+                y=sector_data['delay'],
+                mode='markers',
+                name=sector,
+                marker=dict(
+                    color=sector_colors[sector],
+                    size=8,
+                    opacity=0.6,
+                    line=dict(width=0.5, color='white'),
+                    symbol='circle'
+                ),
+                legendgroup='sector',
+                legendgrouptitle_text='Sector',
+                showlegend=True
+            )
+        )
+    
+    # Add risk category data (hidden by default)
+    for risk_cat in ['No Risk', 'Environmental Only', 'Social Only', 'Both']:
+        risk_data = df[df['risk_category'] == risk_cat]
+        fig_cost_delay.add_trace(
+            go.Scatter(
+                x=risk_data['totalcost_initial_adj'],
+                y=risk_data['delay'],
+                mode='markers',
+                name=risk_cat,
+                marker=dict(
+                    color=risk_colors[risk_cat],
+                    size=8,
+                    opacity=0.6,
+                    line=dict(width=0.5, color='white'),
+                    symbol='square'
+                ),
+                legendgroup='risk_cat',
+                legendgrouptitle_text='Risk Category',
+                showlegend=True,
+                visible='legendonly'
+            )
+        )
+    
+    # Add risk level data (hidden by default)
+    risk_level_labels = {0: 'No Risk', 1: 'Single Risk', 2: 'Both Risks'}
+    for risk_level in [0, 1, 2]:
+        level_data = df[df['risk_level'] == risk_level]
+        fig_cost_delay.add_trace(
+            go.Scatter(
+                x=level_data['totalcost_initial_adj'],
+                y=level_data['delay'],
+                mode='markers',
+                name=risk_level_labels[risk_level],
+                marker=dict(
+                    color=risk_level_colors[risk_level],
+                    size=8,
+                    opacity=0.6,
+                    line=dict(width=0.5, color='white'),
+                    symbol='diamond'
+                ),
+                legendgroup='risk_level',
+                legendgrouptitle_text='Risk Level',
+                showlegend=True,
+                visible='legendonly'
+            )
+        )
+    
+    # Add horizontal reference line at y=0
+    fig_cost_delay.add_trace(
+        go.Scatter(
+            x=[df['totalcost_initial_adj'].min(), df['totalcost_initial_adj'].max()],
+            y=[0, 0],
+            mode='lines',
+            line=dict(color='gray', width=1, dash='dash'),
+            showlegend=False,
+            hoverinfo='skip'
+        )
+    )
+    
+    # Update layout
+    fig_cost_delay.update_layout(
+        title=dict(
+            text='Initial Cost vs Project Delay<br><sub>Click legend items to toggle between Sector, Risk Category, and Risk Level views</sub>',
+            font=dict(size=18, family='Arial', color='black'),
+            x=0.5,
+            xanchor='center'
+        ),
+        xaxis=dict(
+            title='Initial Cost (Million USD, 2019)',
+            gridcolor='lightgray',
+            gridwidth=0.5,
+            tickfont=dict(family='Arial', size=12)
+        ),
+        yaxis=dict(
+            title='Delay (years)',
+            gridcolor='lightgray',
+            gridwidth=0.5,
+            tickfont=dict(family='Arial', size=12)
+        ),
+        plot_bgcolor='white',
+        height=650,
+        font=dict(family='Arial'),
+        legend=dict(
+            orientation='v',
+            yanchor='top',
+            y=1,
+            xanchor='left',
+            x=1.02,
+            font=dict(family='Arial', size=10),
+            tracegroupgap=20
+        ),
+        hovermode='closest'
+    )
+    
+    st.plotly_chart(fig_cost_delay, use_container_width=True)
+    
+    st.info("""
+    💡 **Insight**: Click on legend items to toggle between different views:  
+    - **Sector view** (default): Shows how delays vary across Energy, Transportation, and Water projects  
+    - **Risk Category view**: Shows delays by environmental/social risk combinations  
+    - **Risk Level view**: Shows delays by number of risks present
+    """)
+    
+    st.markdown("---")
+    
+    # ========================================================================
+    # DELAY VS COST OVERRUN ANALYSIS
+    # ========================================================================
+    st.header("Delay vs Cost Overrun Relationship")
+    
+    st.markdown("""
+    ### Is there a relationship between project delays and cost overruns?
+    Examining the correlation between how long a project is delayed and how much it exceeds budget.
+    """)
+    
+    # Calculate cost overrun percentage
+    if 'cost_overrun' not in df.columns:
+        df['cost_overrun'] = df['totalcost_final_adj'] - df['totalcost_initial_adj']
+    if 'cost_overrun_pct' not in df.columns:
+        df['cost_overrun_pct'] = (df['cost_overrun'] / df['totalcost_initial_adj']) * 100
+    
+    # Remove rows with missing values
+    data_complete = df[['delay', 'cost_overrun_pct']].dropna()
+    
+    # Summary statistics
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.metric("Mean Delay", f"{df['delay'].mean():.2f} years")
+        st.caption(f"Range: {df['delay'].min():.2f} to {df['delay'].max():.2f} years")
+    
+    with col2:
+        st.metric("Mean Cost Overrun", f"{df['cost_overrun_pct'].mean():.2f}%")
+        st.caption(f"Range: {df['cost_overrun_pct'].min():.2f}% to {df['cost_overrun_pct'].max():.2f}%")
+    
+    st.markdown("---")
+    
+    # Correlation analysis
+    st.subheader("Correlation Analysis")
+    
+    # Pearson correlation
+    pearson_corr, pearson_p = stats.pearsonr(data_complete['delay'], data_complete['cost_overrun_pct'])
+    
+    # Spearman correlation
+    spearman_corr, spearman_p = stats.spearmanr(data_complete['delay'], data_complete['cost_overrun_pct'])
+    
+    # Linear regression
+    slope, intercept, r_value, p_value, std_err = stats.linregress(data_complete['delay'], data_complete['cost_overrun_pct'])
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.metric("Pearson Correlation", f"{pearson_corr:.3f}")
+        st.caption(f"p-value: {pearson_p:.4f}")
+    
+    with col2:
+        st.metric("Spearman Correlation", f"{spearman_corr:.3f}")
+        st.caption(f"p-value: {spearman_p:.4f}")
+    
+    with col3:
+        st.metric("R-squared", f"{r_value**2:.3f}")
+        st.caption(f"Linear regression")
+    
+    st.markdown("---")
+    
+    # Scatter plot with regression line
+    st.subheader("Delay vs Cost Overrun by Sector")
+    
+    fig_scatter = go.Figure()
+    
+    # Add scatter points colored by sector
+    for sector in ['Energy', 'Transportation', 'Water']:
+        sector_data = df[df['sector1'] == sector]
+        fig_scatter.add_trace(go.Scatter(
+            x=sector_data['delay'],
+            y=sector_data['cost_overrun_pct'],
+            mode='markers',
+            name=sector,
+            marker=dict(
+                color=sector_colors[sector],
+                size=8,
+                opacity=0.6,
+                line=dict(width=0.5, color='white')
+            )
+        ))
+    
+    # Add regression line
+    x_range = np.array([data_complete['delay'].min(), data_complete['delay'].max()])
+    y_pred = intercept + slope * x_range
+    
+    fig_scatter.add_trace(go.Scatter(
+        x=x_range,
+        y=y_pred,
+        mode='lines',
+        name=f'Regression (R²={r_value**2:.3f})',
+        line=dict(color='red', width=2, dash='dash'),
+        showlegend=True
+    ))
+    
+    fig_scatter.update_layout(
+        title=dict(
+            text=f'Delay vs Cost Overrun<br><sub>Pearson r={pearson_corr:.3f}, p={pearson_p:.4f}</sub>',
+            font=dict(size=18, family='Arial', color='black'),
+            x=0.5,
+            xanchor='center'
+        ),
+        xaxis=dict(
+            title='Delay (years)',
+            gridcolor='lightgray',
+            gridwidth=0.5,
+            tickfont=dict(family='Arial', size=12),
+            title_font=dict(size=14, family='Arial')
+        ),
+        yaxis=dict(
+            title='Cost Overrun (%)',
+            gridcolor='lightgray',
+            gridwidth=0.5,
+            tickfont=dict(family='Arial', size=12),
+            title_font=dict(size=14, family='Arial')
+        ),
+        plot_bgcolor='white',
+        height=600,
+        font=dict(family='Arial'),
+        legend=dict(
+            orientation='v',
+            yanchor='top',
+            y=0.99,
+            xanchor='right',
+            x=0.99,
+            font=dict(family='Arial', size=11)
+        ),
+        hovermode='closest'
+    )
+    
+    st.plotly_chart(fig_scatter, use_container_width=True)
+    
+    # Interpretation
+    if pearson_p < 0.05 and pearson_corr > 0:
+        st.success(f"""
+        **Significant Positive Correlation Found**  
+        Regression equation: Cost Overrun (%) = {intercept:.2f} + {slope:.2f} × Delay (years)  
+        For each additional year of delay, cost overrun increases by approximately {slope:.2f}%
+        """)
+    elif pearson_p < 0.05 and pearson_corr < 0:
+        st.warning(f"""
+        **Significant Negative Correlation Found**  
+        Longer delays are associated with lower cost overruns (unusual finding)
+        """)
+    else:
+        st.info("""
+        💡 **No Significant Linear Relationship**  
+        Project delays and cost overruns do not show a strong linear correlation  
+        Other factors may be more important in determining cost overruns
+        """)
 
 # ============================================================================
 # TAB 4: DATA & PROCESSING
