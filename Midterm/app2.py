@@ -560,7 +560,7 @@ with tab1:
     st.plotly_chart(fig_metrics, use_container_width=True)
     st.info("""
     💡 **Insight**: 
-    - On average, Energy projects have the highest project cost but has the highest delay.
+    - On average, Energy projects have the highest project cost but has the highest delay.<br>
     - On average, Water projects have the lowest project cost, but takes the longest with moderate delay.
     """)
     
@@ -911,9 +911,9 @@ with tab2:
     st.plotly_chart(fig_heatmaps, use_container_width=True)
     st.info("""
     💡 **Insight**:
-        - Water projects have the highest initially planned project duration. No risk projects have notably shorter duration.
-        - Delay occurs both in Energy and Water projects. 
-        - Projects without any pre-evaluated risks also suffer from delays, except for Water projects.
+        - Water projects have the highest initially planned project duration. No risk projects have notably shorter duration.<br>
+        - Delay occurs both in Energy and Water projects. <br>
+        - Projects without any pre-evaluated risks also suffer from delays, except for Water projects.<br>
             - It suggests that Water projects are less prone to unforseen risks that may cause project delays.
     """)
     st.markdown("---")
@@ -1342,9 +1342,9 @@ with tab2:
     
     st.info("""
     💡 **Insight**: 
-    - **Higher risk projects have LONGER planned durations** - planners anticipate complexity
-    - However, **actual delays remain similar across risk levels** - risks are being managed
-    - This suggests that risk identification leads to appropriate planning buffers
+    - **Higher risk projects have LONGER planned durations** - planners anticipate complexity <br>
+    - However, **actual delays remain similar across risk levels** - risks are being managed<br>
+    - This suggests that risk identification leads to appropriate planning buffers<br>
     - Projects correctly assessed as high-risk receive adequate time allocations upfront
     """)
 
