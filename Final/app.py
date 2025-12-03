@@ -18,11 +18,11 @@ st.title("Large-scale Infrastructure Project: ESG Risk Analysis")
 
 # create tab
 tab1, tab2, tab3, tab4, tab5 = st.tabs([
-    "👀 Project Summary",
-    "ESG Risks in Infrastructure Projects",
+    "Project Summary",
+    "ESG Risks in Projects",
     "Project Metadata & Preprocessing",
     "Project Text Data & NLP Analysis",
-    "⚠️ Risk Analysis",
+    " Risk Analysis",
     
 ])
 
@@ -489,4 +489,4 @@ with tab4:
         # Add your text preprocessing steps here later
 
 with tab5:
-    st.title("⚠️ Risk Analysis")
+    st.title(" Risk Analysis")
