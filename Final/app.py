@@ -35,7 +35,146 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs([
 BASE = Path(__file__).parent
 
 with tab1:
-    st.title("👀 Project Summary")
+    st.title("👀 Project Overview")
+    
+    final_projects = pd.read_csv(BASE / "fin_project_metadata_280.csv")
+    
+    # Key metrics at the top
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.metric("Total Projects", len(final_projects))
+    with col2:
+        st.metric("Countries", final_projects['countryname'].nunique())
+    with col3:
+        total_investment = final_projects['base+contingency'].sum() / 1000
+        st.metric("Total Investment", f"${total_investment:.1f}B")
+    with col4:
+        st.metric("Regions", final_projects['regionname'].nunique())
+    
+    st.markdown("---")
+    
+    # Geographic Maps
+    st.subheader("Geographic Distribution")
+    
+    # Prepare data for choropleth maps
+    country_total = final_projects.groupby('countryname').agg({
+        'projectid': 'count',
+        'sector1': lambda x: ', '.join(x.value_counts().index[:3])
+    }).reset_index()
+    country_total.columns = ['countryname', 'total_projects', 'main_sectors']
+    
+    country_avg_cost = final_projects.groupby('countryname').agg({
+        'projectid': 'count',
+        'base+contingency': 'mean',
+        'sector1': lambda x: ', '.join(x.value_counts().index[:3])
+    }).reset_index()
+    country_avg_cost.columns = ['countryname', 'total_projects', 'avg_cost', 'main_sectors']
+    
+    # Create side-by-side choropleth maps
+    fig_maps = make_subplots(
+        rows=1, cols=2,
+        subplot_titles=('Number of Projects per Country', 'Average Project Cost per Country'),
+        specs=[[{'type': 'choropleth'}, {'type': 'choropleth'}]],
+        horizontal_spacing=0.01
+    )
+    
+    fig_maps.add_trace(
+        go.Choropleth(
+            locations=country_total['countryname'],
+            locationmode='country names',
+            z=country_total['total_projects'],
+            customdata=country_total[['total_projects', 'main_sectors']],
+            hovertemplate='<b>%{location}</b><br>Total Projects: %{customdata[0]}<br>Main Sectors: %{customdata[1]}<extra></extra>',
+            colorscale='Blues',
+            colorbar=dict(x=0.4, y=0.8, len=0.5, title='Projects'),
+            showscale=True
+        ),
+        row=1, col=1
+    )
+    
+    fig_maps.add_trace(
+        go.Choropleth(
+            locations=country_avg_cost['countryname'],
+            locationmode='country names',
+            z=country_avg_cost['avg_cost'],
+            customdata=country_avg_cost[['total_projects', 'avg_cost', 'main_sectors']],
+            hovertemplate='<b>%{location}</b><br>Total Projects: %{customdata[0]}<br>Avg Cost: $%{customdata[1]:.2f}M<br>Main Sectors: %{customdata[2]}<extra></extra>',
+            colorscale='Greens',
+            colorbar=dict(x=0.95, y=0.8, len=0.5, title='Avg Cost (M USD)'),
+            showscale=True
+        ),
+        row=1, col=2
+    )
+    
+    fig_maps.update_geos(
+        projection_type='natural earth',
+        showland=True,
+        landcolor='rgb(243, 243, 243)',
+        coastlinecolor='rgb(204, 204, 204)',
+        showcountries=True,
+        countrycolor='rgb(204, 204, 204)'
+    )
+    
+    fig_maps.update_layout(
+        height=500,
+        font=dict(family='Arial'),
+        showlegend=False
+    )
+    
+    st.plotly_chart(fig_maps, use_container_width=True)
+    
+    st.markdown("---")
+    
+    # Sector and Region Distribution
+    st.subheader("Project Distribution by Sector and Region")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        sector_counts = final_projects['sector1'].value_counts().reset_index()
+        sector_counts.columns = ['Sector', 'Count']
+        fig_sector = px.pie(sector_counts, values='Count', names='Sector',
+                           color_discrete_sequence=px.colors.qualitative.Set2,
+                           hole=0.3)
+        fig_sector.update_traces(textposition='inside', textinfo='percent+label')
+        fig_sector.update_layout(showlegend=False, margin=dict(t=30, b=20, l=20, r=20),
+                                title='Projects by Sector')
+        st.plotly_chart(fig_sector, use_container_width=True)
+    
+    with col2:
+        region_counts = final_projects['regionname'].value_counts().reset_index()
+        region_counts.columns = ['Region', 'Count']
+        fig_region = px.pie(region_counts, values='Count', names='Region',
+                           color_discrete_sequence=px.colors.qualitative.Pastel,
+                           hole=0.3)
+        fig_region.update_traces(textposition='inside', textinfo='percent+label')
+        fig_region.update_layout(showlegend=False, margin=dict(t=30, b=20, l=20, r=20),
+                                title='Projects by Region')
+        st.plotly_chart(fig_region, use_container_width=True)
+    
+    st.markdown("---")
+    
+    # Cost distribution by sector
+    st.subheader("Project Cost Distribution by Sector")
+    
+    fig_box = px.box(final_projects, x='sector1', y='base+contingency',
+                    color='sector1',
+                    color_discrete_sequence=px.colors.qualitative.Set2,
+                    labels={'sector1': 'Sector', 'base+contingency': 'Project Cost (USD Million)'})
+    fig_box.update_layout(showlegend=False, margin=dict(t=30, b=20, l=20, r=20))
+    st.plotly_chart(fig_box, use_container_width=True)
+    
+    st.markdown("---")
+    
+    # Timeline
+    st.subheader("Projects Over Time")
+    
+    year_sector = final_projects.groupby(['approval_year', 'sector1']).size().reset_index(name='count')
+    fig_timeline = px.bar(year_sector, x='approval_year', y='count', color='sector1',
+                         color_discrete_sequence=px.colors.qualitative.Set2,
+                         labels={'approval_year': 'Approval Year', 'count': 'Number of Projects', 'sector1': 'Sector'})
+    fig_timeline.update_layout(margin=dict(t=30, b=20, l=20, r=20))
+    st.plotly_chart(fig_timeline, use_container_width=True)
 
 with tab2:
     st.title("Project Metadata & Preprocessing")
