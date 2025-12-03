@@ -323,10 +323,7 @@ trigram_patterns = {
     ])
     st.markdown(tags_html, unsafe_allow_html=True)
     st.markdown("---")
-    
 
-    
-    st.markdown("---")
 
 with tab2:
     st.title("Project Metadata & Preprocessing")
@@ -656,7 +653,7 @@ with tab4:
             bg_color = bg_colors.get(pillar, '#f0f0f0')
             
             st.markdown(f"<div style='background-color:{bg_color}; padding:15px; border-radius:10px; max-height:400px; overflow-y:auto; font-size:13px;'>{full_text}</div>", unsafe_allow_html=True)
-            
+
     
     with subtab2:
         st.header("Text Preprocessing Steps")
