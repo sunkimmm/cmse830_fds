@@ -56,14 +56,6 @@ with tab5:
         
         st.dataframe(df.head(100), use_container_width=True)
         
-        # Download button
-        csv = df.to_csv(index=False).encode('utf-8')
-        st.download_button(
-            label="📥 Download Full Dataset",
-            data=csv,
-            file_name='cost_converted_462projects.csv',
-            mime='text/csv',
-        )
         
         with st.expander("View Column Schema"):
             schema_df = pd.DataFrame({
