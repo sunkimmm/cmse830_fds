@@ -229,6 +229,10 @@ with tab2:
     
     st.markdown(f"**{len(filtered_terms)} terms in {selected_category}:**")
     
+    # Display as styled tags
+    tags_html = " ".join([f'<span style="background-color:#e0e0e0; padding:5px 10px; margin:3px; border-radius:15px; display:inline-block;">{term}</span>' for term in filtered_terms])
+    st.markdown(tags_html, unsafe_allow_html=True)
+    
     # Display as a nice formatted list
     terms_display = ", ".join(filtered_terms)
     st.info(terms_display)
