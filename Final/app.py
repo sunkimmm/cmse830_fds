@@ -632,7 +632,7 @@ with tab4:
             
         st.dataframe(text_data[['projectid']], use_container_width=True, hide_index=True)
             
-            # Dropdown to select a project
+        # Dropdown to select a project
         selected_project = st.selectbox(
             "Select a project to view text data:",
             options=text_data['projectid'].tolist()
