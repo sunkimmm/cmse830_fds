@@ -254,9 +254,9 @@ with tab2:
         
         with col1:
             st.subheader("Project Subcomponent Cancellation")
-            cancel_counts = final_projects['cancelltion'].value_counts().reset_index()
+            cancel_counts = final_projects['cancellation'].value_counts().reset_index()
             cancel_counts.columns = ['Cancellation', 'Count']
-            cancel_counts['Cancellation'] = cancel_counts['Cancellation'].map({True: 'Yes', False: 'No'})
+            cancel_counts['Cancellation'] = cancel_counts['Cancellation'].astype(str).map({'True': 'Yes', 'False': 'No', 'true': 'Yes', 'false': 'No'})
             fig_cancel = px.pie(cancel_counts, values='Count', names='Cancellation',
                                color='Cancellation',
                                color_discrete_map={'Yes': '#EF553B', 'No': '#00CC96'},
@@ -265,14 +265,15 @@ with tab2:
             fig_cancel.update_layout(showlegend=False, margin=dict(t=20, b=20, l=20, r=20))
             st.plotly_chart(fig_cancel, use_container_width=True)
             
-            cancel_pct = final_projects['cancelltion'].sum() / len(final_projects) * 100
-            st.caption(f"{final_projects['cancelltion'].sum()} projects ({cancel_pct:.1f}%) had subcomponent cancellations")
+            cancel_count = (final_projects['cancellation'].astype(str).str.lower() == 'true').sum()
+            cancel_pct = cancel_count / len(final_projects) * 100
+            st.caption(f"{cancel_count} projects ({cancel_pct:.1f}%) had subcomponent cancellations")
         
         with col2:
             st.subheader("Project Subcomponent Expansion")
             add_counts = final_projects['addition'].value_counts().reset_index()
             add_counts.columns = ['Addition', 'Count']
-            add_counts['Addition'] = add_counts['Addition'].map({True: 'Yes', False: 'No'})
+            add_counts['Addition'] = add_counts['Addition'].astype(str).map({'True': 'Yes', 'False': 'No', 'true': 'Yes', 'false': 'No'})
             fig_add = px.pie(add_counts, values='Count', names='Addition',
                             color='Addition',
                             color_discrete_map={'Yes': '#636EFA', 'No': '#FECB52'},
@@ -281,8 +282,9 @@ with tab2:
             fig_add.update_layout(showlegend=False, margin=dict(t=20, b=20, l=20, r=20))
             st.plotly_chart(fig_add, use_container_width=True)
             
-            add_pct = final_projects['addition'].sum() / len(final_projects) * 100
-            st.caption(f"{final_projects['addition'].sum()} projects ({add_pct:.1f}%) had subcomponent expansions")
+            add_count = (final_projects['addition'].astype(str).str.lower() == 'true').sum()
+            add_pct = add_count / len(final_projects) * 100
+            st.caption(f"{add_count} projects ({add_pct:.1f}%) had subcomponent expansions")
         
         st.markdown("---")
         
