@@ -254,7 +254,7 @@ with tab2:
         
         with col1:
             st.subheader("Project Subcomponent Cancellation")
-            cancel_counts = final_projects['cancellation'].value_counts().reset_index()
+            cancel_counts = final_projects['cancelltion'].value_counts().reset_index()
             cancel_counts.columns = ['Cancellation', 'Count']
             cancel_counts['Cancellation'] = cancel_counts['Cancellation'].map({True: 'Yes', False: 'No'})
             fig_cancel = px.pie(cancel_counts, values='Count', names='Cancellation',
@@ -265,8 +265,8 @@ with tab2:
             fig_cancel.update_layout(showlegend=False, margin=dict(t=20, b=20, l=20, r=20))
             st.plotly_chart(fig_cancel, use_container_width=True)
             
-            cancel_pct = final_projects['cancellation'].sum() / len(final_projects) * 100
-            st.caption(f"{final_projects['cancellation'].sum()} projects ({cancel_pct:.1f}%) had subcomponent cancellations")
+            cancel_pct = final_projects['cancelltion'].sum() / len(final_projects) * 100
+            st.caption(f"{final_projects['cancelltion'].sum()} projects ({cancel_pct:.1f}%) had subcomponent cancellations")
         
         with col2:
             st.subheader("Project Subcomponent Expansion")
