@@ -625,10 +625,38 @@ with tab4:
         st.markdown("---")
         
         st.subheader("Text Data Overview")
-        # Load text data if available
-        # text_data = pd.read_json(BASE / "text_data_sample.json")
-        # st.dataframe(text_data, use_container_width=True)
-        st.info("🚧 Text data preview coming soon")
+        
+        # Load text data
+        text_data = pd.read_json(BASE / "text_data_sample.json")
+        
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.metric("Total Categories", len(text_data))
+        with col2:
+            st.metric("Pillars", text_data['pillar'].nunique())
+        with col3:
+            pillar_counts = text_data['pillar'].value_counts()
+            st.metric("E / S / G", f"{pillar_counts.get('E', 0)} / {pillar_counts.get('S', 0)} / {pillar_counts.get('G', 0)}")
+        
+        st.dataframe(text_data[['pillar', 'category', 'description']], use_container_width=True, hide_index=True)
+        
+        # Dropdown to select a category
+        selected_category = st.selectbox(
+            "Select a category to view text data:",
+            options=text_data['category'].tolist(),
+            format_func=lambda x: f"{text_data[text_data['category']==x]['pillar'].values[0]} - {x}: {text_data[text_data['category']==x]['description'].values[0]}"
+        )
+        
+        with st.expander(f"📄 View full text for: {selected_category}"):
+            full_text = text_data[text_data['category'] == selected_category]['text_cleaned'].values[0]
+            pillar = text_data[text_data['category'] == selected_category]['pillar'].values[0]
+            
+            # Color by pillar
+            bg_colors = {'E': '#e8f4e8', 'S': '#e8f0f4', 'G': '#fef4e8'}
+            bg_color = bg_colors.get(pillar, '#f0f0f0')
+            
+            st.markdown(f"<div style='background-color:{bg_color}; padding:15px; border-radius:10px; max-height:400px; overflow-y:auto; font-size:13px;'>{full_text}</div>", unsafe_allow_html=True)
+            
     
     with subtab2:
         st.header("Text Preprocessing Steps")
