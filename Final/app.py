@@ -182,148 +182,6 @@ with tab1:
     # fig_timeline.update_layout(margin=dict(t=30, b=20, l=20, r=20))
     # st.plotly_chart(fig_timeline, use_container_width=True)
 
-with tab3:
-    st.title("ESG Risks in Infrastructure Projects")
-    st.markdown("##### Large-scale infrastructure projects are physically large, complex, unique, involves a lot of stakeholders and shareholders, and have great impacts on society. Due to this nature, they inherently involve various environmental, social, and governance (ESG) challenges. According to World Bank, those risks can be categorized into the following categories.")
-    st.markdown("##### To see what risks exist in projects, relevant terms were extracted from the following two World Bank documents.")
-    
-    st.markdown("---")
-    
-    col1, col2, col3 = st.columns([1, 2, 0.5])
-    with col1:
-        st.image(BASE / "es.png", width=250)
-    with col2:
-        st.markdown("**Environmental and Social Management Framework**")
-        st.markdown("   Env 1. Resource Efficiency and Pollution Prevention and Management")
-        st.markdown("   Env 2. Biodiversity Conservation and Sustainable Management of Living Natural Resources")
-        st.markdown("Soc 1. Labor and Working Conditions")
-        st.markdown("Soc 2. Community  Health and Safety")
-        st.markdown("Soc 3. Land Acquisition, Restrictions on Land Use and Involuntary Resettlement")
-        st.markdown("Soc 4. Indigenous Peoples/Sub-Saharan African Historically Underserved Traditional Local Communities")
-        st.markdown("Soc 5. Cultural Heritage")
-    
-    col1, col2, col3 = st.columns([1, 2, 0.5])
-    with col1:
-        st.image(BASE / "gov.png", width=250)
-    with col2:
-        st.markdown("**Governance Framework**")
-        st.markdown("Gov 1. Legal Framework and Institutional Capacity")
-        st.markdown("Gov 2. Economic Efficiency and Value for Money")
-        st.markdown("Gov 3. Fiscal Affordability and Sustainability")
-        st.markdown("Gov 4. Procurement and Contract Management")
-        st.markdown("Gov 5. Contract Management and O&M'")
-        st.markdown("Gov 6. Transparency and Information Access")
-        st.markdown("Gov 7. Integrity and Misconduct Risk")
-    
-    st.markdown("---")
-    
-    # Load and display seed source documents
-    st.subheader("Source Documents for Term Extraction")
-    seed_source = pd.read_json(BASE / "seed_streamlit.json")
-    
-    st.dataframe(seed_source[['pillar', 'category', 'description']], use_container_width=True, hide_index=True)
-    
-    # Dropdown to select a category and view full text
-    selected_row = st.selectbox(
-        "Select a category to view full text:",
-        options=seed_source['category'].tolist(),
-        format_func=lambda x: f"{seed_source[seed_source['category']==x]['pillar'].values[0]} - {x}"
-    )
-    
-    with st.expander(f"View full text for: {selected_row}"):
-        full_text = seed_source[seed_source['category'] == selected_row]['text_cleaned'].values[0]
-        st.markdown(f"<div style='background-color:#f0f0f0; padding:15px; border-radius:10px; max-height:400px; overflow-y:auto;'>{full_text}</div>", unsafe_allow_html=True)
-    
-    st.markdown("---")
-    # Text Data Preprocessing Section
-    st.subheader("Text Data Preprocessing")
-    
-    st.markdown("##### N-gram Extraction Process")
-    
-    st.markdown("""
-    For text analysis, bigrams and trigrams were extracted using specific POS (Part-of-Speech) patterns 
-    to capture meaningful multi-word terms relevant to ESG risks.
-    """)
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.markdown("**Bigram Patterns (2-word terms)**")
-        st.code("""
-bigram_patterns = {
-    ('ADJ', 'NOUN'),   # e.g., "environmental impact"
-    ('NOUN', 'NOUN')   # e.g., "water supply"
-}
-        """, language="python")
-    
-    with col2:
-        st.markdown("**Trigram Patterns (3-word terms)**")
-        st.code("""
-trigram_patterns = {
-    ('ADJ', 'ADJ', 'NOUN'),    # e.g., "local indigenous community"
-    ('ADJ', 'NOUN', 'NOUN'),   # e.g., "environmental impact assessment"
-    ('NOUN', 'NOUN', 'NOUN')   # e.g., "water treatment plant"
-}
-        """, language="python")
-    
-    st.markdown("##### Filtering and Selection Process")
-    
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
-        st.info("**Step 1: Pattern Matching**\n\nExtract n-grams matching the defined POS patterns using spaCy NLP")
-    
-    with col2:
-        st.info("**Step 2: Frequency Filtering**\n\nPreserve important n-grams based on percentile thresholds and document frequency")
-    
-    with col3:
-        st.info("**Step 3: TF-IDF Scoring**\n\nRank and select final terms based on TF-IDF scores across categories")
-
-    # Load seed terms
-    seed_terms = pd.read_csv(BASE / "seed_final.csv")
-    
-    st.subheader("ESG Risk Categories and Important Terms")
-    st.markdown("##### These terms are extracted from the World Bank documents using TF-IDF scores for each pillar (E/S/G) and for each category. There were total of 14 subcategories, thus each category was considered as one document.")
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        # First dropdown: Pillar (E, S, G order)
-        pillar_order = ['E', 'S', 'G']
-        pillar_labels = {'E': 'Environmental', 'S': 'Social', 'G': 'Governance'}
-        selected_pillar = st.selectbox(
-            "Select Pillar",
-            options=pillar_order,
-            format_func=lambda x: pillar_labels[x]
-        )
-    
-    with col2:
-        # Second dropdown: Category (filtered by selected pillar)
-        categories = seed_terms[seed_terms['pillar'] == selected_pillar]['category'].unique()
-        selected_category = st.selectbox(
-            "Select Category",
-            options=categories
-        )
-    
-    # Filter terms
-    filtered_terms = seed_terms[
-        (seed_terms['pillar'] == selected_pillar) & 
-        (seed_terms['category'] == selected_category)
-    ]['term'].tolist()
-    
-    st.markdown(f"**{len(filtered_terms)} terms in {selected_category}:**")
-    
-    # Color by pillar
-    pillar_colors = {'E': '#81C784', 'S': '#64B5F6', 'G': '#FFB74D'}
-    color = pillar_colors[selected_pillar]
-    
-    tags_html = " ".join([
-        f'<span style="background-color:{color}; padding:6px 12px; margin:4px; border-radius:20px; display:inline-block; font-size:14px;">{term}</span>' 
-        for term in filtered_terms
-    ])
-    st.markdown(tags_html, unsafe_allow_html=True)
-    st.markdown("---")
-
 
 with tab2:
     st.title("Project Metadata & Preprocessing")
@@ -591,15 +449,153 @@ with tab2:
         with col4:
             st.metric("Expansion Rate", f"{add_pct:.1f}%")
 
+with tab3:
+    st.title("ESG Risks in Infrastructure Projects")
+    st.markdown("##### Large-scale infrastructure projects are physically large, complex, unique, involves a lot of stakeholders and shareholders, and have great impacts on society. Due to this nature, they inherently involve various environmental, social, and governance (ESG) challenges. According to World Bank, those risks can be categorized into the following categories.")
+    st.markdown("##### To see what risks exist in projects, relevant terms were extracted from the following two World Bank documents.")
+    
+    st.markdown("---")
+    
+    col1, col2, col3 = st.columns([1, 2, 0.5])
+    with col1:
+        st.image(BASE / "es.png", width=250)
+    with col2:
+        st.markdown("**Environmental and Social Management Framework**")
+        st.markdown("   Env 1. Resource Efficiency and Pollution Prevention and Management")
+        st.markdown("   Env 2. Biodiversity Conservation and Sustainable Management of Living Natural Resources")
+        st.markdown("Soc 1. Labor and Working Conditions")
+        st.markdown("Soc 2. Community  Health and Safety")
+        st.markdown("Soc 3. Land Acquisition, Restrictions on Land Use and Involuntary Resettlement")
+        st.markdown("Soc 4. Indigenous Peoples/Sub-Saharan African Historically Underserved Traditional Local Communities")
+        st.markdown("Soc 5. Cultural Heritage")
+    
+    col1, col2, col3 = st.columns([1, 2, 0.5])
+    with col1:
+        st.image(BASE / "gov.png", width=250)
+    with col2:
+        st.markdown("**Governance Framework**")
+        st.markdown("Gov 1. Legal Framework and Institutional Capacity")
+        st.markdown("Gov 2. Economic Efficiency and Value for Money")
+        st.markdown("Gov 3. Fiscal Affordability and Sustainability")
+        st.markdown("Gov 4. Procurement and Contract Management")
+        st.markdown("Gov 5. Contract Management and O&M'")
+        st.markdown("Gov 6. Transparency and Information Access")
+        st.markdown("Gov 7. Integrity and Misconduct Risk")
+    
+    st.markdown("---")
+    
+    # Load and display seed source documents
+    st.subheader("Source Documents for Term Extraction")
+    seed_source = pd.read_json(BASE / "seed_streamlit.json")
+    
+    st.dataframe(seed_source[['pillar', 'category', 'description']], use_container_width=True, hide_index=True)
+    
+    # Dropdown to select a category and view full text
+    selected_row = st.selectbox(
+        "Select a category to view full text:",
+        options=seed_source['category'].tolist(),
+        format_func=lambda x: f"{seed_source[seed_source['category']==x]['pillar'].values[0]} - {x}"
+    )
+    
+    with st.expander(f"View full text for: {selected_row}"):
+        full_text = seed_source[seed_source['category'] == selected_row]['text_cleaned'].values[0]
+        st.markdown(f"<div style='background-color:#f0f0f0; padding:15px; border-radius:10px; max-height:400px; overflow-y:auto;'>{full_text}</div>", unsafe_allow_html=True)
+    
+    st.markdown("---")
+    # Text Data Preprocessing Section
+    st.subheader("Text Data Preprocessing")
+    
+    st.markdown("##### N-gram Extraction Process")
+    
+    st.markdown("""
+    For text analysis, bigrams and trigrams were extracted using specific POS (Part-of-Speech) patterns 
+    to capture meaningful multi-word terms relevant to ESG risks.
+    """)
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("**Bigram Patterns (2-word terms)**")
+        st.code("""
+bigram_patterns = {
+    ('ADJ', 'NOUN'),   # e.g., "environmental impact"
+    ('NOUN', 'NOUN')   # e.g., "water supply"
+}
+        """, language="python")
+    
+    with col2:
+        st.markdown("**Trigram Patterns (3-word terms)**")
+        st.code("""
+trigram_patterns = {
+    ('ADJ', 'ADJ', 'NOUN'),    # e.g., "local indigenous community"
+    ('ADJ', 'NOUN', 'NOUN'),   # e.g., "environmental impact assessment"
+    ('NOUN', 'NOUN', 'NOUN')   # e.g., "water treatment plant"
+}
+        """, language="python")
+    
+    st.markdown("##### Filtering and Selection Process")
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.info("**Step 1: Pattern Matching**\n\nExtract n-grams matching the defined POS patterns using spaCy NLP")
+    
+    with col2:
+        st.info("**Step 2: Frequency Filtering**\n\nPreserve important n-grams based on percentile thresholds and document frequency")
+    
+    with col3:
+        st.info("**Step 3: TF-IDF Scoring**\n\nRank and select final terms based on TF-IDF scores across categories")
+
+    # Load seed terms
+    seed_terms = pd.read_csv(BASE / "seed_final.csv")
+    
+    st.subheader("ESG Risk Categories and Important Terms")
+    st.markdown("##### These terms are extracted from the World Bank documents using TF-IDF scores for each pillar (E/S/G) and for each category. There were total of 14 subcategories, thus each category was considered as one document.")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        # First dropdown: Pillar (E, S, G order)
+        pillar_order = ['E', 'S', 'G']
+        pillar_labels = {'E': 'Environmental', 'S': 'Social', 'G': 'Governance'}
+        selected_pillar = st.selectbox(
+            "Select Pillar",
+            options=pillar_order,
+            format_func=lambda x: pillar_labels[x]
+        )
+    
+    with col2:
+        # Second dropdown: Category (filtered by selected pillar)
+        categories = seed_terms[seed_terms['pillar'] == selected_pillar]['category'].unique()
+        selected_category = st.selectbox(
+            "Select Category",
+            options=categories
+        )
+    
+    # Filter terms
+    filtered_terms = seed_terms[
+        (seed_terms['pillar'] == selected_pillar) & 
+        (seed_terms['category'] == selected_category)
+    ]['term'].tolist()
+    
+    st.markdown(f"**{len(filtered_terms)} terms in {selected_category}:**")
+    
+    # Color by pillar
+    pillar_colors = {'E': '#81C784', 'S': '#64B5F6', 'G': '#FFB74D'}
+    color = pillar_colors[selected_pillar]
+    
+    tags_html = " ".join([
+        f'<span style="background-color:{color}; padding:6px 12px; margin:4px; border-radius:20px; display:inline-block; font-size:14px;">{term}</span>' 
+        for term in filtered_terms
+    ])
+    st.markdown(tags_html, unsafe_allow_html=True)
+    st.markdown("---")
+
 with tab4:
     st.title("Project Text Data & NLP Analysis")
-    
-    # Create sub-tabs
     subtab1, subtab2 = st.tabs(["Raw Text Data", "Text Preprocessing"])
-    
     with subtab1:
         st.header("Text Data for Projects")
-        
         st.markdown("""
         Source: World Bank\n
         Each project has two key documents that are analyzed:
@@ -608,63 +604,43 @@ with tab4:
         """)
         st.subheader("Sample Documents")
         col1, col2 = st.columns(2)
-        
         with col1:
             st.markdown("**Project Appraisal Document (at Planning stage)**")
             with open(BASE / "P130164_PAD.pdf", "rb") as f:
                 st.download_button("📥 Download Sample PAD", f, file_name="P130164_PAD.pdf")
-        
         with col2:
             st.markdown("**Implementation Completion Report (after completion)**")
             with open(BASE / "P130164_ICR.pdf", "rb") as f:
                 st.download_button("📥 Download Sample ICR", f, file_name="P130164_ICR.pdf")
-        
         st.markdown("---")
-        
         st.subheader("Text Data Overview")
-        
-        # Load text data
         text_data = pd.read_json(BASE / "text_data_sample.json")
-        
         col1, col2 = st.columns(2)
         with col1:
             st.metric("Total Projects", len(text_data))
         with col2:
             st.metric("Text Columns", "2 (Appraisal & Completion)")
-        
         st.dataframe(text_data[['projectid']], use_container_width=True, hide_index=True)
-        
-        # Dropdown to select a project
         selected_project = st.selectbox(
             "Select a project to view text data:",
             options=text_data['projectid'].tolist()
         )
-        
-        # Function to get first N words
         def get_first_n_words(text, n=1000):
             words = str(text).split()
             if len(words) <= n:
                 return text
             return ' '.join(words[:n]) + ' ...'
-        
-        # Get texts for selected project
         row = text_data[text_data['projectid'] == selected_project].iloc[0]
         appraisal_text = get_first_n_words(row['text_appraisal_ngram'], 1000)
         completion_text = get_first_n_words(row['text_completion_ngram'], 1000)
-        
-        # Show both texts side by side
         col1, col2 = st.columns(2)
-        
         with col1:
             st.markdown("**📄 Appraisal Text (first 1000 words)**")
             st.markdown(f"<div style='background-color:#e8f4e8; padding:15px; border-radius:10px; max-height:500px; overflow-y:auto; font-size:12px;'>{appraisal_text}</div>", unsafe_allow_html=True)
-        
         with col2:
             st.markdown("**📄 Completion Text (first 1000 words)**")
             st.markdown(f"<div style='background-color:#e8f0f4; padding:15px; border-radius:10px; max-height:500px; overflow-y:auto; font-size:12px;'>{completion_text}</div>", unsafe_allow_html=True)
-        
         st.caption("Note: Showing first 1000 words of each document. Full text is preprocessed with n-grams (underscores indicate multi-word terms).")
-    
     with subtab2:
         st.header("Text Preprocessing Steps")
         st.info("🚧 Text preprocessing documentation coming soon")
