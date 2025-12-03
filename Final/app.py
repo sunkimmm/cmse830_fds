@@ -19,10 +19,11 @@ st.title("Large-scale Infrastructure Project: ESG Risk Analysis")
 # create tab
 tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "👀 Project Summary",
+    "ESG Risks in Infrastructure Projects",
     "Project Metadata & Preprocessing",
     "Project Text Data & NLP Analysis",
     "⚠️ Risk Analysis",
-    "Additional Analysis",
+    
 ])
 
 BASE = Path(__file__).parent
@@ -180,7 +181,7 @@ with tab1:
     fig_timeline.update_layout(margin=dict(t=30, b=20, l=20, r=20))
     st.plotly_chart(fig_timeline, use_container_width=True)
 
-with tab2:
+with tab3:
     st.title("Project Metadata & Preprocessing")
     
     # Create sub-tabs for better organization
@@ -446,7 +447,7 @@ with tab2:
         with col4:
             st.metric("Expansion Rate", f"{add_pct:.1f}%")
 
-with tab3:
+with tab4:
     st.title("Project Text Data & NLP Analysis")
     
     # Create sub-tabs
@@ -487,8 +488,5 @@ with tab3:
         st.info("🚧 Text preprocessing documentation coming soon")
         # Add your text preprocessing steps here later
 
-with tab4:
-    st.title("⚠️ Risk Analysis")
-
 with tab5:
-    st.title("Additional Analysis")
+    st.title("⚠️ Risk Analysis")
