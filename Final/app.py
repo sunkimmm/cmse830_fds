@@ -621,7 +621,6 @@ with tab4:
             st.metric("Total Projects", len(text_data))
         with col2:
             st.metric("Text Columns", "2 (Appraisal & Completion)")
-        st.dataframe(text_data[['projectid']], use_container_width=True, hide_index=True)
         selected_project = st.selectbox("Select a project to view text data:", options=text_data['projectid'].tolist())
         def get_first_n_words(text, n=1000):
             words = str(text).split()
