@@ -193,8 +193,8 @@ with tab2:
         st.image(BASE / "es.png", width=250)
     with col2:
         st.markdown("**Environmental and Social Management Framework**")
-        st.markdown("Env 1. Resource Efficiency and Pollution Prevention and Management")
-        st.markdown("Env 2. Biodiversity Conservation and Sustainable Management of Living Natural Resources")
+        st.markdown("   Env 1. Resource Efficiency and Pollution Prevention and Management")
+        st.markdown("   Env 2. Biodiversity Conservation and Sustainable Management of Living Natural Resources")
         st.markdown("Soc 1. Labor and Working Conditions")
         st.markdown("Soc 2. Community  Health and Safety")
         st.markdown("Soc 3. Land Acquisition, Restrictions on Land Use and Involuntary Resettlement")
