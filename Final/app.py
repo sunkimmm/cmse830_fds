@@ -188,11 +188,11 @@ with tab2:
     
     st.markdown("---")
     
-    col1, col2 = st.columns([1, 1])
+    col1, col2 = st.columns(2)
     with col1:
-        st.image(BASE / "es.png", caption="Environmental & Social Risks", use_container_width=True)
+        st.image(BASE / "es.png", caption="Environmental & Social Risks", width=400)
     with col2:
-        st.image(BASE / "gov.png", caption="Governance Risks", use_container_width=True)
+        st.image(BASE / "gov.png", caption="Governance Risks", width=400)
     
     st.markdown("---")
 
@@ -229,16 +229,29 @@ with tab2:
     
     st.markdown(f"**{len(filtered_terms)} terms in {selected_category}:**")
     
-    # Color by pillar
-    pillar_colors = {'E': '#81C784', 'S': '#64B5F6', 'G': '#FFB74D'}
-    color = pillar_colors[selected_pillar]
+    view_tab1, view_tab2 = st.tabs(["Word Cloud", "Tags"])
     
-    tags_html = " ".join([
-        f'<span style="background-color:{color}; padding:6px 12px; margin:4px; border-radius:20px; display:inline-block; font-size:14px;">{term}</span>' 
-        for term in filtered_terms
-    ])
-    st.markdown(tags_html, unsafe_allow_html=True)
+    with view_tab1:
+        from wordcloud import WordCloud
+        import matplotlib.pyplot as plt
+        
+        text = " ".join(filtered_terms)
+        wordcloud = WordCloud(width=800, height=400, background_color='white',
+                             colormap='viridis').generate(text)
+        fig, ax = plt.subplots(figsize=(10, 5))
+        ax.imshow(wordcloud, interpolation='bilinear')
+        ax.axis('off')
+        st.pyplot(fig)
     
+    with view_tab2:
+        pillar_colors = {'E': '#81C784', 'S': '#64B5F6', 'G': '#FFB74D'}
+        color = pillar_colors[selected_pillar]
+        tags_html = " ".join([
+            f'<span style="background-color:{color}; padding:6px 12px; margin:4px; border-radius:20px; display:inline-block; font-size:14px;">{term}</span>' 
+            for term in filtered_terms
+        ])
+        st.markdown(tags_html, unsafe_allow_html=True)
+
 
 with tab3:
     st.title("Project Metadata & Preprocessing")
