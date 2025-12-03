@@ -15,3 +15,14 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
+
+
+
+# create tab
+tab1, tab2, tab3, tab4, tab5 = st.tabs([
+    "🔍 Project Overview",
+    "📌 Key Findings Summary",
+    "⚠️ Risk Analysis",
+    "👀 Additional Analysis",
+    "📊 Data & Processing"
+])
