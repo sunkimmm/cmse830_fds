@@ -616,11 +616,16 @@ with tab4:
         st.markdown("---")
         st.subheader("Text Data Overview")
         text_data = pd.read_json(BASE / "text_data_sample.json")
-        col1, col2 = st.columns(2)
+        col1, col2, col3, col4 = st.columns(4)
         with col1:
             st.metric("Total Projects", len(text_data))
         with col2:
             st.metric("Text Columns", "2 (Appraisal & Completion)")
+        with col3:
+            st.metric("Appraisal Documents", "6,728,587 words", "24,031 avg per project")
+        with col4:
+            st.metric("Completion Documents", "3,716,244 words", "13,272 avg per project")
+
         selected_project = st.selectbox("Select a project to view text data:", options=text_data['projectid'].tolist())
         def get_first_n_words(text, n=1000):
             words = str(text).split()
