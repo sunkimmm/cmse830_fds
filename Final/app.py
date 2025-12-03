@@ -74,20 +74,13 @@ with tab5:
         
         with col1:
             st.markdown("**Project Appraisal Document (at Planning stage)**")
-            try:
-                st.markdown(display_pdf(BASE / "P130164_PAD.pdf"), unsafe_allow_html=True)
-            except:
-                st.warning("PDF preview not available")
-                with open(BASE / "P130164_PAD.pdf", "rb") as f:
-                    st.download_button("📥 Download PAD", f, file_name="P130164_PAD.pdf")
-        with col1:
-            st.markdown("**Project Completion Document (after completion)**")
-            try:
-                st.markdown(display_pdf(BASE / "P130164_ICR.pdf"), unsafe_allow_html=True)
-            except:
-                st.warning("PDF preview not available")
-                with open(BASE / "P130164_ICR.pdf", "rb") as f:
-                    st.download_button("📥 Download ICR", f, file_name="P130164_ICR.pdf")
+            with open(BASE / "P130164_PAD.pdf", "rb") as f:
+                st.download_button("📥 Download PAD", f, file_name="P130164_PAD.pdf")
+        
+        with col2:
+            st.markdown("**Implementation Completion Report (after completion)**")
+            with open(BASE / "P130164_ICR.pdf", "rb") as f:
+                st.download_button("📥 Download ICR", f, file_name="P130164_ICR.pdf")
     
     with subtab2:
         st.header("Data Preprocessing")
