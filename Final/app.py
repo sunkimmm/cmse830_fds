@@ -395,7 +395,7 @@ with tab2:
         
         st.markdown("---")
         
-# Row 2: Cancellation & Addition
+        # Row 2: Cancellation & Addition
         col1, col2 = st.columns(2)
         
         with col1:
