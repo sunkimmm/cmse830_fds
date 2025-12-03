@@ -8,3 +8,10 @@ st.write(
     using text analysis / NLP methods.
     """
 )
+
+st.set_page_config(
+    page_title="Infrastructure Project ESG Risk Analysis",
+    page_icon="🏗️",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
