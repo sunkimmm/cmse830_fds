@@ -196,15 +196,16 @@ with tab5:
         
         st.markdown("---")
         
-        # 5. Megaproject Classification
         st.subheader("5. Megaproject Classification")
         
-        col1, col2, col3 = st.columns(3)
+        col1, col2 = st.columns(2)
         with col1:
-            st.metric("≥$1B", "198", "42.9%")
+            st.metric("Large-scape Projects (Project Cost ≥$500M)", "280", "60.6%")
         with col2:
-            st.metric("≥$500M", "280", "60.6%")
-        with col3:
-            st.metric("<$500M", "182", "39.4%")
-                
+            st.metric("Regular Projects (Project Cost <$500M)", "182", "39.4%")
+        
         st.success("**Selected for analysis: 280 projects (≥$500M threshold)**")
+        
+        with st.expander("View Final Project List"):
+            final_projects = pd.read_csv(BASE / "fin_project_metadata_280.csv")
+            st.dataframe(final_projects, use_container_width=True, hide_index=True)
