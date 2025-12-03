@@ -27,6 +27,11 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "📊 Data & Processing"
 ])
 
+
+BASE = Path(__file__).parent
+wb_plr = pd.read_csv(BASE / "WB_PLR.csv")
+ppi = pd.read_csv(BASE / "IMF_US_PPI.csv")
+
 with tab5:
     st.title("📊 Data & Processing")
     
