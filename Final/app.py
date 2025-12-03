@@ -19,8 +19,8 @@ st.title("Large-scale Infrastructure Project: ESG Risk Analysis")
 # create tab
 tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "Project Summary",
-    "ESG Risks in Projects",
     "Project Metadata & Preprocessing",
+    "ESG Risks in Projects",
     "Project Text Data & NLP Analysis",
     " Risk Analysis",
     
