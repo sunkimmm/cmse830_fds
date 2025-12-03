@@ -188,11 +188,11 @@ with tab2:
     
     st.markdown("---")
     
-    col1, col2 = st.columns(2)
+    col1, col2 = st.columns([1, 1])
     with col1:
-        st.image(BASE / "es.png", caption="Environmental & Social Risks", width=400)
+        st.image(BASE / "es.png", caption="Environmental & Social Risks", use_container_width=True)
     with col2:
-        st.image(BASE / "gov.png", caption="Governance Risks", width=400)
+        st.image(BASE / "gov.png", caption="Governance Risks", use_container_width=True)
     
     st.markdown("---")
     
