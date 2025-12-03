@@ -188,25 +188,19 @@ with tab2:
     
     st.markdown("---")
     
-    st.markdown("**Environmental & Social Framework**")
-    col1, col2 = st.columns([1, 2])
+    col1, col2, col3 = st.columns([1, 2, 0.5])
     with col1:
-        st.image(BASE / "es.png", width=300)
+        st.image(BASE / "es.png", width=250)
     with col2:
-        st.markdown("")
-        st.markdown("")
-        st.info("**Environmental and Social Management Framework**\n\n2 Environmental categories and 5 Social categories are discussed.")
+        st.markdown("**Environmental and Social Management Framework**")
+        st.caption("2 Environmental categories and 5 Social categories are discussed.")
     
-    st.markdown("")
-    
-    st.markdown("**Governance Framework**")
-    col1, col2 = st.columns([1, 2])
+    col1, col2, col3 = st.columns([1, 2, 0.5])
     with col1:
-        st.image(BASE / "gov.png", width=300)
+        st.image(BASE / "gov.png", width=250)
     with col2:
-        st.markdown("")
-        st.markdown("")
-        st.info("**Governance Framework**\n\n7 Governance categories are discussed.")
+        st.markdown("**Governance Framework**")
+        st.caption("7 Governance categories are discussed.")
     
     st.markdown("---")
     
