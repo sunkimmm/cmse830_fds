@@ -182,7 +182,7 @@ with tab1:
     fig_timeline.update_layout(margin=dict(t=30, b=20, l=20, r=20))
     st.plotly_chart(fig_timeline, use_container_width=True)
 
-with tab2:
+with tab3:
     st.title("ESG Risks in Infrastructure Projects")
     st.markdown("##### Large-scale infrastructure projects are physically large, complex, unique, involves a lot of stakeholders and shareholders, and have great impacts on society. Due to this nature, they inherently involve various environmental, social, and governance (ESG) challenges. According to World Bank, those risks can be categorized into the following categories.")
     st.markdown("##### To see what risks exist in projects, relevant terms were extracted from the following two World Bank documents.")
@@ -327,7 +327,7 @@ trigram_patterns = {
     
     st.markdown("---")
 
-with tab3:
+with tab2:
     st.title("Project Metadata & Preprocessing")
     
     # Create sub-tabs for better organization
