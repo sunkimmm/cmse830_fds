@@ -197,7 +197,7 @@ with tab2:
     st.markdown("---")
 
     # Load seed terms
-    seed_terms = pd.read_csv(BASE / "seed_terms.csv")  # adjust filename
+    seed_terms = pd.read_csv(BASE / "seed_final.csv")  # adjust filename
     
     st.subheader("ESG Risk Categories and Seed Terms")
     
