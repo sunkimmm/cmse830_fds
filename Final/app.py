@@ -1,6 +1,11 @@
 import streamlit as st
 from pathlib import Path
 import pandas as pd
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+from scipy import stats
+import numpy as np
+import plotly.express as px
 
 st.set_page_config(
     page_title="Infrastructure Project ESG Risk Analysis",
@@ -36,37 +41,10 @@ with tab2:
     st.title("Project Metadata & Preprocessing")
     
     # Create sub-tabs for better organization
-    subtab1, subtab2, subtab3 = st.tabs(["Raw Data", "Preprocessing", "Final Data for Analysis"])
+    subtab1, subtab2, subtab3 = st.tabs(["Data Processing", "Data (Raw & Processed)", "Initial/Exploratory Data Analysis"])
     
     with subtab1:
-        st.header("Metadata for Projects")
-        st.markdown("""
-        Source: World Bank\n
-        This data was complied using various data sources in World Bank.
-        """)
-        DATA_PATH = BASE / "cost_converted_462projects.csv"
-        df = pd.read_csv(DATA_PATH)
-        
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            st.metric("Projects", len(df))
-        with col2:
-            st.metric("Columns", len(df.columns))
-        with col3:
-            st.metric("Year Range", f"{df['approval_year'].min()} - {df['approval_year'].max()}")
-        
-        st.dataframe(df.head(100), use_container_width=True)
-        
-        with st.expander("View Column Schema"):
-            schema_df = pd.DataFrame({
-                'Column': df.columns,
-                'Type': df.dtypes.astype(str).values,
-                'Non-Null': df.notna().sum().values
-            })
-            st.dataframe(schema_df, use_container_width=True, hide_index=True)
-    
-    with subtab2:
-        st.header("Data Preprocessing")
+        st.header("Data Processing")
         
         st.markdown("""
         This summarizes the data preprocessing steps performed to convert World Bank project costs 
@@ -191,8 +169,34 @@ with tab2:
         
         st.success("**Selected for analysis: 280 projects (≥$500M threshold)**")
         st.markdown("Final project list can be downloaded in the next tab.")
-    
-    with subtab3:
+
+    with subtab2:
+        st.header("Raw Data for Projects (Metadata)")
+        st.markdown("""
+        Source: World Bank\n
+        This data was complied using various data sources in World Bank.
+        """)
+        DATA_PATH = BASE / "cost_converted_462projects.csv"
+        df = pd.read_csv(DATA_PATH)
+        
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.metric("Projects", len(df))
+        with col2:
+            st.metric("Columns", len(df.columns))
+        with col3:
+            st.metric("Year Range", f"{df['approval_year'].min()} - {df['approval_year'].max()}")
+        
+        st.dataframe(df.head(100), use_container_width=True)
+        
+        with st.expander("View Column Schema"):
+            schema_df = pd.DataFrame({
+                'Column': df.columns,
+                'Type': df.dtypes.astype(str).values,
+                'Non-Null': df.notna().sum().values
+            })
+            st.dataframe(schema_df, use_container_width=True, hide_index=True)
+
         st.header("Final Data for Analysis")
         final_projects = pd.read_csv(BASE / "fin_project_metadata_280.csv")
         
@@ -203,6 +207,94 @@ with tab2:
             st.metric("Columns", len(final_projects.columns))
         
         st.dataframe(final_projects, use_container_width=True, hide_index=True)
+    
+    with subtab3:
+        st.header("Initial/Exploratory Data Analysis")
+        
+        final_projects = pd.read_csv(BASE / "fin_project_metadata_280.csv")
+        
+        import plotly.express as px
+        import plotly.graph_objects as go
+        
+        st.markdown("---")
+        
+        # Row 1: Sector Distribution & Cost Distribution
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.subheader("Project Sector Distribution")
+            sector_counts = final_projects['sector1'].value_counts().reset_index()
+            sector_counts.columns = ['Sector', 'Count']
+            fig_sector = px.pie(sector_counts, values='Count', names='Sector', 
+                               color_discrete_sequence=px.colors.qualitative.Set2,
+                               hole=0.3)
+            fig_sector.update_traces(textposition='inside', textinfo='percent+label')
+            fig_sector.update_layout(showlegend=False, margin=dict(t=20, b=20, l=20, r=20))
+            st.plotly_chart(fig_sector, use_container_width=True)
+        
+        with col2:
+            st.subheader("Project Cost Distribution (2019 USD)")
+            fig_cost = px.histogram(final_projects, x='base+contingency', 
+                                   nbins=20,
+                                   labels={'base+contingency': 'Project Cost (USD Million)'},
+                                   color_discrete_sequence=['#636EFA'])
+            fig_cost.update_layout(
+                xaxis_title="Project Cost (USD Million)",
+                yaxis_title="Number of Projects",
+                margin=dict(t=20, b=20, l=20, r=20)
+            )
+            st.plotly_chart(fig_cost, use_container_width=True)
+        
+        st.markdown("---")
+        
+        # Row 2: Cancellation & Addition
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.subheader("Project Subcomponent Cancellation")
+            cancel_counts = final_projects['cancellation'].value_counts().reset_index()
+            cancel_counts.columns = ['Cancellation', 'Count']
+            cancel_counts['Cancellation'] = cancel_counts['Cancellation'].map({True: 'Yes', False: 'No'})
+            fig_cancel = px.pie(cancel_counts, values='Count', names='Cancellation',
+                               color='Cancellation',
+                               color_discrete_map={'Yes': '#EF553B', 'No': '#00CC96'},
+                               hole=0.3)
+            fig_cancel.update_traces(textposition='inside', textinfo='percent+label')
+            fig_cancel.update_layout(showlegend=False, margin=dict(t=20, b=20, l=20, r=20))
+            st.plotly_chart(fig_cancel, use_container_width=True)
+            
+            cancel_pct = final_projects['cancellation'].sum() / len(final_projects) * 100
+            st.caption(f"{final_projects['cancellation'].sum()} projects ({cancel_pct:.1f}%) had subcomponent cancellations")
+        
+        with col2:
+            st.subheader("Project Subcomponent Expansion")
+            add_counts = final_projects['addition'].value_counts().reset_index()
+            add_counts.columns = ['Addition', 'Count']
+            add_counts['Addition'] = add_counts['Addition'].map({True: 'Yes', False: 'No'})
+            fig_add = px.pie(add_counts, values='Count', names='Addition',
+                            color='Addition',
+                            color_discrete_map={'Yes': '#636EFA', 'No': '#FECB52'},
+                            hole=0.3)
+            fig_add.update_traces(textposition='inside', textinfo='percent+label')
+            fig_add.update_layout(showlegend=False, margin=dict(t=20, b=20, l=20, r=20))
+            st.plotly_chart(fig_add, use_container_width=True)
+            
+            add_pct = final_projects['addition'].sum() / len(final_projects) * 100
+            st.caption(f"{final_projects['addition'].sum()} projects ({add_pct:.1f}%) had subcomponent expansions")
+        
+        st.markdown("---")
+        
+        # Summary statistics
+        st.subheader("Summary Statistics")
+        col1, col2, col3, col4 = st.columns(4)
+        with col1:
+            st.metric("Total Projects", len(final_projects))
+        with col2:
+            st.metric("Avg Cost", f"${final_projects['base+contingency'].mean():.0f}M")
+        with col3:
+            st.metric("Cancellation Rate", f"{cancel_pct:.1f}%")
+        with col4:
+            st.metric("Expansion Rate", f"{add_pct:.1f}%")
 
 with tab3:
     st.title("Project Text Data & NLP Analysis")
