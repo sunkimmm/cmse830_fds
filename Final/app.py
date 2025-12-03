@@ -41,7 +41,7 @@ with tab2:
     with subtab1:
         st.header("Metadata for Projects")
         st.markdown("""
-        Source: World Bank
+        Source: World Bank\n
         This data was complied using various data sources in World Bank.
         """)
         DATA_PATH = BASE / "cost_converted_462projects.csv"
