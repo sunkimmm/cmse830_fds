@@ -36,6 +36,7 @@ BASE = Path(__file__).parent
 
 with tab1:
     st.title("👀 Project Overview")
+        
     
     final_projects = pd.read_csv(BASE / "fin_project_metadata_280.csv")
     
@@ -55,6 +56,7 @@ with tab1:
     
     # Geographic Maps
     st.subheader("Geographic Distribution")
+    st.markdown("Hoover over the map to see detailed information for each country.")
     
     # Prepare data for choropleth maps
     country_total = final_projects.groupby('countryname').agg({
