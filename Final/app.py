@@ -22,7 +22,7 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "Project Metadata & Preprocessing",
     "ESG Risks in Projects",
     "Project Text Data & NLP Analysis",
-    " Risk Analysis",
+    "Risk Analysis",
     
 ])
 
@@ -517,20 +517,20 @@ with tab3:
     with col1:
         st.markdown("**Bigram Patterns (2-word terms)**")
         st.code("""
-bigram_patterns = {
-    ('ADJ', 'NOUN'),   # e.g., "environmental impact"
-    ('NOUN', 'NOUN')   # e.g., "water supply"
-}
+        bigram_patterns = {
+            ('ADJ', 'NOUN'),   # e.g., "environmental impact"
+            ('NOUN', 'NOUN')   # e.g., "water supply"
+        }
         """, language="python")
     
     with col2:
         st.markdown("**Trigram Patterns (3-word terms)**")
         st.code("""
-trigram_patterns = {
-    ('ADJ', 'ADJ', 'NOUN'),    # e.g., "local indigenous community"
-    ('ADJ', 'NOUN', 'NOUN'),   # e.g., "environmental impact assessment"
-    ('NOUN', 'NOUN', 'NOUN')   # e.g., "water treatment plant"
-}
+        trigram_patterns = {
+            ('ADJ', 'ADJ', 'NOUN'),    # e.g., "local indigenous community"
+            ('ADJ', 'NOUN', 'NOUN'),   # e.g., "environmental impact assessment"
+            ('NOUN', 'NOUN', 'NOUN')   # e.g., "water treatment plant"
+        }
         """, language="python")
     
     st.markdown("##### Filtering and Selection Process")
@@ -596,12 +596,7 @@ with tab4:
     subtab1, subtab2 = st.tabs(["Raw Text Data", "Text Preprocessing"])
     with subtab1:
         st.header("Text Data for Projects")
-        st.markdown("""
-        Source: World Bank\n
-        Each project has two key documents that are analyzed:
-        - **Project Appraisal Document (PAD)**: Written at planning stage
-        - **Implementation Completion Report (ICR)**: Written after project completion
-        """)
+        st.markdown("""Source: World Bank\nEach project has two key documents that are analyzed:\n- **Project Appraisal Document (PAD)**: Written at planning stage\n- **Implementation Completion Report (ICR)**: Written after project completion""")
         st.subheader("Sample Documents")
         col1, col2 = st.columns(2)
         with col1:
@@ -621,15 +616,10 @@ with tab4:
         with col2:
             st.metric("Text Columns", "2 (Appraisal & Completion)")
         st.dataframe(text_data[['projectid']], use_container_width=True, hide_index=True)
-        selected_project = st.selectbox(
-            "Select a project to view text data:",
-            options=text_data['projectid'].tolist()
-        )
+        selected_project = st.selectbox("Select a project to view text data:", options=text_data['projectid'].tolist())
         def get_first_n_words(text, n=1000):
             words = str(text).split()
-            if len(words) <= n:
-                return text
-            return ' '.join(words[:n]) + ' ...'
+            return text if len(words) <= n else ' '.join(words[:n]) + ' ...'
         row = text_data[text_data['projectid'] == selected_project].iloc[0]
         appraisal_text = get_first_n_words(row['text_appraisal_ngram'], 1000)
         completion_text = get_first_n_words(row['text_completion_ngram'], 1000)
@@ -640,7 +630,7 @@ with tab4:
         with col2:
             st.markdown("**📄 Completion Text (first 1000 words)**")
             st.markdown(f"<div style='background-color:#e8f0f4; padding:15px; border-radius:10px; max-height:500px; overflow-y:auto; font-size:12px;'>{completion_text}</div>", unsafe_allow_html=True)
-        st.caption("Note: Showing first 1000 words of each document. Full text is preprocessed with n-grams (underscores indicate multi-word terms).")
+        st.caption("Note: Showing first 1000 words of each document.")
     with subtab2:
         st.header("Text Preprocessing Steps")
         st.info("🚧 Text preprocessing documentation coming soon")
