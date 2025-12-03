@@ -206,7 +206,7 @@ with tab3:
         st.header("Text Data for Projects")
         
         st.markdown("""
-        Source: World Bank
+        Source: World Bank\n
         Each project has two key documents that are analyzed:
         - **Project Appraisal Document (PAD)**: Written at planning stage
         - **Implementation Completion Report (ICR)**: Written after project completion
