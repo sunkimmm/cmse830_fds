@@ -595,7 +595,6 @@ with tab3:
 with tab4:
     st.title("Project Text Data & NLP Analysis")
     subtab1, subtab2 = st.tabs(["Raw Text Data", "Text Preprocessing"])
-
     with subtab1:
         st.header("Text Data for Projects")
 
@@ -665,7 +664,6 @@ with tab4:
             )
 
         st.caption("Note: Showing first 1000 words of each document. Full text is preprocessed with n-grams (underscores indicate multi-word terms).")
-
     with subtab2:
         st.header("Text Preprocessing")
         st.info("TODO: add preprocessing steps here.")
