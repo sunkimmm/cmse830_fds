@@ -236,7 +236,7 @@ with tab2:
         import matplotlib.pyplot as plt
         
         text = " ".join(filtered_terms)
-        wordcloud = WordCloud(width=800, height=400, background_color='white',
+        wordcloud = WordCloud(width=500, height=300, background_color='white',
                              colormap='viridis').generate(text)
         fig, ax = plt.subplots(figsize=(10, 5))
         ax.imshow(wordcloud, interpolation='bilinear')
