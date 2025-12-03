@@ -206,7 +206,5 @@ with tab5:
             st.metric("≥$500M", "280", "60.6%")
         with col3:
             st.metric("<$500M", "182", "39.4%")
-        
-        st.markdown("**Projects near $1B threshold ($900M - $1,100M):** 24")
-        
+                
         st.success("**Selected for analysis: 280 projects (≥$500M threshold)**")
