@@ -193,14 +193,19 @@ with tab2:
         st.image(BASE / "es.png", width=250)
     with col2:
         st.markdown("**Environmental and Social Management Framework**")
-        st.caption("2 Environmental categories and 5 Social categories are discussed.")
+        st.markdown("Environmental 1. Resource Efficiency and Pollution Prevention and Management")
+        st.markdown("Environmental 2. Biodiversity Conservation and Sustainable Management of Living Natural Resources")
+        st.markdown("Social 1. Labor and Working Conditions")
+        st.markdown("Social 2. Community  Health and Safety")
+        st.markdown("Social 3. Land Acquisition, Restrictions on Land Use and Involuntary Resettlement")
+        st.markdown("Social 4. Indigenous Peoples/Sub-Saharan African Historically Underserved Traditional Local Communities")
+        st.markdown("Social 5. Cultural Heritage")
     
     col1, col2, col3 = st.columns([1, 2, 0.5])
     with col1:
         st.image(BASE / "gov.png", width=250)
     with col2:
         st.markdown("**Governance Framework**")
-        st.caption("7 Governance categories are discussed.")
         st.markdown("Governance 1. Legal Framework and Institutional Capacity")
         st.markdown("Governance 2. Economic Efficiency and Value for Money")
         st.markdown("Governance 3. Fiscal Affordability and Sustainability")
