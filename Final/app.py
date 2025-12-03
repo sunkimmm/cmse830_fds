@@ -271,18 +271,21 @@ with tab2:
         
         with col2:
             st.subheader("Project Subcomponent Expansion")
-            add_counts = final_projects['addition'].value_counts().reset_index()
+            # Convert to boolean first, then to Yes/No
+            final_projects['addition_label'] = final_projects['addition'].apply(
+                lambda x: 'Yes' if x == True or str(x).lower() == 'true' else ('No' if x == False or str(x).lower() == 'false' else 'Unknown')
+            )
+            add_counts = final_projects['addition_label'].value_counts().reset_index()
             add_counts.columns = ['Addition', 'Count']
-            add_counts['Addition'] = add_counts['Addition'].astype(str).map({'True': 'Yes', 'False': 'No', 'true': 'Yes', 'false': 'No'})
             fig_add = px.pie(add_counts, values='Count', names='Addition',
                             color='Addition',
-                            color_discrete_map={'Yes': '#636EFA', 'No': '#FECB52'},
+                            color_discrete_map={'Yes': '#636EFA', 'No': '#FECB52', 'Unknown': '#999999'},
                             hole=0.3)
             fig_add.update_traces(textposition='inside', textinfo='percent+label')
             fig_add.update_layout(showlegend=False, margin=dict(t=20, b=20, l=20, r=20))
             st.plotly_chart(fig_add, use_container_width=True)
             
-            add_count = (final_projects['addition'].astype(str).str.lower() == 'true').sum()
+            add_count = (final_projects['addition_label'] == 'Yes').sum()
             add_pct = add_count / len(final_projects) * 100
             st.caption(f"{add_count} projects ({add_pct:.1f}%) had subcomponent expansions")
         
