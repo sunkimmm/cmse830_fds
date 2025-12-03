@@ -36,7 +36,7 @@ with tab2:
     st.title("Project Metadata & Preprocessing")
     
     # Create sub-tabs for better organization
-    subtab1, subtab2 = st.tabs(["Raw Data", "Preprocessing Steps"])
+    subtab1, subtab2 = st.tabs(["Raw Data", "Preprocessing"])
     
     with subtab1:
         st.header("Project Metadata")
@@ -207,9 +207,6 @@ with tab3:
         - **Project Appraisal Document (PAD)**: Written at planning stage
         - **Implementation Completion Report (ICR)**: Written after project completion
         """)
-        
-        st.markdown("---")
-        
         st.subheader("Sample Documents")
         col1, col2 = st.columns(2)
         
