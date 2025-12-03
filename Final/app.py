@@ -85,7 +85,7 @@ with tab1:
             z=country_total['total_projects'],
             customdata=country_total[['total_projects', 'main_sectors']],
             hovertemplate='<b>%{location}</b><br>Total Projects: %{customdata[0]}<br>Main Sectors: %{customdata[1]}<extra></extra>',
-            colorscale='Blues',
+            colorscale='Pinkyl',
             colorbar=dict(x=0.4, y=0.8, len=0.5, title='Projects'),
             showscale=True
         ),
@@ -99,7 +99,7 @@ with tab1:
             z=country_avg_cost['avg_cost'],
             customdata=country_avg_cost[['total_projects', 'avg_cost', 'main_sectors']],
             hovertemplate='<b>%{location}</b><br>Total Projects: %{customdata[0]}<br>Avg Cost: $%{customdata[1]:.2f}M<br>Main Sectors: %{customdata[2]}<extra></extra>',
-            colorscale='Greens',
+            colorscale='Pinkyl',
             colorbar=dict(x=0.95, y=0.8, len=0.5, title='Avg Cost (M USD)'),
             showscale=True
         ),
