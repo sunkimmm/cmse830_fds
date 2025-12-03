@@ -20,30 +20,28 @@ st.write(
 
 # create tab
 tab1, tab2, tab3, tab4, tab5 = st.tabs([
-    "🔍 Project Overview",
-    "📌 Key Findings Summary",
+    "👀 Project Summary",
+    "Project Metadata & Preprocessing",
+    "Project Text Data & NLP Analysis",
     "⚠️ Risk Analysis",
-    "👀 Additional Analysis",
-    "📊 Data & Processing"
+    "Additional Analysis",
 ])
 
-
 BASE = Path(__file__).parent
-wb_plr = pd.read_csv(BASE / "WB_PLR.csv")
-ppi = pd.read_csv(BASE / "IMF_US_PPI.csv")
 
-with tab5:
-    st.title("📊 Data & Processing")
+with tab1:
+    st.title("👀 Project Summary")
+
+with tab2:
+    st.title("Project Metadata & Preprocessing")
     
     # Create sub-tabs for better organization
     subtab1, subtab2 = st.tabs(["Raw Data", "Preprocessing Steps"])
     
     with subtab1:
-        # Section 1: Project Metadata
-        st.header("1. Project Metadata")
+        st.header("Project Metadata")
         
-        from pathlib import Path
-        DATA_PATH = Path(__file__).parent / "cost_converted_462projects.csv"
+        DATA_PATH = BASE / "cost_converted_462projects.csv"
         df = pd.read_csv(DATA_PATH)
         
         col1, col2, col3 = st.columns(3)
@@ -56,7 +54,6 @@ with tab5:
         
         st.dataframe(df.head(100), use_container_width=True)
         
-        
         with st.expander("View Column Schema"):
             schema_df = pd.DataFrame({
                 'Column': df.columns,
@@ -64,23 +61,6 @@ with tab5:
                 'Non-Null': df.notna().sum().values
             })
             st.dataframe(schema_df, use_container_width=True, hide_index=True)
-        
-        st.markdown("---")
-        
-        # Section 2: Project Text Data
-        st.header("2. Project Text Data")
-                    
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            st.markdown("**Project Appraisal Document (at Planning stage)**")
-            with open(BASE / "P130164_PAD.pdf", "rb") as f:
-                st.download_button("📥 Download PAD", f, file_name="P130164_PAD.pdf")
-        
-        with col2:
-            st.markdown("**Implementation Completion Report (after completion)**")
-            with open(BASE / "P130164_ICR.pdf", "rb") as f:
-                st.download_button("📥 Download ICR", f, file_name="P130164_ICR.pdf")
     
     with subtab2:
         st.header("Data Preprocessing")
@@ -106,7 +86,7 @@ with tab5:
         
         st.markdown("---")
         
-# 2. Step 1: PLR Adjustment
+        # 2. Step 1: PLR Adjustment
         st.subheader("2. Step 1: PLR (Price Level Ratio) Adjustment")
         
         col1, col2 = st.columns(2)
@@ -198,11 +178,12 @@ with tab5:
         
         st.markdown("---")
         
+        # 5. Megaproject Classification
         st.subheader("5. Megaproject Classification")
         
         col1, col2 = st.columns(2)
         with col1:
-            st.metric("Large-scape Projects (Project Cost ≥$500M)", "280", "60.6%")
+            st.metric("Large-scale Projects (Project Cost ≥$500M)", "280", "60.6%")
         with col2:
             st.metric("Regular Projects (Project Cost <$500M)", "182", "39.4%")
         
@@ -211,3 +192,52 @@ with tab5:
         with st.expander("View Final Project List"):
             final_projects = pd.read_csv(BASE / "fin_project_metadata_280.csv")
             st.dataframe(final_projects, use_container_width=True, hide_index=True)
+
+with tab3:
+    st.title("Project Text Data & NLP Analysis")
+    
+    # Create sub-tabs
+    subtab1, subtab2 = st.tabs(["Raw Text Data", "Text Preprocessing"])
+    
+    with subtab1:
+        st.header("Project Document Text Data")
+        
+        st.markdown("""
+        Each project has two key documents that are analyzed:
+        - **Project Appraisal Document (PAD)**: Written at planning stage
+        - **Implementation Completion Report (ICR)**: Written after project completion
+        """)
+        
+        st.markdown("---")
+        
+        st.subheader("Sample Documents")
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.markdown("**Project Appraisal Document (at Planning stage)**")
+            with open(BASE / "P130164_PAD.pdf", "rb") as f:
+                st.download_button("📥 Download Sample PAD", f, file_name="P130164_PAD.pdf")
+        
+        with col2:
+            st.markdown("**Implementation Completion Report (after completion)**")
+            with open(BASE / "P130164_ICR.pdf", "rb") as f:
+                st.download_button("📥 Download Sample ICR", f, file_name="P130164_ICR.pdf")
+        
+        st.markdown("---")
+        
+        st.subheader("Text Data Overview")
+        # Load text data if available
+        # text_data = pd.read_json(BASE / "text_data_sample.json")
+        # st.dataframe(text_data, use_container_width=True)
+        st.info("🚧 Text data preview coming soon")
+    
+    with subtab2:
+        st.header("Text Preprocessing Steps")
+        st.info("🚧 Text preprocessing documentation coming soon")
+        # Add your text preprocessing steps here later
+
+with tab4:
+    st.title("⚠️ Risk Analysis")
+
+with tab5:
+    st.title("Additional Analysis")
