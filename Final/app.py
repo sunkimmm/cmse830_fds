@@ -661,6 +661,9 @@ with tab4:
                 st.markdown(f"<div style='background-color:#e8f0f4; padding:15px; border-radius:10px; max-height:500px; overflow-y:auto; font-size:12px;'>{completion_text}</div>", unsafe_allow_html=True)
             
             st.caption("Note: Showing first 1000 words of each document. Full text is preprocessed with n-grams (underscores indicate multi-word terms).")
+        with subtab2:
+            st.header("Text Preprocessing Steps")
+            st.info("🚧 Text preprocessing documentation coming soon")
 
 with tab5:
     st.title(" Risk Analysis")
