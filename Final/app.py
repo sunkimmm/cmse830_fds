@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.title("Large-scale Infrastructure Project: ESG Risk Analysis (Text Mining)")
+st.title("Large-scale Infrastructure Project: ESG Risk Analysis")
 st.caption("Demo app — under construction")
 st.write(
     """
