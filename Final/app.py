@@ -99,7 +99,7 @@ with tab5:
         
         st.markdown("---")
         
-        # 2. Step 1: PLR Adjustment
+# 2. Step 1: PLR Adjustment
         st.subheader("2. Step 1: PLR (Price Level Ratio) Adjustment")
         
         col1, col2 = st.columns(2)
@@ -112,12 +112,16 @@ with tab5:
         with col2:
             st.markdown("**Data Source**")
             st.caption("World Bank PLR data (266 countries)")
-            st.markdown("**Handling Missing Data**")
-            st.markdown("""
-            - Backward/forward extrapolation using 3-year smoothed growth rates
-            - Interpolation between available years
-            - Multi-country projects: Average PLR across countries
-            """)
+        
+        # Highlighted missing data handling
+        st.markdown("**Handling Missing Data**")
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.warning("**Backward Extrapolation**\n\nUsing 3-year smoothed growth rates for years before available data")
+        with col2:
+            st.warning("**Forward Extrapolation**\n\nUsing 3-year smoothed growth rates for years after available data")
+        with col3:
+            st.warning("**Interpolation**\n\nLinear interpolation between available years; Multi-country projects averaged")
         
         st.markdown("**Result**")
         col1, col2, col3 = st.columns(3)
@@ -127,6 +131,10 @@ with tab5:
             st.metric("Extrapolated/Interpolated", "4")
         with col3:
             st.metric("Total", "462")
+        
+        with st.expander("View World Bank PLR Data"):
+            wb_plr = pd.read_csv(BASE / "WB_PLR.csv")
+            st.dataframe(wb_plr, use_container_width=True, hide_index=True)
         
         st.markdown("---")
         
@@ -152,12 +160,9 @@ with tab5:
             - PPI better reflects infrastructure/construction inputs
             """)
         
-        with st.expander("View PPI Adjustment Factors"):
-            ppi_data = pd.DataFrame({
-                'Year': [1988, 1992, 1997, 2000, 2005, 2010, 2015, 2019],
-                'Factor': ['2.06x', '1.88x', '1.73x', '1.66x', '1.40x', '1.19x', '1.08x', '1.00x']
-            })
-            st.dataframe(ppi_data, use_container_width=True, hide_index=True)
+        with st.expander("View IMF US PPI Data"):
+            ppi = pd.read_csv(BASE / "IMF_US_PPI.csv")
+            st.dataframe(ppi, use_container_width=True, hide_index=True)
         
         st.markdown("---")
         
