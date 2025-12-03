@@ -15,13 +15,6 @@ st.set_page_config(
 )
 
 st.title("Large-scale Infrastructure Project: ESG Risk Analysis")
-st.caption("Demo app — under construction")
-st.write(
-    """
-    This Streamlit app will analyze ESG-related risks in large-scale infrastructure project documents
-    using text analysis / NLP methods.
-    """
-)
 
 # create tab
 tab1, tab2, tab3, tab4, tab5 = st.tabs([
@@ -36,7 +29,8 @@ BASE = Path(__file__).parent
 
 with tab1:
     st.title("👀 Project Overview")
-        
+    st.subheader("Purpose of this Project")
+    st.markdown("This project investigates ESG-related risks in large-scale infrastructure construction projects, combining metadata (e.g., region, country, project sector, cost, duration, etc.) and text data that are extracted from project documents.")
     
     final_projects = pd.read_csv(BASE / "fin_project_metadata_280.csv")
     
@@ -138,7 +132,7 @@ with tab1:
         fig_sector = px.pie(sector_counts, values='Count', names='Sector',
                            color_discrete_sequence=px.colors.qualitative.Set2,
                            hole=0.3)
-        fig_sector.update_traces(textposition='inside', textinfo='percent+label', textfont_size=16)
+        fig_sector.update_traces(textposition='inside', textinfo='percent+label', textfont_size=)
         fig_sector.update_layout(showlegend=False, margin=dict(t=30, b=20, l=20, r=20),
                                 title=dict(text='Projects by Sector', font=dict(size=20)))
         st.plotly_chart(fig_sector, use_container_width=True)
