@@ -181,6 +181,20 @@ with tab1:
     fig_timeline.update_layout(margin=dict(t=30, b=20, l=20, r=20))
     st.plotly_chart(fig_timeline, use_container_width=True)
 
+with tab2:
+    st.title("ESG Risks in Infrastructure Projects")
+    st.markdown("##### Large-scale infrastructure projects are physically large, complex, unique, involves a lot of stakeholders and shareholders, and have great impacts on society. Due to this nature, they inherently involve various environmental, social, and governance (ESG) challenges. According to World Bank, those risks can be categorized into the following categories.")
+    st.markdown("---")
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        st.image(BASE / "es.png", caption="Environmental & Social Risks")
+    with col2:
+        st.image(BASE / "gov.png", caption="Governance Risks")
+    
+    st.markdown("---")
+    
+
 with tab3:
     st.title("Project Metadata & Preprocessing")
     
