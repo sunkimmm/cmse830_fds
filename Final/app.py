@@ -184,7 +184,7 @@ with tab1:
 with tab2:
     st.title("ESG Risks in Infrastructure Projects")
     st.markdown("##### Large-scale infrastructure projects are physically large, complex, unique, involves a lot of stakeholders and shareholders, and have great impacts on society. Due to this nature, they inherently involve various environmental, social, and governance (ESG) challenges. According to World Bank, those risks can be categorized into the following categories.")
-    st.markdown("##### To see what risks exist in projects, relevant terms were existed from the following two World Bank documents.")
+    st.markdown("##### To see what risks exist in projects, relevant terms were extracted from the following two World Bank documents.")
     
     st.markdown("---")
     
@@ -195,11 +195,31 @@ with tab2:
         st.image(BASE / "gov.png", caption="Governance Risks", width=400)
     
     st.markdown("---")
+    
+    # Load and display seed source documents
+    st.subheader("Source Documents for Term Extraction")
+    seed_source = pd.read_json(BASE / "seed_streamlit.json")
+    
+    st.dataframe(seed_source[['pillar', 'category', 'description']], use_container_width=True, hide_index=True)
+    
+    # Dropdown to select a category and view full text
+    selected_row = st.selectbox(
+        "Select a category to view full text:",
+        options=seed_source['category'].tolist(),
+        format_func=lambda x: f"{seed_source[seed_source['category']==x]['pillar'].values[0]} - {x}"
+    )
+    
+    with st.expander(f"View full text for: {selected_row}"):
+        full_text = seed_source[seed_source['category'] == selected_row]['text_cleaned'].values[0]
+        st.markdown(f"<div style='background-color:#f0f0f0; padding:15px; border-radius:10px; max-height:400px; overflow-y:auto;'>{full_text}</div>", unsafe_allow_html=True)
+    
+    st.markdown("---")
 
     # Load seed terms
-    seed_terms = pd.read_csv(BASE / "seed_final.csv")  # adjust filename
+    seed_terms = pd.read_csv(BASE / "seed_final.csv")
     
-    st.subheader("ESG Risk Categories and Seed Terms")
+    st.subheader("ESG Risk Categories and Important Terms")
+    st.markdown("##### These terms are extracted from the World Bank documents using TF-IDF scores for each pillar (E/S/G) and for each category. There were total of 14 subcategories, thus each category was considered as one document.")
     
     col1, col2 = st.columns(2)
     
