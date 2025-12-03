@@ -201,6 +201,13 @@ with tab2:
     with col2:
         st.markdown("**Governance Framework**")
         st.caption("7 Governance categories are discussed.")
+        st.markdown("Governance 1. Legal Framework and Institutional Capacity")
+        st.markdown("Governance 2. Economic Efficiency and Value for Money")
+        st.markdown("Governance 3. Fiscal Affordability and Sustainability")
+        st.markdown("Governance 4. Procurement and Contract Management")
+        st.markdown("Governance 5. Contract Management and O&M'")
+        st.markdown("Governance 6. Transparency and Information Access")
+        st.markdown("Governance 7. Integrity and Misconduct Risk")
     
     st.markdown("---")
     
