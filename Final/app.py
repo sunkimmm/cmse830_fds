@@ -597,78 +597,78 @@ with tab4:
     # Create sub-tabs
     subtab1, subtab2 = st.tabs(["Raw Text Data", "Text Preprocessing"])
     
-with subtab1:
-        st.header("Text Data for Projects")
+    with subtab1:
+            st.header("Text Data for Projects")
+            
+            st.markdown("""
+            Source: World Bank\n
+            Each project has two key documents that are analyzed:
+            - **Project Appraisal Document (PAD)**: Written at planning stage
+            - **Implementation Completion Report (ICR)**: Written after project completion
+            """)
+            st.subheader("Sample Documents")
+            col1, col2 = st.columns(2)
+            
+            with col1:
+                st.markdown("**Project Appraisal Document (at Planning stage)**")
+                with open(BASE / "P130164_PAD.pdf", "rb") as f:
+                    st.download_button("📥 Download Sample PAD", f, file_name="P130164_PAD.pdf")
+            
+            with col2:
+                st.markdown("**Implementation Completion Report (after completion)**")
+                with open(BASE / "P130164_ICR.pdf", "rb") as f:
+                    st.download_button("📥 Download Sample ICR", f, file_name="P130164_ICR.pdf")
+            
+            st.markdown("---")
+            
+            st.subheader("Text Data Overview")
+            
+            # Load text data
+            text_data = pd.read_json(BASE / "text_data_sample.json")
+            
+            col1, col2 = st.columns(2)
+            with col1:
+                st.metric("Total Projects", len(text_data))
+            with col2:
+                st.metric("Text Columns", "2 (Appraisal & Completion)")
+            
+            st.dataframe(text_data[['projectid']], use_container_width=True, hide_index=True)
+            
+            # Dropdown to select a project
+            selected_project = st.selectbox(
+                "Select a project to view text data:",
+                options=text_data['projectid'].tolist()
+            )
+            
+            # Function to get first N words
+            def get_first_n_words(text, n=1000):
+                words = str(text).split()
+                if len(words) <= n:
+                    return text
+                return ' '.join(words[:n]) + ' ...'
+            
+            # Get texts for selected project
+            row = text_data[text_data['projectid'] == selected_project].iloc[0]
+            appraisal_text = get_first_n_words(row['text_appraisal_ngram'], 1000)
+            completion_text = get_first_n_words(row['text_completion_ngram'], 1000)
+            
+            # Show both texts side by side
+            col1, col2 = st.columns(2)
+            
+            with col1:
+                st.markdown("**📄 Appraisal Text (first 1000 words)**")
+                st.markdown(f"<div style='background-color:#e8f4e8; padding:15px; border-radius:10px; max-height:500px; overflow-y:auto; font-size:12px;'>{appraisal_text}</div>", unsafe_allow_html=True)
+            
+            with col2:
+                st.markdown("**📄 Completion Text (first 1000 words)**")
+                st.markdown(f"<div style='background-color:#e8f0f4; padding:15px; border-radius:10px; max-height:500px; overflow-y:auto; font-size:12px;'>{completion_text}</div>", unsafe_allow_html=True)
+            
+            st.caption("Note: Showing first 1000 words of each document. Full text is preprocessed with n-grams (underscores indicate multi-word terms).")
         
-        st.markdown("""
-        Source: World Bank\n
-        Each project has two key documents that are analyzed:
-        - **Project Appraisal Document (PAD)**: Written at planning stage
-        - **Implementation Completion Report (ICR)**: Written after project completion
-        """)
-        st.subheader("Sample Documents")
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            st.markdown("**Project Appraisal Document (at Planning stage)**")
-            with open(BASE / "P130164_PAD.pdf", "rb") as f:
-                st.download_button("📥 Download Sample PAD", f, file_name="P130164_PAD.pdf")
-        
-        with col2:
-            st.markdown("**Implementation Completion Report (after completion)**")
-            with open(BASE / "P130164_ICR.pdf", "rb") as f:
-                st.download_button("📥 Download Sample ICR", f, file_name="P130164_ICR.pdf")
-        
-        st.markdown("---")
-        
-        st.subheader("Text Data Overview")
-        
-        # Load text data
-        text_data = pd.read_json(BASE / "text_data_sample.json")
-        
-        col1, col2 = st.columns(2)
-        with col1:
-            st.metric("Total Projects", len(text_data))
-        with col2:
-            st.metric("Text Columns", "2 (Appraisal & Completion)")
-        
-        st.dataframe(text_data[['projectid']], use_container_width=True, hide_index=True)
-        
-        # Dropdown to select a project
-        selected_project = st.selectbox(
-            "Select a project to view text data:",
-            options=text_data['projectid'].tolist()
-        )
-        
-        # Function to get first N words
-        def get_first_n_words(text, n=1000):
-            words = str(text).split()
-            if len(words) <= n:
-                return text
-            return ' '.join(words[:n]) + ' ...'
-        
-        # Get texts for selected project
-        row = text_data[text_data['projectid'] == selected_project].iloc[0]
-        appraisal_text = get_first_n_words(row['text_appraisal_ngram'], 1000)
-        completion_text = get_first_n_words(row['text_completion_ngram'], 1000)
-        
-        # Show both texts side by side
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            st.markdown("**📄 Appraisal Text (first 1000 words)**")
-            st.markdown(f"<div style='background-color:#e8f4e8; padding:15px; border-radius:10px; max-height:500px; overflow-y:auto; font-size:12px;'>{appraisal_text}</div>", unsafe_allow_html=True)
-        
-        with col2:
-            st.markdown("**📄 Completion Text (first 1000 words)**")
-            st.markdown(f"<div style='background-color:#e8f0f4; padding:15px; border-radius:10px; max-height:500px; overflow-y:auto; font-size:12px;'>{completion_text}</div>", unsafe_allow_html=True)
-        
-        st.caption("Note: Showing first 1000 words of each document. Full text is preprocessed with n-grams (underscores indicate multi-word terms).")
-    
-    with subtab2:
-        st.header("Text Preprocessing Steps")
-        st.info("🚧 Text preprocessing documentation coming soon")
-        # Add your text preprocessing steps here later
+        with subtab2:
+            st.header("Text Preprocessing Steps")
+            st.info("🚧 Text preprocessing documentation coming soon")
+            # Add your text preprocessing steps here later
 
 with tab5:
     st.title(" Risk Analysis")
