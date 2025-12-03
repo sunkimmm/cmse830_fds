@@ -190,6 +190,7 @@ with tab2:
             st.metric("Regular Projects (Project Cost <$500M)", "182", "39.4%")
         
         st.success("**Selected for analysis: 280 projects (≥$500M threshold)**")
+        st.markdown("Final project list can be downloaded in the next tab.")
     
     with subtab3:
         st.header("Final Data for Analysis")
