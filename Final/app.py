@@ -138,9 +138,9 @@ with tab1:
         fig_sector = px.pie(sector_counts, values='Count', names='Sector',
                            color_discrete_sequence=px.colors.qualitative.Set2,
                            hole=0.3)
-        fig_sector.update_traces(textposition='inside', textinfo='percent+label')
+        fig_sector.update_traces(textposition='inside', textinfo='percent+label', textfont_size=16)
         fig_sector.update_layout(showlegend=False, margin=dict(t=30, b=20, l=20, r=20),
-                                title='Projects by Sector')
+                                title=dict(text='Projects by Sector', font=dict(size=20)))
         st.plotly_chart(fig_sector, use_container_width=True)
     
     with col2:
@@ -149,9 +149,9 @@ with tab1:
         fig_region = px.pie(region_counts, values='Count', names='Region',
                            color_discrete_sequence=px.colors.qualitative.Pastel,
                            hole=0.3)
-        fig_region.update_traces(textposition='inside', textinfo='percent+label')
+        fig_region.update_traces(textposition='inside', textinfo='percent+label', textfont_size=16)
         fig_region.update_layout(showlegend=False, margin=dict(t=30, b=20, l=20, r=20),
-                                title='Projects by Region')
+                                title=dict(text='Projects by Region', font=dict(size=20)))
         st.plotly_chart(fig_region, use_container_width=True)
     
     st.markdown("---")
