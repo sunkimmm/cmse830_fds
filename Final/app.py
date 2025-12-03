@@ -221,9 +221,6 @@ with tab2:
             options=categories
         )
     
-    from wordcloud import WordCloud
-    import matplotlib.pyplot as plt
-    
     # Filter terms
     filtered_terms = seed_terms[
         (seed_terms['pillar'] == selected_pillar) & 
@@ -232,15 +229,15 @@ with tab2:
     
     st.markdown(f"**{len(filtered_terms)} terms in {selected_category}:**")
     
-    # Create word cloud
-    text = " ".join(filtered_terms)
-    wordcloud = WordCloud(width=800, height=400, background_color='white', 
-                         colormap='viridis', prefer_horizontal=0.7).generate(text)
+    # Color by pillar
+    pillar_colors = {'E': '#81C784', 'S': '#64B5F6', 'G': '#FFB74D'}
+    color = pillar_colors[selected_pillar]
     
-    fig, ax = plt.subplots(figsize=(10, 5))
-    ax.imshow(wordcloud, interpolation='bilinear')
-    ax.axis('off')
-    st.pyplot(fig)
+    tags_html = " ".join([
+        f'<span style="background-color:{color}; padding:6px 12px; margin:4px; border-radius:20px; display:inline-block; font-size:14px;">{term}</span>' 
+        for term in filtered_terms
+    ])
+    st.markdown(tags_html, unsafe_allow_html=True)
     
 
 with tab3:
