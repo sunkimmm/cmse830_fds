@@ -1,1 +1,4 @@
 .DS_Store
+
+# Ignore large local data
+Final/text_data.json
