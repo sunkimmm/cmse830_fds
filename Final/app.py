@@ -69,8 +69,24 @@ with tab5:
         
         # Section 2: Project Text Data
         st.header("2. Project Text Data")
-        st.info("🚧 Coming soon - Project document text data")
-        # Add your text data loading here later
+        
+        import base64
+        
+        def display_pdf(file_path):
+            with open(file_path, "rb") as f:
+                base64_pdf = base64.b64encode(f.read()).decode('utf-8')
+            pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="100%" height="600" type="application/pdf"></iframe>'
+            return pdf_display
+        
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.markdown("**Project Appraisal Document (at Planning stage)**")
+            st.markdown(display_pdf(BASE / "P130164_PAD.pdf"), unsafe_allow_html=True)
+        
+        with col2:
+            st.markdown("**Implementation Completion Report (after completion)**")
+            st.markdown(display_pdf(BASE / "P130164_ICR.pdf"), unsafe_allow_html=True)
     
     with subtab2:
         st.header("Data Preprocessing")
