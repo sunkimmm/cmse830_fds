@@ -30,7 +30,7 @@ BASE = Path(__file__).parent
 with tab1:
     st.title("👀 Project Overview")
     st.subheader("Purpose of this Project")
-    st.markdown("### This project investigates ESG-related risks in large-scale infrastructure construction projects, combining metadata (e.g., region, country, project sector, cost, duration, etc.) and text data that are extracted from project documents.")
+    st.markdown("##### This project investigates ESG-related risks in large-scale infrastructure construction projects, combining metadata (e.g., region, country, project sector, cost, duration, etc.) and text data that are extracted from project documents.")
     st.markdown("---")
     final_projects = pd.read_csv(BASE / "fin_project_metadata_280.csv")
     
