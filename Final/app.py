@@ -54,7 +54,7 @@ with tab2:
         st.markdown("---")
         
         # 1. Overview
-        st.subheader("1. Cost Conversion Overview")
+        st.subheader("Cost Conversion Overview")
         st.markdown("Converting World Bank project costs to comparable 2019 USD values using a two-step adjustment process.")
         
         col1, col2, col3 = st.columns(3)
@@ -171,7 +171,7 @@ with tab2:
         st.markdown("Final project list can be downloaded in the next tab.")
 
     with subtab2:
-        st.header("Raw Data for Projects (Metadata)")
+        st.header("Project Metadata (Raw)")
         st.markdown("""
         Source: World Bank\n
         This data was complied using various data sources in World Bank.
@@ -197,7 +197,7 @@ with tab2:
             })
             st.dataframe(schema_df, use_container_width=True, hide_index=True)
 
-        st.header("Final Data for Analysis")
+        st.header("Project Metadata (Processed)")
         final_projects = pd.read_csv(BASE / "fin_project_metadata_280.csv")
         
         col1, col2 = st.columns(2)
