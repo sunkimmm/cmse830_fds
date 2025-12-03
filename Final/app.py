@@ -249,14 +249,14 @@ with tab2:
         
         st.markdown("---")
         
-        # Row 2: Cancellation & Addition
+# Row 2: Cancellation & Addition
         col1, col2 = st.columns(2)
         
         with col1:
             st.subheader("Project Subcomponent Cancellation")
             cancel_counts = final_projects['cancelltion'].value_counts().reset_index()
-            cancel_counts.columns = ['Cancelltion', 'Count']
-            cancel_counts['Cancelltion'] = cancel_counts['Cancelltion'].astype(str).map({'True': 'Yes', 'False': 'No', 'true': 'Yes', 'false': 'No'})
+            cancel_counts.columns = ['Cancellation', 'Count']
+            cancel_counts['Cancellation'] = cancel_counts['Cancellation'].astype(str).map({'True': 'Yes', 'False': 'No', 'true': 'Yes', 'false': 'No'})
             fig_cancel = px.pie(cancel_counts, values='Count', names='Cancellation',
                                color='Cancellation',
                                color_discrete_map={'Yes': '#EF553B', 'No': '#00CC96'},
