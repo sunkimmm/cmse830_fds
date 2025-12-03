@@ -597,7 +597,7 @@ with tab4:
     # Create sub-tabs
     subtab1, subtab2 = st.tabs(["Raw Text Data", "Text Preprocessing"])
     
-    with subtab1:
+with subtab1:
         st.header("Text Data for Projects")
         
         st.markdown("""
@@ -626,34 +626,44 @@ with tab4:
         # Load text data
         text_data = pd.read_json(BASE / "text_data_sample.json")
         
-        col1, col2, col3 = st.columns(3)
+        col1, col2 = st.columns(2)
         with col1:
-            st.metric("Total Categories", len(text_data))
+            st.metric("Total Projects", len(text_data))
         with col2:
-            st.metric("Pillars", text_data['pillar'].nunique())
-        with col3:
-            pillar_counts = text_data['pillar'].value_counts()
-            st.metric("E / S / G", f"{pillar_counts.get('E', 0)} / {pillar_counts.get('S', 0)} / {pillar_counts.get('G', 0)}")
+            st.metric("Text Columns", "2 (Appraisal & Completion)")
         
-        st.dataframe(text_data[['pillar', 'category', 'description']], use_container_width=True, hide_index=True)
+        st.dataframe(text_data[['projectid']], use_container_width=True, hide_index=True)
         
-        # Dropdown to select a category
-        selected_category = st.selectbox(
-            "Select a category to view text data:",
-            options=text_data['category'].tolist(),
-            format_func=lambda x: f"{text_data[text_data['category']==x]['pillar'].values[0]} - {x}: {text_data[text_data['category']==x]['description'].values[0]}"
+        # Dropdown to select a project
+        selected_project = st.selectbox(
+            "Select a project to view text data:",
+            options=text_data['projectid'].tolist()
         )
         
-        with st.expander(f"📄 View full text for: {selected_category}"):
-            full_text = text_data[text_data['category'] == selected_category]['text_cleaned'].values[0]
-            pillar = text_data[text_data['category'] == selected_category]['pillar'].values[0]
-            
-            # Color by pillar
-            bg_colors = {'E': '#e8f4e8', 'S': '#e8f0f4', 'G': '#fef4e8'}
-            bg_color = bg_colors.get(pillar, '#f0f0f0')
-            
-            st.markdown(f"<div style='background-color:{bg_color}; padding:15px; border-radius:10px; max-height:400px; overflow-y:auto; font-size:13px;'>{full_text}</div>", unsafe_allow_html=True)
-
+        # Function to get first N words
+        def get_first_n_words(text, n=1000):
+            words = str(text).split()
+            if len(words) <= n:
+                return text
+            return ' '.join(words[:n]) + ' ...'
+        
+        # Get texts for selected project
+        row = text_data[text_data['projectid'] == selected_project].iloc[0]
+        appraisal_text = get_first_n_words(row['text_appraisal_ngram'], 1000)
+        completion_text = get_first_n_words(row['text_completion_ngram'], 1000)
+        
+        # Show both texts side by side
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.markdown("**📄 Appraisal Text (first 1000 words)**")
+            st.markdown(f"<div style='background-color:#e8f4e8; padding:15px; border-radius:10px; max-height:500px; overflow-y:auto; font-size:12px;'>{appraisal_text}</div>", unsafe_allow_html=True)
+        
+        with col2:
+            st.markdown("**📄 Completion Text (first 1000 words)**")
+            st.markdown(f"<div style='background-color:#e8f0f4; padding:15px; border-radius:10px; max-height:500px; overflow-y:auto; font-size:12px;'>{completion_text}</div>", unsafe_allow_html=True)
+        
+        st.caption("Note: Showing first 1000 words of each document. Full text is preprocessed with n-grams (underscores indicate multi-word terms).")
     
     with subtab2:
         st.header("Text Preprocessing Steps")
