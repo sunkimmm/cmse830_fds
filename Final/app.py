@@ -195,6 +195,43 @@ with tab2:
         st.image(BASE / "gov.png", caption="Governance Risks", use_container_width=True)
     
     st.markdown("---")
+
+    # Load seed terms
+    seed_terms = pd.read_csv(BASE / "seed_terms.csv")  # adjust filename
+    
+    st.subheader("ESG Risk Categories and Seed Terms")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        # First dropdown: Pillar (E, S, G order)
+        pillar_order = ['E', 'S', 'G']
+        pillar_labels = {'E': 'Environmental', 'S': 'Social', 'G': 'Governance'}
+        selected_pillar = st.selectbox(
+            "Select Pillar",
+            options=pillar_order,
+            format_func=lambda x: pillar_labels[x]
+        )
+    
+    with col2:
+        # Second dropdown: Category (filtered by selected pillar)
+        categories = seed_terms[seed_terms['pillar'] == selected_pillar]['category'].unique()
+        selected_category = st.selectbox(
+            "Select Category",
+            options=categories
+        )
+    
+    # Filter and display terms
+    filtered_terms = seed_terms[
+        (seed_terms['pillar'] == selected_pillar) & 
+        (seed_terms['category'] == selected_category)
+    ]['term'].tolist()
+    
+    st.markdown(f"**{len(filtered_terms)} terms in {selected_category}:**")
+    
+    # Display as a nice formatted list
+    terms_display = ", ".join(filtered_terms)
+    st.info(terms_display)
     
 
 with tab3:
