@@ -36,7 +36,7 @@ with tab2:
     st.title("Project Metadata & Preprocessing")
     
     # Create sub-tabs for better organization
-    subtab1, subtab2 = st.tabs(["Raw Data", "Preprocessing"])
+    subtab1, subtab2, subtab3 = st.tabs(["Raw Data", "Preprocessing", "Final Data for Analysis"])
     
     with subtab1:
         st.header("Metadata for Projects")
@@ -90,7 +90,7 @@ with tab2:
         st.markdown("---")
         
         # 2. Step 1: PLR Adjustment
-        st.subheader("2. Step 1: PLR (Price Level Ratio) Adjustment")
+        st.subheader("Step 1: PLR (Price Level Ratio) Adjustment")
         
         col1, col2 = st.columns(2)
         with col1:
@@ -129,7 +129,7 @@ with tab2:
         st.markdown("---")
         
         # 3. Step 2: US PPI Adjustment
-        st.subheader("3. Step 2: US PPI (Producer Price Index) Adjustment")
+        st.subheader("Step 2: US PPI (Producer Price Index) Adjustment")
         
         col1, col2 = st.columns(2)
         with col1:
@@ -157,7 +157,7 @@ with tab2:
         st.markdown("---")
         
         # 4. Combined Adjustment
-        st.subheader("4. Combined Adjustment")
+        st.subheader("Combined Adjustment")
         
         st.latex(r"\text{planned\_cost\_adj\_both} = \text{planned\_cost\_adj1\_plr} \times \text{ppi\_factor}")
         
@@ -181,8 +181,7 @@ with tab2:
         
         st.markdown("---")
         
-        # 5. Megaproject Classification
-        st.subheader("5. Megaproject Classification")
+        st.subheader("Large-scale Project Classification")
         
         col1, col2 = st.columns(2)
         with col1:
@@ -191,10 +190,18 @@ with tab2:
             st.metric("Regular Projects (Project Cost <$500M)", "182", "39.4%")
         
         st.success("**Selected for analysis: 280 projects (≥$500M threshold)**")
+    
+    with subtab3:
+        st.header("Final Data for Analysis")
+        final_projects = pd.read_csv(BASE / "fin_project_metadata_280.csv")
         
-        with st.expander("View Final Project List"):
-            final_projects = pd.read_csv(BASE / "fin_project_metadata_280.csv")
-            st.dataframe(final_projects, use_container_width=True, hide_index=True)
+        col1, col2 = st.columns(2)
+        with col1:
+            st.metric("Projects", len(final_projects))
+        with col2:
+            st.metric("Columns", len(final_projects.columns))
+        
+        st.dataframe(final_projects, use_container_width=True, hide_index=True)
 
 with tab3:
     st.title("Project Text Data & NLP Analysis")
