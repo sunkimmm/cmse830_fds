@@ -39,8 +39,11 @@ with tab2:
     subtab1, subtab2 = st.tabs(["Raw Data", "Preprocessing"])
     
     with subtab1:
-        st.header("Project Metadata")
-        
+        st.header("Metadata for Projects")
+        st.markdown("""
+        Source: World Bank
+        This data was complied using various data sources in World Bank.
+        """)
         DATA_PATH = BASE / "cost_converted_462projects.csv"
         df = pd.read_csv(DATA_PATH)
         
@@ -200,9 +203,10 @@ with tab3:
     subtab1, subtab2 = st.tabs(["Raw Text Data", "Text Preprocessing"])
     
     with subtab1:
-        st.header("Project Document Text Data")
+        st.header("Text Data for Projects")
         
         st.markdown("""
+        Source: World Bank
         Each project has two key documents that are analyzed:
         - **Project Appraisal Document (PAD)**: Written at planning stage
         - **Implementation Completion Report (ICR)**: Written after project completion
