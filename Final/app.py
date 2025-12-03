@@ -132,55 +132,55 @@ with tab1:
     st.markdown("---")
     
     # Sector and Region Distribution
-    st.subheader("Project Distribution by Sector and Region")
+    # st.subheader("Project Distribution by Sector and Region")
     
-    col1, col2 = st.columns(2)
+    # col1, col2 = st.columns(2)
     
-    with col1:
-        sector_counts = final_projects['sector1'].value_counts().reset_index()
-        sector_counts.columns = ['Sector', 'Count']
-        fig_sector = px.pie(sector_counts, values='Count', names='Sector',
-                           color_discrete_sequence=px.colors.qualitative.Set2,
-                           hole=0.3)
-        fig_sector.update_traces(textposition='inside', textinfo='percent+label', textfont_size=16)
-        fig_sector.update_layout(showlegend=False, margin=dict(t=30, b=20, l=20, r=20),
-                                title=dict(text='Projects by Sector', font=dict(size=20)))
-        st.plotly_chart(fig_sector, use_container_width=True)
+    # with col1:
+    #     sector_counts = final_projects['sector1'].value_counts().reset_index()
+    #     sector_counts.columns = ['Sector', 'Count']
+    #     fig_sector = px.pie(sector_counts, values='Count', names='Sector',
+    #                        color_discrete_sequence=px.colors.qualitative.Set2,
+    #                        hole=0.3)
+    #     fig_sector.update_traces(textposition='inside', textinfo='percent+label', textfont_size=16)
+    #     fig_sector.update_layout(showlegend=False, margin=dict(t=30, b=20, l=20, r=20),
+    #                             title=dict(text='Projects by Sector', font=dict(size=20)))
+    #     st.plotly_chart(fig_sector, use_container_width=True)
     
-    with col2:
-        region_counts = final_projects['regionname'].value_counts().reset_index()
-        region_counts.columns = ['Region', 'Count']
-        fig_region = px.pie(region_counts, values='Count', names='Region',
-                           color_discrete_sequence=px.colors.qualitative.Pastel,
-                           hole=0.3)
-        fig_region.update_traces(textposition='inside', textinfo='percent+label', textfont_size=16)
-        fig_region.update_layout(showlegend=False, margin=dict(t=30, b=20, l=20, r=20),
-                                title=dict(text='Projects by Region', font=dict(size=20)))
-        st.plotly_chart(fig_region, use_container_width=True)
+    # with col2:
+    #     region_counts = final_projects['regionname'].value_counts().reset_index()
+    #     region_counts.columns = ['Region', 'Count']
+    #     fig_region = px.pie(region_counts, values='Count', names='Region',
+    #                        color_discrete_sequence=px.colors.qualitative.Pastel,
+    #                        hole=0.3)
+    #     fig_region.update_traces(textposition='inside', textinfo='percent+label', textfont_size=16)
+    #     fig_region.update_layout(showlegend=False, margin=dict(t=30, b=20, l=20, r=20),
+    #                             title=dict(text='Projects by Region', font=dict(size=20)))
+    #     st.plotly_chart(fig_region, use_container_width=True)
     
-    st.markdown("---")
+    # st.markdown("---")
     
-    # Cost distribution by sector
-    st.subheader("Project Cost Distribution by Sector")
+    # # Cost distribution by sector
+    # st.subheader("Project Cost Distribution by Sector")
     
-    fig_box = px.box(final_projects, x='sector1', y='base+contingency',
-                    color='sector1',
-                    color_discrete_sequence=px.colors.qualitative.Set2,
-                    labels={'sector1': 'Sector', 'base+contingency': 'Project Cost (USD Million)'})
-    fig_box.update_layout(showlegend=False, margin=dict(t=30, b=20, l=20, r=20))
-    st.plotly_chart(fig_box, use_container_width=True)
+    # fig_box = px.box(final_projects, x='sector1', y='base+contingency',
+    #                 color='sector1',
+    #                 color_discrete_sequence=px.colors.qualitative.Set2,
+    #                 labels={'sector1': 'Sector', 'base+contingency': 'Project Cost (USD Million)'})
+    # fig_box.update_layout(showlegend=False, margin=dict(t=30, b=20, l=20, r=20))
+    # st.plotly_chart(fig_box, use_container_width=True)
     
-    st.markdown("---")
+    # st.markdown("---")
     
-    # Timeline
-    st.subheader("Projects Over Time")
+    # # Timeline
+    # st.subheader("Projects Over Time")
     
-    year_sector = final_projects.groupby(['approval_year', 'sector1']).size().reset_index(name='count')
-    fig_timeline = px.bar(year_sector, x='approval_year', y='count', color='sector1',
-                         color_discrete_sequence=px.colors.qualitative.Set2,
-                         labels={'approval_year': 'Approval Year', 'count': 'Number of Projects', 'sector1': 'Sector'})
-    fig_timeline.update_layout(margin=dict(t=30, b=20, l=20, r=20))
-    st.plotly_chart(fig_timeline, use_container_width=True)
+    # year_sector = final_projects.groupby(['approval_year', 'sector1']).size().reset_index(name='count')
+    # fig_timeline = px.bar(year_sector, x='approval_year', y='count', color='sector1',
+    #                      color_discrete_sequence=px.colors.qualitative.Set2,
+    #                      labels={'approval_year': 'Approval Year', 'count': 'Number of Projects', 'sector1': 'Sector'})
+    # fig_timeline.update_layout(margin=dict(t=30, b=20, l=20, r=20))
+    # st.plotly_chart(fig_timeline, use_container_width=True)
 
 with tab3:
     st.title("ESG Risks in Infrastructure Projects")
@@ -278,7 +278,7 @@ trigram_patterns = {
     
     with col3:
         st.info("**Step 3: TF-IDF Scoring**\n\nRank and select final terms based on TF-IDF scores across categories")
-        
+
     # Load seed terms
     seed_terms = pd.read_csv(BASE / "seed_final.csv")
     
