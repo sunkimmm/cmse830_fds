@@ -184,13 +184,15 @@ with tab1:
 with tab2:
     st.title("ESG Risks in Infrastructure Projects")
     st.markdown("##### Large-scale infrastructure projects are physically large, complex, unique, involves a lot of stakeholders and shareholders, and have great impacts on society. Due to this nature, they inherently involve various environmental, social, and governance (ESG) challenges. According to World Bank, those risks can be categorized into the following categories.")
+    st.markdown("##### To see what risks exist in projects, ")
+    
     st.markdown("---")
     
     col1, col2 = st.columns(2)
     with col1:
-        st.image(BASE / "es.png", caption="Environmental & Social Risks")
+        st.image(BASE / "es.png", caption="Environmental & Social Risks", width=400)
     with col2:
-        st.image(BASE / "gov.png", caption="Governance Risks")
+        st.image(BASE / "gov.png", caption="Governance Risks", width=400)
     
     st.markdown("---")
     
