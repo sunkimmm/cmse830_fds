@@ -643,25 +643,45 @@ with tab4:
     st.markdown("---")
     st.header("Text Preprocessing")
     st.subheader("🔧 OCR Correction")
-    st.markdown("• Split suffixes: 'ti on' → 'tion', 'si on' → 'sion'")
-    st.markdown("• Merged words: 'documentsw ould' → 'documents would'")
-    st.markdown("• Hyphenation fixes via NLTK dictionary validation")
-    st.markdown("• Remove noise patterns, footnotes, garbled text")
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.markdown("• Split suffixes: 'ti on' → 'tion', 'si on' → 'sion'")
+    with col2:
+        st.markdown("• Merged words: 'documentsw ould' → 'documents would'")
+    with col3:
+        st.markdown("• Hyphenation fixes via NLTK dictionary validation")
+    with col4:
+        st.markdown("• Remove noise patterns, footnotes, garbled text")
     st.subheader("📝 Spell Check")
-    st.markdown("• PySpellChecker for validation")
-    st.markdown("• Flag documents with >15% unknown words")
-    st.markdown("• Auto-correct common typos")
-    st.markdown("• Quality control across 280 projects")
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.markdown("• PySpellChecker for validation")
+    with col2:
+        st.markdown("• Flag documents with >15% unknown words")
+    with col3:
+        st.markdown("• Auto-correct common typos")
+    with col4:
+        st.markdown("• Quality control across 280 projects")
     st.subheader("🇺🇸 Americanize")
-    st.markdown("• British → American spelling conversion")
-    st.markdown("• 1,700+ word pairs loaded from dictionary")
-    st.markdown("• e.g., 'behaviour' → 'behavior', 'colour' → 'color'")
-    st.markdown("• Ensures consistency for NLP analysis")
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.markdown("• British → American spelling conversion")
+    with col2:
+        st.markdown("• 1,700+ word pairs loaded from dictionary")
+    with col3:
+        st.markdown("• e.g., 'behaviour' → 'behavior', 'colour' → 'color'")
+    with col4:
+        st.markdown("• Ensures consistency for NLP analysis")
     st.subheader("🔗 N-gram Preservation")
-    st.markdown("• Join multi-word terms with underscores")
-    st.markdown("• e.g., 'water supply' → 'water_supply'")
-    st.markdown("• Compound standardization via frequency analysis")
-    st.markdown("• Preserves semantic meaning of phrases")
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.markdown("• Join multi-word terms with underscores")
+    with col2:
+        st.markdown("• e.g., 'water supply' → 'water_supply'")
+    with col3:
+        st.markdown("• Compound standardization via frequency analysis")
+    with col4:
+        st.markdown("• Preserves semantic meaning of phrases")
 
 with tab5:
     st.title(" Risk Analysis")
