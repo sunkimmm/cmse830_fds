@@ -868,6 +868,34 @@ with tab4:
     with subtab2:
         st.header("Final ESG Taxonomy")
         esg_dict = pd.read_csv(BASE / "esg_dictionary_final.csv")
+        # Summary of methodology
+        st.subheader("ESG Dictionary Expansion Summary")
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.info("**1. Starting Point**\n\n• 435 seed terms across 14 ESG categories\n\n• Sources: World Bank ESF standards + InfraSAP dimensions\n\n• 7,132 corpus terms from 280 project documents")
+        with col2:
+            st.info("**2. Embedding**\n\n• Model: `all-mpnet-base-v2`\n\n• 768-dimensional vectors\n\n• Embedded all seed + corpus terms")
+        with col3:
+            st.info("**3. Subgroup Clustering**\n\n• K-means within each category\n\n• Optimal k by silhouette score (k=2–7)\n\n• Handles polysemy via semantic subgroups")
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.success("**4. Seed-Level Expansion**\n\n• Each seed expands individually\n\n• Dual threshold: seed_sim ≥ 0.55 AND subgroup_sim ≥ 0.55\n\n• Subgroup filter removes polysemy noise")
+        with col2:
+            st.success("**5. Single Assignment**\n\n• Each term → ONE category only\n\n• Highest seed similarity wins\n\n• Prevents cross-category redundancy")
+        with col3:
+            st.success("**6. Manual Curation**\n\n• Removed problematic seeds\n\n• Blacklisted ~40 noise terms\n\n• Quality control pass")
+        st.markdown("##### 📊 Final Result")
+        res_col1, res_col2, res_col3, res_col4 = st.columns(4)
+        with res_col1:
+            st.metric("Seed Terms", "435")
+        with res_col2:
+            st.metric("Expanded Terms", f"{len(esg_dict[esg_dict['is_seed']==False]):,}")
+        with res_col3:
+            st.metric("Total Dictionary", f"{len(esg_dict):,}")
+        with res_col4:
+            st.metric("Categories", "14")
+        st.caption("Thresholds chosen based on silhouette analysis — all categories show positive coherence.")
+        st.markdown("---")
         # Distribution overview
         st.subheader("Term Distribution by Pillar and Category")
         dist_df = esg_dict.groupby(['pillar', 'category', 'is_seed']).size().reset_index(name='count')
