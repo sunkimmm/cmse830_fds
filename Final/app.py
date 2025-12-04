@@ -867,9 +867,7 @@ with tab4:
     
     with subtab2:
     st.header("Embedding Analysis & Final ESG Taxonomy")
-
     esg_dict = pd.read_csv(BASE / "esg_dictionary_final.csv")
-
     col1, col2 = st.columns(2)
     with col1:
         st.info("""**1. Embedding**
@@ -899,6 +897,7 @@ with tab4:
 
     st.markdown("##### 📊 Final Result")
     res_col1, res_col2, res_col3, res_col4 = st.columns(4)
+
     with res_col1:
         st.metric("Seed Terms", "435")
     with res_col2:
