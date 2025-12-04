@@ -867,7 +867,7 @@ with tab4:
     
     with subtab2:
         st.header("Final ESG Taxonomy")
-        esg_dict = pd.read_csv(BASE / "__esg_dictionary_final.csv")
+        esg_dict = pd.read_csv(BASE / "esg_dictionary_final.csv")
         col1, col2 = st.columns(2)
         with col1:
             pillar_order = ['E', 'S', 'G']
