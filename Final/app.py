@@ -130,7 +130,7 @@ with tab1:
     
     st.plotly_chart(fig_maps, use_container_width=True)
     
-st.markdown("---")
+    st.markdown("---")
     st.subheader("Research Process")
     st.markdown("""
     <style>
