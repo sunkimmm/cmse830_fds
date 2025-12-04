@@ -870,7 +870,7 @@ with tab4:
         esg_dict = pd.read_csv(BASE / "esg_dictionary_final.csv")
         # Summary of methodology
         st.subheader("ESG Dictionary Expansion Summary")
-            col1, col2 = st.columns(2)
+        col1, col2 = st.columns(2)
             with col1:
                 st.info("""**1. Embedding**
                         
