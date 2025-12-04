@@ -23,7 +23,7 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "ESG Risks in Projects",
     "Project Metadata & Preprocessing",
     "Project Text Data & NLP Analysis",
-    "Risk Analysis",
+    "Regression Analysis",
     
 ])
 
@@ -867,11 +867,12 @@ with tab4:
     
     with subtab2:
         st.header("Final ESG Taxonomy")
-        st.markdown("** COMING SOON**")
+        st.markdown("## COMING SOON")
 
     with subtab3:
         st.header("Initial/Exploratory Analysis")
-        st.markdown("** COMING SOON**")
+        st.markdown("## COMING SOON")
 
 with tab5:
     st.title(" Regression Analysis")
+    st.markdown("## COMING SOON")
