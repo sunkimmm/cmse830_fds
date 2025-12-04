@@ -1053,7 +1053,13 @@ with tab4:
 
         # Load viz data (with t-SNE coordinates)
         viz_df = pd.read_csv(BASE / "esg_dictionary_viz.csv")
-
+        cat_info = {
+            'ESS3': {'display': 'E1'}, 'ESS6': {'display': 'E2'},
+            'ESS2': {'display': 'S1'}, 'ESS4': {'display': 'S2'}, 
+            'ESS5': {'display': 'S3'}, 'ESS7': {'display': 'S4'}, 'ESS8': {'display': 'S5'},
+            'DIM1': {'display': 'G1'}, 'DIM2': {'display': 'G2'}, 'DIM3': {'display': 'G3'},
+            'DIM6': {'display': 'G4'}, 'DIM7': {'display': 'G5'}, 'DIM8': {'display': 'G6'}, 'DIM9': {'display': 'G7'}
+        }
         # Pillar selector
         viz_col1, viz_col2 = st.columns([1, 3])
         with viz_col1:
