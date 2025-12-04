@@ -693,187 +693,185 @@ with tab2:
 
 with tab4:
     st.title("Project Text Data & NLP Analysis")
-    st.header("Text Data for Projects")
-    st.markdown("""
-    Source: World Bank\n
-    Each project has two key documents that are analyzed:
-    - **Project Appraisal Document (PAD)**: Written at planning stage
-    - **Implementation Completion Report (ICR)**: Written after project completion
-    """)
-    st.subheader("Sample Documents")
-    col1, col2 = st.columns(2)
-    with col1:
-        st.markdown("**Project Appraisal Document (at Planning stage)**")
-        with open(BASE / "P130164_PAD.pdf", "rb") as f:
-            st.download_button("📥 Download Sample PAD", f, file_name="P130164_PAD.pdf")
-    with col2:
-        st.markdown("**Implementation Completion Report (after completion)**")
-        with open(BASE / "P130164_ICR.pdf", "rb") as f:
-            st.download_button("📥 Download Sample ICR", f, file_name="P130164_ICR.pdf")
+    subtab1, subtab2, subtab3 = st.tabs(["Text Data & Preprocessing", "Final ESG Taxonomy", "Initial/Exploratory Analysis"])
     
-    st.markdown("---")
-    st.subheader("Text Data Overview")
-    text_data = pd.read_json(BASE / "text_data_sample.json")
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.metric("Total Projects", len(text_data))
-    with col2:
-        st.metric("Appraisal Documents", "6,728,587 words", "24,031 avg per project")
-    with col3:
-        st.metric("Completion Documents", "3,716,244 words", "13,272 avg per project")
-    selected_project = st.selectbox("Select a project to view text data, BEFORE and AFTER cleaning and ngram preservation:", options=text_data['projectid'].tolist())
-    doc_type = st.radio("Select document type:", ["Appraisal Document", "Completion Document"], horizontal=True)
-    row = text_data[text_data['projectid'] == selected_project].iloc[0]
-    if doc_type == "Appraisal Document":
-        raw_text = row['text_appraisal']
-        cleaned_text = row['text_appraisal_ngram']
-        raw_color, clean_color = "#e8f4e8", "#d4edda"
-    else:
-        raw_text = row['text_completion']
-        cleaned_text = row['text_completion_ngram']
-        raw_color, clean_color = "#e8f0f4", "#d1ecf1"
-    col1, col2 = st.columns(2)
-    with col1:
-        st.markdown("**📄 Raw Text (BEFORE cleaning)**")
-        st.markdown(f"<div style='background-color:{raw_color}; padding:15px; border-radius:10px; max-height:500px; overflow-y:auto; font-size:11px;'>{raw_text}</div>", unsafe_allow_html=True)
-    with col2:
-        st.markdown("**📄 Cleaned Text (AFTER cleaning)**")
-        st.markdown(f"<div style='background-color:{clean_color}; padding:15px; border-radius:10px; max-height:500px; overflow-y:auto; font-size:11px;'>{cleaned_text}</div>", unsafe_allow_html=True)
-    st.caption("Note: Text truncated to first 2,000 + last 2,000 words. Underscores indicate multi-word terms (n-grams).")
-    
-    st.markdown("---")
-    st.header("Text Preprocessing")
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.subheader("🔧 Typo Correction")
-        st.markdown("• NLTK dictionary validation for OCR errors")
-        st.markdown("• PySpellChecker for typo correction")
-        st.markdown("• Flag documents with >15% unknown words")
-        st.markdown("• Quality control across 280 projects")
-    with col2:
-        st.subheader("🇺🇸 Americanize")
-        st.markdown("• British → American spelling conversion")
-        st.markdown("• 1,700+ word pairs loaded from dictionary")
-        st.markdown("• e.g., 'behaviour' → 'behavior', 'colour' → 'color'")
-        st.markdown("• Ensures consistency for NLP analysis")
-    with col3:
-        st.subheader("🔗 N-gram Preservation")
-        st.markdown("• Join multi-word terms with underscores")
-        st.markdown("• e.g., 'water supply' → 'water_supply'")
-        st.markdown("• Compound standardization via frequency analysis")
-        st.markdown("• Preserves semantic meaning of phrases")
-
-    st.markdown("---")
-    st.header("N-gram Processing")
-    st.markdown("##### N-gram Extraction Process")
-    
-    st.markdown("""
-    For text analysis, bigrams and trigrams were extracted using specific POS (Part-of-Speech) patterns 
-    to capture meaningful multi-word terms relevant to ESG risks.
-    """)
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.markdown("**Bigram Patterns (2-word terms)**")
-        st.code("""
+    with subtab1:
+        st.header("Text Data for Projects")
+        st.markdown("""
+        Source: World Bank\n
+        Each project has two key documents that are analyzed:
+        - **Project Appraisal Document (PAD)**: Written at planning stage
+        - **Implementation Completion Report (ICR)**: Written after project completion
+        """)
+        st.subheader("Sample Documents")
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown("**Project Appraisal Document (at Planning stage)**")
+            with open(BASE / "P130164_PAD.pdf", "rb") as f:
+                st.download_button("📥 Download Sample PAD", f, file_name="P130164_PAD.pdf")
+        with col2:
+            st.markdown("**Implementation Completion Report (after completion)**")
+            with open(BASE / "P130164_ICR.pdf", "rb") as f:
+                st.download_button("📥 Download Sample ICR", f, file_name="P130164_ICR.pdf")
+        st.markdown("---")
+        st.subheader("Text Data Overview")
+        text_data = pd.read_json(BASE / "text_data_sample.json")
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.metric("Total Projects", len(text_data))
+        with col2:
+            st.metric("Appraisal Documents", "6,728,587 words", "24,031 avg per project")
+        with col3:
+            st.metric("Completion Documents", "3,716,244 words", "13,272 avg per project")
+        selected_project = st.selectbox("Select a project to view text data, BEFORE and AFTER cleaning and ngram preservation:", options=text_data['projectid'].tolist())
+        doc_type = st.radio("Select document type:", ["Appraisal Document", "Completion Document"], horizontal=True)
+        row = text_data[text_data['projectid'] == selected_project].iloc[0]
+        if doc_type == "Appraisal Document":
+            raw_text = row['text_appraisal']
+            cleaned_text = row['text_appraisal_ngram']
+            raw_color, clean_color = "#e8f4e8", "#d4edda"
+        else:
+            raw_text = row['text_completion']
+            cleaned_text = row['text_completion_ngram']
+            raw_color, clean_color = "#e8f0f4", "#d1ecf1"
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown("**📄 Raw Text (BEFORE cleaning)**")
+            st.markdown(f"<div style='background-color:{raw_color}; padding:15px; border-radius:10px; max-height:500px; overflow-y:auto; font-size:11px;'>{raw_text}</div>", unsafe_allow_html=True)
+        with col2:
+            st.markdown("**📄 Cleaned Text (AFTER cleaning)**")
+            st.markdown(f"<div style='background-color:{clean_color}; padding:15px; border-radius:10px; max-height:500px; overflow-y:auto; font-size:11px;'>{cleaned_text}</div>", unsafe_allow_html=True)
+        st.caption("Note: Text truncated to first 2,000 + last 2,000 words. Underscores indicate multi-word terms (n-grams).")
+        st.markdown("---")
+        st.header("Text Preprocessing")
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.subheader("🔧 Typo Correction")
+            st.markdown("• NLTK dictionary validation for OCR errors")
+            st.markdown("• PySpellChecker for typo correction")
+            st.markdown("• Flag documents with >15% unknown words")
+            st.markdown("• Quality control across 280 projects")
+        with col2:
+            st.subheader("🇺🇸 Americanize")
+            st.markdown("• British → American spelling conversion")
+            st.markdown("• 1,700+ word pairs loaded from dictionary")
+            st.markdown("• e.g., 'behaviour' → 'behavior', 'colour' → 'color'")
+            st.markdown("• Ensures consistency for NLP analysis")
+        with col3:
+            st.subheader("🔗 N-gram Preservation")
+            st.markdown("• Join multi-word terms with underscores")
+            st.markdown("• e.g., 'water supply' → 'water_supply'")
+            st.markdown("• Compound standardization via frequency analysis")
+            st.markdown("• Preserves semantic meaning of phrases")
+        st.markdown("---")
+        st.header("N-gram Processing")
+        st.markdown("##### N-gram Extraction Process")
+        st.markdown("""
+        For text analysis, bigrams and trigrams were extracted using specific POS (Part-of-Speech) patterns 
+        to capture meaningful multi-word terms relevant to ESG risks.
+        """)
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown("**Bigram Patterns (2-word terms)**")
+            st.code("""
         bigram_patterns = {
             ('ADJ', 'NOUN'),   # e.g., "environmental impact"
             ('NOUN', 'NOUN')   # e.g., "water supply"
         }
         """, language="python")
-    
-    with col2:
-        st.markdown("**Trigram Patterns (3-word terms)**")
-        st.code("""
+        with col2:
+            st.markdown("**Trigram Patterns (3-word terms)**")
+            st.code("""
         trigram_patterns = {
             ('ADJ', 'ADJ', 'NOUN'),    # e.g., "local indigenous community"
             ('ADJ', 'NOUN', 'NOUN'),   # e.g., "environmental impact assessment"
             ('NOUN', 'NOUN', 'NOUN')   # e.g., "water treatment plant"
         }
         """, language="python")
+        st.markdown("##### Filtering and Selection Process")
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.info("**Step 1: Pattern Matching**\n\nExtract n-grams matching the defined POS patterns using spaCy NLP")
+        with col2:
+            st.info("**Step 2: Frequency Filtering**\n\nPreserve important n-grams based on percentile thresholds and document frequency")
+        with col3:
+            st.info("**Step 3: TF-IDF Scoring**\n\nRank and select final terms based on TF-IDF scores across categories")
+        st.markdown("##### N-gram Filtering Results")
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown("**Bigrams Preserved: 2,033**")
+            st.caption("TF-IDF ≥ 99th percentile, Doc Freq 5-100%")
+            with st.expander("View top 50 bigrams"):
+                bigrams_data = [
+                    ("development planning", 0.0296, 11.1), ("expansion program", 0.0296, 18.2),
+                    ("monthly progress", 0.0296, 17.1), ("maintenance practices", 0.0296, 18.6),
+                    ("financial returns", 0.0295, 15.7), ("payment obligations", 0.0295, 6.8),
+                    ("complaint handling", 0.0295, 5.0), ("water companies", 0.0295, 6.4),
+                    ("street lighting", 0.0294, 6.8), ("trucking industry", 0.0294, 8.6),
+                    ("post_completion phase", 0.0294, 27.9), ("financial aspects", 0.0294, 21.8),
+                    ("joint supervision", 0.0294, 8.2), ("rail network", 0.0294, 9.6),
+                    ("project sites", 0.0294, 21.4), ("implementation issues", 0.0293, 28.9),
+                    ("complex project", 0.0293, 16.4), ("transport conditions", 0.0293, 6.8),
+                    ("project budget", 0.0293, 18.2), ("performance indicator", 0.0293, 15.0),
+                    ("timely completion", 0.0293, 24.6), ("resettlement compensation", 0.0293, 15.7),
+                    ("project operations", 0.0293, 10.0), ("transport systems", 0.0293, 13.2),
+                    ("implementation agencies", 0.0293, 18.9), ("electricity production", 0.0293, 12.9),
+                    ("performance government", 0.0292, 46.1), ("resettlement sites", 0.0292, 11.8),
+                    ("key elements", 0.0292, 24.3), ("qualified staff", 0.0292, 28.9),
+                    ("satisfaction survey", 0.0292, 6.1), ("energy production", 0.0292, 13.2),
+                    ("maintenance strategy", 0.0292, 9.6), ("original design", 0.0292, 21.4),
+                    ("plant operation", 0.0292, 11.1), ("vehicle weight", 0.0291, 5.0),
+                    ("service obligations", 0.0291, 16.1), ("road surface", 0.0291, 16.1),
+                    ("bad condition", 0.0291, 10.4), ("local economy", 0.0291, 21.4),
+                    ("environmental policy", 0.0291, 8.6), ("financial assistance", 0.0291, 23.2),
+                    ("bid opening", 0.0291, 16.4), ("financial plan", 0.0290, 13.9),
+                    ("wastepaper systems", 0.0290, 6.4), ("supply service", 0.0290, 8.9),
+                    ("power transfer", 0.0290, 6.1), ("bid prices", 0.0290, 22.1),
+                    ("related activities", 0.0290, 7.1), ("significant improvement", 0.0290, 27.9)
+                ]
+                bigrams_df = pd.DataFrame(bigrams_data, columns=["term", "tfidf", "doc_freq_%"])
+                st.dataframe(bigrams_df, height=400, use_container_width=True, hide_index=True)
+        with col2:
+            st.markdown("**Trigrams Preserved: 408**")
+            st.caption("TF-IDF ≥ 99.5th percentile, Doc Freq 5-100%")
+            with st.expander("View top 50 trigrams"):
+                trigrams_data = [
+                    ("project development objectives", 1.0000, 36.1), ("private sector participation", 0.8092, 57.5),
+                    ("resettlement action plan", 0.7621, 21.8), ("vehicle operating costs", 0.7072, 36.8),
+                    ("rural water supply", 0.6818, 7.9), ("financial management system", 0.6791, 54.6),
+                    ("debt service coverage", 0.6688, 31.4), ("project appraisal document", 0.6618, 5.4),
+                    ("national road network", 0.6524, 8.9), ("financial management specialist", 0.6478, 11.4),
+                    ("civil works contracts", 0.6314, 52.9), ("power sector reform", 0.6269, 17.1),
+                    ("environmental management plan", 0.6187, 22.9), ("project development objective", 0.6107, 43.9),
+                    ("task team leader", 0.6040, 10.0), ("core road network", 0.5385, 6.4),
+                    ("key performance indicators", 0.5348, 46.1), ("urban water supply", 0.5238, 10.7),
+                    ("solid waste management", 0.5125, 11.8), ("environmental impact assessment", 0.5086, 30.0),
+                    ("net present value", 0.5020, 51.8), ("total project cost", 0.4906, 47.9),
+                    ("project management unit", 0.4844, 10.4), ("management information system", 0.4570, 32.9),
+                    ("water supply systems", 0.4509, 12.9), ("road user charges", 0.4247, 17.1),
+                    ("wastepaper treatment plant", 0.4216, 11.4), ("service coverage ratio", 0.4212, 23.9),
+                    ("renewable energy development", 0.4183, 9.3), ("water supply system", 0.4094, 15.0),
+                    ("country assistance strategy", 0.4079, 5.4), ("project implementation plan", 0.4019, 14.3),
+                    ("water resources management", 0.3984, 10.0), ("resettlement policy framework", 0.3924, 10.4),
+                    ("private sector development", 0.3896, 51.1), ("total project costs", 0.3877, 25.7),
+                    ("water quality monitoring", 0.3848, 16.4), ("road safety program", 0.3746, 9.3),
+                    ("international competitive bidding", 0.3666, 36.8), ("loan closing date", 0.3565, 33.2),
+                    ("power sector restructuring", 0.3563, 6.8), ("standard bidding documents", 0.3504, 32.5),
+                    ("project management office", 0.3488, 9.3), ("financial management systems", 0.3420, 29.3),
+                    ("road sector development", 0.3407, 5.4), ("project closing date", 0.3379, 31.4),
+                    ("economic internal rate", 0.3373, 31.8), ("technical assistance component", 0.3346, 32.1),
+                    ("thermal power plant", 0.3345, 9.3), ("national competitive bidding", 0.3343, 18.6)
+                ]
+                trigrams_df = pd.DataFrame(trigrams_data, columns=["term", "tfidf", "doc_freq_%"])
+                st.dataframe(trigrams_df, height=400, use_container_width=True, hide_index=True)
     
-    st.markdown("##### Filtering and Selection Process")
+    with subtab2:
+        st.header("Final ESG Taxonomy")
+        st.info("Content for Final ESG Taxonomy will be added here.")
     
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
-        st.info("**Step 1: Pattern Matching**\n\nExtract n-grams matching the defined POS patterns using spaCy NLP")
-    
-    with col2:
-        st.info("**Step 2: Frequency Filtering**\n\nPreserve important n-grams based on percentile thresholds and document frequency")
-    
-    with col3:
-        st.info("**Step 3: TF-IDF Scoring**\n\nRank and select final terms based on TF-IDF scores across categories")
-
-    st.markdown("##### N-gram Filtering Results")
-    col1, col2 = st.columns(2)
-    with col1:
-        st.markdown("**Bigrams Preserved: 2,033**")
-        st.caption("TF-IDF ≥ 99th percentile, Doc Freq 5-100%")
-        with st.expander("View top 50 bigrams"):
-            bigrams_data = [
-                ("development planning", 0.0296, 11.1), ("expansion program", 0.0296, 18.2),
-                ("monthly progress", 0.0296, 17.1), ("maintenance practices", 0.0296, 18.6),
-                ("financial returns", 0.0295, 15.7), ("payment obligations", 0.0295, 6.8),
-                ("complaint handling", 0.0295, 5.0), ("water companies", 0.0295, 6.4),
-                ("street lighting", 0.0294, 6.8), ("trucking industry", 0.0294, 8.6),
-                ("post_completion phase", 0.0294, 27.9), ("financial aspects", 0.0294, 21.8),
-                ("joint supervision", 0.0294, 8.2), ("rail network", 0.0294, 9.6),
-                ("project sites", 0.0294, 21.4), ("implementation issues", 0.0293, 28.9),
-                ("complex project", 0.0293, 16.4), ("transport conditions", 0.0293, 6.8),
-                ("project budget", 0.0293, 18.2), ("performance indicator", 0.0293, 15.0),
-                ("timely completion", 0.0293, 24.6), ("resettlement compensation", 0.0293, 15.7),
-                ("project operations", 0.0293, 10.0), ("transport systems", 0.0293, 13.2),
-                ("implementation agencies", 0.0293, 18.9), ("electricity production", 0.0293, 12.9),
-                ("performance government", 0.0292, 46.1), ("resettlement sites", 0.0292, 11.8),
-                ("key elements", 0.0292, 24.3), ("qualified staff", 0.0292, 28.9),
-                ("satisfaction survey", 0.0292, 6.1), ("energy production", 0.0292, 13.2),
-                ("maintenance strategy", 0.0292, 9.6), ("original design", 0.0292, 21.4),
-                ("plant operation", 0.0292, 11.1), ("vehicle weight", 0.0291, 5.0),
-                ("service obligations", 0.0291, 16.1), ("road surface", 0.0291, 16.1),
-                ("bad condition", 0.0291, 10.4), ("local economy", 0.0291, 21.4),
-                ("environmental policy", 0.0291, 8.6), ("financial assistance", 0.0291, 23.2),
-                ("bid opening", 0.0291, 16.4), ("financial plan", 0.0290, 13.9),
-                ("wastepaper systems", 0.0290, 6.4), ("supply service", 0.0290, 8.9),
-                ("power transfer", 0.0290, 6.1), ("bid prices", 0.0290, 22.1),
-                ("related activities", 0.0290, 7.1), ("significant improvement", 0.0290, 27.9)
-            ]
-            bigrams_df = pd.DataFrame(bigrams_data, columns=["term", "tfidf", "doc_freq_%"])
-            st.dataframe(bigrams_df, height=400, use_container_width=True, hide_index=True)
-    with col2:
-        st.markdown("**Trigrams Preserved: 408**")
-        st.caption("TF-IDF ≥ 99.5th percentile, Doc Freq 5-100%")
-        with st.expander("View top 50 trigrams"):
-            trigrams_data = [
-                ("project development objectives", 1.0000, 36.1), ("private sector participation", 0.8092, 57.5),
-                ("resettlement action plan", 0.7621, 21.8), ("vehicle operating costs", 0.7072, 36.8),
-                ("rural water supply", 0.6818, 7.9), ("financial management system", 0.6791, 54.6),
-                ("debt service coverage", 0.6688, 31.4), ("project appraisal document", 0.6618, 5.4),
-                ("national road network", 0.6524, 8.9), ("financial management specialist", 0.6478, 11.4),
-                ("civil works contracts", 0.6314, 52.9), ("power sector reform", 0.6269, 17.1),
-                ("environmental management plan", 0.6187, 22.9), ("project development objective", 0.6107, 43.9),
-                ("task team leader", 0.6040, 10.0), ("core road network", 0.5385, 6.4),
-                ("key performance indicators", 0.5348, 46.1), ("urban water supply", 0.5238, 10.7),
-                ("solid waste management", 0.5125, 11.8), ("environmental impact assessment", 0.5086, 30.0),
-                ("net present value", 0.5020, 51.8), ("total project cost", 0.4906, 47.9),
-                ("project management unit", 0.4844, 10.4), ("management information system", 0.4570, 32.9),
-                ("water supply systems", 0.4509, 12.9), ("road user charges", 0.4247, 17.1),
-                ("wastepaper treatment plant", 0.4216, 11.4), ("service coverage ratio", 0.4212, 23.9),
-                ("renewable energy development", 0.4183, 9.3), ("water supply system", 0.4094, 15.0),
-                ("country assistance strategy", 0.4079, 5.4), ("project implementation plan", 0.4019, 14.3),
-                ("water resources management", 0.3984, 10.0), ("resettlement policy framework", 0.3924, 10.4),
-                ("private sector development", 0.3896, 51.1), ("total project costs", 0.3877, 25.7),
-                ("water quality monitoring", 0.3848, 16.4), ("road safety program", 0.3746, 9.3),
-                ("international competitive bidding", 0.3666, 36.8), ("loan closing date", 0.3565, 33.2),
-                ("power sector restructuring", 0.3563, 6.8), ("standard bidding documents", 0.3504, 32.5),
-                ("project management office", 0.3488, 9.3), ("financial management systems", 0.3420, 29.3),
-                ("road sector development", 0.3407, 5.4), ("project closing date", 0.3379, 31.4),
-                ("economic internal rate", 0.3373, 31.8), ("technical assistance component", 0.3346, 32.1),
-                ("thermal power plant", 0.3345, 9.3), ("national competitive bidding", 0.3343, 18.6)
-            ]
-            trigrams_df = pd.DataFrame(trigrams_data, columns=["term", "tfidf", "doc_freq_%"])
-            st.dataframe(trigrams_df, height=400, use_container_width=True, hide_index=True)
+    with subtab3:
+        st.header("Initial/Exploratory Analysis")
+        st.info("Content for Initial/Exploratory Analysis will be added here.")
 
 with tab5:
     st.title(" Risk Analysis")
