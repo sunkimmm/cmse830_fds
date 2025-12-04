@@ -707,5 +707,74 @@ with tab4:
     with col3:
         st.info("**Step 3: TF-IDF Scoring**\n\nRank and select final terms based on TF-IDF scores across categories")
 
+    st.markdown("##### N-gram Filtering Results")
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown("**Bigrams Preserved: 2,033**")
+        st.caption("TF-IDF ≥ 99th percentile, Doc Freq 5-100%")
+        with st.expander("View top 50 bigrams"):
+            bigrams_data = [
+                ("development planning", 0.0296, 11.1), ("expansion program", 0.0296, 18.2),
+                ("monthly progress", 0.0296, 17.1), ("maintenance practices", 0.0296, 18.6),
+                ("financial returns", 0.0295, 15.7), ("payment obligations", 0.0295, 6.8),
+                ("complaint handling", 0.0295, 5.0), ("water companies", 0.0295, 6.4),
+                ("street lighting", 0.0294, 6.8), ("trucking industry", 0.0294, 8.6),
+                ("post_completion phase", 0.0294, 27.9), ("financial aspects", 0.0294, 21.8),
+                ("joint supervision", 0.0294, 8.2), ("rail network", 0.0294, 9.6),
+                ("project sites", 0.0294, 21.4), ("implementation issues", 0.0293, 28.9),
+                ("complex project", 0.0293, 16.4), ("transport conditions", 0.0293, 6.8),
+                ("project budget", 0.0293, 18.2), ("performance indicator", 0.0293, 15.0),
+                ("timely completion", 0.0293, 24.6), ("resettlement compensation", 0.0293, 15.7),
+                ("project operations", 0.0293, 10.0), ("transport systems", 0.0293, 13.2),
+                ("implementation agencies", 0.0293, 18.9), ("electricity production", 0.0293, 12.9),
+                ("performance government", 0.0292, 46.1), ("resettlement sites", 0.0292, 11.8),
+                ("key elements", 0.0292, 24.3), ("qualified staff", 0.0292, 28.9),
+                ("satisfaction survey", 0.0292, 6.1), ("energy production", 0.0292, 13.2),
+                ("maintenance strategy", 0.0292, 9.6), ("original design", 0.0292, 21.4),
+                ("plant operation", 0.0292, 11.1), ("vehicle weight", 0.0291, 5.0),
+                ("service obligations", 0.0291, 16.1), ("road surface", 0.0291, 16.1),
+                ("bad condition", 0.0291, 10.4), ("local economy", 0.0291, 21.4),
+                ("environmental policy", 0.0291, 8.6), ("financial assistance", 0.0291, 23.2),
+                ("bid opening", 0.0291, 16.4), ("financial plan", 0.0290, 13.9),
+                ("wastepaper systems", 0.0290, 6.4), ("supply service", 0.0290, 8.9),
+                ("power transfer", 0.0290, 6.1), ("bid prices", 0.0290, 22.1),
+                ("related activities", 0.0290, 7.1), ("significant improvement", 0.0290, 27.9)
+            ]
+            bigrams_df = pd.DataFrame(bigrams_data, columns=["term", "tfidf", "doc_freq_%"])
+            st.dataframe(bigrams_df, height=400, use_container_width=True, hide_index=True)
+    with col2:
+        st.markdown("**Trigrams Preserved: 408**")
+        st.caption("TF-IDF ≥ 99.5th percentile, Doc Freq 5-100%")
+        with st.expander("View top 50 trigrams"):
+            trigrams_data = [
+                ("project development objectives", 1.0000, 36.1), ("private sector participation", 0.8092, 57.5),
+                ("resettlement action plan", 0.7621, 21.8), ("vehicle operating costs", 0.7072, 36.8),
+                ("rural water supply", 0.6818, 7.9), ("financial management system", 0.6791, 54.6),
+                ("debt service coverage", 0.6688, 31.4), ("project appraisal document", 0.6618, 5.4),
+                ("national road network", 0.6524, 8.9), ("financial management specialist", 0.6478, 11.4),
+                ("civil works contracts", 0.6314, 52.9), ("power sector reform", 0.6269, 17.1),
+                ("environmental management plan", 0.6187, 22.9), ("project development objective", 0.6107, 43.9),
+                ("task team leader", 0.6040, 10.0), ("core road network", 0.5385, 6.4),
+                ("key performance indicators", 0.5348, 46.1), ("urban water supply", 0.5238, 10.7),
+                ("solid waste management", 0.5125, 11.8), ("environmental impact assessment", 0.5086, 30.0),
+                ("net present value", 0.5020, 51.8), ("total project cost", 0.4906, 47.9),
+                ("project management unit", 0.4844, 10.4), ("management information system", 0.4570, 32.9),
+                ("water supply systems", 0.4509, 12.9), ("road user charges", 0.4247, 17.1),
+                ("wastepaper treatment plant", 0.4216, 11.4), ("service coverage ratio", 0.4212, 23.9),
+                ("renewable energy development", 0.4183, 9.3), ("water supply system", 0.4094, 15.0),
+                ("country assistance strategy", 0.4079, 5.4), ("project implementation plan", 0.4019, 14.3),
+                ("water resources management", 0.3984, 10.0), ("resettlement policy framework", 0.3924, 10.4),
+                ("private sector development", 0.3896, 51.1), ("total project costs", 0.3877, 25.7),
+                ("water quality monitoring", 0.3848, 16.4), ("road safety program", 0.3746, 9.3),
+                ("international competitive bidding", 0.3666, 36.8), ("loan closing date", 0.3565, 33.2),
+                ("power sector restructuring", 0.3563, 6.8), ("standard bidding documents", 0.3504, 32.5),
+                ("project management office", 0.3488, 9.3), ("financial management systems", 0.3420, 29.3),
+                ("road sector development", 0.3407, 5.4), ("project closing date", 0.3379, 31.4),
+                ("economic internal rate", 0.3373, 31.8), ("technical assistance component", 0.3346, 32.1),
+                ("thermal power plant", 0.3345, 9.3), ("national competitive bidding", 0.3343, 18.6)
+            ]
+            trigrams_df = pd.DataFrame(trigrams_data, columns=["term", "tfidf", "doc_freq_%"])
+            st.dataframe(trigrams_df, height=400, use_container_width=True, hide_index=True)
+            
 with tab5:
     st.title(" Risk Analysis")
