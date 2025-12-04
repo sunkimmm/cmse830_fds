@@ -20,8 +20,8 @@ st.title("Large-scale Infrastructure Project: ESG Risk Analysis")
 # create tab
 tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "Project Summary",
-    "Project Metadata & Preprocessing",
     "ESG Risks in Projects",
+    "Project Metadata & Preprocessing",
     "Project Text Data & NLP Analysis",
     "Risk Analysis",
     
@@ -184,7 +184,7 @@ with tab1:
     # st.plotly_chart(fig_timeline, use_container_width=True)
 
 
-with tab2:
+with tab3:
     st.title("Project Metadata & Preprocessing")
     
     # Create sub-tabs for better organization
@@ -450,7 +450,7 @@ with tab2:
         with col4:
             st.metric("Expansion Rate", f"{add_pct:.1f}%")
 
-with tab3:
+with tab2:
     st.title("ESG Risks in Infrastructure Projects")
     st.markdown("##### Large-scale infrastructure projects are physically large, complex, unique, involves a lot of stakeholders and shareholders, and have great impacts on society. Due to this nature, they inherently involve various environmental, social, and governance (ESG) challenges. According to World Bank, those risks can be categorized into the following categories.")
     st.markdown("##### To see what risks exist in projects, relevant terms were extracted from the following two World Bank documents.")
