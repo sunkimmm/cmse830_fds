@@ -1,0 +1,1262 @@
+pillar,category,term,is_seed
+E,E1: Resource Efficiency and Pollution Prevention,acid,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,air pollution,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,air_pollution,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,air_quality,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,air_quality_monitoring,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,ambient_air_quality,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,ammonia,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,aquifer,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,aquifers,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,assimilative capacity,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,average_water,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,carbon,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,carbon monoxide,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,carbon_monoxide,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,chemical,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,chemicals,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,chlorination,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,chlorine,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,clean_energy,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,climate change,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,climate pollutants,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,coal,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,commodities,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,compounds,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,contaminants,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,contamination,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,dioxide,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,dirt,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,disposal,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,disposal sites,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,drinking_water,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,drinking_water_supply,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,dust,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,effluents,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,electricity,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,electricity_production,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,emission,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,emissions,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,energy,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,energy efficiency,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,energy sources,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,energy use,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,energy_development,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,energy_efficiency,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,energy_production,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,energy_projects,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,energy_resources,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,energy_sources,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,energy_strategy,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,environmental_mitigation,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,fertilizer,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,fertilizers,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,fossil fuels,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,fossil_fuel,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,fossil_fuels,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,fuel,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,fuels,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,gas,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,gas flaring,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,gas_emissions,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,gasoline,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,gasses,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,greenhouse,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,greenhouse gasses,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,greenhouse_gas,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,greenhouse_gas_emissions,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,greenhouse_gasses,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,groundwater,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,hazardous waste,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,hazardous_materials,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,henna,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,historical pollution,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,hydro_projects,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,hydrocarbon,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,hydroelectric_power,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,hydrogen,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,hydrologic,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,hydrological,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,improved_water,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,industrial_consumers,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,insecticides,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,irreversible,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,irrigation_system,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,irrigation_systems,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,land_use,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,landfill,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,local_staff,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,locust,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,meters,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,mine,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,mineral,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,monoxide,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,municipal_wastepaper,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,national_trunk,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,new_water,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,nitrogen,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,nitrogen oxides,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,odds,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,odors,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,owners,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,oxidation,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,oxide,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,oxides,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,oxygen,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,particulars,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,particulate matter,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,pessimistic,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,pest control,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,pest control products,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,pest management,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,pest management plan,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,pest_management,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,pesticide,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,pesticide products,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,pesticides,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,pests,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,petrol,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,phone,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,piped_water,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,political,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,pollutant,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,pollutants,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,pollution,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,pollution_control,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,pollution_load,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,potable,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,potable_water,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,rain,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,ratios,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,raw material use,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,raw materials,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,recycling,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,refrigerants,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,remoteness,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,removal,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,renewable_energy,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,reservation,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,risky,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,rural_services,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,rural_towns,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,russian,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,sand,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,setup,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,soil,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,soil_erosion,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,soils,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,solar_energy,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,sole,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,solicitation,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,solid,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,subsidiary_loan_agreements,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,subsidies,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,suggestion,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,sulfur,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,sulfur dioxide,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,toxic,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,toxicity,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,urban_rural,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,vector control,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,vegetable,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,warm,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,warming,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,warnings,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,warrant,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,warranty,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,wastage,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,waste management,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,waste_treatment,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,wastepaper_services,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,wastepaper_systems,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,wastepaper_tariff,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,wastepaper_tariffs,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,wastepaper_treatment_facilities,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,wastepaper_treatment_plant,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,wastes,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,water,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water conservation,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,water consumption,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,water demand,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,water quality,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,water resources,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,water supplies,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,water use,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,water use efficiency,TRUE
+E,E1: Resource Efficiency and Pollution Prevention,water_bodies,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_borne,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_charges,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_companies,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_company,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_connections,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_consumption,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_demand,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_distribution,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_level,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_losses,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_management,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_meters,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_networks,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_production,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_quality,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_quality_monitoring,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_quality_standards,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_related,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_resource_management,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_resources,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_resources_development,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_resources_management,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_sales,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_sanitation,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_savings,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_sector,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_service,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_services,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_source,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_sources,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_storage,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_supplies,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_supply,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_supply_companies,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_supply_component,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_supply_facilities,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_supply_investments,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_supply_network,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_supply_project,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_supply_projects,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_supply_schemes,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_supply_sector,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_supply_service,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_supply_system,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_supply_systems,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_systems,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_table,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_tariff,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_tariffs,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_transmission,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_treatment,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_treatment_plant,FALSE
+E,E1: Resource Efficiency and Pollution Prevention,water_treatment_plants,FALSE
+E,E2: Biodiversity Conservation,abundance,FALSE
+E,E2: Biodiversity Conservation,agricultural,FALSE
+E,E2: Biodiversity Conservation,agricultural_development,FALSE
+E,E2: Biodiversity Conservation,agricultural_land,FALSE
+E,E2: Biodiversity Conservation,agricultural_production,FALSE
+E,E2: Biodiversity Conservation,agriculture,FALSE
+E,E2: Biodiversity Conservation,alien species,TRUE
+E,E2: Biodiversity Conservation,animal,FALSE
+E,E2: Biodiversity Conservation,animal husbandry,TRUE
+E,E2: Biodiversity Conservation,animal_husbandry,FALSE
+E,E2: Biodiversity Conservation,animals,TRUE
+E,E2: Biodiversity Conservation,aquaculture,TRUE
+E,E2: Biodiversity Conservation,aquatic,FALSE
+E,E2: Biodiversity Conservation,barge,FALSE
+E,E2: Biodiversity Conservation,barges,FALSE
+E,E2: Biodiversity Conservation,basin,FALSE
+E,E2: Biodiversity Conservation,biodiversity,TRUE
+E,E2: Biodiversity Conservation,biodiversity importance,TRUE
+E,E2: Biodiversity Conservation,biodiversity offset,TRUE
+E,E2: Biodiversity Conservation,biodiversity offsets,TRUE
+E,E2: Biodiversity Conservation,biodiversity value,TRUE
+E,E2: Biodiversity Conservation,biodiversity values,TRUE
+E,E2: Biodiversity Conservation,biological,FALSE
+E,E2: Biodiversity Conservation,birds,FALSE
+E,E2: Biodiversity Conservation,boats,FALSE
+E,E2: Biodiversity Conservation,breeding,TRUE
+E,E2: Biodiversity Conservation,canal,FALSE
+E,E2: Biodiversity Conservation,canals,FALSE
+E,E2: Biodiversity Conservation,cattle,FALSE
+E,E2: Biodiversity Conservation,congregatory species,TRUE
+E,E2: Biodiversity Conservation,conservation,FALSE
+E,E2: Biodiversity Conservation,critical habitat,TRUE
+E,E2: Biodiversity Conservation,critical habitats,TRUE
+E,E2: Biodiversity Conservation,crops,FALSE
+E,E2: Biodiversity Conservation,cultivation,TRUE
+E,E2: Biodiversity Conservation,deepwater,FALSE
+E,E2: Biodiversity Conservation,deforestation,FALSE
+E,E2: Biodiversity Conservation,diversity,TRUE
+E,E2: Biodiversity Conservation,ecological,TRUE
+E,E2: Biodiversity Conservation,ecological functions,TRUE
+E,E2: Biodiversity Conservation,ecology,FALSE
+E,E2: Biodiversity Conservation,ecosystem,FALSE
+E,E2: Biodiversity Conservation,ecosystem services,TRUE
+E,E2: Biodiversity Conservation,ecosystems,TRUE
+E,E2: Biodiversity Conservation,endangered species,TRUE
+E,E2: Biodiversity Conservation,endangered_species,FALSE
+E,E2: Biodiversity Conservation,environmental_analysis,FALSE
+E,E2: Biodiversity Conservation,environmental_aspects,FALSE
+E,E2: Biodiversity Conservation,environmental_assessment,FALSE
+E,E2: Biodiversity Conservation,environmental_assessments,FALSE
+E,E2: Biodiversity Conservation,environmental_benefits,FALSE
+E,E2: Biodiversity Conservation,environmental_concerns,FALSE
+E,E2: Biodiversity Conservation,environmental_impact,FALSE
+E,E2: Biodiversity Conservation,environmental_impacts,FALSE
+E,E2: Biodiversity Conservation,environmental_issues,FALSE
+E,E2: Biodiversity Conservation,environmental_management,FALSE
+E,E2: Biodiversity Conservation,environmental_policy,FALSE
+E,E2: Biodiversity Conservation,environmental_problems,FALSE
+E,E2: Biodiversity Conservation,environmental_protection,FALSE
+E,E2: Biodiversity Conservation,environmental_safeguards,FALSE
+E,E2: Biodiversity Conservation,evolution,FALSE
+E,E2: Biodiversity Conservation,farm,FALSE
+E,E2: Biodiversity Conservation,farmer,FALSE
+E,E2: Biodiversity Conservation,farmers,FALSE
+E,E2: Biodiversity Conservation,farmland,FALSE
+E,E2: Biodiversity Conservation,farms,FALSE
+E,E2: Biodiversity Conservation,fauna,TRUE
+E,E2: Biodiversity Conservation,fish,TRUE
+E,E2: Biodiversity Conservation,fisheries,FALSE
+E,E2: Biodiversity Conservation,fishery,FALSE
+E,E2: Biodiversity Conservation,flora,TRUE
+E,E2: Biodiversity Conservation,forest,TRUE
+E,E2: Biodiversity Conservation,forest harvesting operations,TRUE
+E,E2: Biodiversity Conservation,forestry,TRUE
+E,E2: Biodiversity Conservation,forests,TRUE
+E,E2: Biodiversity Conservation,freshwater,TRUE
+E,E2: Biodiversity Conservation,grassland,FALSE
+E,E2: Biodiversity Conservation,habitat,TRUE
+E,E2: Biodiversity Conservation,habitat loss,TRUE
+E,E2: Biodiversity Conservation,habitation,FALSE
+E,E2: Biodiversity Conservation,habitats,TRUE
+E,E2: Biodiversity Conservation,harbor,FALSE
+E,E2: Biodiversity Conservation,horizontal,FALSE
+E,E2: Biodiversity Conservation,husbandry,TRUE
+E,E2: Biodiversity Conservation,hydrogeological,FALSE
+E,E2: Biodiversity Conservation,injury,FALSE
+E,E2: Biodiversity Conservation,inland_waterway,FALSE
+E,E2: Biodiversity Conservation,international_trade,FALSE
+E,E2: Biodiversity Conservation,invasive alien species,TRUE
+E,E2: Biodiversity Conservation,junctions,FALSE
+E,E2: Biodiversity Conservation,laborers,FALSE
+E,E2: Biodiversity Conservation,lake,FALSE
+E,E2: Biodiversity Conservation,livestock,TRUE
+E,E2: Biodiversity Conservation,living organisms,TRUE
+E,E2: Biodiversity Conservation,margins,FALSE
+E,E2: Biodiversity Conservation,marine,TRUE
+E,E2: Biodiversity Conservation,measurements,FALSE
+E,E2: Biodiversity Conservation,migratory species,TRUE
+E,E2: Biodiversity Conservation,natural habitats,TRUE
+E,E2: Biodiversity Conservation,natural resource,TRUE
+E,E2: Biodiversity Conservation,natural resources,TRUE
+E,E2: Biodiversity Conservation,natural_gas,FALSE
+E,E2: Biodiversity Conservation,natural_habitats,FALSE
+E,E2: Biodiversity Conservation,natural_resources,FALSE
+E,E2: Biodiversity Conservation,new alien species,TRUE
+E,E2: Biodiversity Conservation,occurrences,FALSE
+E,E2: Biodiversity Conservation,orchard,FALSE
+E,E2: Biodiversity Conservation,organic,FALSE
+E,E2: Biodiversity Conservation,plant,TRUE
+E,E2: Biodiversity Conservation,plant_operation,FALSE
+E,E2: Biodiversity Conservation,plantations,TRUE
+E,E2: Biodiversity Conservation,planting,FALSE
+E,E2: Biodiversity Conservation,pollution_prevention,FALSE
+E,E2: Biodiversity Conservation,producer,FALSE
+E,E2: Biodiversity Conservation,refining,FALSE
+E,E2: Biodiversity Conservation,risk_mitigation,FALSE
+E,E2: Biodiversity Conservation,risk_rating,FALSE
+E,E2: Biodiversity Conservation,river,FALSE
+E,E2: Biodiversity Conservation,salvage logging,TRUE
+E,E2: Biodiversity Conservation,scrap,FALSE
+E,E2: Biodiversity Conservation,screen,FALSE
+E,E2: Biodiversity Conservation,sea,TRUE
+E,E2: Biodiversity Conservation,sheets,FALSE
+E,E2: Biodiversity Conservation,shock,FALSE
+E,E2: Biodiversity Conservation,shortfalls,FALSE
+E,E2: Biodiversity Conservation,significant conversion,TRUE
+E,E2: Biodiversity Conservation,slaughter,TRUE
+E,E2: Biodiversity Conservation,species,TRUE
+E,E2: Biodiversity Conservation,timber,TRUE
+E,E2: Biodiversity Conservation,treatment_plant,FALSE
+E,E2: Biodiversity Conservation,treatment_plants,FALSE
+E,E2: Biodiversity Conservation,urban_roads,FALSE
+E,E2: Biodiversity Conservation,varieties,FALSE
+E,E2: Biodiversity Conservation,verification,FALSE
+E,E2: Biodiversity Conservation,water_intake,FALSE
+E,E2: Biodiversity Conservation,water_use,FALSE
+E,E2: Biodiversity Conservation,water_user,FALSE
+E,E2: Biodiversity Conservation,water_utilities,FALSE
+E,E2: Biodiversity Conservation,water_utility,FALSE
+E,E2: Biodiversity Conservation,watercourses,FALSE
+E,E2: Biodiversity Conservation,waterlogging,FALSE
+E,E2: Biodiversity Conservation,waterway,TRUE
+E,E2: Biodiversity Conservation,waterways,TRUE
+E,E2: Biodiversity Conservation,wells,FALSE
+E,E2: Biodiversity Conservation,wetlands,TRUE
+E,E2: Biodiversity Conservation,wide_ranging,FALSE
+E,E2: Biodiversity Conservation,with_project,FALSE
+E,E2: Biodiversity Conservation,withdrawals,FALSE
+S,S1: Labor and Working Conditions,abuse,TRUE
+S,S1: Labor and Working Conditions,abuse of power,TRUE
+S,S1: Labor and Working Conditions,accommodation,TRUE
+S,S1: Labor and Working Conditions,businesses,FALSE
+S,S1: Labor and Working Conditions,caution,FALSE
+S,S1: Labor and Working Conditions,child labor,TRUE
+S,S1: Labor and Working Conditions,children,TRUE
+S,S1: Labor and Working Conditions,coercion,TRUE
+S,S1: Labor and Working Conditions,community labor,TRUE
+S,S1: Labor and Working Conditions,community workers,TRUE
+S,S1: Labor and Working Conditions,complaint,FALSE
+S,S1: Labor and Working Conditions,confinement,TRUE
+S,S1: Labor and Working Conditions,consequence,FALSE
+S,S1: Labor and Working Conditions,consequences,FALSE
+S,S1: Labor and Working Conditions,construction_work,FALSE
+S,S1: Labor and Working Conditions,contractor,FALSE
+S,S1: Labor and Working Conditions,danger,TRUE
+S,S1: Labor and Working Conditions,deaths,TRUE
+S,S1: Labor and Working Conditions,deceit,TRUE
+S,S1: Labor and Working Conditions,deception,TRUE
+S,S1: Labor and Working Conditions,direct workers,TRUE
+S,S1: Labor and Working Conditions,disabilities,TRUE
+S,S1: Labor and Working Conditions,discipline,FALSE
+S,S1: Labor and Working Conditions,employee,FALSE
+S,S1: Labor and Working Conditions,employees,FALSE
+S,S1: Labor and Working Conditions,employer,TRUE
+S,S1: Labor and Working Conditions,employers,TRUE
+S,S1: Labor and Working Conditions,employment,FALSE
+S,S1: Labor and Working Conditions,employment relationship,TRUE
+S,S1: Labor and Working Conditions,employment_opportunities,FALSE
+S,S1: Labor and Working Conditions,encroachment,FALSE
+S,S1: Labor and Working Conditions,equal opportunity,TRUE
+S,S1: Labor and Working Conditions,execution,FALSE
+S,S1: Labor and Working Conditions,executives,FALSE
+S,S1: Labor and Working Conditions,exploitation,FALSE
+S,S1: Labor and Working Conditions,factory,FALSE
+S,S1: Labor and Working Conditions,forced labor,TRUE
+S,S1: Labor and Working Conditions,freedom,TRUE
+S,S1: Labor and Working Conditions,grievance,FALSE
+S,S1: Labor and Working Conditions,grievance mechanism,TRUE
+S,S1: Labor and Working Conditions,harassment,TRUE
+S,S1: Labor and Working Conditions,hazards,TRUE
+S,S1: Labor and Working Conditions,hiring,TRUE
+S,S1: Labor and Working Conditions,hours of work,TRUE
+S,S1: Labor and Working Conditions,human_health,FALSE
+S,S1: Labor and Working Conditions,human_resource_development,FALSE
+S,S1: Labor and Working Conditions,industries,FALSE
+S,S1: Labor and Working Conditions,jet,FALSE
+S,S1: Labor and Working Conditions,job,FALSE
+S,S1: Labor and Working Conditions,lab,FALSE
+S,S1: Labor and Working Conditions,labor,FALSE
+S,S1: Labor and Working Conditions,labor management,TRUE
+S,S1: Labor and Working Conditions,labor management procedures,TRUE
+S,S1: Labor and Working Conditions,labor_based,FALSE
+S,S1: Labor and Working Conditions,laboratory_equipment,FALSE
+S,S1: Labor and Working Conditions,managerial,FALSE
+S,S1: Labor and Working Conditions,manner,FALSE
+S,S1: Labor and Working Conditions,maternity,TRUE
+S,S1: Labor and Working Conditions,migrant,FALSE
+S,S1: Labor and Working Conditions,migrant workers,TRUE
+S,S1: Labor and Working Conditions,migrant_workers,FALSE
+S,S1: Labor and Working Conditions,minimum age,TRUE
+S,S1: Labor and Working Conditions,mistakes,FALSE
+S,S1: Labor and Working Conditions,occupants,FALSE
+S,S1: Labor and Working Conditions,occupational health,TRUE
+S,S1: Labor and Working Conditions,officers,FALSE
+S,S1: Labor and Working Conditions,opportunities,FALSE
+S,S1: Labor and Working Conditions,overtime,TRUE
+S,S1: Labor and Working Conditions,payment,TRUE
+S,S1: Labor and Working Conditions,payments,FALSE
+S,S1: Labor and Working Conditions,pension,TRUE
+S,S1: Labor and Working Conditions,people with disabilities,TRUE
+S,S1: Labor and Working Conditions,persons with disabilities,TRUE
+S,S1: Labor and Working Conditions,project workers,TRUE
+S,S1: Labor and Working Conditions,recruitment,TRUE
+S,S1: Labor and Working Conditions,rehabilitation_component,FALSE
+S,S1: Labor and Working Conditions,remote_areas,FALSE
+S,S1: Labor and Working Conditions,reprisal,TRUE
+S,S1: Labor and Working Conditions,retirement,TRUE
+S,S1: Labor and Working Conditions,rights,TRUE
+S,S1: Labor and Working Conditions,secondary,FALSE
+S,S1: Labor and Working Conditions,selection_process,FALSE
+S,S1: Labor and Working Conditions,septic_tanks,FALSE
+S,S1: Labor and Working Conditions,sexual abuse,TRUE
+S,S1: Labor and Working Conditions,staff_members,FALSE
+S,S1: Labor and Working Conditions,supervision_missions,FALSE
+S,S1: Labor and Working Conditions,tenure,FALSE
+S,S1: Labor and Working Conditions,termination of employment,TRUE
+S,S1: Labor and Working Conditions,things,FALSE
+S,S1: Labor and Working Conditions,traffic_volume,FALSE
+S,S1: Labor and Working Conditions,training,TRUE
+S,S1: Labor and Working Conditions,undesirable,FALSE
+S,S1: Labor and Working Conditions,unification,FALSE
+S,S1: Labor and Working Conditions,voluntary,FALSE
+S,S1: Labor and Working Conditions,wages,TRUE
+S,S1: Labor and Working Conditions,words,FALSE
+S,S1: Labor and Working Conditions,work_plan,FALSE
+S,S1: Labor and Working Conditions,work_programs,FALSE
+S,S1: Labor and Working Conditions,workable,FALSE
+S,S1: Labor and Working Conditions,worker,TRUE
+S,S1: Labor and Working Conditions,workers with disabilities,TRUE
+S,S1: Labor and Working Conditions,working conditions,TRUE
+S,S1: Labor and Working Conditions,workplace,TRUE
+S,S1: Labor and Working Conditions,workplaces,TRUE
+S,S1: Labor and Working Conditions,year_round,FALSE
+S,S2: Community Health and Safety,accidents,FALSE
+S,S2: Community Health and Safety,barrage,FALSE
+S,S2: Community Health and Safety,combustion,FALSE
+S,S2: Community Health and Safety,community exposure,TRUE
+S,S2: Community Health and Safety,dam safety,TRUE
+S,S2: Community Health and Safety,dam_safety,FALSE
+S,S2: Community Health and Safety,demolition,FALSE
+S,S2: Community Health and Safety,destruction,FALSE
+S,S2: Community Health and Safety,disasters,FALSE
+S,S2: Community Health and Safety,disease,FALSE
+S,S2: Community Health and Safety,diseases,TRUE
+S,S2: Community Health and Safety,drainage,FALSE
+S,S2: Community Health and Safety,drainage_works,FALSE
+S,S2: Community Health and Safety,droughts,FALSE
+S,S2: Community Health and Safety,earthquake,FALSE
+S,S2: Community Health and Safety,earthquakes,FALSE
+S,S2: Community Health and Safety,emergencies,FALSE
+S,S2: Community Health and Safety,emergency,FALSE
+S,S2: Community Health and Safety,emergency events,TRUE
+S,S2: Community Health and Safety,emergency preparedness plan,TRUE
+S,S2: Community Health and Safety,emergency responders,TRUE
+S,S2: Community Health and Safety,emergency_preparedness,FALSE
+S,S2: Community Health and Safety,emergency_preparedness_plan,FALSE
+S,S2: Community Health and Safety,erosion,FALSE
+S,S2: Community Health and Safety,evacuation,TRUE
+S,S2: Community Health and Safety,explosion,TRUE
+S,S2: Community Health and Safety,explosions,TRUE
+S,S2: Community Health and Safety,extreme weather,TRUE
+S,S2: Community Health and Safety,extreme_weather,FALSE
+S,S2: Community Health and Safety,fire,TRUE
+S,S2: Community Health and Safety,fires,FALSE
+S,S2: Community Health and Safety,flood,TRUE
+S,S2: Community Health and Safety,flood control,TRUE
+S,S2: Community Health and Safety,flood handling,TRUE
+S,S2: Community Health and Safety,flood_control,FALSE
+S,S2: Community Health and Safety,flood_protection,FALSE
+S,S2: Community Health and Safety,floods,FALSE
+S,S2: Community Health and Safety,geology,FALSE
+S,S2: Community Health and Safety,hazard,FALSE
+S,S2: Community Health and Safety,hazardous,FALSE
+S,S2: Community Health and Safety,hazardous materials,TRUE
+S,S2: Community Health and Safety,highway_rehabilitation,FALSE
+S,S2: Community Health and Safety,hospital,FALSE
+S,S2: Community Health and Safety,hydraulic,FALSE
+S,S2: Community Health and Safety,improved_road,FALSE
+S,S2: Community Health and Safety,injection,FALSE
+S,S2: Community Health and Safety,injuries,TRUE
+S,S2: Community Health and Safety,landscape,FALSE
+S,S2: Community Health and Safety,landslides,TRUE
+S,S2: Community Health and Safety,leak_detection,FALSE
+S,S2: Community Health and Safety,leakage,FALSE
+S,S2: Community Health and Safety,leaks,TRUE
+S,S2: Community Health and Safety,metals,FALSE
+S,S2: Community Health and Safety,natural hazards,TRUE
+S,S2: Community Health and Safety,personal,FALSE
+S,S2: Community Health and Safety,potential_projects,FALSE
+S,S2: Community Health and Safety,precautionary,FALSE
+S,S2: Community Health and Safety,precious,FALSE
+S,S2: Community Health and Safety,preparation_stage,FALSE
+S,S2: Community Health and Safety,quotations,FALSE
+S,S2: Community Health and Safety,railway_services,FALSE
+S,S2: Community Health and Safety,railway_system,FALSE
+S,S2: Community Health and Safety,ring_road,FALSE
+S,S2: Community Health and Safety,riparian,FALSE
+S,S2: Community Health and Safety,rivers,FALSE
+S,S2: Community Health and Safety,road safety,TRUE
+S,S2: Community Health and Safety,road safety measures,TRUE
+S,S2: Community Health and Safety,road safety risks,TRUE
+S,S2: Community Health and Safety,road_projects,FALSE
+S,S2: Community Health and Safety,road_rehabilitation,FALSE
+S,S2: Community Health and Safety,road_rehabilitation_works,FALSE
+S,S2: Community Health and Safety,road_related,FALSE
+S,S2: Community Health and Safety,road_safety,FALSE
+S,S2: Community Health and Safety,road_safety_action,FALSE
+S,S2: Community Health and Safety,road_safety_activities,FALSE
+S,S2: Community Health and Safety,road_safety_audit,FALSE
+S,S2: Community Health and Safety,road_safety_audits,FALSE
+S,S2: Community Health and Safety,road_safety_component,FALSE
+S,S2: Community Health and Safety,road_safety_improvement,FALSE
+S,S2: Community Health and Safety,road_safety_issues,FALSE
+S,S2: Community Health and Safety,road_subprojects,FALSE
+S,S2: Community Health and Safety,royal,FALSE
+S,S2: Community Health and Safety,safe_drinking_water,FALSE
+S,S2: Community Health and Safety,safeguard_policy,FALSE
+S,S2: Community Health and Safety,safeguards,FALSE
+S,S2: Community Health and Safety,safeguards_policies,FALSE
+S,S2: Community Health and Safety,safety,FALSE
+S,S2: Community Health and Safety,safety audits,TRUE
+S,S2: Community Health and Safety,safety inspections,TRUE
+S,S2: Community Health and Safety,safety measures,TRUE
+S,S2: Community Health and Safety,safety risks,TRUE
+S,S2: Community Health and Safety,safety_audit,FALSE
+S,S2: Community Health and Safety,safety_audits,FALSE
+S,S2: Community Health and Safety,safety_issues,FALSE
+S,S2: Community Health and Safety,safety_management,FALSE
+S,S2: Community Health and Safety,security personnel,TRUE
+S,S2: Community Health and Safety,seeds,FALSE
+S,S2: Community Health and Safety,seismicity,TRUE
+S,S2: Community Health and Safety,specifics,FALSE
+S,S2: Community Health and Safety,spills,TRUE
+S,S2: Community Health and Safety,stones,FALSE
+S,S2: Community Health and Safety,stoppages,FALSE
+S,S2: Community Health and Safety,traffic_growth_rate,FALSE
+S,S2: Community Health and Safety,unreasonable,FALSE
+S,S2: Community Health and Safety,vector borne,TRUE
+S,S2: Community Health and Safety,wastewater,FALSE
+S,S2: Community Health and Safety,water borne,TRUE
+S,S2: Community Health and Safety,water_pollution,FALSE
+S,S2: Community Health and Safety,water_system,FALSE
+S,S2: Community Health and Safety,water_users,FALSE
+S,S2: Community Health and Safety,waterborne,TRUE
+S,S2: Community Health and Safety,weakest,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,affected communities,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,affected persons,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,affected_communities,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,affected_families,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,affected_households,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,affected_parties,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,affected_people,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,affected_persons,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,affected_population,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,affected_villages,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,cash compensation,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,cash_compensation,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,communities,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,compensation,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,compensation rates,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,compensation_rates,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,compensations,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,displaced households,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,displaced persons,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,displaced_persons,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,displacement,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,disputes,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,dwellings,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,economic displacement,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,eligibility criteria,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,entitlement,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,entitlements,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,estates,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,eviction,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,expropriation,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,families,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,farmlands,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,fixed assets,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,formal legal rights,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,host communities,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,household_income,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,involuntary,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,involuntary resettlement,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,lamps,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,land,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,land acquisition,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,land owner,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,land owners,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,land rights,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,land titling,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,land use restrictions,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,land use rights,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,land_acquisition,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,land_acquisition_process,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,land_based,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,land_transport,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,landfills,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,landholdings,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,legal rights,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,legal_framework,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,loss of land,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,lost net income,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,occupancy,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,permanent,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,physical displacement,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,private_investment,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,project_quality,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,proper,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,property owners,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,rectum,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,rehabilitation_work,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,rehabilitation_works,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,relic,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,relics,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,relocation arrangements,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,relocation sites,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,reparation,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,repayment,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,repayments,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,repercussions,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,replacement,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,replacement cost,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,replacement housing,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,replacement land,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,replacement_cost,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,reservations,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,reserves,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,reservoir_area,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,reservoirs,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,resettlement,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,resettlement assistance,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,resettlement implementation,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,resettlement plan,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,resettlement planning,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,resettlement plans,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,resettlement program,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,resettlement sites,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,resettlement_action,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,resettlement_action_plan,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,resettlement_action_plans,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,resettlement_activities,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,resettlement_assistance,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,resettlement_budget,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,resettlement_compensation,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,resettlement_impacts,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,resettlement_implementation,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,resettlement_information,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,resettlement_information_booklet,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,resettlement_issues,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,resettlement_monitoring,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,resettlement_office,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,resettlement_offices,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,resettlement_plan,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,resettlement_planning,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,resettlement_plans,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,resettlement_policy,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,residences,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,rural_development,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,session,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,settlers,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,tens,FALSE
+S,S3: Land Acquisition and Involuntary Resettlement,tenure right,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,tenure rights,TRUE
+S,S3: Land Acquisition and Involuntary Resettlement,viaducts,FALSE
+S,S4: Indigenous Peoples,ancestral territories,TRUE
+S,S4: Indigenous Peoples,attitude,FALSE
+S,S4: Indigenous Peoples,attitudes,FALSE
+S,S4: Indigenous Peoples,awareness,FALSE
+S,S4: Indigenous Peoples,behaviors,FALSE
+S,S4: Indigenous Peoples,belief,FALSE
+S,S4: Indigenous Peoples,beliefs,TRUE
+S,S4: Indigenous Peoples,career,FALSE
+S,S4: Indigenous Peoples,clan,TRUE
+S,S4: Indigenous Peoples,collectives,FALSE
+S,S4: Indigenous Peoples,concepts,FALSE
+S,S4: Indigenous Peoples,consent,TRUE
+S,S4: Indigenous Peoples,convention,FALSE
+S,S4: Indigenous Peoples,cultural,FALSE
+S,S4: Indigenous Peoples,culture,FALSE
+S,S4: Indigenous Peoples,customs,TRUE
+S,S4: Indigenous Peoples,dialect,TRUE
+S,S4: Indigenous Peoples,dignity,TRUE
+S,S4: Indigenous Peoples,dispossession,TRUE
+S,S4: Indigenous Peoples,dwellers,FALSE
+S,S4: Indigenous Peoples,economies,FALSE
+S,S4: Indigenous Peoples,education,FALSE
+S,S4: Indigenous Peoples,educational,FALSE
+S,S4: Indigenous Peoples,expertise,FALSE
+S,S4: Indigenous Peoples,forest dwellers,TRUE
+S,S4: Indigenous Peoples,gatherers,TRUE
+S,S4: Indigenous Peoples,harmony,TRUE
+S,S4: Indigenous Peoples,human rights,TRUE
+S,S4: Indigenous Peoples,indigenous,FALSE
+S,S4: Indigenous Peoples,indigenous peoples,TRUE
+S,S4: Indigenous Peoples,indigenous_people,FALSE
+S,S4: Indigenous Peoples,industrialization,FALSE
+S,S4: Indigenous Peoples,institutes,FALSE
+S,S4: Indigenous Peoples,integration,FALSE
+S,S4: Indigenous Peoples,knowledge,TRUE
+S,S4: Indigenous Peoples,livelihood,TRUE
+S,S4: Indigenous Peoples,livelihoods,TRUE
+S,S4: Indigenous Peoples,minor,FALSE
+S,S4: Indigenous Peoples,minority,TRUE
+S,S4: Indigenous Peoples,nations,FALSE
+S,S4: Indigenous Peoples,occupation,TRUE
+S,S4: Indigenous Peoples,occupational_health,FALSE
+S,S4: Indigenous Peoples,owner,FALSE
+S,S4: Indigenous Peoples,ownership,TRUE
+S,S4: Indigenous Peoples,pastoralists,TRUE
+S,S4: Indigenous Peoples,perception,FALSE
+S,S4: Indigenous Peoples,practices,TRUE
+S,S4: Indigenous Peoples,productive_uses,FALSE
+S,S4: Indigenous Peoples,property rights,TRUE
+S,S4: Indigenous Peoples,religious leaders,TRUE
+S,S4: Indigenous Peoples,social_safeguard_policies,FALSE
+S,S4: Indigenous Peoples,society,TRUE
+S,S4: Indigenous Peoples,traditional local communities,TRUE
+S,S4: Indigenous Peoples,traditions,TRUE
+S,S4: Indigenous Peoples,tribe,TRUE
+S,S4: Indigenous Peoples,tribes,TRUE
+S,S5: Cultural Heritage,archeological,FALSE
+S,S5: Cultural Heritage,archeological material,TRUE
+S,S5: Cultural Heritage,archeology,FALSE
+S,S5: Cultural Heritage,art,FALSE
+S,S5: Cultural Heritage,artifacts,TRUE
+S,S5: Cultural Heritage,arts,FALSE
+S,S5: Cultural Heritage,carvings,TRUE
+S,S5: Cultural Heritage,caves,TRUE
+S,S5: Cultural Heritage,cultural heritage,TRUE
+S,S5: Cultural Heritage,cultural heritage areas,TRUE
+S,S5: Cultural Heritage,cultural heritage experts,TRUE
+S,S5: Cultural Heritage,cultural heritage significance,TRUE
+S,S5: Cultural Heritage,cultural heritage sites,TRUE
+S,S5: Cultural Heritage,cultural_heritage,FALSE
+S,S5: Cultural Heritage,cultural_property,FALSE
+S,S5: Cultural Heritage,cultural_relics,FALSE
+S,S5: Cultural Heritage,cultural_resources,FALSE
+S,S5: Cultural Heritage,drawings,FALSE
+S,S5: Cultural Heritage,excavations,FALSE
+S,S5: Cultural Heritage,fossil,FALSE
+S,S5: Cultural Heritage,gardens,FALSE
+S,S5: Cultural Heritage,herbicides,FALSE
+S,S5: Cultural Heritage,heritage objects,TRUE
+S,S5: Cultural Heritage,hills,FALSE
+S,S5: Cultural Heritage,historic,FALSE
+S,S5: Cultural Heritage,historic buildings,TRUE
+S,S5: Cultural Heritage,history,TRUE
+S,S5: Cultural Heritage,history collections,TRUE
+S,S5: Cultural Heritage,ills,FALSE
+S,S5: Cultural Heritage,immovable objects,TRUE
+S,S5: Cultural Heritage,intangible cultural heritage,TRUE
+S,S5: Cultural Heritage,international cultural heritage,TRUE
+S,S5: Cultural Heritage,landscapes,TRUE
+S,S5: Cultural Heritage,monthly_progress_reports,FALSE
+S,S5: Cultural Heritage,mountainous,FALSE
+S,S5: Cultural Heritage,movable cultural heritage,TRUE
+S,S5: Cultural Heritage,movable objects,TRUE
+S,S5: Cultural Heritage,natural features,TRUE
+S,S5: Cultural Heritage,nutrients,FALSE
+S,S5: Cultural Heritage,objections,FALSE
+S,S5: Cultural Heritage,paintings,TRUE
+S,S5: Cultural Heritage,paleontological,TRUE
+S,S5: Cultural Heritage,quantities,FALSE
+S,S5: Cultural Heritage,reliance,FALSE
+S,S5: Cultural Heritage,sculptures,TRUE
+S,S5: Cultural Heritage,statuettes,TRUE
+S,S5: Cultural Heritage,tangible cultural heritage,TRUE
+S,S5: Cultural Heritage,toll_rate,FALSE
+S,S5: Cultural Heritage,total_road_network,FALSE
+G,G1: Legal Framework and Institutional Capacity,action_plan,FALSE
+G,G1: Legal Framework and Institutional Capacity,alternative_project,FALSE
+G,G1: Legal Framework and Institutional Capacity,appraisal methodologies,TRUE
+G,G1: Legal Framework and Institutional Capacity,budget_planning,FALSE
+G,G1: Legal Framework and Institutional Capacity,business_plans,FALSE
+G,G1: Legal Framework and Institutional Capacity,capital budgeting,TRUE
+G,G1: Legal Framework and Institutional Capacity,capital_costs,FALSE
+G,G1: Legal Framework and Institutional Capacity,capital_expenditure,FALSE
+G,G1: Legal Framework and Institutional Capacity,capital_expenditures,FALSE
+G,G1: Legal Framework and Institutional Capacity,capital_investment,FALSE
+G,G1: Legal Framework and Institutional Capacity,capital_investments,FALSE
+G,G1: Legal Framework and Institutional Capacity,corporate_governance,FALSE
+G,G1: Legal Framework and Institutional Capacity,current_budget_balance,FALSE
+G,G1: Legal Framework and Institutional Capacity,development_objectives,FALSE
+G,G1: Legal Framework and Institutional Capacity,development_plan,FALSE
+G,G1: Legal Framework and Institutional Capacity,development_planning,FALSE
+G,G1: Legal Framework and Institutional Capacity,development_policy,FALSE
+G,G1: Legal Framework and Institutional Capacity,development_strategy,FALSE
+G,G1: Legal Framework and Institutional Capacity,effective governance,TRUE
+G,G1: Legal Framework and Institutional Capacity,enforcement,FALSE
+G,G1: Legal Framework and Institutional Capacity,financial_management_capacity,FALSE
+G,G1: Legal Framework and Institutional Capacity,financial_planning,FALSE
+G,G1: Legal Framework and Institutional Capacity,financial_projections,FALSE
+G,G1: Legal Framework and Institutional Capacity,fiscal,FALSE
+G,G1: Legal Framework and Institutional Capacity,fiscal commitments,TRUE
+G,G1: Legal Framework and Institutional Capacity,fiscal_space,FALSE
+G,G1: Legal Framework and Institutional Capacity,good governance,TRUE
+G,G1: Legal Framework and Institutional Capacity,good_governance,FALSE
+G,G1: Legal Framework and Institutional Capacity,governance,FALSE
+G,G1: Legal Framework and Institutional Capacity,governance_system,FALSE
+G,G1: Legal Framework and Institutional Capacity,government_implementation_performance,FALSE
+G,G1: Legal Framework and Institutional Capacity,government_performance,FALSE
+G,G1: Legal Framework and Institutional Capacity,government_strategy,FALSE
+G,G1: Legal Framework and Institutional Capacity,infrastructure_assets,FALSE
+G,G1: Legal Framework and Institutional Capacity,institutional capacity,TRUE
+G,G1: Legal Framework and Institutional Capacity,institutional_arrangements,FALSE
+G,G1: Legal Framework and Institutional Capacity,institutional_capabilities,FALSE
+G,G1: Legal Framework and Institutional Capacity,institutional_capacity,FALSE
+G,G1: Legal Framework and Institutional Capacity,institutional_component,FALSE
+G,G1: Legal Framework and Institutional Capacity,institutional_development_component,FALSE
+G,G1: Legal Framework and Institutional Capacity,institutional_development_program,FALSE
+G,G1: Legal Framework and Institutional Capacity,institutional_framework,FALSE
+G,G1: Legal Framework and Institutional Capacity,institutional_reforms,FALSE
+G,G1: Legal Framework and Institutional Capacity,institutional_strengthening,FALSE
+G,G1: Legal Framework and Institutional Capacity,institutional_support,FALSE
+G,G1: Legal Framework and Institutional Capacity,institutionalization,FALSE
+G,G1: Legal Framework and Institutional Capacity,investment_programs,FALSE
+G,G1: Legal Framework and Institutional Capacity,leaders,FALSE
+G,G1: Legal Framework and Institutional Capacity,legal_agreements,FALSE
+G,G1: Legal Framework and Institutional Capacity,legal_title,FALSE
+G,G1: Legal Framework and Institutional Capacity,major_maintenance,FALSE
+G,G1: Legal Framework and Institutional Capacity,managers,FALSE
+G,G1: Legal Framework and Institutional Capacity,miscellaneous,FALSE
+G,G1: Legal Framework and Institutional Capacity,national development plans,TRUE
+G,G1: Legal Framework and Institutional Capacity,national strategic vision,TRUE
+G,G1: Legal Framework and Institutional Capacity,national welfare,TRUE
+G,G1: Legal Framework and Institutional Capacity,national_consultants,FALSE
+G,G1: Legal Framework and Institutional Capacity,overall_project_implementation,FALSE
+G,G1: Legal Framework and Institutional Capacity,planner,FALSE
+G,G1: Legal Framework and Institutional Capacity,planners,FALSE
+G,G1: Legal Framework and Institutional Capacity,planning,TRUE
+G,G1: Legal Framework and Institutional Capacity,polices,FALSE
+G,G1: Legal Framework and Institutional Capacity,private_partnerships,FALSE
+G,G1: Legal Framework and Institutional Capacity,project prioritization,TRUE
+G,G1: Legal Framework and Institutional Capacity,project selection,TRUE
+G,G1: Legal Framework and Institutional Capacity,project_affected,FALSE
+G,G1: Legal Framework and Institutional Capacity,project_agreement,FALSE
+G,G1: Legal Framework and Institutional Capacity,project_audit,FALSE
+G,G1: Legal Framework and Institutional Capacity,project_company,FALSE
+G,G1: Legal Framework and Institutional Capacity,project_data,FALSE
+G,G1: Legal Framework and Institutional Capacity,project_description,FALSE
+G,G1: Legal Framework and Institutional Capacity,project_director,FALSE
+G,G1: Legal Framework and Institutional Capacity,project_evaluation,FALSE
+G,G1: Legal Framework and Institutional Capacity,project_execution,FALSE
+G,G1: Legal Framework and Institutional Capacity,project_identification,FALSE
+G,G1: Legal Framework and Institutional Capacity,project_impact,FALSE
+G,G1: Legal Framework and Institutional Capacity,project_investments,FALSE
+G,G1: Legal Framework and Institutional Capacity,project_level,FALSE
+G,G1: Legal Framework and Institutional Capacity,project_management_units,FALSE
+G,G1: Legal Framework and Institutional Capacity,project_manager,FALSE
+G,G1: Legal Framework and Institutional Capacity,project_performance,FALSE
+G,G1: Legal Framework and Institutional Capacity,project_performance_indicators,FALSE
+G,G1: Legal Framework and Institutional Capacity,project_proposals,FALSE
+G,G1: Legal Framework and Institutional Capacity,project_risks,FALSE
+G,G1: Legal Framework and Institutional Capacity,project_road,FALSE
+G,G1: Legal Framework and Institutional Capacity,project_roads,FALSE
+G,G1: Legal Framework and Institutional Capacity,project_selection,FALSE
+G,G1: Legal Framework and Institutional Capacity,project_sustainability,FALSE
+G,G1: Legal Framework and Institutional Capacity,regimes,FALSE
+G,G1: Legal Framework and Institutional Capacity,regular,FALSE
+G,G1: Legal Framework and Institutional Capacity,regular_basis,FALSE
+G,G1: Legal Framework and Institutional Capacity,regulation,FALSE
+G,G1: Legal Framework and Institutional Capacity,regulations,FALSE
+G,G1: Legal Framework and Institutional Capacity,regulatory,FALSE
+G,G1: Legal Framework and Institutional Capacity,regulatory regime,TRUE
+G,G1: Legal Framework and Institutional Capacity,regulatory_agency,FALSE
+G,G1: Legal Framework and Institutional Capacity,regulatory_authorities,FALSE
+G,G1: Legal Framework and Institutional Capacity,responsiveness,FALSE
+G,G1: Legal Framework and Institutional Capacity,secretaries,FALSE
+G,G1: Legal Framework and Institutional Capacity,sector law,TRUE
+G,G1: Legal Framework and Institutional Capacity,sector_issues,FALSE
+G,G1: Legal Framework and Institutional Capacity,sector_led,FALSE
+G,G1: Legal Framework and Institutional Capacity,sector_participation,FALSE
+G,G1: Legal Framework and Institutional Capacity,sector_policies,FALSE
+G,G1: Legal Framework and Institutional Capacity,sector_policy,FALSE
+G,G1: Legal Framework and Institutional Capacity,sector_related,FALSE
+G,G1: Legal Framework and Institutional Capacity,sectoral plans,TRUE
+G,G1: Legal Framework and Institutional Capacity,solid legal framework,TRUE
+G,G1: Legal Framework and Institutional Capacity,specialty,FALSE
+G,G1: Legal Framework and Institutional Capacity,specific_investment,FALSE
+G,G1: Legal Framework and Institutional Capacity,straight_forward,FALSE
+G,G1: Legal Framework and Institutional Capacity,straight_line,FALSE
+G,G1: Legal Framework and Institutional Capacity,straightforward,FALSE
+G,G1: Legal Framework and Institutional Capacity,strain,FALSE
+G,G1: Legal Framework and Institutional Capacity,strata,FALSE
+G,G1: Legal Framework and Institutional Capacity,strategic plans,TRUE
+G,G1: Legal Framework and Institutional Capacity,strategic vision,TRUE
+G,G1: Legal Framework and Institutional Capacity,subjects,FALSE
+G,G1: Legal Framework and Institutional Capacity,submission,FALSE
+G,G1: Legal Framework and Institutional Capacity,technical_aspects,FALSE
+G,G2: Economic Efficiency and Value for Money,allocative efficiency,TRUE
+G,G2: Economic Efficiency and Value for Money,bank_financing,FALSE
+G,G2: Economic Efficiency and Value for Money,benefit_analysis,FALSE
+G,G2: Economic Efficiency and Value for Money,benefit_cost,FALSE
+G,G2: Economic Efficiency and Value for Money,co_financing,FALSE
+G,G2: Economic Efficiency and Value for Money,cost benefit analysis,TRUE
+G,G2: Economic Efficiency and Value for Money,cost_benefit,FALSE
+G,G2: Economic Efficiency and Value for Money,cost_benefit_analysis,FALSE
+G,G2: Economic Efficiency and Value for Money,cost_effective,FALSE
+G,G2: Economic Efficiency and Value for Money,cost_effectiveness,FALSE
+G,G2: Economic Efficiency and Value for Money,cost_efficient,FALSE
+G,G2: Economic Efficiency and Value for Money,economic efficiency,TRUE
+G,G2: Economic Efficiency and Value for Money,economic_cost,FALSE
+G,G2: Economic Efficiency and Value for Money,economic_efficiency,FALSE
+G,G2: Economic Efficiency and Value for Money,economic_evaluation,FALSE
+G,G2: Economic Efficiency and Value for Money,economical,FALSE
+G,G2: Economic Efficiency and Value for Money,efficiencies,FALSE
+G,G2: Economic Efficiency and Value for Money,efficiency gains,TRUE
+G,G2: Economic Efficiency and Value for Money,efficiency_gains,FALSE
+G,G2: Economic Efficiency and Value for Money,efficiency_improvement,FALSE
+G,G2: Economic Efficiency and Value for Money,efficiency_improvements,FALSE
+G,G2: Economic Efficiency and Value for Money,financing modalities,TRUE
+G,G2: Economic Efficiency and Value for Money,financing_agreement,FALSE
+G,G2: Economic Efficiency and Value for Money,financing_arrangements,FALSE
+G,G2: Economic Efficiency and Value for Money,financing_mechanism,FALSE
+G,G2: Economic Efficiency and Value for Money,improved_accessibility,FALSE
+G,G2: Economic Efficiency and Value for Money,ineffective,FALSE
+G,G2: Economic Efficiency and Value for Money,inefficiencies,FALSE
+G,G2: Economic Efficiency and Value for Money,net_loss,FALSE
+G,G2: Economic Efficiency and Value for Money,operational_costs,FALSE
+G,G2: Economic Efficiency and Value for Money,possible disposal costs,TRUE
+G,G2: Economic Efficiency and Value for Money,prerequisite,FALSE
+G,G2: Economic Efficiency and Value for Money,present value,TRUE
+G,G2: Economic Efficiency and Value for Money,private_power,FALSE
+G,G2: Economic Efficiency and Value for Money,production_capacity,FALSE
+G,G2: Economic Efficiency and Value for Money,productive efficiency,TRUE
+G,G2: Economic Efficiency and Value for Money,section,FALSE
+G,G2: Economic Efficiency and Value for Money,selective,FALSE
+G,G2: Economic Efficiency and Value for Money,value for money,TRUE
+G,G2: Economic Efficiency and Value for Money,world_wide,FALSE
+G,G3: Fiscal Affordability and Sustainability,accounting controls,TRUE
+G,G3: Fiscal Affordability and Sustainability,accounting_controls,FALSE
+G,G3: Fiscal Affordability and Sustainability,accounting_policies,FALSE
+G,G3: Fiscal Affordability and Sustainability,accounting_system,FALSE
+G,G3: Fiscal Affordability and Sustainability,accounting_systems,FALSE
+G,G3: Fiscal Affordability and Sustainability,annual budget,TRUE
+G,G3: Fiscal Affordability and Sustainability,annual_budget,FALSE
+G,G3: Fiscal Affordability and Sustainability,annual_financial,FALSE
+G,G3: Fiscal Affordability and Sustainability,annual_project,FALSE
+G,G3: Fiscal Affordability and Sustainability,arrears,FALSE
+G,G3: Fiscal Affordability and Sustainability,bankruptcy,FALSE
+G,G3: Fiscal Affordability and Sustainability,borrowings,FALSE
+G,G3: Fiscal Affordability and Sustainability,budget,FALSE
+G,G3: Fiscal Affordability and Sustainability,budget cycle,TRUE
+G,G3: Fiscal Affordability and Sustainability,budget_allocation,FALSE
+G,G3: Fiscal Affordability and Sustainability,budget_allocations,FALSE
+G,G3: Fiscal Affordability and Sustainability,budgetary,FALSE
+G,G3: Fiscal Affordability and Sustainability,budgetary_allocations,FALSE
+G,G3: Fiscal Affordability and Sustainability,budgets,FALSE
+G,G3: Fiscal Affordability and Sustainability,contingent,FALSE
+G,G3: Fiscal Affordability and Sustainability,contingent liabilities,TRUE
+G,G3: Fiscal Affordability and Sustainability,contingent_liabilities,FALSE
+G,G3: Fiscal Affordability and Sustainability,creditors,FALSE
+G,G3: Fiscal Affordability and Sustainability,debt,TRUE
+G,G3: Fiscal Affordability and Sustainability,debt_equity,FALSE
+G,G3: Fiscal Affordability and Sustainability,debt_financing,FALSE
+G,G3: Fiscal Affordability and Sustainability,debt_service,FALSE
+G,G3: Fiscal Affordability and Sustainability,debt_service_coverage,FALSE
+G,G3: Fiscal Affordability and Sustainability,debt_service_obligations,FALSE
+G,G3: Fiscal Affordability and Sustainability,debt_service_payments,FALSE
+G,G3: Fiscal Affordability and Sustainability,debt_servicing,FALSE
+G,G3: Fiscal Affordability and Sustainability,debtors,FALSE
+G,G3: Fiscal Affordability and Sustainability,debts,FALSE
+G,G3: Fiscal Affordability and Sustainability,deficit,FALSE
+G,G3: Fiscal Affordability and Sustainability,deficits,FALSE
+G,G3: Fiscal Affordability and Sustainability,different_expenditure_categories,FALSE
+G,G3: Fiscal Affordability and Sustainability,eligible_expenditures,FALSE
+G,G3: Fiscal Affordability and Sustainability,expenditure,FALSE
+G,G3: Fiscal Affordability and Sustainability,expenditure frameworks,TRUE
+G,G3: Fiscal Affordability and Sustainability,expenditure_category,FALSE
+G,G3: Fiscal Affordability and Sustainability,expenditure_program,FALSE
+G,G3: Fiscal Affordability and Sustainability,expenditures,FALSE
+G,G3: Fiscal Affordability and Sustainability,expense,FALSE
+G,G3: Fiscal Affordability and Sustainability,expenses,FALSE
+G,G3: Fiscal Affordability and Sustainability,extra budgetary,TRUE
+G,G3: Fiscal Affordability and Sustainability,finances,FALSE
+G,G3: Fiscal Affordability and Sustainability,financial sustainability,TRUE
+G,G3: Fiscal Affordability and Sustainability,financial_accounting,FALSE
+G,G3: Fiscal Affordability and Sustainability,financial_sustainability,FALSE
+G,G3: Fiscal Affordability and Sustainability,financial_viability,FALSE
+G,G3: Fiscal Affordability and Sustainability,fiscal affordability,TRUE
+G,G3: Fiscal Affordability and Sustainability,fiscal ceiling,TRUE
+G,G3: Fiscal Affordability and Sustainability,fiscal deficit,TRUE
+G,G3: Fiscal Affordability and Sustainability,fiscal implications,TRUE
+G,G3: Fiscal Affordability and Sustainability,fiscal sustainability,TRUE
+G,G3: Fiscal Affordability and Sustainability,fiscal_deficit,FALSE
+G,G3: Fiscal Affordability and Sustainability,fiscal_framework,FALSE
+G,G3: Fiscal Affordability and Sustainability,fiscal_impact,FALSE
+G,G3: Fiscal Affordability and Sustainability,fiscal_sustainability,FALSE
+G,G3: Fiscal Affordability and Sustainability,foreign_expenditures,FALSE
+G,G3: Fiscal Affordability and Sustainability,government_budget,FALSE
+G,G3: Fiscal Affordability and Sustainability,incumbent,FALSE
+G,G3: Fiscal Affordability and Sustainability,levies,FALSE
+G,G3: Fiscal Affordability and Sustainability,liabilities,FALSE
+G,G3: Fiscal Affordability and Sustainability,liability,FALSE
+G,G3: Fiscal Affordability and Sustainability,loan_proceeds,FALSE
+G,G3: Fiscal Affordability and Sustainability,local_economy,FALSE
+G,G3: Fiscal Affordability and Sustainability,multiyear budgeting,TRUE
+G,G3: Fiscal Affordability and Sustainability,obligation,FALSE
+G,G3: Fiscal Affordability and Sustainability,outlay,FALSE
+G,G3: Fiscal Affordability and Sustainability,payable,FALSE
+G,G3: Fiscal Affordability and Sustainability,payment_obligations,FALSE
+G,G3: Fiscal Affordability and Sustainability,project_end,FALSE
+G,G3: Fiscal Affordability and Sustainability,public_consultation,FALSE
+G,G3: Fiscal Affordability and Sustainability,repairs,FALSE
+G,G3: Fiscal Affordability and Sustainability,repayable,FALSE
+G,G3: Fiscal Affordability and Sustainability,road_corridors,FALSE
+G,G3: Fiscal Affordability and Sustainability,spending,TRUE
+G,G3: Fiscal Affordability and Sustainability,standby,FALSE
+G,G3: Fiscal Affordability and Sustainability,surcharges,FALSE
+G,G3: Fiscal Affordability and Sustainability,total_area,FALSE
+G,G3: Fiscal Affordability and Sustainability,total_cost,FALSE
+G,G3: Fiscal Affordability and Sustainability,wrong,FALSE
+G,G4: Procurement and Contract Management,auction,FALSE
+G,G4: Procurement and Contract Management,bid_documents,FALSE
+G,G4: Procurement and Contract Management,bid_evaluation,FALSE
+G,G4: Procurement and Contract Management,bid_evaluation_report,FALSE
+G,G4: Procurement and Contract Management,bid_opening,FALSE
+G,G4: Procurement and Contract Management,bid_prices,FALSE
+G,G4: Procurement and Contract Management,bidder,TRUE
+G,G4: Procurement and Contract Management,bidders,TRUE
+G,G4: Procurement and Contract Management,bidding,FALSE
+G,G4: Procurement and Contract Management,bidding_document,FALSE
+G,G4: Procurement and Contract Management,bidding_documents,FALSE
+G,G4: Procurement and Contract Management,bidding_procedures,FALSE
+G,G4: Procurement and Contract Management,bidding_process,FALSE
+G,G4: Procurement and Contract Management,bids,TRUE
+G,G4: Procurement and Contract Management,buyers,FALSE
+G,G4: Procurement and Contract Management,civil_work_contracts,FALSE
+G,G4: Procurement and Contract Management,civil_works_contract,FALSE
+G,G4: Procurement and Contract Management,civil_works_contracts,FALSE
+G,G4: Procurement and Contract Management,competitive bidding,TRUE
+G,G4: Procurement and Contract Management,competitive_bidding,FALSE
+G,G4: Procurement and Contract Management,competitive_bidding_procedures,FALSE
+G,G4: Procurement and Contract Management,competitive_bidding_process,FALSE
+G,G4: Procurement and Contract Management,construction_contracts,FALSE
+G,G4: Procurement and Contract Management,contract award,TRUE
+G,G4: Procurement and Contract Management,contract awards,TRUE
+G,G4: Procurement and Contract Management,contract condition,TRUE
+G,G4: Procurement and Contract Management,contract conditions,TRUE
+G,G4: Procurement and Contract Management,contract_award,FALSE
+G,G4: Procurement and Contract Management,contract_awards,FALSE
+G,G4: Procurement and Contract Management,contract_conditions,FALSE
+G,G4: Procurement and Contract Management,contract_management,FALSE
+G,G4: Procurement and Contract Management,contracting,FALSE
+G,G4: Procurement and Contract Management,contractual,FALSE
+G,G4: Procurement and Contract Management,different_procurement_methods,FALSE
+G,G4: Procurement and Contract Management,e procurement,TRUE
+G,G4: Procurement and Contract Management,efficient_procurement,FALSE
+G,G4: Procurement and Contract Management,equipment_procurement,FALSE
+G,G4: Procurement and Contract Management,equitable,FALSE
+G,G4: Procurement and Contract Management,fair treatment,TRUE
+G,G4: Procurement and Contract Management,fairness,FALSE
+G,G4: Procurement and Contract Management,general_procurement,FALSE
+G,G4: Procurement and Contract Management,international_best_practice,FALSE
+G,G4: Procurement and Contract Management,invoicing,TRUE
+G,G4: Procurement and Contract Management,local_community,FALSE
+G,G4: Procurement and Contract Management,mirror,FALSE
+G,G4: Procurement and Contract Management,nation_wide,FALSE
+G,G4: Procurement and Contract Management,non discriminatory,TRUE
+G,G4: Procurement and Contract Management,nondiscriminatory,TRUE
+G,G4: Procurement and Contract Management,overall_performance,FALSE
+G,G4: Procurement and Contract Management,overall_procurement,FALSE
+G,G4: Procurement and Contract Management,oversight,TRUE
+G,G4: Procurement and Contract Management,post purchase,TRUE
+G,G4: Procurement and Contract Management,pre purchase,TRUE
+G,G4: Procurement and Contract Management,proceedings,FALSE
+G,G4: Procurement and Contract Management,processes,FALSE
+G,G4: Procurement and Contract Management,processing,FALSE
+G,G4: Procurement and Contract Management,procurement agencies,TRUE
+G,G4: Procurement and Contract Management,procurement documentation,TRUE
+G,G4: Procurement and Contract Management,procurement plans,TRUE
+G,G4: Procurement and Contract Management,procurement practices,TRUE
+G,G4: Procurement and Contract Management,procurement system,TRUE
+G,G4: Procurement and Contract Management,procurement_actions,FALSE
+G,G4: Procurement and Contract Management,procurement_activities,FALSE
+G,G4: Procurement and Contract Management,procurement_agencies,FALSE
+G,G4: Procurement and Contract Management,procurement_agent,FALSE
+G,G4: Procurement and Contract Management,procurement_arrangements,FALSE
+G,G4: Procurement and Contract Management,procurement_assessment,FALSE
+G,G4: Procurement and Contract Management,procurement_capacity,FALSE
+G,G4: Procurement and Contract Management,procurement_capacity_assessment,FALSE
+G,G4: Procurement and Contract Management,procurement_cycle,FALSE
+G,G4: Procurement and Contract Management,procurement_decisions,FALSE
+G,G4: Procurement and Contract Management,procurement_documentation,FALSE
+G,G4: Procurement and Contract Management,procurement_documents,FALSE
+G,G4: Procurement and Contract Management,procurement_guidelines,FALSE
+G,G4: Procurement and Contract Management,procurement_management,FALSE
+G,G4: Procurement and Contract Management,procurement_method,FALSE
+G,G4: Procurement and Contract Management,procurement_methods,FALSE
+G,G4: Procurement and Contract Management,procurement_packages,FALSE
+G,G4: Procurement and Contract Management,procurement_plan,FALSE
+G,G4: Procurement and Contract Management,procurement_plans,FALSE
+G,G4: Procurement and Contract Management,procurement_practices,FALSE
+G,G4: Procurement and Contract Management,procurement_procedures,FALSE
+G,G4: Procurement and Contract Management,procurement_process,FALSE
+G,G4: Procurement and Contract Management,procurement_processes,FALSE
+G,G4: Procurement and Contract Management,procurement_related,FALSE
+G,G4: Procurement and Contract Management,procurement_risk,FALSE
+G,G4: Procurement and Contract Management,procurement_specialist,FALSE
+G,G4: Procurement and Contract Management,procurement_staff,FALSE
+G,G4: Procurement and Contract Management,procurement_supervision,FALSE
+G,G4: Procurement and Contract Management,procurement_supervision_missions,FALSE
+G,G4: Procurement and Contract Management,procurement_system,FALSE
+G,G4: Procurement and Contract Management,procuring authorities,TRUE
+G,G4: Procurement and Contract Management,procuring authority,TRUE
+G,G4: Procurement and Contract Management,project_period,FALSE
+G,G4: Procurement and Contract Management,project_procurement,FALSE
+G,G4: Procurement and Contract Management,proponents,FALSE
+G,G4: Procurement and Contract Management,proposals,TRUE
+G,G4: Procurement and Contract Management,public procurement,TRUE
+G,G4: Procurement and Contract Management,public procurement cycle,TRUE
+G,G4: Procurement and Contract Management,public_participation,FALSE
+G,G4: Procurement and Contract Management,pumping_stations,FALSE
+G,G4: Procurement and Contract Management,raw_materials,FALSE
+G,G4: Procurement and Contract Management,representatives,FALSE
+G,G4: Procurement and Contract Management,request for proposal,TRUE
+G,G4: Procurement and Contract Management,requests for proposals,TRUE
+G,G4: Procurement and Contract Management,sides,FALSE
+G,G4: Procurement and Contract Management,signatory,TRUE
+G,G4: Procurement and Contract Management,soft,FALSE
+G,G4: Procurement and Contract Management,stakeholder_workshops,FALSE
+G,G4: Procurement and Contract Management,stakeholders,FALSE
+G,G4: Procurement and Contract Management,steep,FALSE
+G,G4: Procurement and Contract Management,ten_year,FALSE
+G,G4: Procurement and Contract Management,tenable,FALSE
+G,G4: Procurement and Contract Management,tenant,FALSE
+G,G4: Procurement and Contract Management,tenants,FALSE
+G,G4: Procurement and Contract Management,tender document,TRUE
+G,G4: Procurement and Contract Management,tender documents,TRUE
+G,G4: Procurement and Contract Management,tender notice,TRUE
+G,G4: Procurement and Contract Management,tendering,TRUE
+G,G4: Procurement and Contract Management,tenders,TRUE
+G,G4: Procurement and Contract Management,undue,FALSE
+G,G5: Contract Management and O&M,accrual,FALSE
+G,G5: Contract Management and O&M,accrual accounting,TRUE
+G,G5: Contract Management and O&M,accrual_accounting,FALSE
+G,G5: Contract Management and O&M,arbitration,FALSE
+G,G5: Contract Management and O&M,asset registers,TRUE
+G,G5: Contract Management and O&M,conflict,FALSE
+G,G5: Contract Management and O&M,conflicts,FALSE
+G,G5: Contract Management and O&M,cost_accounting,FALSE
+G,G5: Contract Management and O&M,disagreements,FALSE
+G,G5: Contract Management and O&M,dispute resolution,TRUE
+G,G5: Contract Management and O&M,dispute_resolution,FALSE
+G,G5: Contract Management and O&M,negotiation,FALSE
+G,G5: Contract Management and O&M,operational phase,TRUE
+G,G5: Contract Management and O&M,reconciliation,FALSE
+G,G5: Contract Management and O&M,recordkeeping,TRUE
+G,G5: Contract Management and O&M,renegotiation,TRUE
+G,G5: Contract Management and O&M,time overruns,TRUE
+G,G6: Transparency and Information Access,access to information,TRUE
+G,G6: Transparency and Information Access,accountability,TRUE
+G,G6: Transparency and Information Access,budget transparency,TRUE
+G,G6: Transparency and Information Access,construction progress information,TRUE
+G,G6: Transparency and Information Access,construction_progress,FALSE
+G,G6: Transparency and Information Access,disclosure,FALSE
+G,G6: Transparency and Information Access,disclosure framework,TRUE
+G,G6: Transparency and Information Access,disclosures,FALSE
+G,G6: Transparency and Information Access,informant,FALSE
+G,G6: Transparency and Information Access,service delivery data,TRUE
+G,G6: Transparency and Information Access,transparency requirements,TRUE
+G,G6: Transparency and Information Access,transparent data,TRUE
+G,G7: Integrity and Misconduct Risk,adjudication,FALSE
+G,G7: Integrity and Misconduct Risk,allegations,FALSE
+G,G7: Integrity and Misconduct Risk,anti bribery,TRUE
+G,G7: Integrity and Misconduct Risk,anti corruption measures,TRUE
+G,G7: Integrity and Misconduct Risk,anti_corruption,FALSE
+G,G7: Integrity and Misconduct Risk,anticorruption,TRUE
+G,G7: Integrity and Misconduct Risk,bid rigging,TRUE
+G,G7: Integrity and Misconduct Risk,breaches,TRUE
+G,G7: Integrity and Misconduct Risk,bribes,TRUE
+G,G7: Integrity and Misconduct Risk,code of conduct,TRUE
+G,G7: Integrity and Misconduct Risk,collusion,TRUE
+G,G7: Integrity and Misconduct Risk,constitutional,FALSE
+G,G7: Integrity and Misconduct Risk,corrupt,FALSE
+G,G7: Integrity and Misconduct Risk,corruption,FALSE
+G,G7: Integrity and Misconduct Risk,corruption risk prevention,TRUE
+G,G7: Integrity and Misconduct Risk,court,FALSE
+G,G7: Integrity and Misconduct Risk,courts,FALSE
+G,G7: Integrity and Misconduct Risk,crime,TRUE
+G,G7: Integrity and Misconduct Risk,delinquent,TRUE
+G,G7: Integrity and Misconduct Risk,diligence,FALSE
+G,G7: Integrity and Misconduct Risk,disruptions,FALSE
+G,G7: Integrity and Misconduct Risk,due diligence,TRUE
+G,G7: Integrity and Misconduct Risk,due_diligence,FALSE
+G,G7: Integrity and Misconduct Risk,ethics,TRUE
+G,G7: Integrity and Misconduct Risk,fraud,TRUE
+G,G7: Integrity and Misconduct Risk,informal,FALSE
+G,G7: Integrity and Misconduct Risk,integrity risks,TRUE
+G,G7: Integrity and Misconduct Risk,judgment,FALSE
+G,G7: Integrity and Misconduct Risk,judiciary,TRUE
+G,G7: Integrity and Misconduct Risk,justice,TRUE
+G,G7: Integrity and Misconduct Risk,kickback,TRUE
+G,G7: Integrity and Misconduct Risk,kickbacks,TRUE
+G,G7: Integrity and Misconduct Risk,law,FALSE
+G,G7: Integrity and Misconduct Risk,laws,FALSE
+G,G7: Integrity and Misconduct Risk,misconduct,TRUE
+G,G7: Integrity and Misconduct Risk,non transparent,TRUE
+G,G7: Integrity and Misconduct Risk,prosecution,TRUE
+G,G7: Integrity and Misconduct Risk,treaty,FALSE
+G,G7: Integrity and Misconduct Risk,whistle blower,TRUE
+G,G7: Integrity and Misconduct Risk,whistleblower,TRUE
+G,G7: Integrity and Misconduct Risk,wrongdoing,TRUE
