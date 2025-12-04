@@ -902,6 +902,7 @@ with tab4:
     - Blacklisted ~40 noise terms
 
     - Final quality control pass""")
+    st.markdown("---")
         # col1, col2, col3 = st.columns(3)
         # with col1:
         #     st.info("**1. Starting Point**\n\n• 435 seed terms across 14 ESG categories\n\n• Sources: World Bank ESF standards + InfraSAP dimensions\n\n• 7,132 corpus terms from 280 project documents")
