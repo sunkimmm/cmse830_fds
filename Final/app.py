@@ -917,7 +917,7 @@ with tab4:
         #     st.success("**5. Single Assignment**\n\n• Each term → ONE category only\n\n• Highest seed similarity wins\n\n• Prevents cross-category redundancy")
         # with col3:
         #     st.success("**6. Manual Curation**\n\n• Removed problematic seeds\n\n• Blacklisted ~40 noise terms\n\n• Quality control pass")
-        st.markdown("##### 📊 Final Result")
+    st.markdown("##### 📊 Final Result")
         res_col1, res_col2, res_col3, res_col4 = st.columns(4)
         with res_col1:
             st.metric("Seed Terms", "435")
