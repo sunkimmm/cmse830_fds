@@ -866,8 +866,50 @@ with tab4:
                 st.dataframe(trigrams_df, height=400, use_container_width=True, hide_index=True)
     
     with subtab2:
-        #st.header("Final ESG Taxonomy")
-        st.markdown("## COMING SOON")
+        st.header("Final ESG Taxonomy")
+        esg_dict = pd.read_csv(BASE / "__esg_dictionary_final.csv")
+        col1, col2 = st.columns(2)
+        with col1:
+            pillar_order = ['E', 'S', 'G']
+            pillar_labels = {'E': 'Environmental', 'S': 'Social', 'G': 'Governance'}
+            selected_pillar = st.selectbox(
+                "Select Pillar",
+                options=pillar_order,
+                format_func=lambda x: pillar_labels[x],
+                key="subtab2_pillar"
+            )
+        with col2:
+            categories = esg_dict[esg_dict['pillar'] == selected_pillar]['category'].unique()
+            selected_category = st.selectbox(
+                "Select Category",
+                options=categories,
+                key="subtab2_category"
+            )
+        filtered_df = esg_dict[
+            (esg_dict['pillar'] == selected_pillar) & 
+            (esg_dict['category'] == selected_category)
+        ]
+        seed_terms = filtered_df[filtered_df['is_seed'] == True]['term'].tolist()
+        expanded_terms = filtered_df[filtered_df['is_seed'] == False]['term'].tolist()
+        st.markdown(f"**{len(filtered_df)} terms in {selected_category}** ({len(seed_terms)} seed, {len(expanded_terms)} expanded)")
+        pillar_colors = {'E': '#81C784', 'S': '#64B5F6', 'G': '#FFB74D'}  # seed terms - solid
+        pillar_colors_light = {'E': '#C8E6C9', 'S': '#BBDEFB', 'G': '#FFE0B2'}  # expanded terms - lighter
+        color_seed = pillar_colors[selected_pillar]
+        color_expanded = pillar_colors_light[selected_pillar]
+        seed_html = " ".join([
+            f'<span style="background-color:{color_seed}; padding:6px 12px; margin:4px; border-radius:20px; display:inline-block; font-size:14px; font-weight:500;">{term}</span>' 
+            for term in seed_terms
+        ])
+        expanded_html = " ".join([
+            f'<span style="background-color:{color_expanded}; padding:6px 12px; margin:4px; border-radius:20px; display:inline-block; font-size:14px;">{term}</span>' 
+            for term in expanded_terms
+        ])
+        col1, col2 = st.columns([1, 1])
+        with col1:
+            st.markdown(f"<span style='background-color:{color_seed}; padding:4px 8px; border-radius:10px;'>■</span> **Seed Terms** ({len(seed_terms)})", unsafe_allow_html=True)
+        with col2:
+            st.markdown(f"<span style='background-color:{color_expanded}; padding:4px 8px; border-radius:10px;'>■</span> **Expanded Terms** ({len(expanded_terms)})", unsafe_allow_html=True)
+        st.markdown(seed_html + " " + expanded_html, unsafe_allow_html=True)
 
     with subtab3:
         #st.header("Initial/Exploratory Analysis")
