@@ -611,6 +611,7 @@ with tab4:
         st.markdown("**Implementation Completion Report (after completion)**")
         with open(BASE / "P130164_ICR.pdf", "rb") as f:
             st.download_button("📥 Download Sample ICR", f, file_name="P130164_ICR.pdf")
+    
     st.markdown("---")
     st.subheader("Text Data Overview")
     text_data = pd.read_json(BASE / "text_data_sample.json")
@@ -640,6 +641,7 @@ with tab4:
         st.markdown("**📄 Cleaned Text (AFTER cleaning)**")
         st.markdown(f"<div style='background-color:{clean_color}; padding:15px; border-radius:10px; max-height:500px; overflow-y:auto; font-size:11px;'>{cleaned_text}</div>", unsafe_allow_html=True)
     st.caption("Note: Text truncated to first 2,000 + last 2,000 words. Underscores indicate multi-word terms (n-grams).")
+    
     st.markdown("---")
     st.header("Text Preprocessing")
     col1, col2, col3 = st.columns(3)
@@ -661,6 +663,49 @@ with tab4:
         st.markdown("• e.g., 'water supply' → 'water_supply'")
         st.markdown("• Compound standardization via frequency analysis")
         st.markdown("• Preserves semantic meaning of phrases")
+
+    st.markdown("---")
+    st.header("N-gram Processing")
+    st.markdown("##### N-gram Extraction Process")
+    
+    st.markdown("""
+    For text analysis, bigrams and trigrams were extracted using specific POS (Part-of-Speech) patterns 
+    to capture meaningful multi-word terms relevant to ESG risks.
+    """)
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("**Bigram Patterns (2-word terms)**")
+        st.code("""
+        bigram_patterns = {
+            ('ADJ', 'NOUN'),   # e.g., "environmental impact"
+            ('NOUN', 'NOUN')   # e.g., "water supply"
+        }
+        """, language="python")
+    
+    with col2:
+        st.markdown("**Trigram Patterns (3-word terms)**")
+        st.code("""
+        trigram_patterns = {
+            ('ADJ', 'ADJ', 'NOUN'),    # e.g., "local indigenous community"
+            ('ADJ', 'NOUN', 'NOUN'),   # e.g., "environmental impact assessment"
+            ('NOUN', 'NOUN', 'NOUN')   # e.g., "water treatment plant"
+        }
+        """, language="python")
+    
+    st.markdown("##### Filtering and Selection Process")
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.info("**Step 1: Pattern Matching**\n\nExtract n-grams matching the defined POS patterns using spaCy NLP")
+    
+    with col2:
+        st.info("**Step 2: Frequency Filtering**\n\nPreserve important n-grams based on percentile thresholds and document frequency")
+    
+    with col3:
+        st.info("**Step 3: TF-IDF Scoring**\n\nRank and select final terms based on TF-IDF scores across categories")
 
 with tab5:
     st.title(" Risk Analysis")
