@@ -866,11 +866,11 @@ with tab4:
                 st.dataframe(trigrams_df, height=400, use_container_width=True, hide_index=True)
     
     with subtab2:
-        st.header("Final ESG Taxonomy")
+        #st.header("Final ESG Taxonomy")
         st.markdown("## COMING SOON")
 
     with subtab3:
-        st.header("Initial/Exploratory Analysis")
+        #st.header("Initial/Exploratory Analysis")
         st.markdown("## COMING SOON")
 
 with tab5:
