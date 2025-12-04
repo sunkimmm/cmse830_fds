@@ -866,24 +866,32 @@ with tab4:
                 st.dataframe(trigrams_df, height=400, use_container_width=True, hide_index=True)
     
     with subtab2:
-        st.header("Final ESG Taxonomy")
+        st.header("Embedding Analysis & Final ESG Taxonomy")
         esg_dict = pd.read_csv(BASE / "esg_dictionary_final.csv")
         # Summary of methodology
         st.subheader("ESG Dictionary Expansion Summary")
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            st.info("**1. Starting Point**\n\n• 435 seed terms across 14 ESG categories\n\n• Sources: World Bank ESF standards + InfraSAP dimensions\n\n• 7,132 corpus terms from 280 project documents")
-        with col2:
-            st.info("**2. Embedding**\n\n• Model: `all-mpnet-base-v2`\n\n• 768-dimensional vectors\n\n• Embedded all seed + corpus terms")
-        with col3:
-            st.info("**3. Subgroup Clustering**\n\n• K-means within each category\n\n• Optimal k by silhouette score (k=2–7)\n\n• Handles polysemy via semantic subgroups")
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            st.success("**4. Seed-Level Expansion**\n\n• Each seed expands individually\n\n• Dual threshold: seed_sim ≥ 0.55 AND subgroup_sim ≥ 0.55\n\n• Subgroup filter removes polysemy noise")
-        with col2:
-            st.success("**5. Single Assignment**\n\n• Each term → ONE category only\n\n• Highest seed similarity wins\n\n• Prevents cross-category redundancy")
-        with col3:
-            st.success("**6. Manual Curation**\n\n• Removed problematic seeds\n\n• Blacklisted ~40 noise terms\n\n• Quality control pass")
+        st.markdown("#### 1. Embedded 435 seed terms and 7,132 candidate terms from the project corpus using a Transformer-based model (MPNet)")
+        st.markdown("#####  Model: `all-mpnet-base-v2`\n\n• 768-dimensional vectors")
+        st.markdown("#### 2. Within each category, found subcategory clustering using K-means clustering")
+        st.markdown("#####  Performance metric: Used silhouette score to find the number of clusters, between 2 to 7 within each category")
+        st.markdown("#### 3. Dictionary expansion: Based on seed terms in each subcategory/category")
+        st.markdown("#####  Dual threshold to filter terms: Seed-term similarity (0.55) and subcategory centroid similarity (0.55)")
+        st.markdown("#####  Multi-category assignment was _not_ allowed")
+        st.markdown("#### 4. Final step was manual curation of dictionary to remove noise")
+        # col1, col2, col3 = st.columns(3)
+        # with col1:
+        #     st.info("**1. Starting Point**\n\n• 435 seed terms across 14 ESG categories\n\n• Sources: World Bank ESF standards + InfraSAP dimensions\n\n• 7,132 corpus terms from 280 project documents")
+        # with col2:
+        #     st.info("**2. Embedding**\n\n• Model: `all-mpnet-base-v2`\n\n• 768-dimensional vectors\n\n• Embedded all seed + corpus terms")
+        # with col3:
+        #     st.info("**3. Subgroup Clustering**\n\n• K-means within each category\n\n• Optimal k by silhouette score (k=2–7)\n\n• Handles polysemy via semantic subgroups")
+        # col1, col2, col3 = st.columns(3)
+        # with col1:
+        #     st.success("**4. Seed-Level Expansion**\n\n• Each seed expands individually\n\n• Dual threshold: seed_sim ≥ 0.55 AND subgroup_sim ≥ 0.55\n\n• Subgroup filter removes polysemy noise")
+        # with col2:
+        #     st.success("**5. Single Assignment**\n\n• Each term → ONE category only\n\n• Highest seed similarity wins\n\n• Prevents cross-category redundancy")
+        # with col3:
+        #     st.success("**6. Manual Curation**\n\n• Removed problematic seeds\n\n• Blacklisted ~40 noise terms\n\n• Quality control pass")
         st.markdown("##### 📊 Final Result")
         res_col1, res_col2, res_col3, res_col4 = st.columns(4)
         with res_col1:
