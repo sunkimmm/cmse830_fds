@@ -137,10 +137,15 @@ with tab1:
     .main-box {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
-        padding: 15px 20px;
+        padding: 18px 20px;
         border-radius: 10px;
         text-align: center;
-        margin-bottom: 10px;
+    }
+    .main-box b {
+        font-size: 18px;
+    }
+    .main-box span {
+        font-size: 14px;
     }
     .sub-box {
         background: #f0f2f6;
@@ -152,19 +157,25 @@ with tab1:
     .main-box-green {
         background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
         color: white;
-        padding: 15px 20px;
+        padding: 18px 20px;
         border-radius: 10px;
         text-align: center;
-        margin-bottom: 10px;
+    }
+    .main-box-green b {
+        font-size: 18px;
+    }
+    .main-box-green span {
+        font-size: 14px;
     }
     .rq-box {
         background: #f8f9fa;
         padding: 10px 15px;
         border-radius: 8px;
         font-style: italic;
-        font-size: 13px;
+        font-size: 14px;
         color: #555;
-        margin-top: 10px;
+        margin-top: 8px;
+        margin-bottom: 12px;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -174,7 +185,12 @@ with tab1:
         st.markdown("""
         <div class="main-box">
             <b>1. ESG Taxonomy Development</b><br>
-            <span style="font-size:13px;">Text Mining & Embedding Analysis</span>
+            <span>Text Mining & Embedding Analysis</span>
+        </div>
+        """, unsafe_allow_html=True)
+        st.markdown("""
+        <div class="rq-box">
+            RQ1: What are the ESG-related risks associated with infrastructure projects?
         </div>
         """, unsafe_allow_html=True)
         st.markdown("""
@@ -189,18 +205,18 @@ with tab1:
             Dictionary expansion via semantic similarity → <i>See Tab 5</i>
         </div>
         """, unsafe_allow_html=True)
-        st.markdown("""
-        <div class="rq-box">
-            RQ1: What are the ESG-related risks associated with infrastructure projects?
-        </div>
-        """, unsafe_allow_html=True)
     with arrow:
         st.markdown("<div style='display:flex; align-items:center; justify-content:center; height:200px; font-size:40px; color:#667eea;'>→</div>", unsafe_allow_html=True)
     with col2:
         st.markdown("""
         <div class="main-box-green">
             <b>2. Regression Analysis</b><br>
-            <span style="font-size:13px;">ESG Risk & Project Performance</span>
+            <span>ESG Risk & Project Performance</span>
+        </div>
+        """, unsafe_allow_html=True)
+        st.markdown("""
+        <div class="rq-box">
+            RQ2: How does ESG risk emergence influence project performance?
         </div>
         """, unsafe_allow_html=True)
         st.markdown("""
@@ -213,11 +229,6 @@ with tab1:
         <div class="sub-box" style="border-left-color: #11998e;">
             <b>Performance Impact</b><br>
             Analyze relationship with project outcomes
-        </div>
-        """, unsafe_allow_html=True)
-        st.markdown("""
-        <div class="rq-box">
-            RQ2: How does ESG risk emergence influence project performance?
         </div>
         """, unsafe_allow_html=True)
     # Sector and Region Distribution
