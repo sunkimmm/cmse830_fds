@@ -190,7 +190,7 @@ with tab1:
         """, unsafe_allow_html=True)
         st.markdown("""
         <div class="rq-box">
-            RQ1: What are the ESG-related risks associated with infrastructure projects?
+            Research Question: What are the ESG-related risks associated with infrastructure projects?
         </div>
         """, unsafe_allow_html=True)
         st.markdown("""
@@ -216,7 +216,7 @@ with tab1:
         """, unsafe_allow_html=True)
         st.markdown("""
         <div class="rq-box">
-            RQ2: How does ESG risk emergence influence project performance?
+            Research Question: How does ESG risk emergence influence project performance?
         </div>
         """, unsafe_allow_html=True)
         st.markdown("""
