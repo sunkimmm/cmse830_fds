@@ -624,7 +624,7 @@ with tab4:
         with col3:
             st.metric("Completion Documents", "3,716,244 words", "13,272 avg per project")
 
-        selected_project = st.selectbox("Select a project to view text data:", options=text_data['projectid'].tolist())
+        selected_project = st.selectbox("Select a project to view text data, BEFORE and AFTER cleaning and ngram preservation:", options=text_data['projectid'].tolist())
         doc_type = st.radio("Select document type:", ["Appraisal Document", "Completion Document"], horizontal=True)
         row = text_data[text_data['projectid'] == selected_project].iloc[0]
         if doc_type == "Appraisal Document":
@@ -637,10 +637,10 @@ with tab4:
             raw_color, clean_color = "#e8f0f4", "#d1ecf1"
         col1, col2 = st.columns(2)
         with col1:
-            st.markdown("**📄 Raw Text (OCR extracted)**")
+            st.markdown("**📄 Raw Text (BEFORE cleaning)**")
             st.markdown(f"<div style='background-color:{raw_color}; padding:15px; border-radius:10px; max-height:500px; overflow-y:auto; font-size:11px;'>{raw_text}</div>", unsafe_allow_html=True)
         with col2:
-            st.markdown("**📄 Cleaned Text (with n-grams)**")
+            st.markdown("**📄 Cleaned Text (AFTER cleaning)**")
             st.markdown(f"<div style='background-color:{clean_color}; padding:15px; border-radius:10px; max-height:500px; overflow-y:auto; font-size:11px;'>{cleaned_text}</div>", unsafe_allow_html=True)
         st.caption("Note: Text truncated to first 2,000 + last 2,000 words. Underscores indicate multi-word terms (n-grams).")
     with subtab2:
