@@ -868,10 +868,62 @@ with tab4:
     with subtab2:
         st.header("Final ESG Taxonomy")
         esg_dict = pd.read_csv(BASE / "esg_dictionary_final.csv")
+        # Distribution overview
+        st.subheader("Term Distribution by Pillar and Category")
+        dist_df = esg_dict.groupby(['pillar', 'category', 'is_seed']).size().reset_index(name='count')
+        dist_pivot = dist_df.pivot_table(index=['pillar', 'category'], columns='is_seed', values='count', fill_value=0).reset_index()
+        dist_pivot.columns = ['pillar', 'category', 'Expanded', 'Seed']
+        dist_pivot['Total'] = dist_pivot['Seed'] + dist_pivot['Expanded']
+        dist_pivot = dist_pivot.sort_values(['pillar', 'Total'], ascending=[True, False])
+        pillar_colors = {'E': '#81C784', 'S': '#64B5F6', 'G': '#FFB74D'}
+        pillar_colors_light = {'E': '#C8E6C9', 'S': '#BBDEFB', 'G': '#FFE0B2'}
+        pillar_labels = {'E': 'Environmental', 'S': 'Social', 'G': 'Governance'}
+        fig = go.Figure()
+        for pillar in ['E', 'S', 'G']:
+            pdf = dist_pivot[dist_pivot['pillar'] == pillar]
+            fig.add_trace(go.Bar(
+                name=f'{pillar_labels[pillar]} - Seed',
+                y=[f"{row['category']}" for _, row in pdf.iterrows()],
+                x=pdf['Seed'],
+                orientation='h',
+                marker_color=pillar_colors[pillar],
+                legendgroup=pillar,
+                hovertemplate='%{y}<br>Seed: %{x}<extra></extra>'
+            ))
+            fig.add_trace(go.Bar(
+                name=f'{pillar_labels[pillar]} - Expanded',
+                y=[f"{row['category']}" for _, row in pdf.iterrows()],
+                x=pdf['Expanded'],
+                orientation='h',
+                marker_color=pillar_colors_light[pillar],
+                legendgroup=pillar,
+                hovertemplate='%{y}<br>Expanded: %{x}<extra></extra>'
+            ))
+        fig.update_layout(
+            barmode='stack',
+            height=500,
+            xaxis_title='Number of Terms',
+            yaxis_title='',
+            legend=dict(orientation='h', yanchor='bottom', y=1.02, xanchor='center', x=0.5),
+            margin=dict(l=20, r=20, t=40, b=20)
+        )
+        st.plotly_chart(fig, use_container_width=True)
+        # Summary metrics
+        col1, col2, col3, col4 = st.columns(4)
+        with col1:
+            st.metric("Total Terms", len(esg_dict))
+        with col2:
+            st.metric("Environmental", len(esg_dict[esg_dict['pillar'] == 'E']))
+        with col3:
+            st.metric("Social", len(esg_dict[esg_dict['pillar'] == 'S']))
+        with col4:
+            st.metric("Governance", len(esg_dict[esg_dict['pillar'] == 'G']))
+        st.markdown("---")
+        # Category term viewer
+        st.subheader("Explore Terms by Category")
         col1, col2 = st.columns(2)
         with col1:
             pillar_order = ['E', 'S', 'G']
-            pillar_labels = {'E': 'Environmental', 'S': 'Social', 'G': 'Governance'}
             selected_pillar = st.selectbox(
                 "Select Pillar",
                 options=pillar_order,
@@ -892,8 +944,6 @@ with tab4:
         seed_terms = filtered_df[filtered_df['is_seed'] == True]['term'].tolist()
         expanded_terms = filtered_df[filtered_df['is_seed'] == False]['term'].tolist()
         st.markdown(f"**{len(filtered_df)} terms in {selected_category}** ({len(seed_terms)} seed, {len(expanded_terms)} expanded)")
-        pillar_colors = {'E': '#81C784', 'S': '#64B5F6', 'G': '#FFB74D'}  # seed terms - solid
-        pillar_colors_light = {'E': '#C8E6C9', 'S': '#BBDEFB', 'G': '#FFE0B2'}  # expanded terms - lighter
         color_seed = pillar_colors[selected_pillar]
         color_expanded = pillar_colors_light[selected_pillar]
         seed_html = " ".join([
