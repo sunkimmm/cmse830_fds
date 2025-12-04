@@ -871,33 +871,33 @@ with tab4:
         # Summary of methodology
         st.subheader("ESG Dictionary Expansion Summary")
         col1, col2 = st.columns(2)
-            with col1:
-                st.info("""**1. Embedding**
+        with col1:
+            st.info("""**1. Embedding**
                         
     - 435 seed terms + 7,132 corpus candidates
 
     - Model: `all-mpnet-base-v2` (768-dim)
 
     - Source: World Bank ESF + InfraSAP""")
-            with col2:
-                st.info("""**2. Subcategory Clustering**
+        with col2:
+            st.info("""**2. Subcategory Clustering**
                         
     - K-means within each ESG category
 
     - Silhouette score for optimal k (2–7)
 
     - Creates semantic subgroups""")
-            col1, col2 = st.columns(2)
-            with col1:
-                st.success("""**3. Dictionary Expansion**
+        col1, col2 = st.columns(2)
+        with col1:
+            st.success("""**3. Dictionary Expansion**
                         
     - Dual threshold filtering (both ≥ 0.55):
     - Seed-term similarity
     - Subcategory centroid similarity
 
     - Single-category assignment only""")
-            with col2:
-                st.success("""**4. Manual Curation**
+        with col2:
+            st.success("""**4. Manual Curation**
                         
     - Removed problematic seed terms
 
