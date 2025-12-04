@@ -876,21 +876,21 @@ with tab4:
     - Source: World Bank ESF + InfraSAP""")
         with col2:
             st.info("""**2. Subcategory Clustering**
-    - K-means within each ESG category
-    - Silhouette score for optimal k (2–7)
+    - K-means within each ESG category\n
+    - Silhouette score for optimal k (2–7)\n
     - Creates semantic subgroups""")
 
         col1, col2 = st.columns(2)
         with col1:
             st.success("""**3. Dictionary Expansion**
-    - Dual threshold filtering (both ≥ 0.55):
-    - Seed-term similarity
-    - Subcategory centroid similarity
+    - Dual threshold filtering (both ≥ 0.55):\n
+    - Seed-term similarity\n
+    - Subcategory centroid similarity\n
     - Single-category assignment only""")
         with col2:
             st.success("""**4. Manual Curation**
-    - Removed problematic seed terms
-    - Blacklisted ~40 noise terms
+    - Removed problematic seed terms\n
+    - Blacklisted ~40 noise terms\n
     - Final quality control pass""")
 
         st.markdown("---")
