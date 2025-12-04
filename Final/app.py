@@ -594,58 +594,55 @@ with tab2:
 
 with tab4:
     st.title("Project Text Data & NLP Analysis")
-    subtab1, subtab2 = st.tabs(["Raw Text Data", "Text Preprocessing"])
-    with subtab1:
-        st.header("Text Data for Projects")
-        st.markdown("""
-        Source: World Bank\n
-        Each project has two key documents that are analyzed:
-        - **Project Appraisal Document (PAD)**: Written at planning stage
-        - **Implementation Completion Report (ICR)**: Written after project completion
-        """)
-        st.subheader("Sample Documents")
-        col1, col2 = st.columns(2)
-        with col1:
-            st.markdown("**Project Appraisal Document (at Planning stage)**")
-            with open(BASE / "P130164_PAD.pdf", "rb") as f:
-                st.download_button("📥 Download Sample PAD", f, file_name="P130164_PAD.pdf")
-        with col2:
-            st.markdown("**Implementation Completion Report (after completion)**")
-            with open(BASE / "P130164_ICR.pdf", "rb") as f:
-                st.download_button("📥 Download Sample ICR", f, file_name="P130164_ICR.pdf")
-        st.markdown("---")
-        st.subheader("Text Data Overview")
-        text_data = pd.read_json(BASE / "text_data_sample.json")
-        col1, col2, col3,  = st.columns(3)
-        with col1:
-            st.metric("Total Projects", len(text_data))
-        with col2:
-            st.metric("Appraisal Documents", "6,728,587 words", "24,031 avg per project")
-        with col3:
-            st.metric("Completion Documents", "3,716,244 words", "13,272 avg per project")
-
-        selected_project = st.selectbox("Select a project to view text data, BEFORE and AFTER cleaning and ngram preservation:", options=text_data['projectid'].tolist())
-        doc_type = st.radio("Select document type:", ["Appraisal Document", "Completion Document"], horizontal=True)
-        row = text_data[text_data['projectid'] == selected_project].iloc[0]
-        if doc_type == "Appraisal Document":
-            raw_text = row['text_appraisal']
-            cleaned_text = row['text_appraisal_ngram']
-            raw_color, clean_color = "#e8f4e8", "#d4edda"
-        else:
-            raw_text = row['text_completion']
-            cleaned_text = row['text_completion_ngram']
-            raw_color, clean_color = "#e8f0f4", "#d1ecf1"
-        col1, col2 = st.columns(2)
-        with col1:
-            st.markdown("**📄 Raw Text (BEFORE cleaning)**")
-            st.markdown(f"<div style='background-color:{raw_color}; padding:15px; border-radius:10px; max-height:500px; overflow-y:auto; font-size:11px;'>{raw_text}</div>", unsafe_allow_html=True)
-        with col2:
-            st.markdown("**📄 Cleaned Text (AFTER cleaning)**")
-            st.markdown(f"<div style='background-color:{clean_color}; padding:15px; border-radius:10px; max-height:500px; overflow-y:auto; font-size:11px;'>{cleaned_text}</div>", unsafe_allow_html=True)
-        st.caption("Note: Text truncated to first 2,000 + last 2,000 words. Underscores indicate multi-word terms (n-grams).")
-    with subtab2:
-        st.header("Text Preprocessing")
-        st.info("TODO: add preprocessing steps here.")
+    st.header("Text Data for Projects")
+    st.markdown("""
+    Source: World Bank\n
+    Each project has two key documents that are analyzed:
+    - **Project Appraisal Document (PAD)**: Written at planning stage
+    - **Implementation Completion Report (ICR)**: Written after project completion
+    """)
+    st.subheader("Sample Documents")
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown("**Project Appraisal Document (at Planning stage)**")
+        with open(BASE / "P130164_PAD.pdf", "rb") as f:
+            st.download_button("📥 Download Sample PAD", f, file_name="P130164_PAD.pdf")
+    with col2:
+        st.markdown("**Implementation Completion Report (after completion)**")
+        with open(BASE / "P130164_ICR.pdf", "rb") as f:
+            st.download_button("📥 Download Sample ICR", f, file_name="P130164_ICR.pdf")
+    st.markdown("---")
+    st.subheader("Text Data Overview")
+    text_data = pd.read_json(BASE / "text_data_sample.json")
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("Total Projects", len(text_data))
+    with col2:
+        st.metric("Appraisal Documents", "6,728,587 words", "24,031 avg per project")
+    with col3:
+        st.metric("Completion Documents", "3,716,244 words", "13,272 avg per project")
+    selected_project = st.selectbox("Select a project to view text data, BEFORE and AFTER cleaning and ngram preservation:", options=text_data['projectid'].tolist())
+    doc_type = st.radio("Select document type:", ["Appraisal Document", "Completion Document"], horizontal=True)
+    row = text_data[text_data['projectid'] == selected_project].iloc[0]
+    if doc_type == "Appraisal Document":
+        raw_text = row['text_appraisal']
+        cleaned_text = row['text_appraisal_ngram']
+        raw_color, clean_color = "#e8f4e8", "#d4edda"
+    else:
+        raw_text = row['text_completion']
+        cleaned_text = row['text_completion_ngram']
+        raw_color, clean_color = "#e8f0f4", "#d1ecf1"
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown("**📄 Raw Text (BEFORE cleaning)**")
+        st.markdown(f"<div style='background-color:{raw_color}; padding:15px; border-radius:10px; max-height:500px; overflow-y:auto; font-size:11px;'>{raw_text}</div>", unsafe_allow_html=True)
+    with col2:
+        st.markdown("**📄 Cleaned Text (AFTER cleaning)**")
+        st.markdown(f"<div style='background-color:{clean_color}; padding:15px; border-radius:10px; max-height:500px; overflow-y:auto; font-size:11px;'>{cleaned_text}</div>", unsafe_allow_html=True)
+    st.caption("Note: Text truncated to first 2,000 + last 2,000 words. Underscores indicate multi-word terms (n-grams).")
+    st.markdown("---")
+    st.header("Text Preprocessing")
+    st.info("TODO: add preprocessing steps here.")
 
 with tab5:
     st.title(" Risk Analysis")
