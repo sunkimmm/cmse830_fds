@@ -61,7 +61,7 @@ with tab1:
     
     # Geographic Maps
     st.subheader("Geographic Distribution")
-    st.markdown("Hoover over the map to see detailed information for each country.")
+    st.markdown("Hover over the map to see detailed information for each country.")
     
     # Prepare data for choropleth maps
     country_total = final_projects.groupby('countryname').agg({
