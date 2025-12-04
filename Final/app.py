@@ -130,21 +130,86 @@ with tab1:
     
     st.plotly_chart(fig_maps, use_container_width=True)
     
-    st.markdown("---")
+st.markdown("---")
     st.subheader("Research Process")
-    col1, col2 = st.columns(2)
+    st.markdown("""
+    <style>
+    .research-box {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        height: 100%;
+        min-height: 180px;
+    }
+    .research-box-green {
+        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        height: 100%;
+        min-height: 180px;
+    }
+    .research-box h4 {
+        margin: 0 0 10px 0;
+        font-size: 16px;
+    }
+    .research-box p, .research-box-green p {
+        margin: 5px 0;
+        font-size: 13px;
+    }
+    .rq-text {
+        font-style: italic;
+        font-size: 12px !important;
+        opacity: 0.9;
+    }
+    .arrow-col {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+        color: #666;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+    
+    col1, arrow1, col2, arrow2, col3 = st.columns([3, 0.5, 3, 0.5, 3])
     with col1:
-        st.markdown("**1. ESG Taxonomy/Dictionary Development**")
-        st.caption("Text Mining & Embedding Analysis")
-        st.markdown("*RQ: What are the ESG-related risks associated with infrastructure projects?*")
-        st.markdown("• **1-1. Seed Term Extraction** → Base dictionary formation (See Tab 3)")
-        st.markdown("• **1-2. Embedding Analysis** → Dictionary expansion (See Tab 5)")
+        st.markdown("""
+        <div class="research-box">
+            <h4>1-1. Seed Term Extraction</h4>
+            <p><b>Base Dictionary Formation</b></p>
+            <p>TF-IDF scoring & N-gram extraction</p>
+            <p class="rq-text">→ See Tab 3: ESG Framework</p>
+        </div>
+        """, unsafe_allow_html=True)
+    with arrow1:
+        st.markdown('<div class="arrow-col">→</div>', unsafe_allow_html=True)
     with col2:
-        st.markdown("**2. ESG Taxonomy-based Regression Analysis**")
-        st.caption("Quantitative Analysis")
-        st.markdown("*RQ: How do ESG risk emergence influence project performance?*")
-        st.markdown("• Measure ESG risk emergence during project implementation")
-        st.markdown("• Analyze relationship between ESG risks and project outcomes")
+        st.markdown("""
+        <div class="research-box">
+            <h4>1-2. Embedding Analysis</h4>
+            <p><b>Dictionary Expansion</b></p>
+            <p>Transformer-based semantic similarity</p>
+            <p class="rq-text">→ See Tab 5: Embedding</p>
+        </div>
+        """, unsafe_allow_html=True)
+    with arrow2:
+        st.markdown('<div class="arrow-col">→</div>', unsafe_allow_html=True)
+    with col3:
+        st.markdown("""
+        <div class="research-box-green">
+            <h4>2. Regression Analysis</h4>
+            <p><b>ESG Risk → Project Outcome</b></p>
+            <p>Quantify impact of ESG risk emergence</p>
+            <p class="rq-text">→ See Tab 6: Analysis</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    st.markdown("*RQ1: What are the ESG-related risks associated with infrastructure projects?*")
+    st.markdown("*RQ2: How does ESG risk emergence influence project performance?*")
     # Sector and Region Distribution
     # st.subheader("Project Distribution by Sector and Region")
     
