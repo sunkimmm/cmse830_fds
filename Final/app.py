@@ -134,82 +134,92 @@ with tab1:
     st.subheader("Research Process")
     st.markdown("""
     <style>
-    .research-box {
+    .main-box {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
-        padding: 20px;
+        padding: 15px 20px;
         border-radius: 10px;
         text-align: center;
-        height: 100%;
-        min-height: 180px;
+        margin-bottom: 10px;
     }
-    .research-box-green {
+    .sub-box {
+        background: #f0f2f6;
+        padding: 12px 15px;
+        border-radius: 8px;
+        border-left: 4px solid #667eea;
+        margin: 5px 0;
+    }
+    .main-box-green {
         background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
         color: white;
-        padding: 20px;
+        padding: 15px 20px;
         border-radius: 10px;
         text-align: center;
-        height: 100%;
-        min-height: 180px;
+        margin-bottom: 10px;
     }
-    .research-box h4 {
-        margin: 0 0 10px 0;
-        font-size: 16px;
-    }
-    .research-box p, .research-box-green p {
-        margin: 5px 0;
-        font-size: 13px;
-    }
-    .rq-text {
+    .rq-box {
+        background: #f8f9fa;
+        padding: 10px 15px;
+        border-radius: 8px;
         font-style: italic;
-        font-size: 12px !important;
-        opacity: 0.9;
-    }
-    .arrow-col {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 30px;
-        color: #666;
+        font-size: 13px;
+        color: #555;
+        margin-top: 10px;
     }
     </style>
     """, unsafe_allow_html=True)
     
-    col1, arrow1, col2, arrow2, col3 = st.columns([3, 0.5, 3, 0.5, 3])
+    col1, arrow, col2 = st.columns([5, 1, 5])
     with col1:
         st.markdown("""
-        <div class="research-box">
-            <h4>1-1. Seed Term Extraction</h4>
-            <p><b>Base Dictionary Formation</b></p>
-            <p>TF-IDF scoring & N-gram extraction</p>
-            <p class="rq-text">→ See Tab 3: ESG Framework</p>
+        <div class="main-box">
+            <b>1. ESG Taxonomy Development</b><br>
+            <span style="font-size:13px;">Text Mining & Embedding Analysis</span>
         </div>
         """, unsafe_allow_html=True)
-    with arrow1:
-        st.markdown('<div class="arrow-col">→</div>', unsafe_allow_html=True)
+        st.markdown("""
+        <div class="sub-box">
+            <b>1-1. Seed Term Extraction</b><br>
+            Base dictionary formation via TF-IDF & N-grams → <i>See Tab 3</i>
+        </div>
+        """, unsafe_allow_html=True)
+        st.markdown("""
+        <div class="sub-box">
+            <b>1-2. Embedding Analysis</b><br>
+            Dictionary expansion via semantic similarity → <i>See Tab 5</i>
+        </div>
+        """, unsafe_allow_html=True)
+        st.markdown("""
+        <div class="rq-box">
+            RQ1: What are the ESG-related risks associated with infrastructure projects?
+        </div>
+        """, unsafe_allow_html=True)
+    with arrow:
+        st.markdown("<div style='display:flex; align-items:center; justify-content:center; height:200px; font-size:40px; color:#667eea;'>→</div>", unsafe_allow_html=True)
     with col2:
         st.markdown("""
-        <div class="research-box">
-            <h4>1-2. Embedding Analysis</h4>
-            <p><b>Dictionary Expansion</b></p>
-            <p>Transformer-based semantic similarity</p>
-            <p class="rq-text">→ See Tab 5: Embedding</p>
+        <div class="main-box-green">
+            <b>2. Regression Analysis</b><br>
+            <span style="font-size:13px;">ESG Risk & Project Performance</span>
         </div>
         """, unsafe_allow_html=True)
-    with arrow2:
-        st.markdown('<div class="arrow-col">→</div>', unsafe_allow_html=True)
-    with col3:
         st.markdown("""
-        <div class="research-box-green">
-            <h4>2. Regression Analysis</h4>
-            <p><b>ESG Risk → Project Outcome</b></p>
-            <p>Quantify impact of ESG risk emergence</p>
-            <p class="rq-text">→ See Tab 6: Analysis</p>
+        <div class="sub-box" style="border-left-color: #11998e;">
+            <b>ESG Risk Emergence</b><br>
+            Measure risk mentions during project implementation
         </div>
         """, unsafe_allow_html=True)
-    
-    st.markdown("*RQ1: What are the ESG-related risks associated with infrastructure projects?*")
-    st.markdown("*RQ2: How does ESG risk emergence influence project performance?*")
+        st.markdown("""
+        <div class="sub-box" style="border-left-color: #11998e;">
+            <b>Performance Impact</b><br>
+            Analyze relationship with project outcomes
+        </div>
+        """, unsafe_allow_html=True)
+        st.markdown("""
+        <div class="rq-box">
+            RQ2: How does ESG risk emergence influence project performance?
+        </div>
+        """, unsafe_allow_html=True)
     # Sector and Region Distribution
     # st.subheader("Project Distribution by Sector and Region")
     
