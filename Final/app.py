@@ -871,8 +871,8 @@ with tab4:
         col1, col2 = st.columns(2)
         with col1:
             st.info("""**1. Embedding**
-    - 435 seed terms + 7,132 corpus candidates
-    - Model: `all-mpnet-base-v2` (768-dim)
+    - 435 seed terms + 7,132 corpus candidates \n
+    - Model: `all-mpnet-base-v2` (768-dim)\n
     - Source: World Bank ESF + InfraSAP""")
         with col2:
             st.info("""**2. Subcategory Clustering**
