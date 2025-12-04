@@ -131,7 +131,20 @@ with tab1:
     st.plotly_chart(fig_maps, use_container_width=True)
     
     st.markdown("---")
-    
+    st.subheader("Research Process")
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown("**1. ESG Taxonomy/Dictionary Development**")
+        st.caption("Text Mining & Embedding Analysis")
+        st.markdown("*RQ: What are the ESG-related risks associated with infrastructure projects?*")
+        st.markdown("• **1-1. Seed Term Extraction** → Base dictionary formation (See Tab 3)")
+        st.markdown("• **1-2. Embedding Analysis** → Dictionary expansion (See Tab 5)")
+    with col2:
+        st.markdown("**2. ESG Taxonomy-based Regression Analysis**")
+        st.caption("Quantitative Analysis")
+        st.markdown("*RQ: How do ESG risk emergence influence project performance?*")
+        st.markdown("• Measure ESG risk emergence during project implementation")
+        st.markdown("• Analyze relationship between ESG risks and project outcomes")
     # Sector and Region Distribution
     # st.subheader("Project Distribution by Sector and Region")
     
@@ -775,6 +788,6 @@ with tab4:
             ]
             trigrams_df = pd.DataFrame(trigrams_data, columns=["term", "tfidf", "doc_freq_%"])
             st.dataframe(trigrams_df, height=400, use_container_width=True, hide_index=True)
-            
+
 with tab5:
     st.title(" Risk Analysis")
