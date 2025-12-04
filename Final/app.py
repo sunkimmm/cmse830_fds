@@ -866,161 +866,189 @@ with tab4:
                 st.dataframe(trigrams_df, height=400, use_container_width=True, hide_index=True)
     
     with subtab2:
-        st.header("Embedding Analysis & Final ESG Taxonomy")
-        esg_dict = pd.read_csv(BASE / "esg_dictionary_final.csv")
-        col1, col2 = st.columns(2)
-        with col1:
-            st.info("""**1. Embedding**
-                        
-    - 435 seed terms + 7,132 corpus candidates
+    st.header("Embedding Analysis & Final ESG Taxonomy")
 
-    - Model: `all-mpnet-base-v2` (768-dim)
+    esg_dict = pd.read_csv(BASE / "esg_dictionary_final.csv")
 
-    - Source: World Bank ESF + InfraSAP""")
-        with col2:
-            st.info("""**2. Subcategory Clustering**
-                        
-    - K-means within each ESG category
+    col1, col2 = st.columns(2)
+    with col1:
+        st.info("""**1. Embedding**
+- 435 seed terms + 7,132 corpus candidates
+- Model: `all-mpnet-base-v2` (768-dim)
+- Source: World Bank ESF + InfraSAP""")
+    with col2:
+        st.info("""**2. Subcategory Clustering**
+- K-means within each ESG category
+- Silhouette score for optimal k (2–7)
+- Creates semantic subgroups""")
 
-    - Silhouette score for optimal k (2–7)
+    col1, col2 = st.columns(2)
+    with col1:
+        st.success("""**3. Dictionary Expansion**
+- Dual threshold filtering (both ≥ 0.55):
+  - Seed-term similarity
+  - Subcategory centroid similarity
+- Single-category assignment only""")
+    with col2:
+        st.success("""**4. Manual Curation**
+- Removed problematic seed terms
+- Blacklisted ~40 noise terms
+- Final quality control pass""")
 
-    - Creates semantic subgroups""")
-        col1, col2 = st.columns(2)
-        with col1:
-            st.success("""**3. Dictionary Expansion**
-                        
-    - Dual threshold filtering (both ≥ 0.55):
-    - Seed-term similarity
-    - Subcategory centroid similarity
-
-    - Single-category assignment only""")
-        with col2:
-            st.success("""**4. Manual Curation**
-                        
-    - Removed problematic seed terms
-
-    - Blacklisted ~40 noise terms
-
-    - Final quality control pass""")
     st.markdown("---")
-        # col1, col2, col3 = st.columns(3)
-        # with col1:
-        #     st.info("**1. Starting Point**\n\n• 435 seed terms across 14 ESG categories\n\n• Sources: World Bank ESF standards + InfraSAP dimensions\n\n• 7,132 corpus terms from 280 project documents")
-        # with col2:
-        #     st.info("**2. Embedding**\n\n• Model: `all-mpnet-base-v2`\n\n• 768-dimensional vectors\n\n• Embedded all seed + corpus terms")
-        # with col3:
-        #     st.info("**3. Subgroup Clustering**\n\n• K-means within each category\n\n• Optimal k by silhouette score (k=2–7)\n\n• Handles polysemy via semantic subgroups")
-        # col1, col2, col3 = st.columns(3)
-        # with col1:
-        #     st.success("**4. Seed-Level Expansion**\n\n• Each seed expands individually\n\n• Dual threshold: seed_sim ≥ 0.55 AND subgroup_sim ≥ 0.55\n\n• Subgroup filter removes polysemy noise")
-        # with col2:
-        #     st.success("**5. Single Assignment**\n\n• Each term → ONE category only\n\n• Highest seed similarity wins\n\n• Prevents cross-category redundancy")
-        # with col3:
-        #     st.success("**6. Manual Curation**\n\n• Removed problematic seeds\n\n• Blacklisted ~40 noise terms\n\n• Quality control pass")
+
     st.markdown("##### 📊 Final Result")
-        res_col1, res_col2, res_col3, res_col4 = st.columns(4)
-        with res_col1:
-            st.metric("Seed Terms", "435")
-        with res_col2:
-            st.metric("Expanded Terms", f"{len(esg_dict[esg_dict['is_seed']==False]):,}")
-        with res_col3:
-            st.metric("Total Dictionary", f"{len(esg_dict):,}")
-        with res_col4:
-            st.metric("Categories", "14")
-        st.caption("Thresholds chosen based on silhouette analysis — all categories show positive coherence.")
-        st.markdown("---")
-        # Distribution overview
-        st.subheader("Term Distribution by Pillar and Category")
-        dist_df = esg_dict.groupby(['pillar', 'category', 'is_seed']).size().reset_index(name='count')
-        dist_pivot = dist_df.pivot_table(index=['pillar', 'category'], columns='is_seed', values='count', fill_value=0).reset_index()
-        dist_pivot.columns = ['pillar', 'category', 'Expanded', 'Seed']
-        dist_pivot['Total'] = dist_pivot['Seed'] + dist_pivot['Expanded']
-        dist_pivot = dist_pivot.sort_values(['pillar', 'Total'], ascending=[True, False])
-        pillar_colors = {'E': '#81C784', 'S': '#64B5F6', 'G': '#FFB74D'}
-        pillar_colors_light = {'E': '#C8E6C9', 'S': '#BBDEFB', 'G': '#FFE0B2'}
-        pillar_labels = {'E': 'Environmental', 'S': 'Social', 'G': 'Governance'}
-        fig = go.Figure()
-        for pillar in ['E', 'S', 'G']:
-            pdf = dist_pivot[dist_pivot['pillar'] == pillar]
-            fig.add_trace(go.Bar(
-                name=f'{pillar_labels[pillar]} - Seed',
-                y=[f"{row['category']}" for _, row in pdf.iterrows()],
-                x=pdf['Seed'],
-                orientation='h',
-                marker_color=pillar_colors[pillar],
-                legendgroup=pillar,
-                hovertemplate='%{y}<br>Seed: %{x}<extra></extra>'
-            ))
-            fig.add_trace(go.Bar(
-                name=f'{pillar_labels[pillar]} - Expanded',
-                y=[f"{row['category']}" for _, row in pdf.iterrows()],
-                x=pdf['Expanded'],
-                orientation='h',
-                marker_color=pillar_colors_light[pillar],
-                legendgroup=pillar,
-                hovertemplate='%{y}<br>Expanded: %{x}<extra></extra>'
-            ))
-        fig.update_layout(
-            barmode='stack',
-            height=500,
-            xaxis_title='Number of Terms',
-            yaxis_title='',
-            legend=dict(orientation='h', yanchor='bottom', y=1.02, xanchor='center', x=0.5),
-            margin=dict(l=20, r=20, t=40, b=20)
+    res_col1, res_col2, res_col3, res_col4 = st.columns(4)
+    with res_col1:
+        st.metric("Seed Terms", "435")
+    with res_col2:
+        st.metric("Expanded Terms", f"{len(esg_dict[esg_dict['is_seed'] == False]):,}")
+    with res_col3:
+        st.metric("Total Dictionary", f"{len(esg_dict):,}")
+    with res_col4:
+        st.metric("Categories", "14")
+
+    st.caption("Thresholds chosen based on silhouette analysis — all categories show positive coherence.")
+    st.markdown("---")
+
+    st.subheader("Term Distribution by Pillar and Category")
+
+    dist_df = (
+        esg_dict.groupby(['pillar', 'category', 'is_seed'])
+        .size()
+        .reset_index(name='count')
+    )
+
+    dist_pivot = (
+        dist_df.pivot_table(index=['pillar', 'category'], columns='is_seed', values='count', fill_value=0)
+        .reset_index()
+    )
+
+    # If columns come out as True/False, rename safely:
+    dist_pivot = dist_pivot.rename(columns={True: "Seed", False: "Expanded"})
+    if "Seed" not in dist_pivot.columns:
+        dist_pivot["Seed"] = 0
+    if "Expanded" not in dist_pivot.columns:
+        dist_pivot["Expanded"] = 0
+
+    dist_pivot['Total'] = dist_pivot['Seed'] + dist_pivot['Expanded']
+    dist_pivot = dist_pivot.sort_values(['pillar', 'Total'], ascending=[True, False])
+
+    pillar_colors = {'E': '#81C784', 'S': '#64B5F6', 'G': '#FFB74D'}
+    pillar_colors_light = {'E': '#C8E6C9', 'S': '#BBDEFB', 'G': '#FFE0B2'}
+    pillar_labels = {'E': 'Environmental', 'S': 'Social', 'G': 'Governance'}
+
+    fig = go.Figure()
+    for pillar in ['E', 'S', 'G']:
+        pdf = dist_pivot[dist_pivot['pillar'] == pillar]
+
+        fig.add_trace(go.Bar(
+            name=f"{pillar_labels[pillar]} - Seed",
+            y=pdf['category'].astype(str).tolist(),
+            x=pdf['Seed'],
+            orientation='h',
+            marker_color=pillar_colors[pillar],
+            legendgroup=pillar,
+            hovertemplate='%{y}<br>Seed: %{x}<extra></extra>'
+        ))
+
+        fig.add_trace(go.Bar(
+            name=f"{pillar_labels[pillar]} - Expanded",
+            y=pdf['category'].astype(str).tolist(),
+            x=pdf['Expanded'],
+            orientation='h',
+            marker_color=pillar_colors_light[pillar],
+            legendgroup=pillar,
+            hovertemplate='%{y}<br>Expanded: %{x}<extra></extra>'
+        ))
+
+    fig.update_layout(
+        barmode='stack',
+        height=500,
+        xaxis_title='Number of Terms',
+        yaxis_title='',
+        legend=dict(orientation='h', yanchor='bottom', y=1.02, xanchor='center', x=0.5),
+        margin=dict(l=20, r=20, t=40, b=20)
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
+
+    # Summary metrics
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.metric("Total Terms", len(esg_dict))
+    with col2:
+        st.metric("Environmental", len(esg_dict[esg_dict['pillar'] == 'E']))
+    with col3:
+        st.metric("Social", len(esg_dict[esg_dict['pillar'] == 'S']))
+    with col4:
+        st.metric("Governance", len(esg_dict[esg_dict['pillar'] == 'G']))
+
+    st.markdown("---")
+
+    # Category term viewer
+    st.subheader("Explore Terms by Category")
+    col1, col2 = st.columns(2)
+
+    with col1:
+        selected_pillar = st.selectbox(
+            "Select Pillar",
+            options=['E', 'S', 'G'],
+            format_func=lambda x: pillar_labels[x],
+            key="subtab2_pillar"
         )
-        st.plotly_chart(fig, use_container_width=True)
-        # Summary metrics
-        col1, col2, col3, col4 = st.columns(4)
-        with col1:
-            st.metric("Total Terms", len(esg_dict))
-        with col2:
-            st.metric("Environmental", len(esg_dict[esg_dict['pillar'] == 'E']))
-        with col3:
-            st.metric("Social", len(esg_dict[esg_dict['pillar'] == 'S']))
-        with col4:
-            st.metric("Governance", len(esg_dict[esg_dict['pillar'] == 'G']))
-        st.markdown("---")
-        # Category term viewer
-        st.subheader("Explore Terms by Category")
-        col1, col2 = st.columns(2)
-        with col1:
-            pillar_order = ['E', 'S', 'G']
-            selected_pillar = st.selectbox(
-                "Select Pillar",
-                options=pillar_order,
-                format_func=lambda x: pillar_labels[x],
-                key="subtab2_pillar"
-            )
-        with col2:
-            categories = esg_dict[esg_dict['pillar'] == selected_pillar]['category'].unique()
-            selected_category = st.selectbox(
-                "Select Category",
-                options=categories,
-                key="subtab2_category"
-            )
-        filtered_df = esg_dict[
-            (esg_dict['pillar'] == selected_pillar) & 
-            (esg_dict['category'] == selected_category)
-        ]
-        seed_terms = filtered_df[filtered_df['is_seed'] == True]['term'].tolist()
-        expanded_terms = filtered_df[filtered_df['is_seed'] == False]['term'].tolist()
-        st.markdown(f"**{len(filtered_df)} terms in {selected_category}** ({len(seed_terms)} seed, {len(expanded_terms)} expanded)")
-        color_seed = pillar_colors[selected_pillar]
-        color_expanded = pillar_colors_light[selected_pillar]
-        seed_html = " ".join([
-            f'<span style="background-color:{color_seed}; padding:6px 12px; margin:4px; border-radius:20px; display:inline-block; font-size:14px; font-weight:500;">{term}</span>' 
-            for term in seed_terms
-        ])
-        expanded_html = " ".join([
-            f'<span style="background-color:{color_expanded}; padding:6px 12px; margin:4px; border-radius:20px; display:inline-block; font-size:14px;">{term}</span>' 
-            for term in expanded_terms
-        ])
-        col1, col2 = st.columns([1, 1])
-        with col1:
-            st.markdown(f"<span style='background-color:{color_seed}; padding:4px 8px; border-radius:10px;'>■</span> **Seed Terms** ({len(seed_terms)})", unsafe_allow_html=True)
-        with col2:
-            st.markdown(f"<span style='background-color:{color_expanded}; padding:4px 8px; border-radius:10px;'>■</span> **Expanded Terms** ({len(expanded_terms)})", unsafe_allow_html=True)
-        st.markdown(seed_html + " " + expanded_html, unsafe_allow_html=True)
+
+    with col2:
+        categories = esg_dict[esg_dict['pillar'] == selected_pillar]['category'].unique()
+        selected_category = st.selectbox(
+            "Select Category",
+            options=categories,
+            key="subtab2_category"
+        )
+
+    filtered_df = esg_dict[
+        (esg_dict['pillar'] == selected_pillar) &
+        (esg_dict['category'] == selected_category)
+    ]
+
+    seed_terms = filtered_df[filtered_df['is_seed'] == True]['term'].tolist()
+    expanded_terms = filtered_df[filtered_df['is_seed'] == False]['term'].tolist()
+
+    st.markdown(
+        f"**{len(filtered_df)} terms in {selected_category}** "
+        f"({len(seed_terms)} seed, {len(expanded_terms)} expanded)"
+    )
+
+    color_seed = pillar_colors[selected_pillar]
+    color_expanded = pillar_colors_light[selected_pillar]
+
+    seed_html = " ".join([
+        f'<span style="background-color:{color_seed}; padding:6px 12px; margin:4px; '
+        f'border-radius:20px; display:inline-block; font-size:14px; font-weight:500;">{term}</span>'
+        for term in seed_terms
+    ])
+
+    expanded_html = " ".join([
+        f'<span style="background-color:{color_expanded}; padding:6px 12px; margin:4px; '
+        f'border-radius:20px; display:inline-block; font-size:14px;">{term}</span>'
+        for term in expanded_terms
+    ])
+
+    c1, c2 = st.columns([1, 1])
+    with c1:
+        st.markdown(
+            f"<span style='background-color:{color_seed}; padding:4px 8px; border-radius:10px;'>■</span> "
+            f"**Seed Terms** ({len(seed_terms)})",
+            unsafe_allow_html=True
+        )
+    with c2:
+        st.markdown(
+            f"<span style='background-color:{color_expanded}; padding:4px 8px; border-radius:10px;'>■</span> "
+            f"**Expanded Terms** ({len(expanded_terms)})",
+            unsafe_allow_html=True
+        )
+
+    st.markdown(seed_html + " " + expanded_html, unsafe_allow_html=True)
 
     with subtab3:
         #st.header("Initial/Exploratory Analysis")
