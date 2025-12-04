@@ -641,8 +641,29 @@ with tab4:
         st.markdown(f"<div style='background-color:{clean_color}; padding:15px; border-radius:10px; max-height:500px; overflow-y:auto; font-size:11px;'>{cleaned_text}</div>", unsafe_allow_html=True)
     st.caption("Note: Text truncated to first 2,000 + last 2,000 words. Underscores indicate multi-word terms (n-grams).")
     st.markdown("---")
+
     st.header("Text Preprocessing")
-    st.info("TODO: add preprocessing steps here.")
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.markdown("**🔧 OCR Correction**")
+        st.caption("• Split suffixes: 'ti on' → 'tion'")
+        st.caption("• Merged words: 'documentsw ould' → 'documents would'")
+        st.caption("• Hyphenation fixes via dictionary")
+    with col2:
+        st.markdown("**📝 Spell Check**")
+        st.caption("• PySpellChecker validation")
+        st.caption("• Flag docs with >15% unknown words")
+        st.caption("• Auto-correct common typos")
+    with col3:
+        st.markdown("**🇺🇸 Americanize**")
+        st.caption("• British → American spelling")
+        st.caption("• 1,700+ word pairs loaded")
+        st.caption("• e.g., 'behaviour' → 'behavior'")
+    with col4:
+        st.markdown("**🔗 N-gram Preserve**")
+        st.caption("• Join multi-word terms")
+        st.caption("• e.g., 'water supply' → 'water_supply'")
+        st.caption("• Preserves semantic meaning")
 
 with tab5:
     st.title(" Risk Analysis")
