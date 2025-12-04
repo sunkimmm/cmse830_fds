@@ -642,7 +642,7 @@ with tab4:
     st.caption("Note: Text truncated to first 2,000 + last 2,000 words. Underscores indicate multi-word terms (n-grams).")
     st.markdown("---")
     st.header("Text Preprocessing")
-    col1, col2 = st.columns(2)
+    col1, col2, col3 = st.columns(3)
     with col1:
         st.subheader("🔧 Typo Correction")
         st.markdown("• NLTK dictionary validation for OCR errors")
@@ -655,11 +655,12 @@ with tab4:
         st.markdown("• 1,700+ word pairs loaded from dictionary")
         st.markdown("• e.g., 'behaviour' → 'behavior', 'colour' → 'color'")
         st.markdown("• Ensures consistency for NLP analysis")
-    st.subheader("🔗 N-gram Preservation")
-    st.markdown("• Join multi-word terms with underscores")
-    st.markdown("• e.g., 'water supply' → 'water_supply'")
-    st.markdown("• Compound standardization via frequency analysis")
-    st.markdown("• Preserves semantic meaning of phrases")
+    with col3:
+        st.subheader("🔗 N-gram Preservation")
+        st.markdown("• Join multi-word terms with underscores")
+        st.markdown("• e.g., 'water supply' → 'water_supply'")
+        st.markdown("• Compound standardization via frequency analysis")
+        st.markdown("• Preserves semantic meaning of phrases")
 
 with tab5:
     st.title(" Risk Analysis")
