@@ -866,45 +866,42 @@ with tab4:
                 st.dataframe(trigrams_df, height=400, use_container_width=True, hide_index=True)
     
     with subtab2:
-        st.subheader("ESG Dictionary Expansion Summary")
+        st.header("Embedding Analysis & Final ESG Taxonomy")
+        esg_dict = pd.read_csv(BASE / "esg_dictionary_final.csv")
         col1, col2 = st.columns(2)
         with col1:
-            with st.container(border=True):
-                st.markdown("""**1. Embedding**
-                    
-- 435 seed terms + 7,132 corpus candidates
+            st.info("""**1. Embedding**
+                        
+    - 435 seed terms + 7,132 corpus candidates
 
-- Model: `all-mpnet-base-v2` (768-dim)
+    - Model: `all-mpnet-base-v2` (768-dim)
 
-- Source: World Bank ESF + InfraSAP""")
+    - Source: World Bank ESF + InfraSAP""")
         with col2:
-            with st.container(border=True):
-                st.markdown("""**2. Subcategory Clustering**
-                    
-- K-means within each ESG category
+            st.info("""**2. Subcategory Clustering**
+                        
+    - K-means within each ESG category
 
-- Silhouette score for optimal k (2–7)
+    - Silhouette score for optimal k (2–7)
 
-- Creates semantic subgroups""")
+    - Creates semantic subgroups""")
         col1, col2 = st.columns(2)
         with col1:
-            with st.container(border=True):
-                st.markdown("""**3. Dictionary Expansion**
-                       
-- Dual threshold filtering (both ≥ 0.55):
-  - Seed-term similarity
-  - Subcategory centroid similarity
+            st.success("""**3. Dictionary Expansion**
+                        
+    - Dual threshold filtering (both ≥ 0.55):
+    - Seed-term similarity
+    - Subcategory centroid similarity
 
-- Single-category assignment only""")
+    - Single-category assignment only""")
         with col2:
-            with st.container(border=True):
-                st.markdown("""**4. Manual Curation**
-                       
-- Removed problematic seed terms
+            st.success("""**4. Manual Curation**
+                        
+    - Removed problematic seed terms
 
-- Blacklisted ~40 noise terms
+    - Blacklisted ~40 noise terms
 
-- Final quality control pass""")
+    - Final quality control pass""")
         # col1, col2, col3 = st.columns(3)
         # with col1:
         #     st.info("**1. Starting Point**\n\n• 435 seed terms across 14 ESG categories\n\n• Sources: World Bank ESF standards + InfraSAP dimensions\n\n• 7,132 corpus terms from 280 project documents")
