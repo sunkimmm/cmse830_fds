@@ -867,11 +867,11 @@ with tab4:
     
     with subtab2:
         st.header("Final ESG Taxonomy")
-        st.info("Content for Final ESG Taxonomy will be added here.")
-    
+        st.markdown("** COMING SOON**")
+
     with subtab3:
         st.header("Initial/Exploratory Analysis")
-        st.info("Content for Initial/Exploratory Analysis will be added here.")
+        st.markdown("** COMING SOON**")
 
 with tab5:
-    st.title(" Risk Analysis")
+    st.title(" Regression Analysis")
