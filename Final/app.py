@@ -649,7 +649,8 @@ with tab2:
     # Load seed terms
     seed_terms = pd.read_csv(BASE / "seed_final_302.csv")
     st.subheader("ESG Risk Categories and Important Terms")
-    st.markdown("##### These terms are extracted from the World Bank documents using TF-IDF scores for each pillar (E/S/G) and for each category. There were total of 14 subcategories, thus each category was considered as one document.")
+    st.markdown("##### These terms are extracted from the World Bank documents using TF-IDF scores for each pillar (E/S/G) and for each category.")
+    st.markdown("**Select a category to view extracted seed terms:**")
     col1, col2 = st.columns(2)
     pillar_order = ['E', 'S', 'G']
     pillar_labels = {'E': 'Environmental', 'S': 'Social', 'G': 'Governance'}
@@ -686,6 +687,7 @@ with tab2:
             ])
             st.markdown(tags_html, unsafe_allow_html=True)
     st.markdown("---")
+
 with tab4:
     st.title("Project Text Data & NLP Analysis")
     subtab1, subtab2, subtab3 = st.tabs(["Text Data & Preprocessing", "Final ESG Taxonomy", "Initial/Exploratory Analysis"])
