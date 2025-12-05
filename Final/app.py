@@ -650,10 +650,11 @@ with tab2:
     seed_terms = pd.read_csv(BASE / "seed_final_302.csv")
     st.subheader("ESG Risk Categories and Important Terms")
     st.markdown("##### These terms are extracted from the World Bank documents using TF-IDF scores for each pillar (E/S/G) and for each category. There were total of 14 subcategories, thus each category was considered as one document.")
-    col1, col2, col3 = st.columns(3)
+    col1, col2 = st.columns(2)
     pillar_order = ['E', 'S', 'G']
     pillar_labels = {'E': 'Environmental', 'S': 'Social', 'G': 'Governance'}
     pillar_colors = {'E': '#81C784', 'S': '#64B5F6', 'G': '#FFB74D'}
+    pillar_colors_light = {'E': '#C8E6C9', 'S': '#BBDEFB', 'G': '#FFE0B2'}
     with col1:
         selected_pillar = st.selectbox(
             "Select Pillar",
@@ -668,30 +669,23 @@ with tab2:
             options=categories,
             key="seed_category"
         )
-    with col3:
-        subcategories = seed_terms[
-            (seed_terms['Pillar'] == selected_pillar) & 
-            (seed_terms['Category'] == selected_category)
-        ]['Subcategory'].unique()
-        selected_subcategory = st.selectbox(
-            "Select Subcategory",
-            options=subcategories,
-            key="seed_subcategory"
-        )
-    filtered_terms = seed_terms[
+    filtered_df = seed_terms[
         (seed_terms['Pillar'] == selected_pillar) & 
-        (seed_terms['Category'] == selected_category) &
-        (seed_terms['Subcategory'] == selected_subcategory)
-    ]['Term'].tolist()
-    st.markdown(f"**{len(filtered_terms)} terms in {selected_subcategory}:**")
+        (seed_terms['Category'] == selected_category)
+    ]
+    subcategories = filtered_df['Subcategory'].unique()
     color = pillar_colors[selected_pillar]
-    tags_html = " ".join([
-        f'<span style="background-color:{color}; padding:6px 12px; margin:4px; border-radius:20px; display:inline-block; font-size:14px;">{term}</span>' 
-        for term in filtered_terms
-    ])
-    st.markdown(tags_html, unsafe_allow_html=True)
+    color_light = pillar_colors_light[selected_pillar]
+    st.markdown(f"**{len(filtered_df)} terms across {len(subcategories)} subcategories:**")
+    for subcat in subcategories:
+        terms = filtered_df[filtered_df['Subcategory'] == subcat]['Term'].tolist()
+        with st.expander(f"**{subcat}** ({len(terms)} terms)", expanded=True):
+            tags_html = " ".join([
+                f'<span style="background-color:{color}; padding:5px 10px; margin:3px; border-radius:15px; display:inline-block; font-size:13px;">{term}</span>' 
+                for term in terms
+            ])
+            st.markdown(tags_html, unsafe_allow_html=True)
     st.markdown("---")
-
 with tab4:
     st.title("Project Text Data & NLP Analysis")
     subtab1, subtab2, subtab3 = st.tabs(["Text Data & Preprocessing", "Final ESG Taxonomy", "Initial/Exploratory Analysis"])
