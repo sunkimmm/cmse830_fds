@@ -650,7 +650,7 @@ with tab2:
     seed_terms = pd.read_csv(BASE / "seed_final_302.csv")
     st.subheader("ESG Risk Categories and Important Terms")
     st.markdown("##### These terms are extracted from the World Bank documents using TF-IDF scores for each pillar (E/S/G) and for each category. There were total of 14 subcategories, thus each category was considered as one document.")
-    col1, col2, col3, col4 = st.columns(4)
+    col1, col2, col3 = st.columns(3)
     pillar_order = ['E', 'S', 'G']
     pillar_labels = {'E': 'Environmental', 'S': 'Social', 'G': 'Governance'}
     pillar_colors = {'E': '#81C784', 'S': '#64B5F6', 'G': '#FFB74D'}
@@ -678,24 +678,12 @@ with tab2:
             options=subcategories,
             key="seed_subcategory"
         )
-    with col4:
-        descriptions = seed_terms[
-            (seed_terms['Pillar'] == selected_pillar) & 
-            (seed_terms['Category'] == selected_category) &
-            (seed_terms['Subcategory'] == selected_subcategory)
-        ]['Description'].unique()
-        selected_description = st.selectbox(
-            "Select Description",
-            options=descriptions,
-            key="seed_description"
-        )
     filtered_terms = seed_terms[
         (seed_terms['Pillar'] == selected_pillar) & 
         (seed_terms['Category'] == selected_category) &
-        (seed_terms['Subcategory'] == selected_subcategory) &
-        (seed_terms['Description'] == selected_description)
+        (seed_terms['Subcategory'] == selected_subcategory)
     ]['Term'].tolist()
-    st.markdown(f"**{len(filtered_terms)} terms in {selected_description}:**")
+    st.markdown(f"**{len(filtered_terms)} terms in {selected_subcategory}:**")
     color = pillar_colors[selected_pillar]
     tags_html = " ".join([
         f'<span style="background-color:{color}; padding:6px 12px; margin:4px; border-radius:20px; display:inline-block; font-size:14px;">{term}</span>' 
