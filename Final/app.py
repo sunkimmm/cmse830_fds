@@ -585,21 +585,17 @@ with tab2:
     # Load and display seed source documents
     st.subheader("Source Documents for Term Extraction")
     seed_source = pd.read_json(BASE / "seed_streamlit.json")
-    
-    st.dataframe(seed_source[['pillar', 'category', 'description']], use_container_width=True, hide_index=True)
-    
-    # Dropdown to select a category and view full text
+    st.dataframe(seed_source[['pillar', 'code', 'source', 'description']], use_container_width=True, hide_index=True)
     selected_row = st.selectbox(
         "Select a category to view full text:",
-        options=seed_source['category'].tolist(),
-        format_func=lambda x: f"{seed_source[seed_source['category']==x]['pillar'].values[0]} - {x}"
+        options=seed_source['code'].tolist(),
+        format_func=lambda x: f"{seed_source[seed_source['code']==x]['pillar'].values[0]} - {x}: {seed_source[seed_source['code']==x]['description'].values[0]}"
     )
-    
     with st.expander(f"View full text for: {selected_row}"):
-        full_text = seed_source[seed_source['category'] == selected_row]['text_cleaned'].values[0]
+        full_text = seed_source[seed_source['code'] == selected_row]['text'].values[0]
         st.markdown(f"<div style='background-color:#f0f0f0; padding:15px; border-radius:10px; max-height:400px; overflow-y:auto;'>{full_text}</div>", unsafe_allow_html=True)
-    
     st.markdown("---")
+    
     # Text Data Preprocessing Section
     st.subheader("Text Data Preprocessing")
     
