@@ -647,43 +647,56 @@ with tab2:
         st.info("**Step 3: TF-IDF Scoring**\n\nRank and select final terms based on TF-IDF scores across categories")
 
     # Load seed terms
-    seed_terms = pd.read_csv(BASE / "seed_final.csv")
-    
+    seed_terms = pd.read_csv(BASE / "seed_final_302.csv")
     st.subheader("ESG Risk Categories and Important Terms")
     st.markdown("##### These terms are extracted from the World Bank documents using TF-IDF scores for each pillar (E/S/G) and for each category. There were total of 14 subcategories, thus each category was considered as one document.")
-    
-    col1, col2 = st.columns(2)
-    
+    col1, col2, col3, col4 = st.columns(4)
+    pillar_order = ['E', 'S', 'G']
+    pillar_labels = {'E': 'Environmental', 'S': 'Social', 'G': 'Governance'}
+    pillar_colors = {'E': '#81C784', 'S': '#64B5F6', 'G': '#FFB74D'}
     with col1:
-        # First dropdown: Pillar (E, S, G order)
-        pillar_order = ['E', 'S', 'G']
-        pillar_labels = {'E': 'Environmental', 'S': 'Social', 'G': 'Governance'}
         selected_pillar = st.selectbox(
             "Select Pillar",
             options=pillar_order,
-            format_func=lambda x: pillar_labels[x]
+            format_func=lambda x: pillar_labels[x],
+            key="seed_pillar"
         )
-    
     with col2:
-        # Second dropdown: Category (filtered by selected pillar)
-        categories = seed_terms[seed_terms['pillar'] == selected_pillar]['category'].unique()
+        categories = seed_terms[seed_terms['Pillar'] == selected_pillar]['Category'].unique()
         selected_category = st.selectbox(
             "Select Category",
-            options=categories
+            options=categories,
+            key="seed_category"
         )
-    
-    # Filter terms
+    with col3:
+        subcategories = seed_terms[
+            (seed_terms['Pillar'] == selected_pillar) & 
+            (seed_terms['Category'] == selected_category)
+        ]['Subcategory'].unique()
+        selected_subcategory = st.selectbox(
+            "Select Subcategory",
+            options=subcategories,
+            key="seed_subcategory"
+        )
+    with col4:
+        descriptions = seed_terms[
+            (seed_terms['Pillar'] == selected_pillar) & 
+            (seed_terms['Category'] == selected_category) &
+            (seed_terms['Subcategory'] == selected_subcategory)
+        ]['Description'].unique()
+        selected_description = st.selectbox(
+            "Select Description",
+            options=descriptions,
+            key="seed_description"
+        )
     filtered_terms = seed_terms[
-        (seed_terms['pillar'] == selected_pillar) & 
-        (seed_terms['category'] == selected_category)
-    ]['term'].tolist()
-    
-    st.markdown(f"**{len(filtered_terms)} terms in {selected_category}:**")
-    
-    # Color by pillar
-    pillar_colors = {'E': '#81C784', 'S': '#64B5F6', 'G': '#FFB74D'}
+        (seed_terms['Pillar'] == selected_pillar) & 
+        (seed_terms['Category'] == selected_category) &
+        (seed_terms['Subcategory'] == selected_subcategory) &
+        (seed_terms['Description'] == selected_description)
+    ]['Term'].tolist()
+    st.markdown(f"**{len(filtered_terms)} terms in {selected_description}:**")
     color = pillar_colors[selected_pillar]
-    
     tags_html = " ".join([
         f'<span style="background-color:{color}; padding:6px 12px; margin:4px; border-radius:20px; display:inline-block; font-size:14px;">{term}</span>' 
         for term in filtered_terms
@@ -871,7 +884,7 @@ with tab4:
         col1, col2 = st.columns(2)
         with col1:
             st.info("""**1. Embedding**
-    - 435 seed terms + 7,132 corpus candidates \n
+    - 302 seed terms + 7,132 corpus candidates \n
     - Model: `all-mpnet-base-v2` (768-dim)\n
     - Source: World Bank ESF + InfraSAP""")
         with col2:
@@ -899,7 +912,7 @@ with tab4:
         res_col1, res_col2, res_col3, res_col4 = st.columns(4)
 
         with res_col1:
-            st.metric("Seed Terms", "435")
+            st.metric("Seed Terms", "302")
         with res_col2:
             st.metric("Expanded Terms", f"{len(esg_dict[esg_dict['is_seed'] == False]):,}")
         with res_col3:
