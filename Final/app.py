@@ -551,7 +551,7 @@ with tab3:
 
 with tab2:
     st.title("ESG Risks in Infrastructure Projects")
-    st.markdown("##### Large-scale infrastructure projects are physically large, complex, unique, involves a lot of stakeholders and shareholders, and have great impacts on society. Due to this nature, they inherently involve various environmental, social, and governance (ESG) challenges. According to World Bank, those risks can be categorized into the following categories.")
+    st.markdown("##### Large-scale infrastructure projects are physically large, complex, unique, involve a lot of stakeholders and shareholders, and have great impacts on society. Due to this nature, they inherently involve various environmental, social, and governance (ESG) challenges. According to World Bank, those risks can be categorized into the following categories.")
     st.markdown("##### To see what risks exist in projects, relevant terms were extracted from the following two World Bank documents.")
     
     st.markdown("---")
@@ -561,12 +561,12 @@ with tab2:
         st.image(BASE / "es.png", width=250)
     with col2:
         st.markdown("**Environmental and Social Management Framework**")
-        st.markdown("   Env 1. Resource Efficiency and Pollution Prevention and Management")
-        st.markdown("   Env 2. Biodiversity Conservation and Sustainable Management of Living Natural Resources")
+        st.markdown("   Env 1. Resource Efficiency and Pollution Prevention")
+        st.markdown("   Env 2. Biodiversity Conservation and Living Natural Resources")
         st.markdown("Soc 1. Labor and Working Conditions")
         st.markdown("Soc 2. Community  Health and Safety")
-        st.markdown("Soc 3. Land Acquisition, Restrictions on Land Use and Involuntary Resettlement")
-        st.markdown("Soc 4. Indigenous Peoples/Sub-Saharan African Historically Underserved Traditional Local Communities")
+        st.markdown("Soc 3. Land Acquisition and Involuntary Resettlement")
+        st.markdown("Soc 4. Indigenous Peoples")
         st.markdown("Soc 5. Cultural Heritage")
     
     col1, col2, col3 = st.columns([1, 2, 0.5])
@@ -575,12 +575,10 @@ with tab2:
     with col2:
         st.markdown("**Governance Framework**")
         st.markdown("Gov 1. Legal Framework and Institutional Capacity")
-        st.markdown("Gov 2. Economic Efficiency and Value for Money")
-        st.markdown("Gov 3. Fiscal Affordability and Sustainability")
-        st.markdown("Gov 4. Procurement and Contract Management")
-        st.markdown("Gov 5. Contract Management and O&M'")
-        st.markdown("Gov 6. Transparency and Information Access")
-        st.markdown("Gov 7. Integrity and Misconduct Risk")
+        st.markdown("Gov 2. Financial and Economic")
+        st.markdown("Gov 3. Procurement and Contract Management")
+        st.markdown("Gov 4. Operations and Performance")
+        st.markdown("Gov 5. Transparency and Integrity")
     
     st.markdown("---")
     
