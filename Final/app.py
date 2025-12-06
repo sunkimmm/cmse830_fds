@@ -504,17 +504,15 @@ with tab3:
     st.markdown("---")
 
 with tab4:
-    st.title("Project Metadata & Preprocessing")
-    st.markdown("##### This summarizes the data preprocessing steps, including cost conversion and missing data handling to convert World Bank project costs to comparable **2019 USD values** for analysis. Project cost data are in nominal value at the year of approval, but the data spans from 1989 to 2012 (for the approval year) or 1999 to 2019 (for the completion year). For apple-to-apple comparison, every value was converted to 2019, to adjust for the following discrepancies. Essentially, it takes care of _What was the economic scale and resource commitment of this project within its own national economy?_ question.")
-    st.markdown("""
-    - Purchasing Power Parity adjustment: What $500M USD buys in developing countries is different from what it buys in developed countries.
-    - Temporal adjustment: What $500M buys in 2001 is different from what it buys in 2019.
-    """)
-
     subtab1, subtab2, subtab3 = st.tabs(["Data Processing", "Data (Raw & Processed)", "Initial/Exploratory Data Analysis"])
     
     with subtab1:
         st.header("Data Processing")
+        st.markdown("##### This page summarizes the data preprocessing steps, including cost conversion and missing data handling to convert World Bank project costs to comparable **2019 USD values** for analysis. Project cost data are in nominal value at the year of approval, but the data spans from 1989 to 2012 (for the approval year) or 1999 to 2019 (for the completion year). For apple-to-apple comparison, every value was converted to 2019, to adjust for the following discrepancies. Essentially, it takes care of _What was the economic scale and resource commitment of this project within its own national economy?_ question.")
+    st.markdown("""
+    - Purchasing Power Parity adjustment: What $500M USD buys in developing countries is different from what it buys in developed countries.
+    - Temporal adjustment: What $500M buys in 2001 is different from what it buys in 2019.
+    """)
         st.markdown("---")
         
         # 1. Overview
