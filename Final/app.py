@@ -37,13 +37,22 @@ with tab1:
     final_projects = pd.read_csv(BASE / "fin_project_metadata_280.csv")
     
     # Key metrics at the top
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3, col4, col5, col6 = st.columns(7)
     with col1:
         st.metric("Total Projects", len(final_projects))
     with col2:
         st.metric("Countries", final_projects['countryname'].nunique())
     with col3:
         st.metric("Regions", final_projects['regionname'].nunique())
+    with col4:
+        total_investment = final_projects['planned_cost_adj_both'].sum() / 1000
+        st.metric("Total Investment", f"${total_investment:.1f}B")
+    with col5:
+        avg_cost = final_projects['planned_cost_adj_both'].mean()
+        st.metric("Avg Project Cost", f"${avg_cost:.0f}M")
+    with col6:
+        avg_duration = final_projects['duration_actual'].mean() / 12
+        st.metric("Avg Duration", f"{avg_duration:.1f} years")
     
     st.markdown("---")
     
