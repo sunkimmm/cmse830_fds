@@ -375,6 +375,7 @@ with tab3:
     
     # Load and display seed source documents
     st.subheader("Source Documents for Term Extraction")
+    st.caption("E: Environmental, S: Social, G: Governance")
     seed_source = pd.read_json(BASE / "seed_streamlit.json")
     st.dataframe(seed_source[['pillar', 'code', 'description']], use_container_width=True, hide_index=True)
     selected_row = st.selectbox(
