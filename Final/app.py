@@ -377,15 +377,15 @@ with tab3:
 <span style="color:#000000;">• G4: Operations and Performance</span><br>
 <span style="color:#000000;">• G5: Transparency and Integrity</span>
             """, unsafe_allow_html=True)
-    st.markdown("---")
     
     # Load and display seed source documents
     st.subheader("Source Documents for Term Extraction")
+    st.markdown("From the source document, each category (E1-G5) was considered as one document, and terms were extracted from each document. Cleaned and n-gram preserved text is shown below.")
     st.caption("E: Environmental, S: Social, G: Governance")
     seed_source = pd.read_json(BASE / "seed_streamlit.json")
     st.dataframe(seed_source[['pillar', 'code', 'description']], use_container_width=True, hide_index=True)
     selected_row = st.selectbox(
-        "Select a category to view full text (preprocessed; cleaned and ngram preserved):",
+        "Select a category to view full text:",
         options=seed_source['code'].tolist(),
         format_func=lambda x: f"{seed_source[seed_source['code']==x]['pillar'].values[0]} - {x}: {seed_source[seed_source['code']==x]['description'].values[0]}"
     )
