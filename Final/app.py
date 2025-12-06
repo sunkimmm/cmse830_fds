@@ -434,6 +434,7 @@ with tab3:
     with col3:
         st.info("**3: TF-IDF Scoring**\n\nRank and select final terms based on TF-IDF scores across categories")
 
+    st.markdown("---")
     # Load seed terms
     seed_terms = pd.read_csv(BASE / "seed_final_314.csv")
     st.subheader("ESG Risk Categories and Important Terms")
