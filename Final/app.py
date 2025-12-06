@@ -481,9 +481,10 @@ with tab3:
                 for term in terms
             ])
             st.markdown(tags_html, unsafe_allow_html=True)
+    st.markdown(f"Click the following expander to see dendrogram - subcategories clustered together.")
     with st.expander(f"📊 View Dendrogram for {category_code}", expanded=False):
         if dendrogram_path.exists():
-            col1, col2, col3 = st.columns([1, 3, 1])
+            col1, col2, col3 = st.columns([1, 2, 1])
             with col2:
                 st.image(str(dendrogram_path), use_container_width=True)
         else:
