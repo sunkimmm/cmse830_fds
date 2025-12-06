@@ -342,22 +342,20 @@ with tab2:
 
 with tab3:
     st.title("ESG Risks in Infrastructure Projects")
-    st.markdown("##### Large-scale infrastructure projects are physically large, complex, unique, involve a lot of stakeholders and shareholders, and have great impacts on society. Due to this nature, they inherently involve various environmental, social, and governance (ESG) challenges. According to World Bank, those risks can be categorized into the following categories.")    
-    st.markdown("---")
-    
+    st.markdown("##### Large-scale infrastructure projects are physically large, complex, unique, involve a lot of stakeholders and shareholders, and have great impacts on society. Due to this nature, they inherently involve various environmental, social, and governance (ESG) challenges. According to World Bank, those risks can be categorized into the following categories.")        
     with st.container(border=True):
         col1, col2, col3 = st.columns([1, 2, 2])
         with col1:
             st.image(BASE / "es.png", width=200)
             st.markdown("📄 [View source](https://thedocs.worldbank.org/en/doc/837721522762050108-0290022018/original/ESFFramework.pdf)")
         with col2:
-            st.markdown("**Environmental**")
+            st.markdown("**##### Environmental**")
             st.markdown("""
 <span style="color:#000000;">• E1: Resource Efficiency and Pollution Prevention</span><br>
 <span style="color:#000000;">• E2: Biodiversity Conservation and Living Natural Resources</span>
             """, unsafe_allow_html=True)
         with col3:
-            st.markdown("**Social**")
+            st.markdown("**##### Social**")
             st.markdown("""
 <span style="color:#000000;">• S1: Labor and Working Conditions</span><br>
 <span style="color:#000000;">• S2: Community Health and Safety</span><br>
@@ -371,7 +369,7 @@ with tab3:
             st.image(BASE / "gov.png", width=200)
             st.markdown("📄 [View source](https://thedocs.worldbank.org/en/doc/96550c14d62154355b6edc367d4d7f33-0080012021/original/Infrastructure-Governance-Assessment-Framework-December-2020.pdf)")
         with col2:
-            st.markdown("**Governance**")
+            st.markdown("**##### Governance**")
             st.markdown("""
 <span style="color:#000000;">• G1: Legal Framework and Institutional Capacity</span><br>
 <span style="color:#000000;">• G2: Financial and Economic</span><br>
