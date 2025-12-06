@@ -348,43 +348,39 @@ with tab3:
     st.markdown("---")
     
     with st.container(border=True):
-        col1, col2, col3 = st.columns([1, 3, 1])
+        col1, col2, col3 = st.columns([1, 2, 2])
         with col1:
             st.image(BASE / "es.png", width=200)
+            st.markdown("📄 [View source](https://thedocs.worldbank.org/en/doc/837721522762050108-0290022018/original/ESFFramework.pdf)")
         with col2:
-            st.markdown("**Environmental and Social Framework**")
+            st.markdown("**Environmental**")
             st.markdown("""
-<span style="color:#81C784; font-weight:bold;">Environmental</span><br>
-- E1: Resource Efficiency and Pollution Prevention<br>
-- E2: Biodiversity Conservation and Living Natural Resources<br><br>
-<span style="color:#64B5F6; font-weight:bold;">Social</span><br>
-- S1: Labor and Working Conditions<br>
-- S2: Community Health and Safety<br>
-- S3: Land Acquisition and Involuntary Resettlement<br>
-- S4: Indigenous Peoples<br>
-- S5: Cultural Heritage
+<span style="color:#81C784;">• E1: Resource Efficiency and Pollution Prevention</span><br>
+<span style="color:#81C784;">• E2: Biodiversity Conservation and Living Natural Resources</span>
             """, unsafe_allow_html=True)
         with col3:
-            st.markdown("")
-            st.markdown("📄 [View source](https://thedocs.worldbank.org/en/doc/837721522762050108-0290022018/original/ESFFramework.pdf)")
-    
+            st.markdown("**Social**")
+            st.markdown("""
+<span style="color:#64B5F6;">• S1: Labor and Working Conditions</span><br>
+<span style="color:#64B5F6;">• S2: Community Health and Safety</span><br>
+<span style="color:#64B5F6;">• S3: Land Acquisition and Involuntary Resettlement</span><br>
+<span style="color:#64B5F6;">• S4: Indigenous Peoples</span><br>
+<span style="color:#64B5F6;">• S5: Cultural Heritage</span>
+            """, unsafe_allow_html=True)
     with st.container(border=True):
-        col1, col2, col3 = st.columns([1, 3, 1])
+        col1, col2 = st.columns([1, 4])
         with col1:
             st.image(BASE / "gov.png", width=200)
-        with col2:
-            st.markdown("**Governance Framework**")
-            st.markdown("""
-<span style="color:#FFB74D; font-weight:bold;">Governance</span><br>
-- G1: Legal Framework and Institutional Capacity<br>
-- G2: Financial and Economic<br>
-- G3: Procurement and Contract Management<br>
-- G4: Operations and Performance<br>
-- G5: Transparency and Integrity
-            """, unsafe_allow_html=True)
-        with col3:
-            st.markdown("")
             st.markdown("📄 [View source](https://thedocs.worldbank.org/en/doc/96550c14d62154355b6edc367d4d7f33-0080012021/original/Infrastructure-Governance-Assessment-Framework-December-2020.pdf)")
+        with col2:
+            st.markdown("**Governance**")
+            st.markdown("""
+<span style="color:#FFB74D;">• G1: Legal Framework and Institutional Capacity</span><br>
+<span style="color:#FFB74D;">• G2: Financial and Economic</span><br>
+<span style="color:#FFB74D;">• G3: Procurement and Contract Management</span><br>
+<span style="color:#FFB74D;">• G4: Operations and Performance</span><br>
+<span style="color:#FFB74D;">• G5: Transparency and Integrity</span>
+            """, unsafe_allow_html=True)
     st.markdown("---")
     
     # Load and display seed source documents
