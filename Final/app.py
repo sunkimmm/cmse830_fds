@@ -464,11 +464,7 @@ with tab3:
     category_code = selected_category.split(":")[0].strip()
     dendrogram_path = BASE / f"dendrogram_{category_code}_horizontal.png"
     # Show dendrogram
-    with st.expander(f"📊 View Dendrogram for {category_code}", expanded=False):
-        if dendrogram_path.exists():
-            st.image(str(dendrogram_path), use_container_width=True)
-        else:
-            st.warning(f"Dendrogram image not found for {category_code}")
+
     filtered_df = seed_terms[
         (seed_terms['Pillar'] == selected_pillar) & 
         (seed_terms['Category'] == selected_category)
@@ -485,6 +481,13 @@ with tab3:
                 for term in terms
             ])
             st.markdown(tags_html, unsafe_allow_html=True)
+    with st.expander(f"📊 View Dendrogram for {category_code}", expanded=False):
+        if dendrogram_path.exists():
+            col1, col2, col3 = st.columns([1, 3, 1])
+            with col2:
+                st.image(str(dendrogram_path), use_container_width=True)
+        else:
+            st.warning(f"Dendrogram image not found for {category_code}")
     st.markdown("---")
 
 with tab4:
