@@ -288,22 +288,7 @@ with tab2:
             yaxis=dict(autorange='reversed')
         )
         st.plotly_chart(fig_region, use_container_width=True)
-    st.markdown(f"**Subsector Distribution for {selected_sector}**")
-    sector3_counts = sector_df['sector3'].value_counts()
-    fig_subsector = go.Figure(data=[go.Bar(
-        x=sector3_counts.values,
-        y=sector3_counts.index,
-        orientation='h',
-        marker_color=color,
-        hovertemplate='<b>%{y}</b><br>Projects: %{x}<extra></extra>'
-    )])
-    fig_subsector.update_layout(
-        height=max(250, len(sector3_counts) * 25),
-        margin=dict(l=20, r=20, t=20, b=20),
-        xaxis_title='Number of Projects',
-        yaxis=dict(autorange='reversed')
-    )
-    st.plotly_chart(fig_subsector, use_container_width=True)
+
 
     st.markdown("---")
     
