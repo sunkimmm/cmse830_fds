@@ -236,7 +236,7 @@ with tab2:
     st.plotly_chart(fig_maps, use_container_width=True)
     
     st.markdown("---")
-    st.subheader("Sector Overview")
+    st.subheader("Sector Information")
     sector_colors = {'Energy': '#FF6B6B', 'Transportation': '#A9C25E', 'Water': '#45B7D1'}
     sector_colors_light = {'Energy': '#FFD4D4', 'Transportation': '#DDE8B9', 'Water': '#C5E8F2'}
     col1, col2 = st.columns([1, 1])
