@@ -130,7 +130,7 @@ with tab1:
     
     st.markdown("---")
     st.subheader("Sector Overview")
-    sector_colors = {'Energy': '#FF6B6B', 'Transport': '#A9C25E', 'Water': '#45B7D1'}
+    sector_colors = {'Energy': '#FF6B6B', 'Transportation': '#A9C25E', 'Water': '#45B7D1'}
     col1, col2 = st.columns(2)
     with col1:
         sector_counts = final_projects['sector1'].value_counts()
