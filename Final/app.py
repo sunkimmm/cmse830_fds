@@ -132,7 +132,7 @@ with tab1:
     st.subheader("Sector Overview")
     sector_colors = {'Energy': '#FF6B6B', 'Transportation': '#A9C25E', 'Water': '#45B7D1'}
     sector_colors_light = {'Energy': '#FFD4D4', 'Transportation': '#DDE8B9', 'Water': '#C5E8F2'}
-    col1, col2, col3, col4 = st.columns([2, 1, 1, 1])
+    col1, col2 = st.columns([1, 1])
     with col1:
         sector_counts = final_projects['sector1'].value_counts()
         fig_sector = go.Figure(data=[go.Pie(
@@ -147,31 +147,40 @@ with tab1:
         )])
         fig_sector.update_layout(
             title=dict(text='Project Distribution by Sector', font=dict(size=16)),
-            height=300,
+            height=350,
             showlegend=False,
             margin=dict(l=20, r=20, t=40, b=20)
         )
         st.plotly_chart(fig_sector, use_container_width=True)
-    sector_stats = final_projects.groupby('sector1').agg({
-        'base+contingency': 'mean',
-        'duration_planned': 'mean'
-    }).reset_index()
-    for col, sector in zip([col2, col3, col4], sector_stats['sector1']):
-        row = sector_stats[sector_stats['sector1'] == sector].iloc[0]
-        avg_cost = row['base+contingency']
-        avg_duration = row['duration_planned'] / 12
-        color = sector_colors.get(sector, '#888888')
-        color_light = sector_colors_light.get(sector, '#f0f0f0')
-        with col:
-            st.markdown(f"""
-            <div style="background-color:{color_light}; border-left:4px solid {color}; padding:15px; border-radius:8px; height:100%;">
-                <span style="font-size:15px; font-weight:bold; color:{color};">{sector}</span><br><br>
-                <span style="font-size:13px; color:#333;">Avg Cost</span><br>
-                <span style="font-size:18px; font-weight:bold; color:#333;">${avg_cost:.0f}M</span><br><br>
-                <span style="font-size:13px; color:#333;">Avg Duration</span><br>
-                <span style="font-size:18px; font-weight:bold; color:#333;">{avg_duration:.1f} years</span>
-            </div>
-            """, unsafe_allow_html=True)
+    with col2:
+        selected_sector = st.radio("Select a sector for details:", list(sector_colors.keys()), horizontal=True, key="sector_radio")
+        sector_df = final_projects[final_projects['sector1'] == selected_sector]
+        color = sector_colors[selected_sector]
+        color_light = sector_colors_light[selected_sector]
+        m1, m2, m3 = st.columns(3)
+        with m1:
+            st.metric("Projects", len(sector_df))
+        with m2:
+            st.metric("Avg Cost", f"${sector_df['base+contingency'].mean():.0f}M")
+        with m3:
+            st.metric("Avg Duration", f"{sector_df['duration_planned'].mean()/12:.1f} yrs")
+        # Top regions for selected sector
+        top_regions = sector_df['regionname'].value_counts().head(5)
+        fig_region = go.Figure(data=[go.Bar(
+            x=top_regions.values,
+            y=top_regions.index,
+            orientation='h',
+            marker_color=color,
+            hovertemplate='<b>%{y}</b><br>Projects: %{x}<extra></extra>'
+        )])
+        fig_region.update_layout(
+            title=dict(text=f'Top Regions for {selected_sector}', font=dict(size=14)),
+            height=220,
+            margin=dict(l=20, r=20, t=40, b=20),
+            xaxis_title='Number of Projects',
+            yaxis=dict(autorange='reversed')
+        )
+        st.plotly_chart(fig_region, use_container_width=True)
 
 
     st.markdown("---")
