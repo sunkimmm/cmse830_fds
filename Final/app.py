@@ -32,7 +32,108 @@ BASE = Path(__file__).parent
 with tab1:
     st.title("Research Overview")
     st.markdown("##### This research investigates ESG-related risks in large-scale infrastructure construction projects, combining metadata (e.g., region, country, project sector, cancellation of subprojects, cost, duration, etc.) and text data that are extracted from project documents. I first develop an ESG Taxonomy (i.e., dictionary) from the extracted text data using NLP considering TFIDF scores and N-gram extractions, conduct contextual embedding using Transformer-based NLP model, and run regression to see how ESG risks influence various infrastructure project performance outcomes.")
+    st.markdown("---")
+    st.subheader("Research Process")
+
+    st.markdown("""
+    <style>
+    .main-box {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 18px 20px;
+        border-radius: 10px;
+        text-align: center;
+    }
+    .main-box b {
+        font-size: 18px;
+    }
+    .main-box span {
+        font-size: 14px;
+    }
+    .sub-box {
+        background: #f0f2f6;
+        padding: 12px 15px;
+        border-radius: 8px;
+        border-left: 4px solid #667eea;
+        margin: 5px 0;
+    }
+    .main-box-green {
+        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        color: white;
+        padding: 18px 20px;
+        border-radius: 10px;
+        text-align: center;
+    }
+    .main-box-green b {
+        font-size: 18px;
+    }
+    .main-box-green span {
+        font-size: 14px;
+    }
+    .rq-box {
+        background: #f8f9fa;
+        padding: 10px 15px;
+        border-radius: 8px;
+        font-style: italic;
+        font-size: 14px;
+        color: #555;
+        margin-top: 8px;
+        margin-bottom: 12px;
+    }
+    </style>
+    """, unsafe_allow_html=True)
     
+    col1, arrow, col2 = st.columns([5, 1, 5])
+    with col1:
+        st.markdown("""
+        <div class="main-box">
+            <b>1. ESG Taxonomy Development</b><br>
+            <span>Text Mining & Embedding Analysis</span>
+        </div>
+        """, unsafe_allow_html=True)
+        st.markdown("""
+        <div class="rq-box">
+            Research Question: What are the ESG-related risks associated with infrastructure projects?
+        </div>
+        """, unsafe_allow_html=True)
+        st.markdown("""
+        <div class="sub-box">
+            <b>1-1. Seed Term Extraction</b><br>
+            Base dictionary formation via TF-IDF & N-grams → <i>See Tab 3</i>
+        </div>
+        """, unsafe_allow_html=True)
+        st.markdown("""
+        <div class="sub-box">
+            <b>1-2. Embedding Analysis</b><br>
+            Dictionary expansion via semantic similarity → <i>See Tab 5</i>
+        </div>
+        """, unsafe_allow_html=True)
+    with arrow:
+        st.markdown("<div style='display:flex; align-items:center; justify-content:center; height:200px; font-size:40px; color:#667eea;'>→</div>", unsafe_allow_html=True)
+    with col2:
+        st.markdown("""
+        <div class="main-box-green">
+            <b>2. Regression Analysis</b><br>
+            <span>ESG Risk & Project Performance</span>
+        </div>
+        """, unsafe_allow_html=True)
+        st.markdown("""
+        <div class="rq-box">
+            Research Question: How does ESG risk emergence influence project performance?
+        </div>
+        """, unsafe_allow_html=True)
+        st.markdown("""
+        <div class="sub-box" style="border-left-color: #11998e;">
+            <b>ESG Risk Emergence</b><br>
+            Measure risk mentions during project implementation
+        </div>
+        """, unsafe_allow_html=True)
+        st.markdown("""
+        <div class="sub-box" style="border-left-color: #11998e;">
+            <b>Performance Impact</b><br>
+            Analyze relationship with project outcomes
+        </div>
+        """, unsafe_allow_html=True)
     st.markdown("---")
     st.title("Infrastructure Projects Overview")
     final_projects = pd.read_csv(BASE / "fin_project_metadata_280.csv")
@@ -184,106 +285,7 @@ with tab1:
 
 
     st.markdown("---")
-    st.subheader("Research Process")
-    st.markdown("""
-    <style>
-    .main-box {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        padding: 18px 20px;
-        border-radius: 10px;
-        text-align: center;
-    }
-    .main-box b {
-        font-size: 18px;
-    }
-    .main-box span {
-        font-size: 14px;
-    }
-    .sub-box {
-        background: #f0f2f6;
-        padding: 12px 15px;
-        border-radius: 8px;
-        border-left: 4px solid #667eea;
-        margin: 5px 0;
-    }
-    .main-box-green {
-        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-        color: white;
-        padding: 18px 20px;
-        border-radius: 10px;
-        text-align: center;
-    }
-    .main-box-green b {
-        font-size: 18px;
-    }
-    .main-box-green span {
-        font-size: 14px;
-    }
-    .rq-box {
-        background: #f8f9fa;
-        padding: 10px 15px;
-        border-radius: 8px;
-        font-style: italic;
-        font-size: 14px;
-        color: #555;
-        margin-top: 8px;
-        margin-bottom: 12px;
-    }
-    </style>
-    """, unsafe_allow_html=True)
     
-    col1, arrow, col2 = st.columns([5, 1, 5])
-    with col1:
-        st.markdown("""
-        <div class="main-box">
-            <b>1. ESG Taxonomy Development</b><br>
-            <span>Text Mining & Embedding Analysis</span>
-        </div>
-        """, unsafe_allow_html=True)
-        st.markdown("""
-        <div class="rq-box">
-            Research Question: What are the ESG-related risks associated with infrastructure projects?
-        </div>
-        """, unsafe_allow_html=True)
-        st.markdown("""
-        <div class="sub-box">
-            <b>1-1. Seed Term Extraction</b><br>
-            Base dictionary formation via TF-IDF & N-grams → <i>See Tab 3</i>
-        </div>
-        """, unsafe_allow_html=True)
-        st.markdown("""
-        <div class="sub-box">
-            <b>1-2. Embedding Analysis</b><br>
-            Dictionary expansion via semantic similarity → <i>See Tab 5</i>
-        </div>
-        """, unsafe_allow_html=True)
-    with arrow:
-        st.markdown("<div style='display:flex; align-items:center; justify-content:center; height:200px; font-size:40px; color:#667eea;'>→</div>", unsafe_allow_html=True)
-    with col2:
-        st.markdown("""
-        <div class="main-box-green">
-            <b>2. Regression Analysis</b><br>
-            <span>ESG Risk & Project Performance</span>
-        </div>
-        """, unsafe_allow_html=True)
-        st.markdown("""
-        <div class="rq-box">
-            Research Question: How does ESG risk emergence influence project performance?
-        </div>
-        """, unsafe_allow_html=True)
-        st.markdown("""
-        <div class="sub-box" style="border-left-color: #11998e;">
-            <b>ESG Risk Emergence</b><br>
-            Measure risk mentions during project implementation
-        </div>
-        """, unsafe_allow_html=True)
-        st.markdown("""
-        <div class="sub-box" style="border-left-color: #11998e;">
-            <b>Performance Impact</b><br>
-            Analyze relationship with project outcomes
-        </div>
-        """, unsafe_allow_html=True)
     # Sector and Region Distribution
     # st.subheader("Project Distribution by Sector and Region")
     
