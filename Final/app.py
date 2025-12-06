@@ -347,32 +347,40 @@ with tab3:
     
     st.markdown("---")
     
-    col1, col2, col3 = st.columns([1, 2, 0.5])
+    col1, col2 = st.columns(2)
     with col1:
-        st.image(BASE / "es.png", width=250)
+        with st.container(border=True):
+            st.image(BASE / "es.png", width=200)
+            st.markdown("**Environmental and Social Framework**")
+            st.markdown("""
+<span style="color:#81C784; font-weight:bold;">Environmental</span>
+
+- E1: Resource Efficiency and Pollution Prevention  
+- E2: Biodiversity Conservation and Living Natural Resources
+
+<span style="color:#64B5F6; font-weight:bold;">Social</span>
+
+- S1: Labor and Working Conditions  
+- S2: Community Health and Safety  
+- S3: Land Acquisition and Involuntary Resettlement  
+- S4: Indigenous Peoples  
+- S5: Cultural Heritage
+            """, unsafe_allow_html=True)
+            st.markdown("📄 [View source document](https://thedocs.worldbank.org/en/doc/837721522762050108-0290022018/original/ESFFramework.pdf)")
     with col2:
-        st.markdown("**Environmental and Social Management Framework**")
-        st.markdown("   Env 1. Resource Efficiency and Pollution Prevention")
-        st.markdown("   Env 2. Biodiversity Conservation and Living Natural Resources")
-        st.markdown("Soc 1. Labor and Working Conditions")
-        st.markdown("Soc 2. Community  Health and Safety")
-        st.markdown("Soc 3. Land Acquisition and Involuntary Resettlement")
-        st.markdown("Soc 4. Indigenous Peoples")
-        st.markdown("Soc 5. Cultural Heritage")
-        st.markdown("Click [here](https://thedocs.worldbank.org/en/doc/837721522762050108-0290022018/original/ESFFramework.pdf) to navigate to the source document.")
-    
-    col1, col2, col3 = st.columns([1, 2, 0.5])
-    with col1:
-        st.image(BASE / "gov.png", width=250)
-    with col2:
-        st.markdown("**Governance Framework**")
-        st.markdown("Gov 1. Legal Framework and Institutional Capacity")
-        st.markdown("Gov 2. Financial and Economic")
-        st.markdown("Gov 3. Procurement and Contract Management")
-        st.markdown("Gov 4. Operations and Performance")
-        st.markdown("Gov 5. Transparency and Integrity")
-        st.markdown("Click [here](https://thedocs.worldbank.org/en/doc/96550c14d62154355b6edc367d4d7f33-0080012021/original/Infrastructure-Governance-Assessment-Framework-December-2020.pdf) to navigate to the source document.")
-    
+        with st.container(border=True):
+            st.image(BASE / "gov.png", width=200)
+            st.markdown("**Governance Framework**")
+            st.markdown("""
+<span style="color:#FFB74D; font-weight:bold;">Governance</span>
+
+- G1: Legal Framework and Institutional Capacity  
+- G2: Financial and Economic  
+- G3: Procurement and Contract Management  
+- G4: Operations and Performance  
+- G5: Transparency and Integrity
+            """, unsafe_allow_html=True)
+            st.markdown("📄 [View source document](https://thedocs.worldbank.org/en/doc/96550c14d62154355b6edc367d4d7f33-0080012021/original/Infrastructure-Governance-Assessment-Framework-December-2020.pdf)")
     st.markdown("---")
     
     # Load and display seed source documents
