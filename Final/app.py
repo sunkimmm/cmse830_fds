@@ -30,10 +30,11 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs([
 BASE = Path(__file__).parent
 
 with tab1:
-    st.title("Project Overview")
+    st.title("Research Overview")
     st.markdown("##### This research investigates ESG-related risks in large-scale infrastructure construction projects, combining metadata (e.g., region, country, project sector, cancellation of subprojects, cost, duration, etc.) and text data that are extracted from project documents. I first develop an ESG Taxonomy (i.e., dictionary) from the extracted text data using NLP considering TFIDF scores and N-gram extractions, conduct contextual embedding using Transformer-based NLP model, and run regression to see how ESG risks influence various infrastructure project performance outcomes.")
     
     st.markdown("---")
+    st.title("Infrastructure Projects Overview")
     final_projects = pd.read_csv(BASE / "fin_project_metadata_280.csv")
     
     # Key metrics at the top
@@ -41,9 +42,9 @@ with tab1:
     with col1:
         st.metric("Total Projects", len(final_projects))
     with col2:
-        st.metric("Countries", final_projects['countryname'].nunique())
-    with col3:
         st.metric("Regions", final_projects['regionname'].nunique())
+    with col3:
+        st.metric("Countries", final_projects['countryname'].nunique())
     with col4:
         total_investment = final_projects['planned_cost_adj_both'].sum() / 1000
         st.metric("Total Investment", f"${total_investment:.1f}B")
@@ -127,6 +128,46 @@ with tab1:
     
     st.plotly_chart(fig_maps, use_container_width=True)
     
+    st.markdown("---")
+    st.subheader("Sector Overview")
+    col1, col2 = st.columns(2)
+    with col1:
+        sector_counts = final_projects['sector1'].value_counts()
+        fig_sector = go.Figure(data=[go.Pie(
+            labels=sector_counts.index,
+            values=sector_counts.values,
+            hole=0.4,
+            marker_colors=['#FF6B6B', '#4ECDC4', '#45B7D1'],
+            textinfo='label+percent',
+            textposition='outside',
+            hovertemplate='<b>%{label}</b><br>Projects: %{value}<br>Proportion: %{percent}<extra></extra>'
+        )])
+        fig_sector.update_layout(
+            title='Project Distribution by Sector',
+            height=350,
+            showlegend=False,
+            margin=dict(l=20, r=20, t=40, b=20)
+        )
+        st.plotly_chart(fig_sector, use_container_width=True)
+    with col2:
+        sector_stats = final_projects.groupby('sector1').agg({
+            'base+contingency': 'mean',
+            'duration_planned': 'mean'
+        }).reset_index()
+        sector_colors = {'Energy': '#FF6B6B', 'Transport': '#4ECDC4', 'Water': '#45B7D1'}
+        for _, row in sector_stats.iterrows():
+            sector = row['sector1']
+            avg_cost = row['base+contingency']
+            avg_duration = row['duration_planned'] / 12  # convert to years
+            color = sector_colors.get(sector, '#888888')
+            st.markdown(f"""
+            <div style="background-color:{color}; padding:12px 15px; border-radius:10px; margin-bottom:10px;">
+                <span style="font-size:16px; font-weight:bold; color:white;">{sector}</span><br>
+                <span style="color:white;">Avg Cost: <b>${avg_cost:.0f}M</b> &nbsp;|&nbsp; Avg Duration: <b>{avg_duration:.1f} years</b></span>
+            </div>
+            """, unsafe_allow_html=True)
+
+
     st.markdown("---")
     st.subheader("Research Process")
     st.markdown("""
