@@ -37,7 +37,7 @@ with tab1:
     final_projects = pd.read_csv(BASE / "fin_project_metadata_280.csv")
     
     # Key metrics at the top
-    col1, col2, col3, col4, col5, col6 = st.columns(7)
+    col1, col2, col3, col4, col5, col6 = st.columns(6)
     with col1:
         st.metric("Total Projects", len(final_projects))
     with col2:
