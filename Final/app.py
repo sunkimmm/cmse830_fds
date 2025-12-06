@@ -437,8 +437,9 @@ with tab3:
     st.markdown("---")
     # Load seed terms
     seed_terms = pd.read_csv(BASE / "seed_final_314.csv")
-    st.subheader("ESG Risk Categories and Important Terms")
-    st.markdown("##### These terms are extracted from the World Bank documents using TF-IDF scores for each pillar (E/S/G) and for each category.")
+    st.subheader("Seed Term Extraction Result")
+    st.markdown("##### Important terms are extracted from the corpus for each pillar, and for each category. Categories include different themes, so sub-categories were created based on embedding scores, clustering, and manual curation.")
+    st.markdown("Seed terms were embedded using mpnet and clustered using dendrogram.")
     st.markdown("Select a category to view extracted seed terms.")
     col1, col2 = st.columns(2)
     pillar_order = ['E', 'S', 'G']
@@ -459,6 +460,15 @@ with tab3:
             options=categories,
             key="seed_category"
         )
+    # Extract category code (e.g., "E1" from "E1: Pollution Prevention...")
+    category_code = selected_category.split(":")[0].strip()
+    dendrogram_path = BASE / f"dendrogram_{category_code}_horizontal.png"
+    # Show dendrogram
+    with st.expander(f"📊 View Dendrogram for {category_code}", expanded=False):
+        if dendrogram_path.exists():
+            st.image(str(dendrogram_path), use_container_width=True)
+        else:
+            st.warning(f"Dendrogram image not found for {category_code}")
     filtered_df = seed_terms[
         (seed_terms['Pillar'] == selected_pillar) & 
         (seed_terms['Category'] == selected_category)
@@ -476,7 +486,6 @@ with tab3:
             ])
             st.markdown(tags_html, unsafe_allow_html=True)
     st.markdown("---")
-
 
 with tab4:
     st.title("Project Metadata & Preprocessing")
