@@ -379,7 +379,7 @@ with tab3:
     seed_source = pd.read_json(BASE / "seed_streamlit.json")
     st.dataframe(seed_source[['pillar', 'code', 'description']], use_container_width=True, hide_index=True)
     selected_row = st.selectbox(
-        "Select a category to view full text:",
+        "Select a category to view full text (preprocessed; cleaned and ngram preserved):",
         options=seed_source['code'].tolist(),
         format_func=lambda x: f"{seed_source[seed_source['code']==x]['pillar'].values[0]} - {x}: {seed_source[seed_source['code']==x]['description'].values[0]}"
     )
