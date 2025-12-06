@@ -130,6 +130,7 @@ with tab1:
     
     st.markdown("---")
     st.subheader("Sector Overview")
+    sector_colors = {'Energy': '#FF6B6B', 'Transport': '#D4A574', 'Water': '#45B7D1'}
     col1, col2 = st.columns(2)
     with col1:
         sector_counts = final_projects['sector1'].value_counts()
@@ -137,7 +138,7 @@ with tab1:
             labels=sector_counts.index,
             values=sector_counts.values,
             hole=0.4,
-            marker_colors=['#FF6B6B', '#4ECDC4', '#45B7D1'],
+            marker_colors=[sector_colors.get(s, '#888888') for s in sector_counts.index],
             textinfo='label+percent',
             textposition='outside',
             hovertemplate='<b>%{label}</b><br>Projects: %{value}<br>Proportion: %{percent}<extra></extra>'
@@ -154,11 +155,10 @@ with tab1:
             'base+contingency': 'mean',
             'duration_planned': 'mean'
         }).reset_index()
-        sector_colors = {'Energy': '#FF6B6B', 'Transport': '#4ECDC4', 'Water': '#45B7D1'}
         for _, row in sector_stats.iterrows():
             sector = row['sector1']
             avg_cost = row['base+contingency']
-            avg_duration = row['duration_planned'] / 12  # convert to years
+            avg_duration = row['duration_planned'] / 12
             color = sector_colors.get(sector, '#888888')
             st.markdown(f"""
             <div style="background-color:{color}; padding:12px 15px; border-radius:10px; margin-bottom:10px;">
