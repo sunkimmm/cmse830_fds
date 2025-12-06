@@ -641,7 +641,7 @@ with tab2:
         st.info("**Step 3: TF-IDF Scoring**\n\nRank and select final terms based on TF-IDF scores across categories")
 
     # Load seed terms
-    seed_terms = pd.read_csv(BASE / "seed_final_299.csv")
+    seed_terms = pd.read_csv(BASE / "seed_final_314.csv")
     st.subheader("ESG Risk Categories and Important Terms")
     st.markdown("##### These terms are extracted from the World Bank documents using TF-IDF scores for each pillar (E/S/G) and for each category.")
     st.markdown("Select a category to view extracted seed terms.")
@@ -862,7 +862,7 @@ with tab4:
         col1, col2 = st.columns(2)
         with col1:
             st.info("""**1. Embedding**
-    - 299 seed terms + 7,132 corpus candidates \n
+    - 314 seed terms + 7,132 corpus candidates \n
     - Model: `all-mpnet-base-v2` (768-dim)\n
     - Source: World Bank ESF + InfraSAP""")
         with col2:
@@ -890,7 +890,7 @@ with tab4:
         res_col1, res_col2, res_col3, res_col4 = st.columns(4)
 
         with res_col1:
-            st.metric("Seed Terms", "299")
+            st.metric("Seed Terms", "314")
         with res_col2:
             st.metric("Expanded Terms", f"{len(esg_dict[esg_dict['is_seed'] == False]):,}")
         with res_col3:
