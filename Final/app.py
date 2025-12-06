@@ -139,7 +139,8 @@ with tab1:
 
 with tab2:
     st.title("Infrastructure Projects Overview")
-    st.markdown("#### This research uses data from the World Bank, and this page shows the summary statistics and introductory overview of the infrastructure projects in the dataset.")
+    st.markdown("#### This research uses data from the World Bank, and this page shows the introductory overview of the infrastructure projects, and some basic summary statistics.")
+    st.markdown("---")
     final_projects = pd.read_csv(BASE / "fin_project_metadata_280.csv")
     
     # Key metrics at the top
