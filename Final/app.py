@@ -31,31 +31,19 @@ BASE = Path(__file__).parent
 
 with tab1:
     st.title("Project Overview")
-    st.markdown("##### This project investigates ESG-related risks in large-scale infrastructure construction projects, combining metadata (e.g., region, country, project sector, cost, duration, etc.) and text data that are extracted from project documents. I first develop an ESG Taxonomy (i.e., dictionary) from the extracted text data using NLP that incorporates TFIDF scores and N-gram extractions, conduct contextual embedding using Transformer-based NLP model, and run regression to see how ESG risks influence infrastructure project performance.")
+    st.markdown("##### This research investigates ESG-related risks in large-scale infrastructure construction projects, combining metadata (e.g., region, country, project sector, cancellation of subprojects, cost, duration, etc.) and text data that are extracted from project documents. I first develop an ESG Taxonomy (i.e., dictionary) from the extracted text data using NLP considering TFIDF scores and N-gram extractions, conduct contextual embedding using Transformer-based NLP model, and run regression to see how ESG risks influence various infrastructure project performance outcomes.")
     
     st.markdown("---")
     final_projects = pd.read_csv(BASE / "fin_project_metadata_280.csv")
     
     # Key metrics at the top
-    col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
+    col1, col2, col3 = st.columns(3)
     with col1:
         st.metric("Total Projects", len(final_projects))
     with col2:
         st.metric("Countries", final_projects['countryname'].nunique())
     with col3:
         st.metric("Regions", final_projects['regionname'].nunique())
-    with col4:
-        total_investment = final_projects['planned_cost_adj_both'].sum() / 1000
-        st.metric("Total Investment", f"${total_investment:.1f}B")
-    with col5:
-        avg_cost = final_projects['planned_cost_adj_both'].mean()
-        st.metric("Avg Project Cost", f"${avg_cost:.0f}M")
-    with col6:
-        avg_duration = final_projects['duration_actual'].mean() / 12
-        st.metric("Avg Duration", f"{avg_duration:.1f} years")
-    with col7:
-        avg_delay = final_projects['delay'].mean() / 12
-        st.metric("Avg Delay", f"{avg_delay:.1f} years")
     
     st.markdown("---")
     
