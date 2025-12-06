@@ -355,17 +355,17 @@ with tab3:
         with col2:
             st.markdown("**Environmental**")
             st.markdown("""
-<span style="color:#81C784;">• E1: Resource Efficiency and Pollution Prevention</span><br>
-<span style="color:#81C784;">• E2: Biodiversity Conservation and Living Natural Resources</span>
+<span style="color:#000000;">• E1: Resource Efficiency and Pollution Prevention</span><br>
+<span style="color:#000000;">• E2: Biodiversity Conservation and Living Natural Resources</span>
             """, unsafe_allow_html=True)
         with col3:
             st.markdown("**Social**")
             st.markdown("""
-<span style="color:#64B5F6;">• S1: Labor and Working Conditions</span><br>
-<span style="color:#64B5F6;">• S2: Community Health and Safety</span><br>
-<span style="color:#64B5F6;">• S3: Land Acquisition and Involuntary Resettlement</span><br>
-<span style="color:#64B5F6;">• S4: Indigenous Peoples</span><br>
-<span style="color:#64B5F6;">• S5: Cultural Heritage</span>
+<span style="color:#000000;">• S1: Labor and Working Conditions</span><br>
+<span style="color:#000000;">• S2: Community Health and Safety</span><br>
+<span style="color:#000000;">• S3: Land Acquisition and Involuntary Resettlement</span><br>
+<span style="color:#000000;">• S4: Indigenous Peoples</span><br>
+<span style="color:#000000;">• S5: Cultural Heritage</span>
             """, unsafe_allow_html=True)
     with st.container(border=True):
         col1, col2 = st.columns([1, 4])
@@ -375,11 +375,11 @@ with tab3:
         with col2:
             st.markdown("**Governance**")
             st.markdown("""
-<span style="color:#FFB74D;">• G1: Legal Framework and Institutional Capacity</span><br>
-<span style="color:#FFB74D;">• G2: Financial and Economic</span><br>
-<span style="color:#FFB74D;">• G3: Procurement and Contract Management</span><br>
-<span style="color:#FFB74D;">• G4: Operations and Performance</span><br>
-<span style="color:#FFB74D;">• G5: Transparency and Integrity</span>
+<span style="color:#000000;">• G1: Legal Framework and Institutional Capacity</span><br>
+<span style="color:#000000;">• G2: Financial and Economic</span><br>
+<span style="color:#000000;">• G3: Procurement and Contract Management</span><br>
+<span style="color:#000000;">• G4: Operations and Performance</span><br>
+<span style="color:#000000;">• G5: Transparency and Integrity</span>
             """, unsafe_allow_html=True)
     st.markdown("---")
     
