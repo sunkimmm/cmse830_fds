@@ -390,12 +390,14 @@ with tab3:
 
     # Text Data Preprocessing Section
     st.subheader("Text Data Preprocessing")
-    
-    st.markdown("##### N-gram Extraction Process")
+    st.markdown("##### Step 1. Basic Cleaning")
+    st.markdown("""
+    Typo correction, special character removal, hyphenated- and non-hyphenated term consistency correction, etc.
+    """)
+    st.markdown("##### Step 2. N-gram Extraction & Preservation")
     
     st.markdown("""
-    For text analysis, bigrams and trigrams were extracted using specific POS (Part-of-Speech) patterns 
-    to capture meaningful multi-word terms relevant to ESG risks.
+    Bigrams and trigrams were extracted using specific POS (Part-of-Speech) patterns to capture meaningful multi-word terms relevant to ESG risks.
     """)
     
     col1, col2 = st.columns(2)
