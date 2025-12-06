@@ -359,6 +359,7 @@ with tab3:
         st.markdown("Soc 3. Land Acquisition and Involuntary Resettlement")
         st.markdown("Soc 4. Indigenous Peoples")
         st.markdown("Soc 5. Cultural Heritage")
+        st.markdown("Click [here](https://thedocs.worldbank.org/en/doc/837721522762050108-0290022018/original/ESFFramework.pdf) to navigate to the source document.")
     
     col1, col2, col3 = st.columns([1, 2, 0.5])
     with col1:
@@ -370,6 +371,7 @@ with tab3:
         st.markdown("Gov 3. Procurement and Contract Management")
         st.markdown("Gov 4. Operations and Performance")
         st.markdown("Gov 5. Transparency and Integrity")
+        st.markdown("Click [here](https://thedocs.worldbank.org/en/doc/96550c14d62154355b6edc367d4d7f33-0080012021/original/Infrastructure-Governance-Assessment-Framework-December-2020.pdf) to navigate to the source document.")
     
     st.markdown("---")
     
