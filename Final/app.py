@@ -131,7 +131,8 @@ with tab1:
     st.markdown("---")
     st.subheader("Sector Overview")
     sector_colors = {'Energy': '#FF6B6B', 'Transportation': '#A9C25E', 'Water': '#45B7D1'}
-    col1, col2 = st.columns(2)
+    sector_colors_light = {'Energy': '#FFD4D4', 'Transportation': '#DDE8B9', 'Water': '#C5E8F2'}
+    col1, col2, col3, col4 = st.columns([2, 1, 1, 1])
     with col1:
         sector_counts = final_projects['sector1'].value_counts()
         fig_sector = go.Figure(data=[go.Pie(
@@ -141,29 +142,34 @@ with tab1:
             marker_colors=[sector_colors.get(s, '#888888') for s in sector_counts.index],
             textinfo='label+percent',
             textposition='outside',
+            textfont=dict(size=14),
             hovertemplate='<b>%{label}</b><br>Projects: %{value}<br>Proportion: %{percent}<extra></extra>'
         )])
         fig_sector.update_layout(
-            title='Project Distribution by Sector',
-            height=350,
+            title=dict(text='Project Distribution by Sector', font=dict(size=16)),
+            height=300,
             showlegend=False,
             margin=dict(l=20, r=20, t=40, b=20)
         )
         st.plotly_chart(fig_sector, use_container_width=True)
-    with col2:
-        sector_stats = final_projects.groupby('sector1').agg({
-            'base+contingency': 'mean',
-            'duration_planned': 'mean'
-        }).reset_index()
-        for _, row in sector_stats.iterrows():
-            sector = row['sector1']
-            avg_cost = row['base+contingency']
-            avg_duration = row['duration_planned'] / 12
-            color = sector_colors.get(sector, '#888888')
+    sector_stats = final_projects.groupby('sector1').agg({
+        'base+contingency': 'mean',
+        'duration_planned': 'mean'
+    }).reset_index()
+    for col, sector in zip([col2, col3, col4], sector_stats['sector1']):
+        row = sector_stats[sector_stats['sector1'] == sector].iloc[0]
+        avg_cost = row['base+contingency']
+        avg_duration = row['duration_planned'] / 12
+        color = sector_colors.get(sector, '#888888')
+        color_light = sector_colors_light.get(sector, '#f0f0f0')
+        with col:
             st.markdown(f"""
-            <div style="background-color:{color}; padding:12px 15px; border-radius:10px; margin-bottom:10px;">
-                <span style="font-size:16px; font-weight:bold; color:white;">{sector}</span><br>
-                <span style="color:white;">Avg Cost: <b>${avg_cost:.0f}M</b> &nbsp;|&nbsp; Avg Duration: <b>{avg_duration:.1f} years</b></span>
+            <div style="background-color:{color_light}; border-left:4px solid {color}; padding:15px; border-radius:8px; height:100%;">
+                <span style="font-size:15px; font-weight:bold; color:{color};">{sector}</span><br><br>
+                <span style="font-size:13px; color:#333;">Avg Cost</span><br>
+                <span style="font-size:18px; font-weight:bold; color:#333;">${avg_cost:.0f}M</span><br><br>
+                <span style="font-size:13px; color:#333;">Avg Duration</span><br>
+                <span style="font-size:18px; font-weight:bold; color:#333;">{avg_duration:.1f} years</span>
             </div>
             """, unsafe_allow_html=True)
 
