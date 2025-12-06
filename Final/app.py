@@ -106,7 +106,7 @@ with tab1:
         st.markdown("""
         <div class="sub-box">
             <b>1-2. Embedding Analysis</b><br>
-            Dictionary expansion via semantic similarity → <i>See Tab 5</i>
+            Dictionary expansion via semantic similarity → <i>See Tab 4</i>
         </div>
         """, unsafe_allow_html=True)
     with arrow:
@@ -126,13 +126,13 @@ with tab1:
         st.markdown("""
         <div class="sub-box" style="border-left-color: #11998e;">
             <b>ESG Risk Emergence</b><br>
-            Measure risk mentions during project implementation
+            Measure risk mentions during project implementation → <i>See Tab 6</i>
         </div>
         """, unsafe_allow_html=True)
         st.markdown("""
         <div class="sub-box" style="border-left-color: #11998e;">
             <b>Performance Impact</b><br>
-            Analyze relationship with project outcomes
+            Analyze relationship with project outcomes → <i>See Tab 6</i>
         </div>
         """, unsafe_allow_html=True)
     st.markdown("---")
