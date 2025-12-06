@@ -347,8 +347,8 @@ with tab3:
     
     st.markdown("---")
     
-    with st.container(border=True):
-        col1, col2 = st.columns([1, 3])
+   with st.container(border=True):
+        col1, col2, col3 = st.columns([1, 3, 1])
         with col1:
             st.image(BASE / "es.png", width=200)
         with col2:
@@ -364,10 +364,12 @@ with tab3:
 - S4: Indigenous Peoples<br>
 - S5: Cultural Heritage
             """, unsafe_allow_html=True)
-            st.markdown("📄 [View source document](https://thedocs.worldbank.org/en/doc/837721522762050108-0290022018/original/ESFFramework.pdf)")
+        with col3:
+            st.markdown("")
+            st.markdown("📄 [View source](https://thedocs.worldbank.org/en/doc/837721522762050108-0290022018/original/ESFFramework.pdf)")
     
     with st.container(border=True):
-        col1, col2 = st.columns([1, 3])
+        col1, col2, col3 = st.columns([1, 3, 1])
         with col1:
             st.image(BASE / "gov.png", width=200)
         with col2:
@@ -380,7 +382,9 @@ with tab3:
 - G4: Operations and Performance<br>
 - G5: Transparency and Integrity
             """, unsafe_allow_html=True)
-            st.markdown("📄 [View source document](https://thedocs.worldbank.org/en/doc/96550c14d62154355b6edc367d4d7f33-0080012021/original/Infrastructure-Governance-Assessment-Framework-December-2020.pdf)")
+        with col3:
+            st.markdown("")
+            st.markdown("📄 [View source](https://thedocs.worldbank.org/en/doc/96550c14d62154355b6edc367d4d7f33-0080012021/original/Infrastructure-Governance-Assessment-Framework-December-2020.pdf)")
     st.markdown("---")
     
     # Load and display seed source documents
