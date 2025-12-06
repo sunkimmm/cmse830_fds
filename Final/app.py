@@ -165,7 +165,7 @@ with tab1:
         with m3:
             st.metric("Avg Duration", f"{sector_df['duration_planned'].mean()/12:.1f} yrs")
         # Top regions for selected sector
-        top_regions = sector_df['regionname'].value_counts().head(5)
+        top_regions = sector_df['countryname'].value_counts().head(5)
         fig_region = go.Figure(data=[go.Bar(
             x=top_regions.values,
             y=top_regions.index,
@@ -174,7 +174,7 @@ with tab1:
             hovertemplate='<b>%{y}</b><br>Projects: %{x}<extra></extra>'
         )])
         fig_region.update_layout(
-            title=dict(text=f'Top Regions for {selected_sector}', font=dict(size=14)),
+            title=dict(text=f'Top Countries for {selected_sector}', font=dict(size=14)),
             height=220,
             margin=dict(l=20, r=20, t=40, b=20),
             xaxis_title='Number of Projects',
