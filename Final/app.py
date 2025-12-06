@@ -354,7 +354,7 @@ with tab3:
 <span style="color:#000000;">• E1: Resource Efficiency and Pollution Prevention</span><br>
 <span style="color:#000000;">• E2: Biodiversity Conservation and Living Natural Resources</span>
             """, unsafe_allow_html=True)
-            st.markdown("##### \nSocial")
+            st.markdown("##### Social")
             st.markdown("""
 <span style="color:#000000;">• S1: Labor and Working Conditions</span><br>
 <span style="color:#000000;">• S2: Community Health and Safety</span><br>
