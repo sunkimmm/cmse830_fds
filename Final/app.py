@@ -426,13 +426,13 @@ with tab3:
     col1, col2, col3 = st.columns(3)
     
     with col1:
-        st.info("**Step 1: Pattern Matching**\n\nExtract n-grams matching the defined POS patterns using spaCy NLP")
+        st.info("**1: Pattern Matching**\n\nExtract n-grams matching the defined POS patterns using spaCy NLP")
     
     with col2:
-        st.info("**Step 2: Frequency Filtering**\n\nPreserve important n-grams based on percentile thresholds and document frequency")
+        st.info("**2: Frequency Filtering**\n\nPreserve important n-grams based on percentile thresholds and document frequency")
     
     with col3:
-        st.info("**Step 3: TF-IDF Scoring**\n\nRank and select final terms based on TF-IDF scores across categories")
+        st.info("**3: TF-IDF Scoring**\n\nRank and select final terms based on TF-IDF scores across categories")
 
     # Load seed terms
     seed_terms = pd.read_csv(BASE / "seed_final_314.csv")
