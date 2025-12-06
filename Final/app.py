@@ -347,37 +347,37 @@ with tab3:
     
     st.markdown("---")
     
-    col1, col2 = st.columns(2)
-    with col1:
-        with st.container(border=True):
+    with st.container(border=True):
+        col1, col2 = st.columns([1, 3])
+        with col1:
             st.image(BASE / "es.png", width=200)
+        with col2:
             st.markdown("**Environmental and Social Framework**")
             st.markdown("""
-<span style="color:#81C784; font-weight:bold;">Environmental</span>
-
-- E1: Resource Efficiency and Pollution Prevention  
-- E2: Biodiversity Conservation and Living Natural Resources
-
-<span style="color:#64B5F6; font-weight:bold;">Social</span>
-
-- S1: Labor and Working Conditions  
-- S2: Community Health and Safety  
-- S3: Land Acquisition and Involuntary Resettlement  
-- S4: Indigenous Peoples  
+<span style="color:#81C784; font-weight:bold;">Environmental</span><br>
+- E1: Resource Efficiency and Pollution Prevention<br>
+- E2: Biodiversity Conservation and Living Natural Resources<br><br>
+<span style="color:#64B5F6; font-weight:bold;">Social</span><br>
+- S1: Labor and Working Conditions<br>
+- S2: Community Health and Safety<br>
+- S3: Land Acquisition and Involuntary Resettlement<br>
+- S4: Indigenous Peoples<br>
 - S5: Cultural Heritage
             """, unsafe_allow_html=True)
             st.markdown("📄 [View source document](https://thedocs.worldbank.org/en/doc/837721522762050108-0290022018/original/ESFFramework.pdf)")
-    with col2:
-        with st.container(border=True):
+    
+    with st.container(border=True):
+        col1, col2 = st.columns([1, 3])
+        with col1:
             st.image(BASE / "gov.png", width=200)
+        with col2:
             st.markdown("**Governance Framework**")
             st.markdown("""
-<span style="color:#FFB74D; font-weight:bold;">Governance</span>
-
-- G1: Legal Framework and Institutional Capacity  
-- G2: Financial and Economic  
-- G3: Procurement and Contract Management  
-- G4: Operations and Performance  
+<span style="color:#FFB74D; font-weight:bold;">Governance</span><br>
+- G1: Legal Framework and Institutional Capacity<br>
+- G2: Financial and Economic<br>
+- G3: Procurement and Contract Management<br>
+- G4: Operations and Performance<br>
 - G5: Transparency and Integrity
             """, unsafe_allow_html=True)
             st.markdown("📄 [View source document](https://thedocs.worldbank.org/en/doc/96550c14d62154355b6edc367d4d7f33-0080012021/original/Infrastructure-Governance-Assessment-Framework-December-2020.pdf)")
