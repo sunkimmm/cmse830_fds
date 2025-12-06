@@ -473,18 +473,13 @@ with tab3:
     color = pillar_colors[selected_pillar]
     color_light = pillar_colors_light[selected_pillar]
     st.markdown(f"**{len(filtered_df)} terms across {len(subcategories)} subcategories:**")
-    for i, subcat in enumerate(subcategories):
+    pillar_tag_colors = {'E': '#C8E6C9', 'S': '#BBDEFB', 'G': '#FFE0B2'}
+    tag_color = pillar_tag_colors[selected_pillar]
+    for subcat in subcategories:
         terms = filtered_df[filtered_df['Subcategory'] == subcat]['Term'].tolist()
-        if selected_pillar == 'E':
-            shades = ['#81C784', '#A5D6A7', '#C8E6C9']
-        elif selected_pillar == 'S':
-            shades = ['#64B5F6', '#90CAF9', '#BBDEFB', '#E3F2FD', '#F5FBFF']
-        else:  # G
-            shades = ['#FFB74D', '#FFCC80', '#FFE0B2', '#FFF3E0', '#FFFBF5']
-        shade = shades[i % len(shades)]
         st.markdown(f"**{subcat}** ({len(terms)} terms)")
         tags_html = " ".join([
-            f'<span style="background-color:{shade}; padding:5px 10px; margin:3px; border-radius:15px; display:inline-block; font-size:13px;">{term}</span>' 
+            f'<span style="background-color:{tag_color}; padding:5px 10px; margin:3px; border-radius:15px; display:inline-block; font-size:13px;">{term}</span>' 
             for term in terms
         ])
         st.markdown(tags_html, unsafe_allow_html=True)
