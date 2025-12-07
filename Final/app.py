@@ -1248,6 +1248,200 @@ with tab6:
         st.header("Exploratory Data Analysis")
         df_app = pd.read_csv(BASE / "df_app_streamlit.csv")
         
+        # ESG Frequency Heatmaps by Sector
+        st.subheader("ESG Term Frequency by Sector and Category")
+        st.markdown("Heatmaps showing the percentage of ESG-related terms in project documents at appraisal and completion stages.")
+        
+        # Category labels
+        cat_order = ['E1', 'E2', 'E3', 'S1', 'S2', 'S3', 'S4', 'S5', 'G1', 'G2', 'G3', 'G4', 'G5']
+        label_mapping = {
+            'E1': 'Climate & GHG', 'E2': 'Natural Resources', 'E3': 'Pollution',
+            'S1': 'Community', 'S2': 'Safety', 'S3': 'Labor', 'S4': 'Indigenous', 'S5': 'Cultural Heritage',
+            'G1': 'Institutional', 'G2': 'Fiscal', 'G3': 'Procurement', 'G4': 'Operations', 'G5': 'Transparency'
+        }
+        sectors = ['Transportation', 'Water', 'Energy']
+        
+        # Calculate appraisal frequency by sector
+        appraisal_data = []
+        for cat in cat_order:
+            row = []
+            for sector in sectors:
+                sector_data = df_app[df_app['sector_group'] == sector]
+                row.append(sector_data[f'app_{cat}_pct'].mean())
+            appraisal_data.append(row)
+        
+        # Calculate completion frequency by sector
+        completion_data = []
+        for cat in cat_order:
+            row = []
+            for sector in sectors:
+                sector_data = df_app[df_app['sector_group'] == sector]
+                app_val = sector_data[f'app_{cat}_pct'].mean()
+                emerg_val = sector_data[f'{cat}_emergence_rate'].mean()
+                row.append(app_val + emerg_val)
+            completion_data.append(row)
+        
+        # Calculate emergence rate by sector
+        emergence_data = []
+        for cat in cat_order:
+            row = []
+            for sector in sectors:
+                sector_data = df_app[df_app['sector_group'] == sector]
+                row.append(sector_data[f'{cat}_emergence_rate'].mean())
+            emergence_data.append(row)
+        
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown("**ESG Term Frequency at Appraisal**")
+            fig_app = go.Figure(data=go.Heatmap(
+                z=appraisal_data,
+                x=sectors,
+                y=[label_mapping[c] for c in cat_order],
+                text=[[f"{v:.2f}" for v in row] for row in appraisal_data],
+                texttemplate="%{text}",
+                textfont=dict(size=12),
+                colorscale='YlGn',
+                colorbar=dict(title='Frequency (%)', titlefont=dict(size=12)),
+                hovertemplate='Category: %{y}<br>Sector: %{x}<br>Frequency: %{z:.2f}%<extra></extra>'
+            ))
+            fig_app.update_layout(
+                xaxis=dict(title='Sector', tickfont=dict(size=12), title_font=dict(size=14)),
+                yaxis=dict(title='ESG Category', tickfont=dict(size=11), title_font=dict(size=14), autorange='reversed'),
+                margin=dict(t=30, b=20, l=20, r=20),
+                height=500
+            )
+            st.plotly_chart(fig_app, use_container_width=True)
+        
+        with col2:
+            st.markdown("**ESG Term Frequency at Completion**")
+            fig_comp = go.Figure(data=go.Heatmap(
+                z=completion_data,
+                x=sectors,
+                y=[label_mapping[c] for c in cat_order],
+                text=[[f"{v:.2f}" for v in row] for row in completion_data],
+                texttemplate="%{text}",
+                textfont=dict(size=12),
+                colorscale='YlGn',
+                colorbar=dict(title='Frequency (%)', titlefont=dict(size=12)),
+                hovertemplate='Category: %{y}<br>Sector: %{x}<br>Frequency: %{z:.2f}%<extra></extra>'
+            ))
+            fig_comp.update_layout(
+                xaxis=dict(title='Sector', tickfont=dict(size=12), title_font=dict(size=14)),
+                yaxis=dict(title='ESG Category', tickfont=dict(size=11), title_font=dict(size=14), autorange='reversed'),
+                margin=dict(t=30, b=20, l=20, r=20),
+                height=500
+            )
+            st.plotly_chart(fig_comp, use_container_width=True)
+        
+        st.caption("Note: Completion frequency is estimated as appraisal coverage plus emergence rate.")
+        st.markdown("---")
+        
+        # Emergence Rate Heatmap
+        st.subheader("ESG Emergence Rate by Sector and Category")
+        st.markdown("Emergence rate measures how much ESG issues **increased** from appraisal to completion — higher values indicate more 'surprises' during implementation.")
+        
+        col1, col2, col3 = st.columns([1, 2, 1])
+        with col2:
+            fig_emerg = go.Figure(data=go.Heatmap(
+                z=emergence_data,
+                x=sectors,
+                y=[label_mapping[c] for c in cat_order],
+                text=[[f"{v:.2f}" for v in row] for row in emergence_data],
+                texttemplate="%{text}",
+                textfont=dict(size=12),
+                colorscale='RdYlGn_r',  # Red = high emergence (bad), Green = low emergence (good)
+                colorbar=dict(title='Emergence Rate', titlefont=dict(size=12)),
+                hovertemplate='Category: %{y}<br>Sector: %{x}<br>Emergence: %{z:.2f}<extra></extra>'
+            ))
+            fig_emerg.update_layout(
+                xaxis=dict(title='Sector', tickfont=dict(size=12), title_font=dict(size=14)),
+                yaxis=dict(title='ESG Category', tickfont=dict(size=11), title_font=dict(size=14), autorange='reversed'),
+                margin=dict(t=30, b=20, l=20, r=20),
+                height=500
+            )
+            st.plotly_chart(fig_emerg, use_container_width=True)
+        
+        st.caption("Red indicates higher emergence (more unexpected issues); Green indicates lower emergence (better planning).")
+        st.markdown("---")
+        
+        # Emergence Rate Key Findings
+        st.subheader("Key Findings: Emergence Rate Analysis")
+        st.markdown("**Emergence Rate** = % of completion terms that are NEW (not mentioned in appraisal)")
+        st.markdown("---")
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown("**🔴 Highest Emergence (Planning Gaps)**")
+            high_emerg_data = {
+                'Category': ['S2: Safety', 'G3: Procurement', 'G4: Operations', 'G2: Fiscal', 'E1: Climate'],
+                'Rate': ['48.7%', '44.2%', '39.6%', '39.4%', '38.2%'],
+                'Implication': [
+                    'Safety risks systematically underestimated',
+                    'Procurement complexity exceeds expectations',
+                    'Operational challenges not anticipated',
+                    'Financial surprises despite heavy planning',
+                    'Climate impacts underestimated'
+                ]
+            }
+            st.dataframe(pd.DataFrame(high_emerg_data), use_container_width=True, hide_index=True)
+        
+        with col2:
+            st.markdown("**🟢 Lowest Emergence (Better Planning)**")
+            low_emerg_data = {
+                'Category': ['S5: Cultural Heritage', 'S4: Indigenous', 'G5: Transparency'],
+                'Rate': ['24.8%', '28.3%', '30.6%'],
+                'Implication': [
+                    'Thorough heritage surveys upfront',
+                    'Mandatory consultation requirements work',
+                    'Clear disclosure requirements defined'
+                ]
+            }
+            st.dataframe(pd.DataFrame(low_emerg_data), use_container_width=True, hide_index=True)
+        
+        st.markdown("---")
+        
+        # Key Insights
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown("""
+            <div style="background-color:#FFEBEE; padding:15px; border-radius:10px; border-left:4px solid #EF553B;">
+            <b>⚠️ The Safety Paradox</b><br><br>
+            S2 Safety has the <b>highest emergence rate (48.7%)</b> — nearly half of safety vocabulary appears only in completion reports.<br><br>
+            <i>Implication: Safety risks are systematically underestimated in megaproject appraisals.</i>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        with col2:
+            st.markdown("""
+            <div style="background-color:#E8F5E9; padding:15px; border-radius:10px; border-left:4px solid #4CAF50;">
+            <b>✓ What Works: Mandatory Requirements</b><br><br>
+            S4 Indigenous (28.3%) and S5 Cultural Heritage (24.8%) have <b>lowest emergence</b> — World Bank safeguard requirements drive thorough upfront assessment.<br><br>
+            <i>Implication: Apply similar rigor to high-emergence categories.</i>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        st.markdown("")
+        
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown("""
+            <div style="background-color:#FFF3E0; padding:15px; border-radius:10px; border-left:4px solid #FF9800;">
+            <b>💰 Financial Emergence Despite Planning</b><br><br>
+            G2 Fiscal has the <b>highest appraisal coverage (1.45%)</b> yet still shows <b>39.4% emergence</b>.<br><br>
+            <i>Implication: Even heavily planned financial aspects face surprises.</i>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        with col2:
+            st.markdown("""
+            <div style="background-color:#E3F2FD; padding:15px; border-radius:10px; border-left:4px solid #2196F3;">
+            <b>📋 Procurement Complexity</b><br><br>
+            G3 Procurement shows <b>44.2% emergence</b> — 11 new procurement terms emerge on average per project.<br><br>
+            <i>Implication: Procurement complexity consistently exceeds expectations.</i>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        st.markdown("---")
+        
         # ESG Coverage by Sector
         st.subheader("ESG Coverage by Sector")
         sector_esg = df_app.groupby('sector_group').agg({
