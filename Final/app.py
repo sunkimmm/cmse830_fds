@@ -520,9 +520,7 @@ with tab4:
         st.markdown("---")
             
         # 1. Overview
-        st.subheader("Cost Conversion Overview")
-        st.markdown("Converting World Bank project costs to comparable 2019 USD values using a two-step adjustment process.")
-            
+        st.subheader("Input data: ")            
         col1, col2, col3 = st.columns(3)
         with col1:
             st.metric("Total Projects", "462")
@@ -571,7 +569,7 @@ with tab4:
         st.markdown("---")
             
         # 3. Step 2: US PPI Adjustment
-        st.subheader("Step 2: US PPI (Producer Price Index) Adjustment")
+        st.markdown("#### Step 2: US PPI (Producer Price Index) Adjustment")
             
         col1, col2 = st.columns(2)
         with col1:
@@ -599,7 +597,7 @@ with tab4:
         st.markdown("---")
             
         # 4. Combined Adjustment
-        st.subheader("Combined Adjustment")
+        st.markdown("#### Combined Adjustment")
         st.latex(r"\text{planned\_cost\_adj\_both} = \text{planned\_cost\_adj1\_plr} \times \text{ppi\_factor}")
         col1, col2 = st.columns(2)
         with col1:
