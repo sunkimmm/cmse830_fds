@@ -770,19 +770,19 @@ with tab5:
         st.subheader("Text Preprocessing")
         col1, col2, col3 = st.columns(3)
         with col1:
-            st.subheader("🔧 Typo Correction")
+            st.markdown("#### 🔧 Typo Correction")
             st.markdown("• NLTK dictionary validation for OCR errors")
             st.markdown("• PySpellChecker for typo correction")
             st.markdown("• Flag documents with >15% unknown words")
             st.markdown("• Quality control across 280 projects")
         with col2:
-            st.subheader("🇺🇸 Americanize")
+            st.markdown("#### 🇺🇸 Americanize")
             st.markdown("• British → American spelling conversion")
             st.markdown("• 1,700+ word pairs loaded from dictionary")
             st.markdown("• e.g., 'behaviour' → 'behavior', 'colour' → 'color'")
             st.markdown("• Ensures consistency for NLP analysis")
         with col3:
-            st.subheader("🔗 N-gram Preservation")
+            st.markdown("#### 🔗 N-gram Preservation")
             st.markdown("• Join multi-word terms with underscores")
             st.markdown("• e.g., 'water supply' → 'water_supply'")
             st.markdown("• Compound standardization via frequency analysis")
