@@ -767,7 +767,7 @@ with tab5:
             st.markdown(f"<div style='background-color:{clean_color}; padding:15px; border-radius:10px; max-height:500px; overflow-y:auto; font-size:11px;'>{cleaned_text}</div>", unsafe_allow_html=True)
         st.caption("Note: Text truncated to first 2,000 + last 2,000 words. Underscores indicate multi-word terms (n-grams).")
         st.markdown("---")
-        st.header("Text Preprocessing")
+        st.Ngr("Text Preprocessing")
         col1, col2, col3 = st.columns(3)
         with col1:
             st.subheader("🔧 Typo Correction")
@@ -788,7 +788,7 @@ with tab5:
             st.markdown("• Compound standardization via frequency analysis")
             st.markdown("• Preserves semantic meaning of phrases")
         st.markdown("---")
-        st.header("N-gram Processing")
+        st.subheader("N-gram Processing")
         st.markdown("##### N-gram Extraction Process")
         st.markdown("""
         For text analysis, bigrams and trigrams were extracted using specific POS (Part-of-Speech) patterns 
