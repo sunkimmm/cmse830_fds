@@ -626,7 +626,9 @@ with tab4:
             st.metric("Regular Projects (Project Cost <$500M)", "182", "39.4%")
             
         st.success("**Selected for analysis: 280 projects (≥$500M threshold)**")
-        st.markdown("Final project list can be downloaded in the next tab.")
+        st.info("**Note:** Adjusted figures are NOT used in the analysis. They were only used to classify whether a project qualifies as 'large-scale' in 2019 USD-equivalent dollars. The threshold for 'large-scale' is **$500M USD**, following the US Department of Transportation definition. For further cost-related analysis, only the **'cost change'** variable (directly from World Bank) will be used.")
+        
+        # st.markdown("Final project list can be downloaded in the next tab.")
 
         st.markdown("---")
     with subtab2:
