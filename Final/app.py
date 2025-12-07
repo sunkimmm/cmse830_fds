@@ -1349,7 +1349,7 @@ with tab6:
                 text=[[f"{v:.2f}" for v in row] for row in emergence_data],
                 texttemplate="%{text}",
                 textfont=dict(size=12),
-                colorscale='RdYlGn_r',  # Red = high emergence (bad), Green = low emergence (good)
+                colorscale='RdYlGn_r',
                 colorbar=dict(title='Emergence Rate', titlefont=dict(size=12)),
                 hovertemplate='Category: %{y}<br>Sector: %{x}<br>Emergence: %{z:.2f}<extra></extra>'
             ))
@@ -1364,10 +1364,10 @@ with tab6:
         st.caption("Red indicates higher emergence (more unexpected issues); Green indicates lower emergence (better planning).")
         st.markdown("---")
         
-        # Emergence Rate Key Findings
+        # ========== KEY FINDINGS SECTION (INSERT HERE) ==========
         st.subheader("Key Findings: Emergence Rate Analysis")
         st.markdown("**Emergence Rate** = % of completion terms that are NEW (not mentioned in appraisal)")
-        st.markdown("---")
+        
         col1, col2 = st.columns(2)
         with col1:
             st.markdown("**🔴 Highest Emergence (Planning Gaps)**")
@@ -1397,9 +1397,8 @@ with tab6:
             }
             st.dataframe(pd.DataFrame(low_emerg_data), use_container_width=True, hide_index=True)
         
-        st.markdown("---")
+        st.markdown("")
         
-        # Key Insights
         col1, col2 = st.columns(2)
         with col1:
             st.markdown("""
@@ -1441,6 +1440,7 @@ with tab6:
             """, unsafe_allow_html=True)
         
         st.markdown("---")
+        # ========== END KEY FINDINGS SECTION ==========
         
         # ESG Coverage by Sector
         st.subheader("ESG Coverage by Sector")
@@ -1492,7 +1492,6 @@ with tab6:
             text=df_app['projectid'],
             hovertemplate='<b>%{text}</b><br>Coverage: %{x:.1f}%<br>Emergence: %{y:.2f}<extra></extra>'
         ))
-        # Add trendline
         z = np.polyfit(df_app[cov_col], df_app[emerg_col], 1)
         p = np.poly1d(z)
         x_line = np.linspace(df_app[cov_col].min(), df_app[cov_col].max(), 100)
