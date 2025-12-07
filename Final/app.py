@@ -139,7 +139,7 @@ with tab1:
 
 with tab2:
     st.header("Infrastructure Projects Overview")
-    st.markdown("##### This research uses data from the World Bank, and this page shows the introductory overview of the infrastructure projects, and some basic summary statistics.")
+    st.markdown("##### This research uses data from the World Bank, specifically, sovereign infrastructure development projects that the World Bank funded. This page shows the introductory overview of the infrastructure projects, and some basic summary statistics.")
     st.markdown("---")
     st.subheader("Summary Statistics")
     final_projects = pd.read_csv(BASE / "fin_project_metadata_280.csv")
@@ -657,393 +657,389 @@ with tab4:
     
 
 with tab5:
-    subtab1, subtab2, subtab3 = st.tabs(["Text Data & Preprocessing", "Final ESG Taxonomy", "Initial/Exploratory Analysis"])
-    with subtab1:
-        st.header("Data Processing for Text data")
-        st.markdown("""
-        Source: World Bank\n
-        Each project has two key documents that are analyzed:
-        - **Project Appraisal Document (PAD)**: Written at planning stage
-        - **Implementation Completion Report (ICR)**: Written after project completion
-        """)
-        st.subheader("Sample Documents")
-        col1, col2 = st.columns(2)
-        with col1:
-            st.markdown("**Project Appraisal Document (at Planning stage)**")
-            with open(BASE / "P130164_PAD.pdf", "rb") as f:
-                st.download_button("📥 Download Sample PAD", f, file_name="P130164_PAD.pdf")
-        with col2:
-            st.markdown("**Implementation Completion Report (after completion)**")
-            with open(BASE / "P130164_ICR.pdf", "rb") as f:
-                st.download_button("📥 Download Sample ICR", f, file_name="P130164_ICR.pdf")
-        st.markdown("---")
-        st.subheader("Text Data Overview")
-        text_data = pd.read_json(BASE / "text_data_sample.json")
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            st.metric("Total Projects", len(text_data))
-        with col2:
-            st.metric("Appraisal Documents", "6,728,587 words", "24,031 avg per project")
-        with col3:
-            st.metric("Completion Documents", "3,716,244 words", "13,272 avg per project")
-        selected_project = st.selectbox("Select a project to view text data, BEFORE and AFTER cleaning and ngram preservation:", options=text_data['projectid'].tolist())
-        doc_type = st.radio("Select document type:", ["Appraisal Document", "Completion Document"], horizontal=True)
-        row = text_data[text_data['projectid'] == selected_project].iloc[0]
-        if doc_type == "Appraisal Document":
-            raw_text = row['text_appraisal']
-            cleaned_text = row['text_appraisal_ngram']
-            raw_color, clean_color = "#e8f4e8", "#d4edda"
-        else:
-            raw_text = row['text_completion']
-            cleaned_text = row['text_completion_ngram']
-            raw_color, clean_color = "#e8f0f4", "#d1ecf1"
-        col1, col2 = st.columns(2)
-        with col1:
-            st.markdown("**📄 Raw Text (BEFORE cleaning)**")
-            st.markdown(f"<div style='background-color:{raw_color}; padding:15px; border-radius:10px; max-height:500px; overflow-y:auto; font-size:11px;'>{raw_text}</div>", unsafe_allow_html=True)
-        with col2:
-            st.markdown("**📄 Cleaned Text (AFTER cleaning)**")
-            st.markdown(f"<div style='background-color:{clean_color}; padding:15px; border-radius:10px; max-height:500px; overflow-y:auto; font-size:11px;'>{cleaned_text}</div>", unsafe_allow_html=True)
-        st.caption("Note: Text truncated to first 2,000 + last 2,000 words. Underscores indicate multi-word terms (n-grams).")
-        st.markdown("---")
-        st.header("Text Preprocessing")
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            st.subheader("🔧 Typo Correction")
-            st.markdown("• NLTK dictionary validation for OCR errors")
-            st.markdown("• PySpellChecker for typo correction")
-            st.markdown("• Flag documents with >15% unknown words")
-            st.markdown("• Quality control across 280 projects")
-        with col2:
-            st.subheader("🇺🇸 Americanize")
-            st.markdown("• British → American spelling conversion")
-            st.markdown("• 1,700+ word pairs loaded from dictionary")
-            st.markdown("• e.g., 'behaviour' → 'behavior', 'colour' → 'color'")
-            st.markdown("• Ensures consistency for NLP analysis")
-        with col3:
-            st.subheader("🔗 N-gram Preservation")
-            st.markdown("• Join multi-word terms with underscores")
-            st.markdown("• e.g., 'water supply' → 'water_supply'")
-            st.markdown("• Compound standardization via frequency analysis")
-            st.markdown("• Preserves semantic meaning of phrases")
-        st.markdown("---")
-        st.header("N-gram Processing")
-        st.markdown("##### N-gram Extraction Process")
-        st.markdown("""
-        For text analysis, bigrams and trigrams were extracted using specific POS (Part-of-Speech) patterns 
-        to capture meaningful multi-word terms relevant to ESG risks.
-        """)
-        col1, col2 = st.columns(2)
-        with col1:
-            st.markdown("**Bigram Patterns (2-word terms)**")
-            st.code("""
-        bigram_patterns = {
-            ('ADJ', 'NOUN'),   # e.g., "environmental impact"
-            ('NOUN', 'NOUN')   # e.g., "water supply"
-        }
-        """, language="python")
-        with col2:
-            st.markdown("**Trigram Patterns (3-word terms)**")
-            st.code("""
-        trigram_patterns = {
-            ('ADJ', 'ADJ', 'NOUN'),    # e.g., "local indigenous community"
-            ('ADJ', 'NOUN', 'NOUN'),   # e.g., "environmental impact assessment"
-            ('NOUN', 'NOUN', 'NOUN')   # e.g., "water treatment plant"
-        }
-        """, language="python")
-        st.markdown("##### Filtering and Selection Process")
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            st.info("**Step 1: Pattern Matching**\n\nExtract n-grams matching the defined POS patterns using spaCy NLP")
-        with col2:
-            st.info("**Step 2: Frequency Filtering**\n\nPreserve important n-grams based on percentile thresholds and document frequency")
-        with col3:
-            st.info("**Step 3: TF-IDF Scoring**\n\nRank and select final terms based on TF-IDF scores across categories")
-        st.markdown("##### N-gram Filtering Results")
-        col1, col2 = st.columns(2)
-        with col1:
-            st.markdown("**Bigrams Preserved: 2,033**")
-            st.caption("TF-IDF ≥ 99th percentile, Doc Freq 5-100%")
-            with st.expander("View top 50 bigrams"):
-                bigrams_data = [
-                    ("development planning", 0.0296, 11.1), ("expansion program", 0.0296, 18.2),
-                    ("monthly progress", 0.0296, 17.1), ("maintenance practices", 0.0296, 18.6),
-                    ("financial returns", 0.0295, 15.7), ("payment obligations", 0.0295, 6.8),
-                    ("complaint handling", 0.0295, 5.0), ("water companies", 0.0295, 6.4),
-                    ("street lighting", 0.0294, 6.8), ("trucking industry", 0.0294, 8.6),
-                    ("post_completion phase", 0.0294, 27.9), ("financial aspects", 0.0294, 21.8),
-                    ("joint supervision", 0.0294, 8.2), ("rail network", 0.0294, 9.6),
-                    ("project sites", 0.0294, 21.4), ("implementation issues", 0.0293, 28.9),
-                    ("complex project", 0.0293, 16.4), ("transport conditions", 0.0293, 6.8),
-                    ("project budget", 0.0293, 18.2), ("performance indicator", 0.0293, 15.0),
-                    ("timely completion", 0.0293, 24.6), ("resettlement compensation", 0.0293, 15.7),
-                    ("project operations", 0.0293, 10.0), ("transport systems", 0.0293, 13.2),
-                    ("implementation agencies", 0.0293, 18.9), ("electricity production", 0.0293, 12.9),
-                    ("performance government", 0.0292, 46.1), ("resettlement sites", 0.0292, 11.8),
-                    ("key elements", 0.0292, 24.3), ("qualified staff", 0.0292, 28.9),
-                    ("satisfaction survey", 0.0292, 6.1), ("energy production", 0.0292, 13.2),
-                    ("maintenance strategy", 0.0292, 9.6), ("original design", 0.0292, 21.4),
-                    ("plant operation", 0.0292, 11.1), ("vehicle weight", 0.0291, 5.0),
-                    ("service obligations", 0.0291, 16.1), ("road surface", 0.0291, 16.1),
-                    ("bad condition", 0.0291, 10.4), ("local economy", 0.0291, 21.4),
-                    ("environmental policy", 0.0291, 8.6), ("financial assistance", 0.0291, 23.2),
-                    ("bid opening", 0.0291, 16.4), ("financial plan", 0.0290, 13.9),
-                    ("wastepaper systems", 0.0290, 6.4), ("supply service", 0.0290, 8.9),
-                    ("power transfer", 0.0290, 6.1), ("bid prices", 0.0290, 22.1),
-                    ("related activities", 0.0290, 7.1), ("significant improvement", 0.0290, 27.9)
-                ]
-                bigrams_df = pd.DataFrame(bigrams_data, columns=["term", "tfidf", "doc_freq_%"])
-                st.dataframe(bigrams_df, height=400, use_container_width=True, hide_index=True)
-        with col2:
-            st.markdown("**Trigrams Preserved: 408**")
-            st.caption("TF-IDF ≥ 99.5th percentile, Doc Freq 5-100%")
-            with st.expander("View top 50 trigrams"):
-                trigrams_data = [
-                    ("project development objectives", 1.0000, 36.1), ("private sector participation", 0.8092, 57.5),
-                    ("resettlement action plan", 0.7621, 21.8), ("vehicle operating costs", 0.7072, 36.8),
-                    ("rural water supply", 0.6818, 7.9), ("financial management system", 0.6791, 54.6),
-                    ("debt service coverage", 0.6688, 31.4), ("project appraisal document", 0.6618, 5.4),
-                    ("national road network", 0.6524, 8.9), ("financial management specialist", 0.6478, 11.4),
-                    ("civil works contracts", 0.6314, 52.9), ("power sector reform", 0.6269, 17.1),
-                    ("environmental management plan", 0.6187, 22.9), ("project development objective", 0.6107, 43.9),
-                    ("task team leader", 0.6040, 10.0), ("core road network", 0.5385, 6.4),
-                    ("key performance indicators", 0.5348, 46.1), ("urban water supply", 0.5238, 10.7),
-                    ("solid waste management", 0.5125, 11.8), ("environmental impact assessment", 0.5086, 30.0),
-                    ("net present value", 0.5020, 51.8), ("total project cost", 0.4906, 47.9),
-                    ("project management unit", 0.4844, 10.4), ("management information system", 0.4570, 32.9),
-                    ("water supply systems", 0.4509, 12.9), ("road user charges", 0.4247, 17.1),
-                    ("wastepaper treatment plant", 0.4216, 11.4), ("service coverage ratio", 0.4212, 23.9),
-                    ("renewable energy development", 0.4183, 9.3), ("water supply system", 0.4094, 15.0),
-                    ("country assistance strategy", 0.4079, 5.4), ("project implementation plan", 0.4019, 14.3),
-                    ("water resources management", 0.3984, 10.0), ("resettlement policy framework", 0.3924, 10.4),
-                    ("private sector development", 0.3896, 51.1), ("total project costs", 0.3877, 25.7),
-                    ("water quality monitoring", 0.3848, 16.4), ("road safety program", 0.3746, 9.3),
-                    ("international competitive bidding", 0.3666, 36.8), ("loan closing date", 0.3565, 33.2),
-                    ("power sector restructuring", 0.3563, 6.8), ("standard bidding documents", 0.3504, 32.5),
-                    ("project management office", 0.3488, 9.3), ("financial management systems", 0.3420, 29.3),
-                    ("road sector development", 0.3407, 5.4), ("project closing date", 0.3379, 31.4),
-                    ("economic internal rate", 0.3373, 31.8), ("technical assistance component", 0.3346, 32.1),
-                    ("thermal power plant", 0.3345, 9.3), ("national competitive bidding", 0.3343, 18.6)
-                ]
-                trigrams_df = pd.DataFrame(trigrams_data, columns=["term", "tfidf", "doc_freq_%"])
-                st.dataframe(trigrams_df, height=400, use_container_width=True, hide_index=True)
+    st.header("Data Processing for Text Data")
+    st.header("Data Processing for Text data")
+    st.markdown("""
+    Source: World Bank\n
+    Each project has two key documents that are analyzed:
+    - **Project Appraisal Document (PAD)**: Written at planning stage
+    - **Implementation Completion Report (ICR)**: Written after project completion
+    """)
+    st.subheader("Sample Documents")
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown("**Project Appraisal Document (at Planning stage)**")
+        with open(BASE / "P130164_PAD.pdf", "rb") as f:
+            st.download_button("📥 Download Sample PAD", f, file_name="P130164_PAD.pdf")
+    with col2:
+        st.markdown("**Implementation Completion Report (after completion)**")
+        with open(BASE / "P130164_ICR.pdf", "rb") as f:
+            st.download_button("📥 Download Sample ICR", f, file_name="P130164_ICR.pdf")
+    st.markdown("---")
+    st.subheader("Text Data Overview")
+    text_data = pd.read_json(BASE / "text_data_sample.json")
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("Total Projects", len(text_data))
+    with col2:
+        st.metric("Appraisal Documents", "6,728,587 words", "24,031 avg per project")
+    with col3:
+        st.metric("Completion Documents", "3,716,244 words", "13,272 avg per project")
+    selected_project = st.selectbox("Select a project to view text data, BEFORE and AFTER cleaning and ngram preservation:", options=text_data['projectid'].tolist())
+    doc_type = st.radio("Select document type:", ["Appraisal Document", "Completion Document"], horizontal=True)
+    row = text_data[text_data['projectid'] == selected_project].iloc[0]
+    if doc_type == "Appraisal Document":
+        raw_text = row['text_appraisal']
+        cleaned_text = row['text_appraisal_ngram']
+        raw_color, clean_color = "#e8f4e8", "#d4edda"
+    else:
+        raw_text = row['text_completion']
+        cleaned_text = row['text_completion_ngram']
+        raw_color, clean_color = "#e8f0f4", "#d1ecf1"
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown("**📄 Raw Text (BEFORE cleaning)**")
+        st.markdown(f"<div style='background-color:{raw_color}; padding:15px; border-radius:10px; max-height:500px; overflow-y:auto; font-size:11px;'>{raw_text}</div>", unsafe_allow_html=True)
+    with col2:
+        st.markdown("**📄 Cleaned Text (AFTER cleaning)**")
+        st.markdown(f"<div style='background-color:{clean_color}; padding:15px; border-radius:10px; max-height:500px; overflow-y:auto; font-size:11px;'>{cleaned_text}</div>", unsafe_allow_html=True)
+    st.caption("Note: Text truncated to first 2,000 + last 2,000 words. Underscores indicate multi-word terms (n-grams).")
+    st.markdown("---")
+    st.header("Text Preprocessing")
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.subheader("🔧 Typo Correction")
+        st.markdown("• NLTK dictionary validation for OCR errors")
+        st.markdown("• PySpellChecker for typo correction")
+        st.markdown("• Flag documents with >15% unknown words")
+        st.markdown("• Quality control across 280 projects")
+    with col2:
+        st.subheader("🇺🇸 Americanize")
+        st.markdown("• British → American spelling conversion")
+        st.markdown("• 1,700+ word pairs loaded from dictionary")
+        st.markdown("• e.g., 'behaviour' → 'behavior', 'colour' → 'color'")
+        st.markdown("• Ensures consistency for NLP analysis")
+    with col3:
+        st.subheader("🔗 N-gram Preservation")
+        st.markdown("• Join multi-word terms with underscores")
+        st.markdown("• e.g., 'water supply' → 'water_supply'")
+        st.markdown("• Compound standardization via frequency analysis")
+        st.markdown("• Preserves semantic meaning of phrases")
+    st.markdown("---")
+    st.header("N-gram Processing")
+    st.markdown("##### N-gram Extraction Process")
+    st.markdown("""
+    For text analysis, bigrams and trigrams were extracted using specific POS (Part-of-Speech) patterns 
+    to capture meaningful multi-word terms relevant to ESG risks.
+    """)
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown("**Bigram Patterns (2-word terms)**")
+        st.code("""
+    bigram_patterns = {
+        ('ADJ', 'NOUN'),   # e.g., "environmental impact"
+        ('NOUN', 'NOUN')   # e.g., "water supply"
+    }
+    """, language="python")
+    with col2:
+        st.markdown("**Trigram Patterns (3-word terms)**")
+        st.code("""
+    trigram_patterns = {
+        ('ADJ', 'ADJ', 'NOUN'),    # e.g., "local indigenous community"
+        ('ADJ', 'NOUN', 'NOUN'),   # e.g., "environmental impact assessment"
+        ('NOUN', 'NOUN', 'NOUN')   # e.g., "water treatment plant"
+    }
+    """, language="python")
+    st.markdown("##### Filtering and Selection Process")
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.info("**Step 1: Pattern Matching**\n\nExtract n-grams matching the defined POS patterns using spaCy NLP")
+    with col2:
+        st.info("**Step 2: Frequency Filtering**\n\nPreserve important n-grams based on percentile thresholds and document frequency")
+    with col3:
+        st.info("**Step 3: TF-IDF Scoring**\n\nRank and select final terms based on TF-IDF scores across categories")
+    st.markdown("##### N-gram Filtering Results")
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown("**Bigrams Preserved: 2,033**")
+        st.caption("TF-IDF ≥ 99th percentile, Doc Freq 5-100%")
+        with st.expander("View top 50 bigrams"):
+            bigrams_data = [
+                ("development planning", 0.0296, 11.1), ("expansion program", 0.0296, 18.2),
+                ("monthly progress", 0.0296, 17.1), ("maintenance practices", 0.0296, 18.6),
+                ("financial returns", 0.0295, 15.7), ("payment obligations", 0.0295, 6.8),
+                ("complaint handling", 0.0295, 5.0), ("water companies", 0.0295, 6.4),
+                ("street lighting", 0.0294, 6.8), ("trucking industry", 0.0294, 8.6),
+                ("post_completion phase", 0.0294, 27.9), ("financial aspects", 0.0294, 21.8),
+                ("joint supervision", 0.0294, 8.2), ("rail network", 0.0294, 9.6),
+                ("project sites", 0.0294, 21.4), ("implementation issues", 0.0293, 28.9),
+                ("complex project", 0.0293, 16.4), ("transport conditions", 0.0293, 6.8),
+                ("project budget", 0.0293, 18.2), ("performance indicator", 0.0293, 15.0),
+                ("timely completion", 0.0293, 24.6), ("resettlement compensation", 0.0293, 15.7),
+                ("project operations", 0.0293, 10.0), ("transport systems", 0.0293, 13.2),
+                ("implementation agencies", 0.0293, 18.9), ("electricity production", 0.0293, 12.9),
+                ("performance government", 0.0292, 46.1), ("resettlement sites", 0.0292, 11.8),
+                ("key elements", 0.0292, 24.3), ("qualified staff", 0.0292, 28.9),
+                ("satisfaction survey", 0.0292, 6.1), ("energy production", 0.0292, 13.2),
+                ("maintenance strategy", 0.0292, 9.6), ("original design", 0.0292, 21.4),
+                ("plant operation", 0.0292, 11.1), ("vehicle weight", 0.0291, 5.0),
+                ("service obligations", 0.0291, 16.1), ("road surface", 0.0291, 16.1),
+                ("bad condition", 0.0291, 10.4), ("local economy", 0.0291, 21.4),
+                ("environmental policy", 0.0291, 8.6), ("financial assistance", 0.0291, 23.2),
+                ("bid opening", 0.0291, 16.4), ("financial plan", 0.0290, 13.9),
+                ("wastepaper systems", 0.0290, 6.4), ("supply service", 0.0290, 8.9),
+                ("power transfer", 0.0290, 6.1), ("bid prices", 0.0290, 22.1),
+                ("related activities", 0.0290, 7.1), ("significant improvement", 0.0290, 27.9)
+            ]
+            bigrams_df = pd.DataFrame(bigrams_data, columns=["term", "tfidf", "doc_freq_%"])
+            st.dataframe(bigrams_df, height=400, use_container_width=True, hide_index=True)
+    with col2:
+        st.markdown("**Trigrams Preserved: 408**")
+        st.caption("TF-IDF ≥ 99.5th percentile, Doc Freq 5-100%")
+        with st.expander("View top 50 trigrams"):
+            trigrams_data = [
+                ("project development objectives", 1.0000, 36.1), ("private sector participation", 0.8092, 57.5),
+                ("resettlement action plan", 0.7621, 21.8), ("vehicle operating costs", 0.7072, 36.8),
+                ("rural water supply", 0.6818, 7.9), ("financial management system", 0.6791, 54.6),
+                ("debt service coverage", 0.6688, 31.4), ("project appraisal document", 0.6618, 5.4),
+                ("national road network", 0.6524, 8.9), ("financial management specialist", 0.6478, 11.4),
+                ("civil works contracts", 0.6314, 52.9), ("power sector reform", 0.6269, 17.1),
+                ("environmental management plan", 0.6187, 22.9), ("project development objective", 0.6107, 43.9),
+                ("task team leader", 0.6040, 10.0), ("core road network", 0.5385, 6.4),
+                ("key performance indicators", 0.5348, 46.1), ("urban water supply", 0.5238, 10.7),
+                ("solid waste management", 0.5125, 11.8), ("environmental impact assessment", 0.5086, 30.0),
+                ("net present value", 0.5020, 51.8), ("total project cost", 0.4906, 47.9),
+                ("project management unit", 0.4844, 10.4), ("management information system", 0.4570, 32.9),
+                ("water supply systems", 0.4509, 12.9), ("road user charges", 0.4247, 17.1),
+                ("wastepaper treatment plant", 0.4216, 11.4), ("service coverage ratio", 0.4212, 23.9),
+                ("renewable energy development", 0.4183, 9.3), ("water supply system", 0.4094, 15.0),
+                ("country assistance strategy", 0.4079, 5.4), ("project implementation plan", 0.4019, 14.3),
+                ("water resources management", 0.3984, 10.0), ("resettlement policy framework", 0.3924, 10.4),
+                ("private sector development", 0.3896, 51.1), ("total project costs", 0.3877, 25.7),
+                ("water quality monitoring", 0.3848, 16.4), ("road safety program", 0.3746, 9.3),
+                ("international competitive bidding", 0.3666, 36.8), ("loan closing date", 0.3565, 33.2),
+                ("power sector restructuring", 0.3563, 6.8), ("standard bidding documents", 0.3504, 32.5),
+                ("project management office", 0.3488, 9.3), ("financial management systems", 0.3420, 29.3),
+                ("road sector development", 0.3407, 5.4), ("project closing date", 0.3379, 31.4),
+                ("economic internal rate", 0.3373, 31.8), ("technical assistance component", 0.3346, 32.1),
+                ("thermal power plant", 0.3345, 9.3), ("national competitive bidding", 0.3343, 18.6)
+            ]
+            trigrams_df = pd.DataFrame(trigrams_data, columns=["term", "tfidf", "doc_freq_%"])
+            st.dataframe(trigrams_df, height=400, use_container_width=True, hide_index=True)
     
-    with subtab2:
-        st.header("Embedding Analysis & Final ESG Taxonomy")
-        esg_dict = pd.read_csv(BASE / "esg_dictionary_final_2407.csv")
-        col1, col2 = st.columns(2)
-        with col1:
-            st.info("""**1. Embedding**
-    - 314 seed terms + 8,067 corpus candidates \n
-    - Model: `all-mpnet-base-v2` (768-dim)\n
-    - Source: World Bank ESF + InfraSAP""")
-        with col2:
-            st.info("""**2. Subcategory Clustering**
-    - K-means within each ESG category\n
-    - Silhouette score for optimal k (2–7)\n
-    - Creates semantic subgroups""")
-        col1, col2 = st.columns(2)
-        with col1:
-            st.success("""**3. Dictionary Expansion**
-    - Dual threshold filtering (both ≥ 0.55):\n
-    - Seed-term similarity\n
-    - Subcategory centroid similarity\n
-    - Single-category assignment only""")
-        with col2:
-            st.success("""**4. Manual Curation**
-    - Removed problematic seed terms\n
-    - Blacklisted ~40 noise terms\n
-    - Final quality control pass""")
-        st.markdown("---")
-        st.markdown("##### 📊 Final Result")
-        res_col1, res_col2, res_col3, res_col4 = st.columns(4)
-        with res_col1:
-            st.metric("Seed Terms", f"{len(esg_dict[esg_dict['is_seed'] == True]):,}")
-        with res_col2:
-            st.metric("Expanded Terms", f"{len(esg_dict[esg_dict['is_seed'] == False]):,}")
-        with res_col3:
-            st.metric("Total Dictionary", f"{len(esg_dict):,}")
-        with res_col4:
-            st.metric("Categories", esg_dict['category'].nunique())
-        st.caption("Thresholds chosen based on silhouette analysis — all categories show positive coherence.")
-        st.markdown("---")
-        # Define colors and labels once
-        pillar_colors = {'E': '#81C784', 'S': '#64B5F6', 'G': '#FFB74D'}
-        pillar_colors_light = {'E': '#C8E6C9', 'S': '#BBDEFB', 'G': '#FFE0B2'}
-        pillar_labels = {'E': 'Environmental', 'S': 'Social', 'G': 'Governance'}
-        cat_display = {
-            'ESS3_P': 'E1', 'ESS3_R': 'E2', 'ESS6': 'E3',
-            'ESS2': 'S1', 'ESS4': 'S2', 'ESS5': 'S3', 'ESS7': 'S4', 'ESS8': 'S5',
-            'DIM1': 'G1', 'DIM2_3': 'G2', 'DIM6': 'G3', 'DIM7': 'G4', 'DIM8_9': 'G5'
+    st.markdown("---")
+    st.header("Embedding Analysis & Final ESG Taxonomy")
+    esg_dict = pd.read_csv(BASE / "esg_dictionary_final_2407.csv")
+    col1, col2 = st.columns(2)
+    with col1:
+        st.info("""**1. Embedding**
+- 314 seed terms + 8,067 corpus candidates \n
+- Model: `all-mpnet-base-v2` (768-dim)\n
+- Source: World Bank ESF + InfraSAP""")
+    with col2:
+        st.info("""**2. Subcategory Clustering**
+- K-means within each ESG category\n
+- Silhouette score for optimal k (2–7)\n
+- Creates semantic subgroups""")
+    col1, col2 = st.columns(2)
+    with col1:
+        st.success("""**3. Dictionary Expansion**
+- Dual threshold filtering (both ≥ 0.55):\n
+- Seed-term similarity\n
+- Subcategory centroid similarity\n
+- Single-category assignment only""")
+    with col2:
+        st.success("""**4. Manual Curation**
+- Removed problematic seed terms\n
+- Blacklisted ~40 noise terms\n
+- Final quality control pass""")
+    st.markdown("---")
+    st.markdown("##### 📊 Final Result")
+    res_col1, res_col2, res_col3, res_col4 = st.columns(4)
+    with res_col1:
+        st.metric("Seed Terms", f"{len(esg_dict[esg_dict['is_seed'] == True]):,}")
+    with res_col2:
+        st.metric("Expanded Terms", f"{len(esg_dict[esg_dict['is_seed'] == False]):,}")
+    with res_col3:
+        st.metric("Total Dictionary", f"{len(esg_dict):,}")
+    with res_col4:
+        st.metric("Categories", esg_dict['category'].nunique())
+    st.caption("Thresholds chosen based on silhouette analysis — all categories show positive coherence.")
+    st.markdown("---")
+    # Define colors and labels once
+    pillar_colors = {'E': '#81C784', 'S': '#64B5F6', 'G': '#FFB74D'}
+    pillar_colors_light = {'E': '#C8E6C9', 'S': '#BBDEFB', 'G': '#FFE0B2'}
+    pillar_labels = {'E': 'Environmental', 'S': 'Social', 'G': 'Governance'}
+    cat_display = {
+        'ESS3_P': 'E1', 'ESS3_R': 'E2', 'ESS6': 'E3',
+        'ESS2': 'S1', 'ESS4': 'S2', 'ESS5': 'S3', 'ESS7': 'S4', 'ESS8': 'S5',
+        'DIM1': 'G1', 'DIM2_3': 'G2', 'DIM6': 'G3', 'DIM7': 'G4', 'DIM8_9': 'G5'
+    }
+    st.subheader("Term Distribution by Pillar and Category")
+    dist_df = esg_dict.groupby(['pillar', 'category_display', 'is_seed']).size().reset_index(name='count')
+    dist_pivot = dist_df.pivot_table(index=['pillar', 'category_display'], columns='is_seed', values='count', fill_value=0).reset_index()
+    dist_pivot = dist_pivot.rename(columns={True: "Seed", False: "Expanded"})
+    if "Seed" not in dist_pivot.columns:
+        dist_pivot["Seed"] = 0
+    if "Expanded" not in dist_pivot.columns:
+        dist_pivot["Expanded"] = 0
+    dist_pivot['Total'] = dist_pivot['Seed'] + dist_pivot['Expanded']
+    dist_pivot = dist_pivot.sort_values(['pillar', 'Total'], ascending=[True, False])
+    fig = go.Figure()
+    for pillar in ['E', 'S', 'G']:
+        pdf = dist_pivot[dist_pivot['pillar'] == pillar]
+        fig.add_trace(go.Bar(
+            name=f"{pillar_labels[pillar]} - Seed",
+            y=pdf['category_display'].astype(str).tolist(),
+            x=pdf['Seed'],
+            orientation='h',
+            marker_color=pillar_colors[pillar],
+            legendgroup=pillar,
+            hovertemplate='%{y}<br>Seed: %{x}<extra></extra>'
+        ))
+        fig.add_trace(go.Bar(
+            name=f"{pillar_labels[pillar]} - Expanded",
+            y=pdf['category_display'].astype(str).tolist(),
+            x=pdf['Expanded'],
+            orientation='h',
+            marker_color=pillar_colors_light[pillar],
+            legendgroup=pillar,
+            hovertemplate='%{y}<br>Expanded: %{x}<extra></extra>'
+        ))
+    fig.update_layout(
+        barmode='stack',
+        height=500,
+        xaxis_title='Number of Terms',
+        yaxis_title='',
+        legend=dict(orientation='h', yanchor='bottom', y=1.02, xanchor='center', x=0.5),
+        margin=dict(l=20, r=20, t=40, b=20)
+    )
+    st.plotly_chart(fig, use_container_width=True)
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.metric("Total Terms", len(esg_dict))
+    with col2:
+        st.metric("Environmental", len(esg_dict[esg_dict['pillar'] == 'E']))
+    with col3:
+        st.metric("Social", len(esg_dict[esg_dict['pillar'] == 'S']))
+    with col4:
+        st.metric("Governance", len(esg_dict[esg_dict['pillar'] == 'G']))
+    st.markdown("---")
+    st.subheader("Explore Terms by Category")
+    col1, col2 = st.columns(2)
+    with col1:
+        selected_pillar = st.selectbox(
+            "Select Pillar",
+            options=['E', 'S', 'G'],
+            format_func=lambda x: pillar_labels[x],
+            key="subtab2_pillar"
+        )
+    with col2:
+        filtered_by_pillar = esg_dict[esg_dict['pillar'] == selected_pillar]
+        category_displays = filtered_by_pillar['category_display'].unique().tolist()
+        selected_category_display = st.selectbox(
+            "Select Category",
+            options=category_displays,
+            key="subtab2_category"
+        )
+    filtered_df = esg_dict[
+        (esg_dict['pillar'] == selected_pillar) &
+        (esg_dict['category_display'] == selected_category_display)
+    ]
+    seed_terms_list = filtered_df[filtered_df['is_seed'] == True]['term'].tolist()
+    expanded_terms_list = filtered_df[filtered_df['is_seed'] == False]['term'].tolist()
+    st.markdown(f"**{len(filtered_df)} terms in {selected_category_display}** ({len(seed_terms_list)} seed, {len(expanded_terms_list)} expanded)")
+    color_seed = pillar_colors[selected_pillar]
+    color_expanded = pillar_colors_light[selected_pillar]
+    subcategories = filtered_df['subcategory'].unique()
+    for subcat in subcategories:
+        subcat_df = filtered_df[filtered_df['subcategory'] == subcat]
+        subcat_seeds = subcat_df[subcat_df['is_seed'] == True]['term'].tolist()
+        subcat_expanded = subcat_df[subcat_df['is_seed'] == False]['term'].tolist()
+        st.markdown(f"**{subcat}** ({len(subcat_seeds)} seed, {len(subcat_expanded)} expanded)")
+        seed_html = " ".join([
+            f'<span style="background-color:{color_seed}; padding:5px 10px; margin:3px; border-radius:15px; display:inline-block; font-size:13px; font-weight:500;">{term}</span>'
+            for term in subcat_seeds
+        ])
+        expanded_html = " ".join([
+            f'<span style="background-color:{color_expanded}; padding:5px 10px; margin:3px; border-radius:15px; display:inline-block; font-size:13px;">{term}</span>'
+            for term in subcat_expanded
+        ])
+        st.markdown(seed_html + " " + expanded_html, unsafe_allow_html=True)
+        st.markdown("")
+    c1, c2 = st.columns([1, 1])
+    with c1:
+        st.markdown(f"<span style='background-color:{color_seed}; padding:4px 8px; border-radius:10px;'>■</span> **Seed Terms**", unsafe_allow_html=True)
+    with c2:
+        st.markdown(f"<span style='background-color:{color_expanded}; padding:4px 8px; border-radius:10px;'>■</span> **Expanded Terms**", unsafe_allow_html=True)
+    st.markdown("---")
+    st.subheader("Interactive Cluster Visualization")
+    viz_df = pd.read_csv(BASE / "esg_dictionary_viz.csv")
+    viz_col1, viz_col2 = st.columns([1, 3])
+    with viz_col1:
+        viz_pillar = st.radio("Select Pillar", ['E', 'S', 'G'], 
+                            format_func=lambda x: pillar_labels[x],
+                            key="viz_pillar")
+        pillar_categories = viz_df[viz_df['pillar'] == viz_pillar]['category'].unique().tolist()
+        cat_to_display = {
+            'ESS3_P': 'E1: Pollution Prevention and Management',
+            'ESS3_R': 'E2: Resource Efficiency',
+            'ESS6': 'E3: Biodiversity Conservation',
+            'ESS2': 'S1: Labor and Working Conditions',
+            'ESS4': 'S2: Community Health and Safety',
+            'ESS5': 'S3: Land Acquisition and Involuntary Resettlement',
+            'ESS7': 'S4: Indigenous Peoples',
+            'ESS8': 'S5: Cultural Heritage',
+            'DIM1': 'G1: Legal Framework and Institutional Capacity',
+            'DIM2_3': 'G2: Financial and Economic',
+            'DIM6': 'G3: Procurement and Contract Management',
+            'DIM7': 'G4: Operations and Performance',
+            'DIM8_9': 'G5: Transparency and Integrity'
         }
-        st.subheader("Term Distribution by Pillar and Category")
-        dist_df = esg_dict.groupby(['pillar', 'category_display', 'is_seed']).size().reset_index(name='count')
-        dist_pivot = dist_df.pivot_table(index=['pillar', 'category_display'], columns='is_seed', values='count', fill_value=0).reset_index()
-        dist_pivot = dist_pivot.rename(columns={True: "Seed", False: "Expanded"})
-        if "Seed" not in dist_pivot.columns:
-            dist_pivot["Seed"] = 0
-        if "Expanded" not in dist_pivot.columns:
-            dist_pivot["Expanded"] = 0
-        dist_pivot['Total'] = dist_pivot['Seed'] + dist_pivot['Expanded']
-        dist_pivot = dist_pivot.sort_values(['pillar', 'Total'], ascending=[True, False])
-        fig = go.Figure()
-        for pillar in ['E', 'S', 'G']:
-            pdf = dist_pivot[dist_pivot['pillar'] == pillar]
-            fig.add_trace(go.Bar(
-                name=f"{pillar_labels[pillar]} - Seed",
-                y=pdf['category_display'].astype(str).tolist(),
-                x=pdf['Seed'],
-                orientation='h',
-                marker_color=pillar_colors[pillar],
-                legendgroup=pillar,
-                hovertemplate='%{y}<br>Seed: %{x}<extra></extra>'
-            ))
-            fig.add_trace(go.Bar(
-                name=f"{pillar_labels[pillar]} - Expanded",
-                y=pdf['category_display'].astype(str).tolist(),
-                x=pdf['Expanded'],
-                orientation='h',
-                marker_color=pillar_colors_light[pillar],
-                legendgroup=pillar,
-                hovertemplate='%{y}<br>Expanded: %{x}<extra></extra>'
-            ))
+        st.markdown("**Categories**")
+        selected_cats = []
+        for cat in pillar_categories:
+            if st.checkbox(cat_to_display.get(cat, cat), value=True, key=f"viz_cat_{cat}"):
+                selected_cats.append(cat)
+    with viz_col2:
+
+    fig = go.Figure()
+        other_df = viz_df[viz_df['pillar'] != viz_pillar]
+        fig.add_trace(go.Scatter(
+            x=other_df['x'], y=other_df['y'],
+            mode='markers',
+            marker=dict(size=6, color='lightgray', opacity=0.3),
+            name='Other pillars',
+            hoverinfo='skip'
+        ))
+        all_colors = px.colors.qualitative.Set2 + px.colors.qualitative.Set3 + px.colors.qualitative.Pastel1
+        color_idx = 0
+        for cat in selected_cats:
+            cat_df = viz_df[viz_df['category'] == cat]
+            cat_display = cat_to_display.get(cat, cat)
+            subcategories = cat_df['subcategory'].unique()
+            for subcat in subcategories:
+                subcat_df = cat_df[cat_df['subcategory'] == subcat]
+                fig.add_trace(go.Scatter(
+                    x=subcat_df['x'], y=subcat_df['y'],
+                    mode='markers',
+                    marker=dict(size=8, color=all_colors[color_idx % len(all_colors)], opacity=0.7),
+                    name=subcat,
+                    legendgroup=cat,
+                    legendgrouptitle_text=cat_display,
+                    text=subcat_df['term'],
+                    hovertemplate='<b>%{text}</b><br>' + subcat + '<extra></extra>'
+                ))
+                color_idx += 1
         fig.update_layout(
-            barmode='stack',
-            height=500,
-            xaxis_title='Number of Terms',
-            yaxis_title='',
-            legend=dict(orientation='h', yanchor='bottom', y=1.02, xanchor='center', x=0.5),
-            margin=dict(l=20, r=20, t=40, b=20)
+            height=600,
+            xaxis=dict(showgrid=False, zeroline=False, showticklabels=False, showline=True, linecolor='black', title='Dimension 1'),
+            yaxis=dict(showgrid=False, zeroline=False, showticklabels=False, showline=True, linecolor='black', title='Dimension' 2'),
+            legend=dict(orientation='v', yanchor='top', y=1, xanchor='left', x=1.02, title='Categories', tracegroupgap=10),
+            margin=dict(l=20, r=20, t=20, b=20),
+            plot_bgcolor='white'
         )
         st.plotly_chart(fig, use_container_width=True)
-        col1, col2, col3, col4 = st.columns(4)
-        with col1:
-            st.metric("Total Terms", len(esg_dict))
-        with col2:
-            st.metric("Environmental", len(esg_dict[esg_dict['pillar'] == 'E']))
-        with col3:
-            st.metric("Social", len(esg_dict[esg_dict['pillar'] == 'S']))
-        with col4:
-            st.metric("Governance", len(esg_dict[esg_dict['pillar'] == 'G']))
-        st.markdown("---")
-        st.subheader("Explore Terms by Category")
-        col1, col2 = st.columns(2)
-        with col1:
-            selected_pillar = st.selectbox(
-                "Select Pillar",
-                options=['E', 'S', 'G'],
-                format_func=lambda x: pillar_labels[x],
-                key="subtab2_pillar"
-            )
-        with col2:
-            filtered_by_pillar = esg_dict[esg_dict['pillar'] == selected_pillar]
-            category_displays = filtered_by_pillar['category_display'].unique().tolist()
-            selected_category_display = st.selectbox(
-                "Select Category",
-                options=category_displays,
-                key="subtab2_category"
-            )
-        filtered_df = esg_dict[
-            (esg_dict['pillar'] == selected_pillar) &
-            (esg_dict['category_display'] == selected_category_display)
-        ]
-        seed_terms_list = filtered_df[filtered_df['is_seed'] == True]['term'].tolist()
-        expanded_terms_list = filtered_df[filtered_df['is_seed'] == False]['term'].tolist()
-        st.markdown(f"**{len(filtered_df)} terms in {selected_category_display}** ({len(seed_terms_list)} seed, {len(expanded_terms_list)} expanded)")
-        color_seed = pillar_colors[selected_pillar]
-        color_expanded = pillar_colors_light[selected_pillar]
-        subcategories = filtered_df['subcategory'].unique()
-        for subcat in subcategories:
-            subcat_df = filtered_df[filtered_df['subcategory'] == subcat]
-            subcat_seeds = subcat_df[subcat_df['is_seed'] == True]['term'].tolist()
-            subcat_expanded = subcat_df[subcat_df['is_seed'] == False]['term'].tolist()
-            st.markdown(f"**{subcat}** ({len(subcat_seeds)} seed, {len(subcat_expanded)} expanded)")
-            seed_html = " ".join([
-                f'<span style="background-color:{color_seed}; padding:5px 10px; margin:3px; border-radius:15px; display:inline-block; font-size:13px; font-weight:500;">{term}</span>'
-                for term in subcat_seeds
-            ])
-            expanded_html = " ".join([
-                f'<span style="background-color:{color_expanded}; padding:5px 10px; margin:3px; border-radius:15px; display:inline-block; font-size:13px;">{term}</span>'
-                for term in subcat_expanded
-            ])
-            st.markdown(seed_html + " " + expanded_html, unsafe_allow_html=True)
-            st.markdown("")
-        c1, c2 = st.columns([1, 1])
-        with c1:
-            st.markdown(f"<span style='background-color:{color_seed}; padding:4px 8px; border-radius:10px;'>■</span> **Seed Terms**", unsafe_allow_html=True)
-        with c2:
-            st.markdown(f"<span style='background-color:{color_expanded}; padding:4px 8px; border-radius:10px;'>■</span> **Expanded Terms**", unsafe_allow_html=True)
-        st.markdown("---")
-        st.subheader("Interactive Cluster Visualization")
-        viz_df = pd.read_csv(BASE / "esg_dictionary_viz.csv")
-        viz_col1, viz_col2 = st.columns([1, 3])
-        with viz_col1:
-            viz_pillar = st.radio("Select Pillar", ['E', 'S', 'G'], 
-                                format_func=lambda x: pillar_labels[x],
-                                key="viz_pillar")
-            pillar_categories = viz_df[viz_df['pillar'] == viz_pillar]['category'].unique().tolist()
-            cat_to_display = {
-                'ESS3_P': 'E1: Pollution Prevention and Management',
-                'ESS3_R': 'E2: Resource Efficiency',
-                'ESS6': 'E3: Biodiversity Conservation',
-                'ESS2': 'S1: Labor and Working Conditions',
-                'ESS4': 'S2: Community Health and Safety',
-                'ESS5': 'S3: Land Acquisition and Involuntary Resettlement',
-                'ESS7': 'S4: Indigenous Peoples',
-                'ESS8': 'S5: Cultural Heritage',
-                'DIM1': 'G1: Legal Framework and Institutional Capacity',
-                'DIM2_3': 'G2: Financial and Economic',
-                'DIM6': 'G3: Procurement and Contract Management',
-                'DIM7': 'G4: Operations and Performance',
-                'DIM8_9': 'G5: Transparency and Integrity'
-            }
-            st.markdown("**Categories**")
-            selected_cats = []
-            for cat in pillar_categories:
-                if st.checkbox(cat_to_display.get(cat, cat), value=True, key=f"viz_cat_{cat}"):
-                    selected_cats.append(cat)
-        with viz_col2:
-            # ... rest of the code stays the same
-            fig = go.Figure()
-            other_df = viz_df[viz_df['pillar'] != viz_pillar]
-            fig.add_trace(go.Scatter(
-                x=other_df['x'], y=other_df['y'],
-                mode='markers',
-                marker=dict(size=6, color='lightgray', opacity=0.3),
-                name='Other pillars',
-                hoverinfo='skip'
-            ))
-            all_colors = px.colors.qualitative.Set2 + px.colors.qualitative.Set3 + px.colors.qualitative.Pastel1
-            color_idx = 0
-            for cat in selected_cats:
-                cat_df = viz_df[viz_df['category'] == cat]
-                cat_display = cat_to_display.get(cat, cat)
-                subcategories = cat_df['subcategory'].unique()
-                for subcat in subcategories:
-                    subcat_df = cat_df[cat_df['subcategory'] == subcat]
-                    fig.add_trace(go.Scatter(
-                        x=subcat_df['x'], y=subcat_df['y'],
-                        mode='markers',
-                        marker=dict(size=8, color=all_colors[color_idx % len(all_colors)], opacity=0.7),
-                        name=subcat,
-                        legendgroup=cat,
-                        legendgrouptitle_text=cat_display,
-                        text=subcat_df['term'],
-                        hovertemplate='<b>%{text}</b><br>' + subcat + '<extra></extra>'
-                    ))
-                    color_idx += 1
-            fig.update_layout(
-                height=600,
-                xaxis=dict(showgrid=False, zeroline=False, showticklabels=False, showline=True, linecolor='black', title='t-SNE 1'),
-                yaxis=dict(showgrid=False, zeroline=False, showticklabels=False, showline=True, linecolor='black', title='t-SNE 2'),
-                legend=dict(orientation='v', yanchor='top', y=1, xanchor='left', x=1.02, title='Categories', tracegroupgap=10),
-                margin=dict(l=20, r=20, t=20, b=20),
-                plot_bgcolor='white'
-            )
-            st.plotly_chart(fig, use_container_width=True)
-    with subtab3:
-        #st.header("Initial/Exploratory Analysis")
-        st.markdown("## COMING SOON")
 
 with tab6:
     st.header("Analysis")
