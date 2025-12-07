@@ -1139,47 +1139,23 @@ with tab5:
             st.markdown("---")
 
 with tab6:
-    st.header("Analysis")
     subtab1, subtab2 = st.tabs(["Initial/Exploratory Data Analysis", "Regression Analysis"])
     with subtab1:
+        st.subheader("Summary Statistics")
+        col1, col2, col3, col4 = st.columns(4)
+        with col1:
+            st.metric("Total Projects", len(final_projects))
+        with col2:
+            st.metric("Avg Cost", f"${final_projects['base+contingency'].mean():.0f}M")
+        with col3:
+            st.metric("Cancellation Rate", f"{cancel_pct:.1f}%")
+        with col4:
+            st.metric("Expansion Rate", f"{add_pct:.1f}%")
         final_projects = pd.read_csv(BASE / "fin_project_metadata_280.csv")
         import plotly.express as px
         import plotly.graph_objects as go
-        
         st.markdown("---")
-        
-        # Row 1: Sector Distribution & Cost Distribution
         col1, col2 = st.columns(2)
-        
-        with col1:
-            st.subheader("Project Sector Distribution")
-            sector_counts = final_projects['sector1'].value_counts().reset_index()
-            sector_counts.columns = ['Sector', 'Count']
-            fig_sector = px.pie(sector_counts, values='Count', names='Sector', 
-                               color_discrete_sequence=px.colors.qualitative.Set2,
-                               hole=0.3)
-            fig_sector.update_traces(textposition='inside', textinfo='percent+label')
-            fig_sector.update_layout(showlegend=False, margin=dict(t=20, b=20, l=20, r=20))
-            st.plotly_chart(fig_sector, use_container_width=True)
-        
-        with col2:
-            st.subheader("Project Cost Distribution (2019 USD)")
-            fig_cost = px.histogram(final_projects, x='base+contingency', 
-                                   nbins=20,
-                                   labels={'base+contingency': 'Project Cost (USD Million)'},
-                                   color_discrete_sequence=['#636EFA'])
-            fig_cost.update_layout(
-                xaxis_title="Project Cost (USD Million)",
-                yaxis_title="Number of Projects",
-                margin=dict(t=20, b=20, l=20, r=20)
-            )
-            st.plotly_chart(fig_cost, use_container_width=True)
-        
-        st.markdown("---")
-        
-        # Row 2: Cancellation & Addition
-        col1, col2 = st.columns(2)
-        
         with col1:
             st.subheader("Project Subcomponent Cancellation")
             cancel_counts = final_projects['cancellation'].value_counts().reset_index()
@@ -1213,19 +1189,7 @@ with tab6:
             add_count = (final_projects['addition_label'] == 'Yes').sum()
             add_pct = add_count / len(final_projects) * 100
             st.caption(f"{add_count} projects ({add_pct:.1f}%) had subcomponent expansions")
-        
         st.markdown("---")
-        
-        # Summary statistics
-        st.subheader("Summary Statistics")
-        col1, col2, col3, col4 = st.columns(4)
-        with col1:
-            st.metric("Total Projects", len(final_projects))
-        with col2:
-            st.metric("Avg Cost", f"${final_projects['base+contingency'].mean():.0f}M")
-        with col3:
-            st.metric("Cancellation Rate", f"{cancel_pct:.1f}%")
-        with col4:
-            st.metric("Expansion Rate", f"{add_pct:.1f}%")
+
     with subtab2:
         st.markdown("---")
