@@ -1093,22 +1093,21 @@ with tab5:
                                 key="viz_pillar")
             pillar_categories = viz_df[viz_df['pillar'] == viz_pillar]['category'].unique().tolist()
             cat_to_display = {
-                'ESS3_P': 'E1: Pollution Prevention',
+                'ESS3_P': 'E1: Pollution Prevention and Management',
                 'ESS3_R': 'E2: Resource Efficiency',
-                'ESS6': 'E3: Biodiversity',
-                'ESS2': 'S1: Labor Conditions',
-                'ESS4': 'S2: Community Health',
-                'ESS5': 'S3: Land Acquisition',
+                'ESS6': 'E3: Biodiversity Conservation',
+                'ESS2': 'S1: Labor and Working Conditions',
+                'ESS4': 'S2: Community Health and Safety',
+                'ESS5': 'S3: Land Acquisition and Involuntary Resettlement',
                 'ESS7': 'S4: Indigenous Peoples',
                 'ESS8': 'S5: Cultural Heritage',
-                'DIM1': 'G1: Legal Framework',
-                'DIM2_3': 'G2: Financial & Economic',
-                'DIM6': 'G3: Procurement',
-                'DIM7': 'G4: Operations',
-                'DIM8_9': 'G5: Transparency'
+                'DIM1': 'G1: Legal Framework and Institutional Capacity',
+                'DIM2_3': 'G2: Financial and Economic',
+                'DIM6': 'G3: Procurement and Contract Management',
+                'DIM7': 'G4: Operations and Performance',
+                'DIM8_9': 'G5: Transparency and Integrity'
             }
             pillar_display_options = [cat_to_display.get(cat, cat) for cat in pillar_categories]
-            # CSS to show full text in multiselect
             st.markdown("""
             <style>
             div[data-baseweb="select"] span {
@@ -1136,23 +1135,30 @@ with tab5:
                 name='Other pillars',
                 hoverinfo='skip'
             ))
-            colors = px.colors.qualitative.Set1
-            for i, cat in enumerate(selected_cats):
+            all_colors = px.colors.qualitative.Set2 + px.colors.qualitative.Set3 + px.colors.qualitative.Pastel1
+            color_idx = 0
+            for cat in selected_cats:
                 cat_df = viz_df[viz_df['category'] == cat]
-                display_name = cat_to_display.get(cat, cat)
-                fig.add_trace(go.Scatter(
-                    x=cat_df['x'], y=cat_df['y'],
-                    mode='markers',
-                    marker=dict(size=8, color=colors[i % len(colors)], opacity=0.7),
-                    name=display_name,
-                    text=cat_df['term'],
-                    hovertemplate='<b>%{text}</b><br>' + display_name + '<extra></extra>'
-                ))
+                cat_display = cat_to_display.get(cat, cat)
+                subcategories = cat_df['subcategory'].unique()
+                for subcat in subcategories:
+                    subcat_df = cat_df[cat_df['subcategory'] == subcat]
+                    fig.add_trace(go.Scatter(
+                        x=subcat_df['x'], y=subcat_df['y'],
+                        mode='markers',
+                        marker=dict(size=8, color=all_colors[color_idx % len(all_colors)], opacity=0.7),
+                        name=subcat,
+                        legendgroup=cat,
+                        legendgrouptitle_text=cat_display,
+                        text=subcat_df['term'],
+                        hovertemplate='<b>%{text}</b><br>' + subcat + '<extra></extra>'
+                    ))
+                    color_idx += 1
             fig.update_layout(
-                height=500,
+                height=600,
                 xaxis=dict(showgrid=False, zeroline=False, showticklabels=False, showline=True, linecolor='black', title='t-SNE 1'),
                 yaxis=dict(showgrid=False, zeroline=False, showticklabels=False, showline=True, linecolor='black', title='t-SNE 2'),
-                legend=dict(orientation='v', yanchor='top', y=1, xanchor='left', x=1.02, title='Categories'),
+                legend=dict(orientation='v', yanchor='top', y=1, xanchor='left', x=1.02, title='Categories', tracegroupgap=10),
                 margin=dict(l=20, r=20, t=20, b=20),
                 plot_bgcolor='white'
             )
