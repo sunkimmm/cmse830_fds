@@ -533,7 +533,7 @@ with tab4:
         st.markdown("---")
             
         # 2. Step 1: PLR Adjustment
-        st.subheader("Step 1: PLR (Price Level Ratio) Adjustment")
+        st.markdown("#### Step 1: PLR (Price Level Ratio) Adjustment")
             
         col1, col2 = st.columns(2)
         with col1:
@@ -715,7 +715,7 @@ with tab4:
                 height=400
             )
             st.plotly_chart(fig_year, use_container_width=True)
-            st.caption(f"Approval: {int(final_projects['approval_year'].min())}–{int(final_projects['approval_year'].max())} | Completion: {int(final_projects['closingyear'].min())}–{int(final_projects['closingyear'].max())}")
+            #st.caption(f"Approval: {int(final_projects['approval_year'].min())}–{int(final_projects['approval_year'].max())} | Completion: {int(final_projects['closingyear'].min())}–{int(final_projects['closingyear'].max())}")
         st.markdown("---")
     
 
