@@ -1531,56 +1531,12 @@ with tab6:
         st.plotly_chart(fig_esg, use_container_width=True)
         st.markdown("---")
         
-        # Coverage vs Emergence Relationship
-        st.subheader("Coverage vs Emergence: Planning Gaps Lead to Surprises")
-        col1, col2 = st.columns(2)
-        with col1:
-            pillar_select = st.radio("Select Pillar", ['E', 'S', 'G'], horizontal=True, key="cov_emerg_pillar")
-        pillar_labels = {'E': 'Environmental', 'S': 'Social', 'G': 'Governance'}
-        pillar_colors = {'E': '#81C784', 'S': '#64B5F6', 'G': '#FFB74D'}
-        cov_col = f'app_{pillar_select}_pct'
-        emerg_col = f'{pillar_select}_emergence_rate'
-        fig_scatter = go.Figure()
-        fig_scatter.add_trace(go.Scatter(
-            x=df_app[cov_col],
-            y=df_app[emerg_col],
-            mode='markers',
-            marker=dict(size=8, color=pillar_colors[pillar_select], opacity=0.6),
-            text=df_app['projectid'],
-            hovertemplate='<b>%{text}</b><br>Coverage: %{x:.1f}%<br>Emergence: %{y:.2f}<extra></extra>'
-        ))
-        z = np.polyfit(df_app[cov_col], df_app[emerg_col], 1)
-        p = np.poly1d(z)
-        x_line = np.linspace(df_app[cov_col].min(), df_app[cov_col].max(), 100)
-        fig_scatter.add_trace(go.Scatter(
-            x=x_line,
-            y=p(x_line),
-            mode='lines',
-            line=dict(color='red', dash='dash'),
-            name='Trend'
-        ))
-        corr = df_app[cov_col].corr(df_app[emerg_col])
-        fig_scatter.update_layout(
-            xaxis_title=f'{pillar_labels[pillar_select]} Coverage (%)',
-            yaxis_title=f'{pillar_labels[pillar_select]} Emergence Rate',
-            xaxis=dict(tickfont=dict(size=14), title_font=dict(size=16)),
-            yaxis=dict(tickfont=dict(size=14), title_font=dict(size=16)),
-            margin=dict(t=30, b=20, l=20, r=20),
-            height=400,
-            showlegend=False
-        )
-        st.plotly_chart(fig_scatter, use_container_width=True)
-        st.caption(f"Correlation: r = {corr:.2f} — Lower coverage at planning stage is associated with higher emergence of issues during implementation.")
-        st.markdown("---")
-        
 
     with subtab3:
         st.header("Regression Analysis")
         df_app = pd.read_csv(BASE / "df_app_streamlit.csv")
-        
-        # Coverage vs Emergence Relationship
+                # Coverage vs Emergence Relationship
         st.subheader("Coverage vs Emergence: Planning Gaps Lead to Surprises")
-        st.markdown("This scatter plot shows the relationship between ESG coverage at appraisal and emergence rate during implementation.")
         col1, col2 = st.columns(2)
         with col1:
             pillar_select = st.radio("Select Pillar", ['E', 'S', 'G'], horizontal=True, key="cov_emerg_pillar")
@@ -1620,18 +1576,16 @@ with tab6:
         st.plotly_chart(fig_scatter, use_container_width=True)
         st.caption(f"Correlation: r = {corr:.2f} — Lower coverage at planning stage is associated with higher emergence of issues during implementation.")
         st.markdown("---")
-        
         # Risk Score Analysis
         st.subheader("Risk Score Predicts Project Outcomes")
         st.markdown("Risk score is a composite measure (0-4) based on ESG coverage gaps and emergence patterns.")
         risk_outcomes = df_app.groupby('risk_score').agg({
             'cancellation': 'mean',
-            'delay': 'mean',
-            'cost_change_perc_num': 'mean'
+            'delay': 'mean'
         }).reset_index()
         risk_outcomes['cancellation_pct'] = risk_outcomes['cancellation'] * 100
         risk_outcomes['delay_years'] = risk_outcomes['delay'] / 12
-        col1, col2, col3 = st.columns(3)
+        col1, col2 = st.columns(2)
         with col1:
             st.markdown("**Cancellation Rate by Risk Score**")
             fig_risk_cancel = go.Figure(data=[go.Bar(
@@ -1648,7 +1602,7 @@ with tab6:
                 xaxis=dict(tickfont=dict(size=14), title_font=dict(size=16), tickmode='linear'),
                 yaxis=dict(tickfont=dict(size=14), title_font=dict(size=16), range=[0, risk_outcomes['cancellation_pct'].max() * 1.3]),
                 margin=dict(t=30, b=20, l=20, r=20),
-                height=350
+                height=400
             )
             st.plotly_chart(fig_risk_cancel, use_container_width=True)
         with col2:
@@ -1667,27 +1621,8 @@ with tab6:
                 xaxis=dict(tickfont=dict(size=14), title_font=dict(size=16), tickmode='linear'),
                 yaxis=dict(tickfont=dict(size=14), title_font=dict(size=16), range=[0, risk_outcomes['delay_years'].max() * 1.3]),
                 margin=dict(t=30, b=20, l=20, r=20),
-                height=350
+                height=400
             )
             st.plotly_chart(fig_risk_delay, use_container_width=True)
-        with col3:
-            st.markdown("**Average Cost Change by Risk Score**")
-            fig_risk_cost = go.Figure(data=[go.Bar(
-                x=risk_outcomes['risk_score'],
-                y=risk_outcomes['cost_change_perc_num'],
-                marker_color='#00CC96',
-                text=[f"{v:.1f}%" for v in risk_outcomes['cost_change_perc_num']],
-                textposition='outside',
-                textfont=dict(size=14)
-            )])
-            fig_risk_cost.update_layout(
-                xaxis_title='Risk Score',
-                yaxis_title='Cost Change (%)',
-                xaxis=dict(tickfont=dict(size=14), title_font=dict(size=16), tickmode='linear'),
-                yaxis=dict(tickfont=dict(size=14), title_font=dict(size=16), range=[0, risk_outcomes['cost_change_perc_num'].max() * 1.3]),
-                margin=dict(t=30, b=20, l=20, r=20),
-                height=350
-            )
-            st.plotly_chart(fig_risk_cost, use_container_width=True)
         st.caption("Higher risk scores are associated with higher cancellation rates and longer delays, validating the predictive power of ESG risk measurement.")
         st.markdown("---")
