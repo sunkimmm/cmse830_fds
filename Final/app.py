@@ -1092,15 +1092,15 @@ with tab5:
                                 format_func=lambda x: pillar_labels[x],
                                 key="viz_pillar")
             pillar_categories = viz_df[viz_df['pillar'] == viz_pillar]['category'].unique().tolist()
-            # Create display options for multiselect
-            category_options = {cat: cat_display.get(cat, cat) for cat in pillar_categories}
+            # Create display mapping from esg_dict (category -> category_display)
+            cat_to_display = esg_dict[['category', 'category_display']].drop_duplicates().set_index('category')['category_display'].to_dict()
+            category_options = {cat: cat_to_display.get(cat, cat) for cat in pillar_categories}
             selected_displays = st.multiselect(
                 "Categories", 
                 options=list(category_options.values()), 
                 default=list(category_options.values()), 
                 key="viz_cats"
             )
-            # Map back to original category names
             display_to_cat = {v: k for k, v in category_options.items()}
             selected_cats = [display_to_cat[d] for d in selected_displays]
         with viz_col2:
@@ -1116,7 +1116,7 @@ with tab5:
             colors = px.colors.qualitative.Set1
             for i, cat in enumerate(selected_cats):
                 cat_df = viz_df[viz_df['category'] == cat]
-                display_name = cat_display.get(cat, cat)
+                display_name = cat_to_display.get(cat, cat)
                 fig.add_trace(go.Scatter(
                     x=cat_df['x'], y=cat_df['y'],
                     mode='markers',
@@ -1127,8 +1127,8 @@ with tab5:
                 ))
             fig.update_layout(
                 height=500,
-                xaxis=dict(showgrid=False, zeroline=False, showticklabels=False, showline=True, linecolor='black', title='Dimension 1'),
-                yaxis=dict(showgrid=False, zeroline=False, showticklabels=False, showline=True, linecolor='black', title='Dimension 2'),
+                xaxis=dict(showgrid=False, zeroline=False, showticklabels=False, showline=True, linecolor='black', title='t-SNE 1'),
+                yaxis=dict(showgrid=False, zeroline=False, showticklabels=False, showline=True, linecolor='black', title='t-SNE 2'),
                 legend=dict(orientation='v', yanchor='top', y=1, xanchor='left', x=1.02, title='Categories'),
                 margin=dict(l=20, r=20, t=20, b=20),
                 plot_bgcolor='white'
