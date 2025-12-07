@@ -1311,9 +1311,9 @@ with tab6:
         # ESG Frequency Heatmaps by Sector
         cat_order = ['E1', 'E2', 'E3', 'S1', 'S2', 'S3', 'S4', 'S5', 'G1', 'G2', 'G3', 'G4', 'G5']
         label_mapping = {
-            'E1': 'Climate & GHG', 'E2': 'Natural Resources', 'E3': 'Pollution',
-            'S1': 'Community', 'S2': 'Safety', 'S3': 'Labor', 'S4': 'Indigenous', 'S5': 'Cultural Heritage',
-            'G1': 'Institutional', 'G2': 'Fiscal', 'G3': 'Procurement', 'G4': 'Operations', 'G5': 'Transparency'
+            'E1': 'Pollution', 'E2': 'Resource Efficiency', 'E3': 'Biodiversity',
+            'S1': 'Workers & Labor', 'S2': 'Community Health', 'S3': 'Land & Resettlement', 'S4': 'Indigenous Peoples', 'S5': 'Cultural Heritage',
+            'G1': 'Institutional', 'G2': 'Financial & Economic', 'G3': 'Procurement', 'G4': 'Operations', 'G5': 'Transparency'
         }
         sectors_data = ['Transport', 'Water', 'Energy']  # Actual values in data
         sectors_display = ['Transportation', 'Water', 'Energy']  # For display
