@@ -1535,59 +1535,257 @@ with tab6:
     with subtab3:
         st.header("Regression Analysis")
         df_app = pd.read_csv(BASE / "df_app_streamlit.csv")
-                # Coverage vs Emergence Relationship
-        st.subheader("Coverage vs Emergence: Planning Gaps Lead to Surprises")
+        
+        # Summary of Key Findings
+        st.subheader("Summary: ESG Predictors of Project Outcomes")
+        st.markdown("Logistic regression for cancellation; OLS with robust standard errors for delay and cost change. Single-variable models with controls for sector, region, environmental category, cost, year, and duration.")
+        
+        summary_data = {
+            'Outcome': ['Cancellation', 'Cancellation', 'Cancellation', 'Delay', 'Delay', 'Cost Change'],
+            'ESG Predictor': ['S3: Land & Resettlement (Coverage)', 'S4: Indigenous Peoples (Coverage)', 'G2: Fiscal (Emergence)', 'E3: Biodiversity (Coverage)', 'G5: Transparency (Coverage)', '—'],
+            'Effect': ['OR = 0.10', 'OR = 0.12', 'OR = 33.9', '-35.4 months', '+45.2 months', 'No significant predictors'],
+            'p-value': ['0.001**', '0.0006**', '0.028*', '0.030*', '0.029*', '—'],
+            'Interpretation': ['90% lower cancellation risk', '88% lower cancellation risk', '34x higher cancellation risk', '~3 years less delay', '~4 years more delay', 'ESG does not predict cost overruns']
+        }
+        st.dataframe(pd.DataFrame(summary_data), use_container_width=True, hide_index=True)
+        st.markdown("---")
+        
+        # Coefficient Plots
+        st.subheader("Coefficient Plots: ESG Effects on Outcomes")
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.markdown("**Cancellation (Odds Ratios)**")
+            cancel_results = {
+                'Category': ['S3: Land & Resettlement', 'S4: Indigenous Peoples', 'S5: Cultural Heritage', 'E3: Biodiversity', 'G1: Institutional', 'G2: Fiscal (Emergence)'],
+                'OR': [0.10, 0.12, 0.45, 0.78, 1.12, 33.9],
+                'Lower': [0.02, 0.03, 0.12, 0.35, 0.65, 1.8],
+                'Upper': [0.48, 0.45, 1.65, 1.75, 1.95, 650],
+                'Significant': [True, True, False, False, False, True]
+            }
+            df_cancel = pd.DataFrame(cancel_results)
+            fig_cancel = go.Figure()
+            colors = ['#EF553B' if sig else '#888888' for sig in df_cancel['Significant']]
+            fig_cancel.add_trace(go.Scatter(
+                x=df_cancel['OR'],
+                y=df_cancel['Category'],
+                mode='markers',
+                marker=dict(size=12, color=colors),
+                error_x=dict(
+                    type='data',
+                    symmetric=False,
+                    array=df_cancel['Upper'] - df_cancel['OR'],
+                    arrayminus=df_cancel['OR'] - df_cancel['Lower'],
+                    color='gray'
+                ),
+                hovertemplate='<b>%{y}</b><br>OR: %{x:.2f}<extra></extra>'
+            ))
+            fig_cancel.add_vline(x=1, line_dash="dash", line_color="black", annotation_text="OR=1")
+            fig_cancel.update_layout(
+                xaxis_title='Odds Ratio (log scale)',
+                xaxis=dict(type='log', tickfont=dict(size=12), title_font=dict(size=14)),
+                yaxis=dict(tickfont=dict(size=11)),
+                margin=dict(t=30, b=20, l=20, r=20),
+                height=350
+            )
+            st.plotly_chart(fig_cancel, use_container_width=True)
+            st.caption("Red = significant (p < 0.05). OR < 1 means lower cancellation risk.")
+        
+        with col2:
+            st.markdown("**Delay (Months)**")
+            delay_results = {
+                'Category': ['E3: Biodiversity', 'E1: Climate & GHG', 'S2: Safety', 'G3: Procurement', 'G5: Transparency'],
+                'Coef': [-35.4, -12.5, -8.2, 15.3, 45.2],
+                'Lower': [-67.5, -38.2, -42.1, -22.4, 4.6],
+                'Upper': [-3.3, 13.2, 25.7, 53.0, 85.8],
+                'Significant': [True, False, False, False, True]
+            }
+            df_delay = pd.DataFrame(delay_results)
+            colors = ['#636EFA' if sig else '#888888' for sig in df_delay['Significant']]
+            fig_delay = go.Figure()
+            fig_delay.add_trace(go.Scatter(
+                x=df_delay['Coef'],
+                y=df_delay['Category'],
+                mode='markers',
+                marker=dict(size=12, color=colors),
+                error_x=dict(
+                    type='data',
+                    symmetric=False,
+                    array=df_delay['Upper'] - df_delay['Coef'],
+                    arrayminus=df_delay['Coef'] - df_delay['Lower'],
+                    color='gray'
+                ),
+                hovertemplate='<b>%{y}</b><br>Effect: %{x:.1f} months<extra></extra>'
+            ))
+            fig_delay.add_vline(x=0, line_dash="dash", line_color="black", annotation_text="No effect")
+            fig_delay.update_layout(
+                xaxis_title='Effect on Delay (months)',
+                xaxis=dict(tickfont=dict(size=12), title_font=dict(size=14)),
+                yaxis=dict(tickfont=dict(size=11)),
+                margin=dict(t=30, b=20, l=20, r=20),
+                height=350
+            )
+            st.plotly_chart(fig_delay, use_container_width=True)
+            st.caption("Blue = significant (p < 0.05). Negative = less delay.")
+        
+        st.markdown("---")
+        
+        # Subcategory Decomposition
+        st.subheader("Subcategory Decomposition: What Drives the Effects?")
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.markdown("**S3 (Land & Resettlement) → Cancellation**")
+            s3_data = {
+                'Subcategory': ['S3a: Land Acquisition', 'S3b: Displacement & Resettlement'],
+                'OR': [0.01, 0.06],
+                'p-value': ['0.0001***', '0.011*']
+            }
+            df_s3 = pd.DataFrame(s3_data)
+            fig_s3 = go.Figure(data=[go.Bar(
+                x=df_s3['Subcategory'],
+                y=df_s3['OR'],
+                marker_color=['#EF553B', '#EF553B'],
+                text=[f"OR={v:.2f}" for v in df_s3['OR']],
+                textposition='outside',
+                textfont=dict(size=12)
+            )])
+            fig_s3.update_layout(
+                yaxis_title='Odds Ratio',
+                yaxis=dict(range=[0, 0.15]),
+                margin=dict(t=20, b=20, l=20, r=20),
+                height=300
+            )
+            st.plotly_chart(fig_s3, use_container_width=True)
+            st.caption("Both subcategories are significant drivers. Land acquisition planning is critical.")
+        
+        with col2:
+            st.markdown("**E3 (Biodiversity) → Delay**")
+            e3_data = {
+                'Subcategory': ['E3a: Habitat', 'E3d: Biodiversity', 'E3b: Species', 'E3c: Forest'],
+                'Coef': [-78.2, -675.7, -36.4, -36.9],
+                'Significant': [True, True, False, False]
+            }
+            df_e3 = pd.DataFrame(e3_data)
+            colors = ['#636EFA' if sig else '#CCCCCC' for sig in df_e3['Significant']]
+            fig_e3 = go.Figure(data=[go.Bar(
+                x=df_e3['Subcategory'],
+                y=df_e3['Coef'],
+                marker_color=colors,
+                text=[f"{v:.0f}mo" for v in df_e3['Coef']],
+                textposition='outside',
+                textfont=dict(size=12)
+            )])
+            fig_e3.update_layout(
+                yaxis_title='Effect on Delay (months)',
+                yaxis=dict(range=[-750, 50]),
+                margin=dict(t=20, b=20, l=20, r=20),
+                height=300
+            )
+            st.plotly_chart(fig_e3, use_container_width=True)
+            st.caption("Habitat and Biodiversity assessments are the key drivers.")
+        
+        st.markdown("---")
+        
+        # Key Insights
+        st.subheader("Key Insights")
         col1, col2 = st.columns(2)
         with col1:
-            pillar_select = st.radio("Select Pillar", ['E', 'S', 'G'], horizontal=True, key="cov_emerg_pillar")
+            st.markdown("""
+            <div style="background-color:#E8F5E9; padding:15px; border-radius:10px; border-left:4px solid #4CAF50;">
+            <b>✓ What Reduces Cancellation Risk</b><br><br>
+            Thorough coverage of <b>S3 (Land & Resettlement)</b> and <b>S4 (Indigenous Peoples)</b> at appraisal reduces cancellation risk by <b>88-90%</b>.<br><br>
+            <i>These are exactly the categories with mandatory World Bank safeguard requirements — regulation works.</i>
+            </div>
+            """, unsafe_allow_html=True)
+        with col2:
+            st.markdown("""
+            <div style="background-color:#FFEBEE; padding:15px; border-radius:10px; border-left:4px solid #EF553B;">
+            <b>⚠️ What Increases Cancellation Risk</b><br><br>
+            <b>G2 Fiscal emergence</b> (financial surprises during implementation) increases cancellation risk by <b>34x</b>.<br><br>
+            <i>Even well-planned financial aspects face surprises — but the surprises are deadly for projects.</i>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        st.markdown("")
+        
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown("""
+            <div style="background-color:#E3F2FD; padding:15px; border-radius:10px; border-left:4px solid #2196F3;">
+            <b>🕐 What Reduces Delay</b><br><br>
+            Thorough <b>E3 (Biodiversity)</b> coverage at appraisal reduces delay by <b>~3 years</b>.<br><br>
+            <i>Habitat and ecosystem assessments prevent costly project stoppages later.</i>
+            </div>
+            """, unsafe_allow_html=True)
+        with col2:
+            st.markdown("""
+            <div style="background-color:#FFF3E0; padding:15px; border-radius:10px; border-left:4px solid #FF9800;">
+            <b>💰 Cost Overruns: No ESG Signal</b><br><br>
+            ESG measures do <b>not significantly predict cost overruns</b>.<br><br>
+            <i>Cost changes appear driven by non-ESG factors: market conditions, scope changes, technical issues.</i>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        st.markdown("---")
+        
+        # Coverage vs Emergence Relationship
+        st.subheader("Mechanism: Coverage vs Emergence")
+        st.markdown("Projects with higher ESG coverage at appraisal experience lower emergence (fewer surprises) during implementation.")
+        col1, col2 = st.columns([1, 3])
+        with col1:
+            pillar_select = st.radio("Select Pillar", ['E', 'S', 'G'], horizontal=False, key="cov_emerg_pillar")
         pillar_labels = {'E': 'Environmental', 'S': 'Social', 'G': 'Governance'}
         pillar_colors = {'E': '#81C784', 'S': '#64B5F6', 'G': '#FFB74D'}
         cov_col = f'app_{pillar_select}_pct'
         emerg_col = f'{pillar_select}_emergence_rate'
-        fig_scatter = go.Figure()
-        fig_scatter.add_trace(go.Scatter(
-            x=df_app[cov_col],
-            y=df_app[emerg_col],
-            mode='markers',
-            marker=dict(size=8, color=pillar_colors[pillar_select], opacity=0.6),
-            text=df_app['projectid'],
-            hovertemplate='<b>%{text}</b><br>Coverage: %{x:.1f}%<br>Emergence: %{y:.2f}<extra></extra>'
-        ))
-        z = np.polyfit(df_app[cov_col], df_app[emerg_col], 1)
-        p = np.poly1d(z)
-        x_line = np.linspace(df_app[cov_col].min(), df_app[cov_col].max(), 100)
-        fig_scatter.add_trace(go.Scatter(
-            x=x_line,
-            y=p(x_line),
-            mode='lines',
-            line=dict(color='red', dash='dash'),
-            name='Trend'
-        ))
-        corr = df_app[cov_col].corr(df_app[emerg_col])
-        fig_scatter.update_layout(
-            xaxis_title=f'{pillar_labels[pillar_select]} Coverage (%)',
-            yaxis_title=f'{pillar_labels[pillar_select]} Emergence Rate',
-            xaxis=dict(tickfont=dict(size=14), title_font=dict(size=16)),
-            yaxis=dict(tickfont=dict(size=14), title_font=dict(size=16)),
-            margin=dict(t=30, b=20, l=20, r=20),
-            height=400,
-            showlegend=False
-        )
-        st.plotly_chart(fig_scatter, use_container_width=True)
+        with col2:
+            fig_scatter = go.Figure()
+            fig_scatter.add_trace(go.Scatter(
+                x=df_app[cov_col],
+                y=df_app[emerg_col],
+                mode='markers',
+                marker=dict(size=8, color=pillar_colors[pillar_select], opacity=0.6),
+                text=df_app['projectid'],
+                hovertemplate='<b>%{text}</b><br>Coverage: %{x:.1f}%<br>Emergence: %{y:.2f}<extra></extra>'
+            ))
+            z = np.polyfit(df_app[cov_col], df_app[emerg_col], 1)
+            p = np.poly1d(z)
+            x_line = np.linspace(df_app[cov_col].min(), df_app[cov_col].max(), 100)
+            fig_scatter.add_trace(go.Scatter(
+                x=x_line,
+                y=p(x_line),
+                mode='lines',
+                line=dict(color='red', dash='dash'),
+                name='Trend'
+            ))
+            corr = df_app[cov_col].corr(df_app[emerg_col])
+            fig_scatter.update_layout(
+                xaxis_title=f'{pillar_labels[pillar_select]} Coverage (%)',
+                yaxis_title=f'{pillar_labels[pillar_select]} Emergence Rate',
+                xaxis=dict(tickfont=dict(size=14), title_font=dict(size=16)),
+                yaxis=dict(tickfont=dict(size=14), title_font=dict(size=16)),
+                margin=dict(t=30, b=20, l=20, r=20),
+                height=400,
+                showlegend=False
+            )
+            st.plotly_chart(fig_scatter, use_container_width=True)
         st.caption(f"Correlation: r = {corr:.2f} — Lower coverage at planning stage is associated with higher emergence of issues during implementation.")
         st.markdown("---")
+        
         # Risk Score Analysis
-        st.subheader("Risk Score Predicts Project Outcomes")
-        st.markdown("Risk score is a composite measure (0-4) based on ESG coverage gaps and emergence patterns.")
+        st.subheader("Composite Risk Score Predicts Outcomes")
+        st.markdown("Risk score (0-4) combines: low S3 coverage, low S4 coverage, low E3 coverage, and high G2 emergence.")
         risk_outcomes = df_app.groupby('risk_score').agg({
             'cancellation': 'mean',
-            'delay': 'mean'
+            'delay': 'mean',
+            'cost_change_perc_num': 'mean'
         }).reset_index()
         risk_outcomes['cancellation_pct'] = risk_outcomes['cancellation'] * 100
         risk_outcomes['delay_years'] = risk_outcomes['delay'] / 12
-        col1, col2 = st.columns(2)
+        col1, col2, col3 = st.columns(3)
         with col1:
-            st.markdown("**Cancellation Rate by Risk Score**")
+            st.markdown("**Cancellation Rate**")
             fig_risk_cancel = go.Figure(data=[go.Bar(
                 x=risk_outcomes['risk_score'],
                 y=risk_outcomes['cancellation_pct'],
@@ -1602,11 +1800,11 @@ with tab6:
                 xaxis=dict(tickfont=dict(size=14), title_font=dict(size=16), tickmode='linear'),
                 yaxis=dict(tickfont=dict(size=14), title_font=dict(size=16), range=[0, risk_outcomes['cancellation_pct'].max() * 1.3]),
                 margin=dict(t=30, b=20, l=20, r=20),
-                height=400
+                height=350
             )
             st.plotly_chart(fig_risk_cancel, use_container_width=True)
         with col2:
-            st.markdown("**Average Delay by Risk Score**")
+            st.markdown("**Average Delay**")
             fig_risk_delay = go.Figure(data=[go.Bar(
                 x=risk_outcomes['risk_score'],
                 y=risk_outcomes['delay_years'],
@@ -1621,8 +1819,27 @@ with tab6:
                 xaxis=dict(tickfont=dict(size=14), title_font=dict(size=16), tickmode='linear'),
                 yaxis=dict(tickfont=dict(size=14), title_font=dict(size=16), range=[0, risk_outcomes['delay_years'].max() * 1.3]),
                 margin=dict(t=30, b=20, l=20, r=20),
-                height=400
+                height=350
             )
             st.plotly_chart(fig_risk_delay, use_container_width=True)
+        with col3:
+            st.markdown("**Average Cost Change**")
+            fig_risk_cost = go.Figure(data=[go.Bar(
+                x=risk_outcomes['risk_score'],
+                y=risk_outcomes['cost_change_perc_num'],
+                marker_color='#00CC96',
+                text=[f"{v:.1f}%" for v in risk_outcomes['cost_change_perc_num']],
+                textposition='outside',
+                textfont=dict(size=14)
+            )])
+            fig_risk_cost.update_layout(
+                xaxis_title='Risk Score',
+                yaxis_title='Cost Change (%)',
+                xaxis=dict(tickfont=dict(size=14), title_font=dict(size=16), tickmode='linear'),
+                yaxis=dict(tickfont=dict(size=14), title_font=dict(size=16), range=[0, risk_outcomes['cost_change_perc_num'].max() * 1.3]),
+                margin=dict(t=30, b=20, l=20, r=20),
+                height=350
+            )
+            st.plotly_chart(fig_risk_cost, use_container_width=True)
         st.caption("Higher risk scores are associated with higher cancellation rates and longer delays, validating the predictive power of ESG risk measurement.")
         st.markdown("---")
