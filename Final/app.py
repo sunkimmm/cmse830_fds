@@ -1092,7 +1092,17 @@ with tab5:
                                 format_func=lambda x: pillar_labels[x],
                                 key="viz_pillar")
             pillar_categories = viz_df[viz_df['pillar'] == viz_pillar]['category'].unique().tolist()
-            selected_cats = st.multiselect("Categories", pillar_categories, default=pillar_categories, key="viz_cats")
+            # Create display options for multiselect
+            category_options = {cat: cat_display.get(cat, cat) for cat in pillar_categories}
+            selected_displays = st.multiselect(
+                "Categories", 
+                options=list(category_options.values()), 
+                default=list(category_options.values()), 
+                key="viz_cats"
+            )
+            # Map back to original category names
+            display_to_cat = {v: k for k, v in category_options.items()}
+            selected_cats = [display_to_cat[d] for d in selected_displays]
         with viz_col2:
             fig = go.Figure()
             other_df = viz_df[viz_df['pillar'] != viz_pillar]
@@ -1100,7 +1110,7 @@ with tab5:
                 x=other_df['x'], y=other_df['y'],
                 mode='markers',
                 marker=dict(size=6, color='lightgray', opacity=0.3),
-                name='Other',
+                name='Other pillars',
                 hoverinfo='skip'
             ))
             colors = px.colors.qualitative.Set1
@@ -1115,14 +1125,14 @@ with tab5:
                     text=cat_df['term'],
                     hovertemplate='<b>%{text}</b><br>' + display_name + '<extra></extra>'
                 ))
-                fig.update_layout(
+            fig.update_layout(
                 height=500,
-                xaxis=dict(showgrid=False, showline = True, zeroline=False, showticklabels=False, title='Dimension 1'),
-                yaxis=dict(showgrid=False, showline = True, zeroline=False, showticklabels=False, title='Dimension 2'),
-                legend=dict(orientation='v', yanchor='top', y=1, xanchor='left', x=1.02),
+                xaxis=dict(showgrid=False, zeroline=False, showticklabels=False, showline=True, linecolor='black', title='Dimension 1'),
+                yaxis=dict(showgrid=False, zeroline=False, showticklabels=False, showline=True, linecolor='black', title='Dimension 2'),
+                legend=dict(orientation='v', yanchor='top', y=1, xanchor='left', x=1.02, title='Categories'),
                 margin=dict(l=20, r=20, t=20, b=20),
                 plot_bgcolor='white'
-                )
+            )
             st.plotly_chart(fig, use_container_width=True)
 
     with subtab3:
