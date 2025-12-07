@@ -938,7 +938,7 @@ with tab5:
                 trigrams_df = pd.DataFrame(trigrams_data, columns=["term", "tfidf", "doc_freq_%"])
                 st.dataframe(trigrams_df, height=400, use_container_width=True, hide_index=True)
     
-    with subtab2:
+with subtab2:
         st.header("Embedding Analysis & Final ESG Taxonomy")
         esg_dict = pd.read_csv(BASE / "esg_dictionary_final_2407.csv")
         col1, col2 = st.columns(2)
@@ -977,6 +977,15 @@ with tab5:
             st.metric("Categories", esg_dict['category'].nunique())
         st.caption("Thresholds chosen based on silhouette analysis — all categories show positive coherence.")
         st.markdown("---")
+        # Define colors and labels once
+        pillar_colors = {'E': '#81C784', 'S': '#64B5F6', 'G': '#FFB74D'}
+        pillar_colors_light = {'E': '#C8E6C9', 'S': '#BBDEFB', 'G': '#FFE0B2'}
+        pillar_labels = {'E': 'Environmental', 'S': 'Social', 'G': 'Governance'}
+        cat_display = {
+            'ESS3_P': 'E1', 'ESS3_R': 'E2', 'ESS6': 'E3',
+            'ESS2': 'S1', 'ESS4': 'S2', 'ESS5': 'S3', 'ESS7': 'S4', 'ESS8': 'S5',
+            'DIM1': 'G1', 'DIM2_3': 'G2', 'DIM6': 'G3', 'DIM7': 'G4', 'DIM8_9': 'G5'
+        }
         st.subheader("Term Distribution by Pillar and Category")
         dist_df = esg_dict.groupby(['pillar', 'category_display', 'is_seed']).size().reset_index(name='count')
         dist_pivot = dist_df.pivot_table(index=['pillar', 'category_display'], columns='is_seed', values='count', fill_value=0).reset_index()
@@ -987,9 +996,6 @@ with tab5:
             dist_pivot["Expanded"] = 0
         dist_pivot['Total'] = dist_pivot['Seed'] + dist_pivot['Expanded']
         dist_pivot = dist_pivot.sort_values(['pillar', 'Total'], ascending=[True, False])
-        pillar_colors = {'E': '#81C784', 'S': '#64B5F6', 'G': '#FFB74D'}
-        pillar_colors_light = {'E': '#C8E6C9', 'S': '#BBDEFB', 'G': '#FFE0B2'}
-        pillar_labels = {'E': 'Environmental', 'S': 'Social', 'G': 'Governance'}
         fig = go.Figure()
         for pillar in ['E', 'S', 'G']:
             pdf = dist_pivot[dist_pivot['pillar'] == pillar]
@@ -1079,32 +1085,16 @@ with tab5:
             st.markdown(f"<span style='background-color:{color_expanded}; padding:4px 8px; border-radius:10px;'>■</span> **Expanded Terms**", unsafe_allow_html=True)
         st.markdown("---")
         st.subheader("Interactive Cluster Visualization")
-
-        # Load viz data (with t-SNE coordinates)
         viz_df = pd.read_csv(BASE / "esg_dictionary_viz.csv")
-        cat_info = {
-            'ESS3': {'display': 'E1'}, 'ESS6': {'display': 'E2'},
-            'ESS2': {'display': 'S1'}, 'ESS4': {'display': 'S2'}, 
-            'ESS5': {'display': 'S3'}, 'ESS7': {'display': 'S4'}, 'ESS8': {'display': 'S5'},
-            'DIM1': {'display': 'G1'}, 'DIM2': {'display': 'G2'}, 'DIM3': {'display': 'G3'},
-            'DIM6': {'display': 'G4'}, 'DIM7': {'display': 'G5'}, 'DIM8': {'display': 'G6'}, 'DIM9': {'display': 'G7'}
-        }
-        # Pillar selector
         viz_col1, viz_col2 = st.columns([1, 3])
         with viz_col1:
             viz_pillar = st.radio("Select Pillar", ['E', 'S', 'G'], 
                                 format_func=lambda x: pillar_labels[x],
                                 key="viz_pillar")
-            
-            # Category multiselect for selected pillar
             pillar_categories = viz_df[viz_df['pillar'] == viz_pillar]['category'].unique().tolist()
             selected_cats = st.multiselect("Categories", pillar_categories, default=pillar_categories, key="viz_cats")
-
         with viz_col2:
-            # Build plot
             fig = go.Figure()
-            
-            # Gray background (other pillars)
             other_df = viz_df[viz_df['pillar'] != viz_pillar]
             fig.add_trace(go.Scatter(
                 x=other_df['x'], y=other_df['y'],
@@ -1113,12 +1103,10 @@ with tab5:
                 name='Other',
                 hoverinfo='skip'
             ))
-            
-            # Selected categories
             colors = px.colors.qualitative.Set1
             for i, cat in enumerate(selected_cats):
                 cat_df = viz_df[viz_df['category'] == cat]
-                display_name = cat_info[cat]['display']
+                display_name = cat_display.get(cat, cat)
                 fig.add_trace(go.Scatter(
                     x=cat_df['x'], y=cat_df['y'],
                     mode='markers',
@@ -1127,7 +1115,6 @@ with tab5:
                     text=cat_df['term'],
                     hovertemplate='<b>%{text}</b><br>' + display_name + '<extra></extra>'
                 ))
-            
             fig.update_layout(
                 height=500,
                 xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
@@ -1136,7 +1123,6 @@ with tab5:
                 margin=dict(l=20, r=20, t=20, b=20),
                 plot_bgcolor='white'
             )
-            
             st.plotly_chart(fig, use_container_width=True)
 
     with subtab3:
