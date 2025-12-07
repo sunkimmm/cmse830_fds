@@ -1115,14 +1115,14 @@ with tab5:
                     text=cat_df['term'],
                     hovertemplate='<b>%{text}</b><br>' + display_name + '<extra></extra>'
                 ))
-            fig.update_layout(
+                fig.update_layout(
                 height=500,
-                xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-                yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+                xaxis=dict(showgrid=False, zeroline=False, showticklabels=False, title='t-SNE 1'),
+                yaxis=dict(showgrid=False, zeroline=False, showticklabels=False, title='t-SNE 2'),
                 legend=dict(orientation='v', yanchor='top', y=1, xanchor='left', x=1.02),
                 margin=dict(l=20, r=20, t=20, b=20),
                 plot_bgcolor='white'
-            )
+                )
             st.plotly_chart(fig, use_container_width=True)
 
     with subtab3:
