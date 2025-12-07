@@ -509,156 +509,160 @@ with tab3:
         st.markdown("---")
 
 with tab4:
-    st.header("Data Processing for Metadata")
-    st.markdown("##### This page summarizes the data preprocessing steps, including cost conversion and missing data handling to convert World Bank project costs to comparable **2019 USD values** for analysis. Project cost data are in nominal value at the year of approval, but the data spans from 1989 to 2012 (for the approval year) or 1999 to 2019 (for the completion year). For apple-to-apple comparison, every value was converted to 2019, to adjust for the following discrepancies. Essentially, it takes care of _What was the economic scale and resource commitment of this project within its own national economy?_ question.")
-    st.markdown("""
-    - Purchasing Power Parity adjustment: What $500M USD buys in developing countries is different from what it buys in developed countries.
-    - Temporal adjustment: What $500M buys in 2001 is different from what it buys in 2019.
-    """)
-    st.markdown("---")
-        
-    # 1. Overview
-    st.subheader("Cost Conversion Overview")
-    st.markdown("Converting World Bank project costs to comparable 2019 USD values using a two-step adjustment process.")
-        
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.metric("Total Projects", "462")
-    with col2:
-        st.metric("Approval Years", "1989 - 2014")
-    with col3:
-        st.metric("Target Year", "2019 USD")
-    st.markdown("---")
-        
-    # 2. Step 1: PLR Adjustment
-    st.subheader("Step 1: PLR (Price Level Ratio) Adjustment")
-        
-    col1, col2 = st.columns(2)
-    with col1:
-        st.markdown("**Purpose**")
-        st.info("Convert nominal USD to PPP-equivalent USD (country-specific purchasing power adjustment)")
-        st.markdown("**Formula**")
-        st.latex(r"\text{planned\_cost\_adj1\_plr} = \frac{\text{planned\_cost}}{\text{PLR\_value}}")
-        
-    with col2:
-        st.markdown("**Data Source**")
-        st.caption("World Bank PLR data (266 countries)")
-        
-    # Highlighted missing data handling
-    st.markdown("**Handling Missing Data**")
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.warning("**Backward Extrapolation**\n\nUsing 3-year smoothed growth rates for years before available data")
-    with col2:
-        st.warning("**Forward Extrapolation**\n\nUsing 3-year smoothed growth rates for years after available data")
-    with col3:
-        st.warning("**Interpolation**\n\nLinear interpolation between available years; Multi-country projects averaged")
-        
-    st.markdown("**Result**")
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.metric("Actual PLR Values", "458")
-    with col2:
-        st.metric("Extrapolated/Interpolated", "4")
-    with col3:
-        st.metric("Total", "462")
-        
-    with st.expander("View World Bank PLR Data"):
-        wb_plr = pd.read_csv(BASE / "WB_PLR.csv")
-        st.dataframe(wb_plr, use_container_width=True, hide_index=True)
-    st.markdown("---")
-        
-    # 3. Step 2: US PPI Adjustment
-    st.subheader("Step 2: US PPI (Producer Price Index) Adjustment")
-        
-    col1, col2 = st.columns(2)
-    with col1:
-        st.markdown("**Purpose**")
-        st.info("Inflate to 2019 USD for temporal comparability")
-        st.markdown("**Formula**")
-        st.latex(r"\text{ppi\_factor} = \frac{\text{PPI}_{2019}}{\text{PPI}_{\text{approval\_year}}}")
-        st.latex(r"\text{planned\_cost\_adj2\_ppi} = \text{planned\_cost} \times \text{ppi\_factor}")
-
-    with col2:
-        st.markdown("**Data Source**")
-        st.caption("IMF International Financial Statistics - US Producer Price Index (1988-2019)")
-        st.markdown("**Rationale for US PPI over GDP deflator**")
+    subtab1, subtab2 = st.tabs(["Data & Processing", "Result"])
+    with subtab1:
+        st.header("Data Processing for Metadata")
+        st.markdown("##### This page summarizes the data preprocessing steps, including cost conversion and missing data handling to convert World Bank project costs to comparable **2019 USD values** for analysis. Project cost data are in nominal value at the year of approval, but the data spans from 1989 to 2012 (for the approval year) or 1999 to 2019 (for the completion year). For apple-to-apple comparison, every value was converted to 2019, to adjust for the following discrepancies. Essentially, it takes care of _What was the economic scale and resource commitment of this project within its own national economy?_ question.")
         st.markdown("""
-        - Project costs denominated in USD, not local currency
-        - PLR already captures country-specific purchasing power
-        - US PPI is stable (1.0x - 2.1x) vs GDP deflator extreme outliers
-        - PPI better reflects infrastructure/construction inputs
+        - Purchasing Power Parity adjustment: What $500M USD buys in developing countries is different from what it buys in developed countries.
+        - Temporal adjustment: What $500M buys in 2001 is different from what it buys in 2019.
         """)
-       
-    with st.expander("View IMF US PPI Data"):
-        ppi = pd.read_csv(BASE / "IMF_US_PPI.csv")
-        st.dataframe(ppi, use_container_width=True, hide_index=True)
-        
-    st.markdown("---")
-        
-    # 4. Combined Adjustment
-    st.subheader("Combined Adjustment")
-    st.latex(r"\text{planned\_cost\_adj\_both} = \text{planned\_cost\_adj1\_plr} \times \text{ppi\_factor}")
-    col1, col2 = st.columns(2)
-    with col1:
-        st.markdown("**Adjustment Ratio Statistics (final/original)**")
-        ratio_data = pd.DataFrame({
-            'Metric': ['Min', 'Max', 'Mean', 'Median'],
-            'Value': ['1.13x', '16.95x', '4.91x', '4.35x']
-        })
-        st.dataframe(ratio_data, use_container_width=True, hide_index=True)
-        
-    with col2:
-        st.markdown("**Final Cost Distribution (2019 USD)**")
-        cost_data = pd.DataFrame({
-            'Metric': ['Min', '25th %', 'Median', '75th %', 'Mean', 'Max'],
-            'Value': ['$4.90M', '$301.16M', '$799.85M', '$1,797.38M', '$1,720.41M', '$34,584.26M']
-        })
-        st.dataframe(cost_data, use_container_width=True, hide_index=True)
-        
-    st.markdown("---")
-        
-    st.subheader("Large-scale Project Classification")
-    col1, col2 = st.columns(2)
-    with col1:
-        st.metric("Large-scale Projects (Project Cost ≥$500M)", "280", "60.6%")
-    with col2:
-        st.metric("Regular Projects (Project Cost <$500M)", "182", "39.4%")
-        
-    st.success("**Selected for analysis: 280 projects (≥$500M threshold)**")
-    st.markdown("Final project list can be downloaded in the next tab.")
+        st.markdown("---")
+            
+        # 1. Overview
+        st.subheader("Cost Conversion Overview")
+        st.markdown("Converting World Bank project costs to comparable 2019 USD values using a two-step adjustment process.")
+            
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.metric("Total Projects", "462")
+        with col2:
+            st.metric("Approval Years", "1989 - 2014")
+        with col3:
+            st.metric("Target Year", "2019 USD")
+        st.markdown("---")
+            
+        # 2. Step 1: PLR Adjustment
+        st.subheader("Step 1: PLR (Price Level Ratio) Adjustment")
+            
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown("**Purpose**")
+            st.info("Convert nominal USD to PPP-equivalent USD (country-specific purchasing power adjustment)")
+            st.markdown("**Formula**")
+            st.latex(r"\text{planned\_cost\_adj1\_plr} = \frac{\text{planned\_cost}}{\text{PLR\_value}}")
+            
+        with col2:
+            st.markdown("**Data Source**")
+            st.caption("World Bank PLR data (266 countries)")
+            
+        # Highlighted missing data handling
+        st.markdown("**Handling Missing Data**")
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.warning("**Backward Extrapolation**\n\nUsing 3-year smoothed growth rates for years before available data")
+        with col2:
+            st.warning("**Forward Extrapolation**\n\nUsing 3-year smoothed growth rates for years after available data")
+        with col3:
+            st.warning("**Interpolation**\n\nLinear interpolation between available years; Multi-country projects averaged")
+            
+        st.markdown("**Result**")
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.metric("Actual PLR Values", "458")
+        with col2:
+            st.metric("Extrapolated/Interpolated", "4")
+        with col3:
+            st.metric("Total", "462")
+            
+        with st.expander("View World Bank PLR Data"):
+            wb_plr = pd.read_csv(BASE / "WB_PLR.csv")
+            st.dataframe(wb_plr, use_container_width=True, hide_index=True)
+        st.markdown("---")
+            
+        # 3. Step 2: US PPI Adjustment
+        st.subheader("Step 2: US PPI (Producer Price Index) Adjustment")
+            
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown("**Purpose**")
+            st.info("Inflate to 2019 USD for temporal comparability")
+            st.markdown("**Formula**")
+            st.latex(r"\text{ppi\_factor} = \frac{\text{PPI}_{2019}}{\text{PPI}_{\text{approval\_year}}}")
+            st.latex(r"\text{planned\_cost\_adj2\_ppi} = \text{planned\_cost} \times \text{ppi\_factor}")
 
-    st.markdown("---")
-    st.header("Project Metadata (Raw)")
-    st.markdown("""
-    Source: World Bank\n
-    This data was complied using various data sources in World Bank.
-    """)
-    DATA_PATH = BASE / "cost_converted_462projects.csv"
-    df = pd.read_csv(DATA_PATH)
+        with col2:
+            st.markdown("**Data Source**")
+            st.caption("IMF International Financial Statistics - US Producer Price Index (1988-2019)")
+            st.markdown("**Rationale for US PPI over GDP deflator**")
+            st.markdown("""
+            - Project costs denominated in USD, not local currency
+            - PLR already captures country-specific purchasing power
+            - US PPI is stable (1.0x - 2.1x) vs GDP deflator extreme outliers
+            - PPI better reflects infrastructure/construction inputs
+            """)
         
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.metric("Projects", len(df))
-    with col2:
-        st.metric("Columns", len(df.columns))
-    with col3:
-        st.metric("Year Range", f"{df['approval_year'].min()} - {df['approval_year'].max()}")
-        
-    st.dataframe(df.head(100), use_container_width=True)
+        with st.expander("View IMF US PPI Data"):
+            ppi = pd.read_csv(BASE / "IMF_US_PPI.csv")
+            st.dataframe(ppi, use_container_width=True, hide_index=True)
+            
+        st.markdown("---")
+            
+        # 4. Combined Adjustment
+        st.subheader("Combined Adjustment")
+        st.latex(r"\text{planned\_cost\_adj\_both} = \text{planned\_cost\_adj1\_plr} \times \text{ppi\_factor}")
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown("**Adjustment Ratio Statistics (final/original)**")
+            ratio_data = pd.DataFrame({
+                'Metric': ['Min', 'Max', 'Mean', 'Median'],
+                'Value': ['1.13x', '16.95x', '4.91x', '4.35x']
+            })
+            st.dataframe(ratio_data, use_container_width=True, hide_index=True)
+            
+        with col2:
+            st.markdown("**Final Cost Distribution (2019 USD)**")
+            cost_data = pd.DataFrame({
+                'Metric': ['Min', '25th %', 'Median', '75th %', 'Mean', 'Max'],
+                'Value': ['$4.90M', '$301.16M', '$799.85M', '$1,797.38M', '$1,720.41M', '$34,584.26M']
+            })
+            st.dataframe(cost_data, use_container_width=True, hide_index=True)
+            
+        st.markdown("---")
+            
+        st.subheader("Large-scale Project Classification")
+        col1, col2 = st.columns(2)
+        with col1:
+            st.metric("Large-scale Projects (Project Cost ≥$500M)", "280", "60.6%")
+        with col2:
+            st.metric("Regular Projects (Project Cost <$500M)", "182", "39.4%")
+            
+        st.success("**Selected for analysis: 280 projects (≥$500M threshold)**")
+        st.markdown("Final project list can be downloaded in the next tab.")
 
-    st.header("Project Metadata (Processed)")
-    final_projects = pd.read_csv(BASE / "fin_project_metadata_280.csv")
-        
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.metric("Projects", len(final_projects))
-    with col2:
-        st.metric("Columns", len(final_projects.columns))
-    with col3:
-        st.metric("Year Range", f"{final_projects['approval_year'].min()} - {final_projects['approval_year'].max()}")
-        
-    st.dataframe(final_projects, use_container_width=True, hide_index=True)
+        st.markdown("---")
+    with subtab2:
+        st.header("Project Metadata (Raw)")
+        st.markdown("""
+        Source: World Bank\n
+        This data was complied using various data sources in World Bank.
+        """)
+        DATA_PATH = BASE / "cost_converted_462projects.csv"
+        df = pd.read_csv(DATA_PATH)
+            
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.metric("Projects", len(df))
+        with col2:
+            st.metric("Columns", len(df.columns))
+        with col3:
+            st.metric("Year Range", f"{df['approval_year'].min()} - {df['approval_year'].max()}")
+            
+        st.dataframe(df.head(100), use_container_width=True)
+
+        st.header("Project Metadata (Processed)")
+        final_projects = pd.read_csv(BASE / "fin_project_metadata_280.csv")
+            
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.metric("Projects", len(final_projects))
+        with col2:
+            st.metric("Columns", len(final_projects.columns))
+        with col3:
+            st.metric("Year Range", f"{final_projects['approval_year'].min()} - {final_projects['approval_year'].max()}")
+            
+        st.dataframe(final_projects, use_container_width=True, hide_index=True)
+        st.markdown("---")
     
 
 with tab5:
