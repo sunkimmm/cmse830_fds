@@ -727,12 +727,11 @@ with tab5:
     subtab1, subtab2 = st.tabs(["Data & Processing", "Result"])
     with subtab1:
         st.header("Data Processing for Text Data")
-        st.markdown("##### This page summarizes the data preprocessing steps for the text data extracted from the project-related reports from the World Bank. For each of the 280 projects, we use two types of projects:")
+        st.markdown("##### This page summarizes the data preprocessing steps for the text data extracted from the project-related reports from the World Bank. For each of the 280 projects, we use two types of projects, that allow us to see _what happened during the project.")
         st.markdown("""
         - **Project Appraisal Document (PAD)**: Written at planning stage
         - **Implementation Completion Report (ICR)**: Written after project completion
         """)
-        st.markdown("##### It allows us to see _what happened during the project_, and the sample documents can be downloaded in the following.")
         col1, col2 = st.columns(2)
         with col1:
             st.markdown("**Project Appraisal Document (at Planning stage)**")
