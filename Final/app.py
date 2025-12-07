@@ -632,9 +632,7 @@ with tab4:
 
         st.markdown("---")
     with subtab2:
-        st.header("Project Metadata (Raw)")
         # st.markdown("##### In this page, you can see the processed metadata.")
-        st.markdown("---")
         # st.markdown("""
         # Source: World Bank\n
         # This data was complied using various data sources in World Bank.
@@ -664,6 +662,67 @@ with tab4:
             st.metric("Year Range", f"{final_projects['approval_year'].min()} - {final_projects['approval_year'].max()}")
             
         st.dataframe(final_projects, use_container_width=True, hide_index=True)
+        st.markdown("---")
+        
+        col1, col2 = st.columns(2)
+        with col1:
+            st.subheader("Cost Comparison: Before vs After Processing")
+            fig_cost = go.Figure()
+            fig_cost.add_trace(go.Bar(
+                x=final_projects['projectid'],
+                y=final_projects['base+contingency'],
+                name='Initial Cost (Base+Contingency)',
+                marker_color='#636EFA'
+            ))
+            fig_cost.add_trace(go.Bar(
+                x=final_projects['projectid'],
+                y=final_projects['planned_cost_adj_both'],
+                name='Adjusted Cost (PLR+PPI)',
+                marker_color='#EF553B'
+            ))
+            fig_cost.update_layout(
+                barmode='group',
+                xaxis_title='Project',
+                yaxis_title='Cost (USD Million)',
+                xaxis=dict(showticklabels=False),
+                legend=dict(orientation='h', yanchor='bottom', y=1.02, xanchor='center', x=0.5),
+                margin=dict(t=50, b=20, l=20, r=20),
+                height=400
+            )
+            st.plotly_chart(fig_cost, use_container_width=True)
+            avg_initial = final_projects['base+contingency'].mean()
+            avg_adjusted = final_projects['planned_cost_adj_both'].mean()
+            st.caption(f"Avg Initial: ${avg_initial:.0f}M → Avg Adjusted: ${avg_adjusted:.0f}M ({((avg_adjusted-avg_initial)/avg_initial)*100:+.1f}%)")
+        
+        with col2:
+            st.subheader("Project Timeline: Approval vs Completion Year")
+            approval_counts = final_projects['approval_year'].value_counts().sort_index().reset_index()
+            approval_counts.columns = ['Year', 'Count']
+            completion_counts = final_projects['completion_year'].value_counts().sort_index().reset_index()
+            completion_counts.columns = ['Year', 'Count']
+            fig_year = go.Figure()
+            fig_year.add_trace(go.Bar(
+                x=approval_counts['Year'],
+                y=approval_counts['Count'],
+                name='Approval Year',
+                marker_color='#00CC96'
+            ))
+            fig_year.add_trace(go.Bar(
+                x=completion_counts['Year'],
+                y=completion_counts['Count'],
+                name='Completion Year',
+                marker_color='#AB63FA'
+            ))
+            fig_year.update_layout(
+                barmode='group',
+                xaxis_title='Year',
+                yaxis_title='Number of Projects',
+                legend=dict(orientation='h', yanchor='bottom', y=1.02, xanchor='center', x=0.5),
+                margin=dict(t=50, b=20, l=20, r=20),
+                height=400
+            )
+            st.plotly_chart(fig_year, use_container_width=True)
+            st.caption(f"Approval: {int(final_projects['approval_year'].min())}–{int(final_projects['approval_year'].max())} | Completion: {int(final_projects['completion_year'].min())}–{int(final_projects['completion_year'].max())}")
         st.markdown("---")
     
 
