@@ -1139,7 +1139,7 @@ with tab5:
             st.markdown("---")
 
 with tab6:
-    subtab1, subtab2 = st.tabs(["Initial/Exploratory Data Analysis", "Regression Analysis"])
+    subtab1, subtab2, subtab3 = st.tabs(["Initial Data Analysis", "Explolatory Data Analysis", "Regression Analysis"])
     with subtab1:
         final_projects = pd.read_csv(BASE / "fin_project_metadata_280.csv")
         import plotly.express as px
@@ -1245,4 +1245,198 @@ with tab6:
         st.markdown("---")
 
     with subtab2:
+        st.header("Exploratory Data Analysis")
+        df_app = pd.read_csv(BASE / "df_app_streamlit.csv")
+        
+        # ESG Coverage by Sector
+        st.subheader("ESG Coverage by Sector")
+        sector_esg = df_app.groupby('sector_group').agg({
+            'app_E_pct': 'mean',
+            'app_S_pct': 'mean',
+            'app_G_pct': 'mean'
+        }).reset_index()
+        sector_colors = {'Energy': '#FF6B6B', 'Transportation': '#A9C25E', 'Water': '#45B7D1'}
+        fig_esg = go.Figure()
+        for pillar, color in [('app_E_pct', '#81C784'), ('app_S_pct', '#64B5F6'), ('app_G_pct', '#FFB74D')]:
+            pillar_label = pillar.replace('app_', '').replace('_pct', '')
+            fig_esg.add_trace(go.Bar(
+                x=sector_esg['sector_group'],
+                y=sector_esg[pillar],
+                name=pillar_label,
+                marker_color=color,
+                text=[f"{v:.1f}%" for v in sector_esg[pillar]],
+                textposition='outside',
+                textfont=dict(size=12)
+            ))
+        fig_esg.update_layout(
+            barmode='group',
+            yaxis_title='Coverage (%)',
+            yaxis=dict(tickfont=dict(size=14), title_font=dict(size=16)),
+            xaxis=dict(tickfont=dict(size=14)),
+            legend=dict(orientation='h', yanchor='bottom', y=1.02, xanchor='center', x=0.5, font=dict(size=14)),
+            margin=dict(t=50, b=20, l=20, r=20),
+            height=400
+        )
+        st.plotly_chart(fig_esg, use_container_width=True)
+        st.markdown("---")
+        
+        # Coverage vs Emergence Relationship
+        st.subheader("Coverage vs Emergence: Planning Gaps Lead to Surprises")
+        col1, col2 = st.columns(2)
+        with col1:
+            pillar_select = st.radio("Select Pillar", ['E', 'S', 'G'], horizontal=True, key="cov_emerg_pillar")
+        pillar_labels = {'E': 'Environmental', 'S': 'Social', 'G': 'Governance'}
+        pillar_colors = {'E': '#81C784', 'S': '#64B5F6', 'G': '#FFB74D'}
+        cov_col = f'app_{pillar_select}_pct'
+        emerg_col = f'{pillar_select}_emergence_rate'
+        fig_scatter = go.Figure()
+        fig_scatter.add_trace(go.Scatter(
+            x=df_app[cov_col],
+            y=df_app[emerg_col],
+            mode='markers',
+            marker=dict(size=8, color=pillar_colors[pillar_select], opacity=0.6),
+            text=df_app['projectid'],
+            hovertemplate='<b>%{text}</b><br>Coverage: %{x:.1f}%<br>Emergence: %{y:.2f}<extra></extra>'
+        ))
+        # Add trendline
+        z = np.polyfit(df_app[cov_col], df_app[emerg_col], 1)
+        p = np.poly1d(z)
+        x_line = np.linspace(df_app[cov_col].min(), df_app[cov_col].max(), 100)
+        fig_scatter.add_trace(go.Scatter(
+            x=x_line,
+            y=p(x_line),
+            mode='lines',
+            line=dict(color='red', dash='dash'),
+            name='Trend'
+        ))
+        corr = df_app[cov_col].corr(df_app[emerg_col])
+        fig_scatter.update_layout(
+            xaxis_title=f'{pillar_labels[pillar_select]} Coverage (%)',
+            yaxis_title=f'{pillar_labels[pillar_select]} Emergence Rate',
+            xaxis=dict(tickfont=dict(size=14), title_font=dict(size=16)),
+            yaxis=dict(tickfont=dict(size=14), title_font=dict(size=16)),
+            margin=dict(t=30, b=20, l=20, r=20),
+            height=400,
+            showlegend=False
+        )
+        st.plotly_chart(fig_scatter, use_container_width=True)
+        st.caption(f"Correlation: r = {corr:.2f} — Lower coverage at planning stage is associated with higher emergence of issues during implementation.")
+        st.markdown("---")
+        
+        # Outcomes by Sector
+        st.subheader("Outcomes by Sector")
+        sector_outcomes = df_app.groupby('sector_group').agg({
+            'delay': 'mean',
+            'cost_change_perc_num': 'mean',
+            'cancellation': 'mean'
+        }).reset_index()
+        sector_outcomes['delay_years'] = sector_outcomes['delay'] / 12
+        sector_outcomes['cancellation_pct'] = sector_outcomes['cancellation'] * 100
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.markdown("**Average Delay**")
+            fig_delay = go.Figure(data=[go.Bar(
+                x=sector_outcomes['sector_group'],
+                y=sector_outcomes['delay_years'],
+                marker_color=[sector_colors.get(s, '#888888') for s in sector_outcomes['sector_group']],
+                text=[f"{v:.1f}" for v in sector_outcomes['delay_years']],
+                textposition='outside',
+                textfont=dict(size=12)
+            )])
+            fig_delay.update_layout(
+                yaxis_title='Delay (years)',
+                yaxis=dict(range=[0, sector_outcomes['delay_years'].max() * 1.2]),
+                margin=dict(t=20, b=20, l=20, r=20),
+                height=300
+            )
+            st.plotly_chart(fig_delay, use_container_width=True)
+        with col2:
+            st.markdown("**Average Cost Change**")
+            fig_cost = go.Figure(data=[go.Bar(
+                x=sector_outcomes['sector_group'],
+                y=sector_outcomes['cost_change_perc_num'],
+                marker_color=[sector_colors.get(s, '#888888') for s in sector_outcomes['sector_group']],
+                text=[f"{v:.1f}%" for v in sector_outcomes['cost_change_perc_num']],
+                textposition='outside',
+                textfont=dict(size=12)
+            )])
+            fig_cost.update_layout(
+                yaxis_title='Cost Change (%)',
+                yaxis=dict(range=[0, sector_outcomes['cost_change_perc_num'].max() * 1.2]),
+                margin=dict(t=20, b=20, l=20, r=20),
+                height=300
+            )
+            st.plotly_chart(fig_cost, use_container_width=True)
+        with col3:
+            st.markdown("**Cancellation Rate**")
+            fig_cancel = go.Figure(data=[go.Bar(
+                x=sector_outcomes['sector_group'],
+                y=sector_outcomes['cancellation_pct'],
+                marker_color=[sector_colors.get(s, '#888888') for s in sector_outcomes['sector_group']],
+                text=[f"{v:.1f}%" for v in sector_outcomes['cancellation_pct']],
+                textposition='outside',
+                textfont=dict(size=12)
+            )])
+            fig_cancel.update_layout(
+                yaxis_title='Cancellation Rate (%)',
+                yaxis=dict(range=[0, sector_outcomes['cancellation_pct'].max() * 1.2]),
+                margin=dict(t=20, b=20, l=20, r=20),
+                height=300
+            )
+            st.plotly_chart(fig_cancel, use_container_width=True)
+        st.markdown("---")
+
+    with subtab3:
+        st.header("Regression Analysis")
+        df_app = pd.read_csv(BASE / "df_app_streamlit.csv")
+        
+        # Risk Score Analysis
+        st.subheader("Risk Score Predicts Project Outcomes")
+        st.markdown("Risk score is a composite measure (0-4) based on ESG coverage gaps and emergence patterns.")
+        risk_outcomes = df_app.groupby('risk_score').agg({
+            'cancellation': 'mean',
+            'delay': 'mean'
+        }).reset_index()
+        risk_outcomes['cancellation_pct'] = risk_outcomes['cancellation'] * 100
+        risk_outcomes['delay_years'] = risk_outcomes['delay'] / 12
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown("**Cancellation Rate by Risk Score**")
+            fig_risk_cancel = go.Figure(data=[go.Bar(
+                x=risk_outcomes['risk_score'],
+                y=risk_outcomes['cancellation_pct'],
+                marker_color='#EF553B',
+                text=[f"{v:.1f}%" for v in risk_outcomes['cancellation_pct']],
+                textposition='outside',
+                textfont=dict(size=14)
+            )])
+            fig_risk_cancel.update_layout(
+                xaxis_title='Risk Score',
+                yaxis_title='Cancellation Rate (%)',
+                xaxis=dict(tickfont=dict(size=14), title_font=dict(size=16), tickmode='linear'),
+                yaxis=dict(tickfont=dict(size=14), title_font=dict(size=16), range=[0, risk_outcomes['cancellation_pct'].max() * 1.3]),
+                margin=dict(t=30, b=20, l=20, r=20),
+                height=400
+            )
+            st.plotly_chart(fig_risk_cancel, use_container_width=True)
+        with col2:
+            st.markdown("**Average Delay by Risk Score**")
+            fig_risk_delay = go.Figure(data=[go.Bar(
+                x=risk_outcomes['risk_score'],
+                y=risk_outcomes['delay_years'],
+                marker_color='#636EFA',
+                text=[f"{v:.1f}" for v in risk_outcomes['delay_years']],
+                textposition='outside',
+                textfont=dict(size=14)
+            )])
+            fig_risk_delay.update_layout(
+                xaxis_title='Risk Score',
+                yaxis_title='Delay (years)',
+                xaxis=dict(tickfont=dict(size=14), title_font=dict(size=16), tickmode='linear'),
+                yaxis=dict(tickfont=dict(size=14), title_font=dict(size=16), range=[0, risk_outcomes['delay_years'].max() * 1.3]),
+                margin=dict(t=30, b=20, l=20, r=20),
+                height=400
+            )
+            st.plotly_chart(fig_risk_delay, use_container_width=True)
+        st.caption("Higher risk scores are associated with higher cancellation rates and longer delays, validating the predictive power of ESG risk measurement.")
         st.markdown("---")
