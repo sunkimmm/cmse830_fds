@@ -1152,17 +1152,61 @@ with tab6:
         )
         add_count = (final_projects['addition_label'] == 'Yes').sum()
         add_pct = add_count / len(final_projects) * 100
+        avg_delay = final_projects['delay'].mean()
+        avg_cost_change = final_projects['cost_change_perc'].mean()
         # Summary statistics first
-        st.subheader("Summary Statistics")
+        st.subheader("Summary Statistics for the 280 Projects")
         col1, col2, col3, col4 = st.columns(4)
         with col1:
-            st.metric("Total Projects", len(final_projects))
+            st.metric("Avg Delay", f"{avg_delay:.1f} months")
         with col2:
-            st.metric("Avg Cost", f"${final_projects['base+contingency'].mean():.0f}M")
+            st.metric("Avg Cost Change", f"{avg_cost_change:.1f}%")
         with col3:
             st.metric("Cancellation Rate", f"{cancel_pct:.1f}%")
         with col4:
             st.metric("Expansion Rate", f"{add_pct:.1f}%")
+        st.markdown("---")
+        # Delay and Cost Change by Sector
+        sector_colors = {'Energy': '#FF6B6B', 'Transportation': '#A9C25E', 'Water': '#45B7D1'}
+        sector_stats = final_projects.groupby('sector1').agg({
+            'delay': 'mean',
+            'cost_change_perc': 'mean'
+        }).reset_index()
+        col1, col2 = st.columns(2)
+        with col1:
+            st.subheader("Average Delay by Sector")
+            fig_delay = go.Figure(data=[go.Bar(
+                x=sector_stats['sector1'],
+                y=sector_stats['delay'],
+                marker_color=[sector_colors.get(s, '#888888') for s in sector_stats['sector1']],
+                text=[f"{v:.1f}" for v in sector_stats['delay']],
+                textposition='outside'
+            )])
+            max_delay = sector_stats['delay'].max()
+            fig_delay.update_layout(
+                yaxis_title='Delay (months)',
+                yaxis=dict(range=[0, max_delay * 1.2]),
+                margin=dict(t=20, b=20, l=20, r=20),
+                height=350
+            )
+            st.plotly_chart(fig_delay, use_container_width=True)
+        with col2:
+            st.subheader("Average Cost Change by Sector")
+            fig_cost = go.Figure(data=[go.Bar(
+                x=sector_stats['sector1'],
+                y=sector_stats['cost_change_perc'],
+                marker_color=[sector_colors.get(s, '#888888') for s in sector_stats['sector1']],
+                text=[f"{v:.1f}%" for v in sector_stats['cost_change_perc']],
+                textposition='outside'
+            )])
+            max_cost = sector_stats['cost_change_perc'].max()
+            fig_cost.update_layout(
+                yaxis_title='Cost Change (%)',
+                yaxis=dict(range=[0, max_cost * 1.2]),
+                margin=dict(t=20, b=20, l=20, r=20),
+                height=350
+            )
+            st.plotly_chart(fig_cost, use_container_width=True)
         st.markdown("---")
         # Pie charts
         col1, col2 = st.columns(2)
