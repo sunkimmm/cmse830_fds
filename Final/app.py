@@ -653,13 +653,15 @@ with tab4:
         st.header("Project Metadata (Processed)")
         final_projects = pd.read_csv(BASE / "fin_project_metadata_280.csv")
             
-        col1, col2, col3 = st.columns(3)
+        col1, col2, col3, col4 = st.columns(4)
         with col1:
             st.metric("Projects", len(final_projects))
         with col2:
             st.metric("Columns", len(final_projects.columns))
         with col3:
-            st.metric("Year Range", f"{final_projects['approval_year'].min()} - {final_projects['approval_year'].max()}")
+            st.metric("Approval Year Range", f"{final_projects['approval_year'].min()} - {final_projects['approval_year'].max()}")
+        with col4:
+            st.metric("Completion Year Range", f"{final_projects['closingyear'].min()} - {final_projects['closingyear'].max()}")
             
         st.dataframe(final_projects, use_container_width=True, hide_index=True)
         st.markdown("---")
@@ -667,32 +669,31 @@ with tab4:
         col1, col2 = st.columns(2)
         with col1:
             st.subheader("Cost Comparison: Before vs After Processing")
+            sector_options = ['All'] + final_projects['sector1'].unique().tolist()
+            selected_sector = st.selectbox("Select Sector", options=sector_options, key="cost_sector")
+            if selected_sector == 'All':
+                sector_df = final_projects
+            else:
+                sector_df = final_projects[final_projects['sector1'] == selected_sector]
+            avg_initial = sector_df['base+contingency'].mean()
+            avg_adjusted = sector_df['planned_cost_adj_both'].mean()
+            pct_change = ((avg_adjusted - avg_initial) / avg_initial) * 100
             fig_cost = go.Figure()
             fig_cost.add_trace(go.Bar(
-                x=final_projects['projectid'],
-                y=final_projects['base+contingency'],
-                name='Initial Cost (Base+Contingency)',
-                marker_color='#636EFA'
-            ))
-            fig_cost.add_trace(go.Bar(
-                x=final_projects['projectid'],
-                y=final_projects['planned_cost_adj_both'],
-                name='Adjusted Cost (PLR+PPI)',
-                marker_color='#EF553B'
+                x=['Initial Cost<br>(Base+Contingency)', 'Adjusted Cost<br>(PLR+PPI)'],
+                y=[avg_initial, avg_adjusted],
+                marker_color=['#636EFA', '#EF553B'],
+                text=[f'${avg_initial:.0f}M', f'${avg_adjusted:.0f}M'],
+                textposition='outside'
             ))
             fig_cost.update_layout(
-                barmode='group',
-                xaxis_title='Project',
-                yaxis_title='Cost (USD Million)',
-                xaxis=dict(showticklabels=False),
-                legend=dict(orientation='h', yanchor='bottom', y=1.02, xanchor='center', x=0.5),
-                margin=dict(t=50, b=20, l=20, r=20),
-                height=400
+                yaxis_title='Average Cost (USD Million)',
+                margin=dict(t=30, b=20, l=20, r=20),
+                height=350,
+                showlegend=False
             )
             st.plotly_chart(fig_cost, use_container_width=True)
-            avg_initial = final_projects['base+contingency'].mean()
-            avg_adjusted = final_projects['planned_cost_adj_both'].mean()
-            st.caption(f"Avg Initial: ${avg_initial:.0f}M → Avg Adjusted: ${avg_adjusted:.0f}M ({((avg_adjusted-avg_initial)/avg_initial)*100:+.1f}%)")
+            st.markdown(f"**{len(sector_df)} projects** | Change: **{pct_change:+.1f}%**")
         
         with col2:
             st.subheader("Project Timeline: Approval vs Completion Year")
