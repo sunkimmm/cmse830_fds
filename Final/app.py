@@ -728,15 +728,13 @@ with tab5:
     with subtab1:
         st.header("Data Processing for Text Data")
         st.markdown("##### This page summarizes the data preprocessing steps for the text data extracted from the project-related reports from the World Bank. For each of the 280 projects, we use two types of projects, that allow us to see _what happened during the project.")
-        st.markdown("""
-        - **Project Appraisal Document (PAD)**: Written at planning stage
-        - **Implementation Completion Report (ICR)**: Written after project completion
-        """)
         col1, col2 = st.columns(2)
         with col1:
+            st.markdown("**Project Appraisal Document (PAD)**: Written at planning stage")
             with open(BASE / "P130164_PAD.pdf", "rb") as f:
                 st.download_button("📥 Download Sample PAD", f, file_name="P130164_PAD.pdf")
         with col2:
+            st.markdown("**Implementation Completion Report (ICR)**: Written after project completion")
             with open(BASE / "P130164_ICR.pdf", "rb") as f:
                 st.download_button("📥 Download Sample ICR", f, file_name="P130164_ICR.pdf")
         st.markdown("---")
