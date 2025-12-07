@@ -241,24 +241,24 @@ with tab2:
     sector_colors_light = {'Energy': '#FFD4D4', 'Transportation': '#DDE8B9', 'Water': '#C5E8F2'}
     col1, col2 = st.columns([1, 1])
     with col1:
-        sector_counts = final_projects['sector1'].value_counts()
-        fig_sector = go.Figure(data=[go.Pie(
-            labels=sector_counts.index,
-            values=sector_counts.values,
-            hole=0.4,
-            marker_colors=[sector_colors.get(s, '#888888') for s in sector_counts.index],
-            textinfo='label+percent',
-            textposition='outside',
-            textfont=dict(size=14),
-            hovertemplate='<b>%{label}</b><br>Projects: %{value}<br>Proportion: %{percent}<extra></extra>'
-        )])
-        fig_sector.update_layout(
-            title=dict(text='Project Distribution by Sector', font=dict(size=16)),
-            height=350,
-            showlegend=False,
-            margin=dict(l=20, r=20, t=40, b=20)
-        )
-        st.plotly_chart(fig_sector, use_container_width=True)
+            st.subheader("Cost Comparison: Before vs After Processing")
+            sector_colors = {'Energy': '#FF6B6B', 'Transportation': '#A9C25E', 'Water': '#45B7D1'}
+            sector_colors_light = {'Energy': '#FFD4D4', 'Transportation': '#DDE8B9', 'Water': '#C5E8F2'}
+            selected_sector = st.radio("Select a sector:", list(sector_colors.keys()), horizontal=True, key="cost_sector_radio")
+            sector_df = final_projects[final_projects['sector1'] == selected_sector]
+            avg_initial = sector_df['base+contingency'].mean()
+            avg_adjusted = sector_df['planned_cost_adj_both'].mean()
+            avg_ratio = (avg_adjusted / avg_initial) * 100
+            m1, m2, m3, m4 = st.columns(4)
+            with m1:
+                st.metric("Projects", len(sector_df))
+            with m2:
+                st.metric("Avg Initial Cost", f"${avg_initial:.0f}M")
+            with m3:
+                st.metric("Avg Adjusted Cost", f"${avg_adjusted:.0f}M")
+            with m4:
+                st.metric("Avg Cost Ratio", f"{avg_ratio:.1f}%")
+            st.info("**Note:** Adjusted figures are NOT used in the analysis. They were only used to classify whether a project qualifies as 'large-scale' in 2019 USD-equivalent dollars. The threshold for 'large-scale' is **$500M USD**, following the US Department of Transportation definition. For further cost-related analysis, only the **'cost change'** variable (directly from World Bank) will be used.")
     with col2:
         selected_sector = st.radio("Select a sector for details:", list(sector_colors.keys()), horizontal=True, key="sector_radio")
         sector_df = final_projects[final_projects['sector1'] == selected_sector]
