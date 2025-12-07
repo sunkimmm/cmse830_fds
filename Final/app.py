@@ -520,15 +520,17 @@ with tab4:
         st.markdown("---")
             
         # 1. Overview
-        st.subheader("Input data: ")            
-        col1, col2, col3 = st.columns(3)
+        st.subheader("Input data: ")                
+        col1, col2, col3, col4 = st.columns(4)
         with col1:
             st.metric("Total Projects", "462")
         with col2:
             st.metric("Approval Years", "1989 - 2014")
         with col3:
             st.metric("Target Year", "2019 USD")
-        st.markdown("---")
+        with col4:
+            avg_cost = final_projects['base+contingency'].mean()
+            st.metric("Avg Cost", f"${avg_cost:.0f}M")
             
         # 2. Step 1: PLR Adjustment
         st.markdown("#### Step 1: PLR (Price Level Ratio) Adjustment")
