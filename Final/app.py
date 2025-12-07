@@ -893,36 +893,49 @@ with tab5:
         st.subheader("Embedding Analysis & Final ESG Taxonomy")
         st.markdown("##### The seed terms and candidate terms (extracted unigrams and ngrams from the project corpus) were embedded using the pretrained MPNET model. Currently used the vanilla model, but in the future, I will train this model with my corpus to enhance the contextual understanding of the model.")
         esg_dict = pd.read_csv(BASE / "esg_dictionary_final_2407.csv")
+col1, col2 = st.columns(2)
+        with col1:
+            st.markdown("""
+            <div style="background-color:#f5f5f5; padding:15px; border-radius:10px; height:100%;">
+            <b>1. Seed Term Curation</b><br><br>
+            • Started with <b>314 seed terms</b> manually curated from ESG frameworks<br>
+            • Sources: IFC Performance Standards, Equator Principles, World Bank ESS<br>
+            • Organized into hierarchical taxonomy:<br>
+            &nbsp;&nbsp;- <b>E:</b> E1 (Pollution & Waste), E2 (Resources), E3 (Biodiversity)<br>
+            &nbsp;&nbsp;- <b>S:</b> S1 (Labor), S2 (Safety), S3 (Land), S4 (Indigenous), S5 (Heritage)<br>
+            &nbsp;&nbsp;- <b>G:</b> G1 (Institutional), G2 (Financial), G3 (Procurement), G4 (Operations), G5 (Accountability)
+            </div>
+            """, unsafe_allow_html=True)
+        with col2:
+            st.markdown("""
+            <div style="background-color:#f5f5f5; padding:15px; border-radius:10px; height:100%;">
+            <b>2. Embedding-Based Expansion</b><br><br>
+            • Trained Word2Vec on 280 World Bank project documents<br>
+            • Computed subcategory centroids from seed term embeddings<br>
+            • Expanded dictionary via cosine similarity to centroids<br>
+            • Applied <b>max-similarity matching</b>: each term → highest-scoring subcategory
+            </div>
+            """, unsafe_allow_html=True)
+        st.markdown("")
         col1, col2 = st.columns(2)
         with col1:
-            with st.container(border=True):
-                st.markdown("""**1. Seed Term Curation**
-- Started with **314 seed terms** manually curated from ESG frameworks
-- Sources: IFC Performance Standards, Equator Principles, World Bank ESS
-- Organized into hierarchical taxonomy:
-  - **E:** E1 (Pollution & Waste), E2 (Resources), E3 (Biodiversity)
-  - **S:** S1 (Labor), S2 (Safety), S3 (Land), S4 (Indigenous), S5 (Heritage)
-  - **G:** G1 (Institutional), G2 (Financial), G3 (Procurement), G4 (Operations), G5 (Accountability)""")
+            st.markdown("""
+            <div style="background-color:#f5f5f5; padding:15px; border-radius:10px; height:100%;">
+            <b>3. Threshold Optimization</b><br><br>
+            • Baseline similarity threshold: <b>0.40</b><br>
+            • <b>Variable thresholds by subcategory</b> (0.30–0.80) based on noise levels<br>
+            • Technical categories (e.g., Disease & Health): lower thresholds allowed<br>
+            • Generic-prone categories (e.g., Forced Labor): higher thresholds required
+            </div>
+            """, unsafe_allow_html=True)
         with col2:
-            with st.container(border=True):
-                st.markdown("""**2. Embedding-Based Expansion**
-- Trained Word2Vec on 280 World Bank project documents
-- Computed subcategory centroids from seed term embeddings
-- Expanded dictionary via cosine similarity to centroids
-- Applied **max-similarity matching**: each term → highest-scoring subcategory""")
-        col1, col2 = st.columns(2)
-        with col1:
-            with st.container(border=True):
-                st.markdown("""**3. Threshold Optimization**
-- Baseline similarity threshold: **0.40**
-- **Variable thresholds by subcategory** (0.30–0.80) based on noise levels
-- Technical categories (e.g., Disease & Health): lower thresholds allowed
-- Generic-prone categories (e.g., Forced Labor): higher thresholds required""")
-        with col2:
-            with st.container(border=True):
-                st.markdown("""**4. Manual Curation**
-- Systematically reviewed expanded terms by subcategory
-- Removed: generic project terms, Bank-specific terminology, overly broad terms, cross-pillar misassignments""")
+            st.markdown("""
+            <div style="background-color:#f5f5f5; padding:15px; border-radius:10px; height:100%;">
+            <b>4. Manual Curation</b><br><br>
+            • Systematically reviewed expanded terms by subcategory<br>
+            • Removed: generic project terms, Bank-specific terminology, overly broad terms, cross-pillar misassignments
+            </div>
+            """, unsafe_allow_html=True)
         st.markdown("---")
         st.markdown("##### 📊 Final Dictionary Statistics")
         col1, col2, col3, col4 = st.columns(4)
@@ -935,23 +948,7 @@ with tab5:
         with col4:
             st.metric("Total", "2,407 terms", "13 categories, 35 subcategories")
         st.markdown("---")
-        st.markdown("##### ✅ Validation")
-        col1, col2 = st.columns(2)
-        with col1:
-            st.markdown("**Coverage Analysis**")
-            st.markdown("Expansion dramatically improved coverage for under-represented categories:")
-            coverage_data = {
-                'Category': ['S4 (Indigenous Peoples)', 'S5 (Cultural Heritage)', 'G1 (Institutional)', 'G5 (Accountability)'],
-                'Seed Coverage': ['49%', '17%', '67%', '68%'],
-                'Expanded Coverage': ['99%', '100%', '100%', '100%']
-            }
-            st.dataframe(pd.DataFrame(coverage_data), use_container_width=True, hide_index=True)
-        with col2:
-            st.markdown("**Cluster Quality**")
-            st.metric("Overall Silhouette Score", "0.054", "subcategory level")
-            st.markdown("- 32/35 subcategories have positive mean silhouette")
-            st.markdown("- t-SNE visualization confirms reasonable separation between pillars and categories")
-        st.markdown("---")
+
     with subtab2:
         st.markdown("##### Final Result")
         res_col1, res_col2, res_col3, res_col4 = st.columns(4)
