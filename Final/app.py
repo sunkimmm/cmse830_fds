@@ -237,8 +237,8 @@ with tab2:
     
     st.markdown("---")
     st.subheader("Sector Information")
-    sector_colors = {'Energy': '#FF6B6B', 'Transportation': '#A9C25E', 'Water': '#45B7D1'}
-    sector_colors_light = {'Energy': '#FFD4D4', 'Transportation': '#DDE8B9', 'Water': '#C5E8F2'}
+    sector_colors = {'Energy': '#FF6B6B', 'Transport': '#A9C25E', 'Water': '#45B7D1'}
+    sector_colors_light = {'Energy': '#FFD4D4', 'Transport': '#DDE8B9', 'Water': '#C5E8F2'}
     col1, col2 = st.columns([1, 1])
     with col1:
         sector_counts = final_projects['sector1'].value_counts()
@@ -673,8 +673,8 @@ with tab4:
         col1, col2 = st.columns(2)
         with col1:
             st.subheader("Cost Comparison: Before vs After Processing")
-            sector_colors = {'Energy': '#FF6B6B', 'Transportation': '#A9C25E', 'Water': '#45B7D1'}
-            sector_colors_light = {'Energy': '#FFD4D4', 'Transportation': '#DDE8B9', 'Water': '#C5E8F2'}
+            sector_colors = {'Energy': '#FF6B6B', 'Transport': '#A9C25E', 'Water': '#45B7D1'}
+            sector_colors_light = {'Energy': '#FFD4D4', 'Transport': '#DDE8B9', 'Water': '#C5E8F2'}
             selected_sector = st.radio("Select a sector:", list(sector_colors.keys()), horizontal=True, key="cost_sector_radio")
             sector_df = final_projects[final_projects['sector1'] == selected_sector]
             avg_initial = sector_df['base+contingency'].mean()
@@ -1169,7 +1169,7 @@ with tab6:
             st.metric("Expansion Rate", f"{add_pct:.1f}%")
         st.markdown("---")
         # Delay and Cost Change by Sector
-        sector_colors = {'Energy': '#FF6B6B', 'Transportation': '#A9C25E', 'Water': '#45B7D1'}
+        sector_colors = {'Energy': '#FF6B6B', 'Transport': '#A9C25E', 'Water': '#45B7D1'}
         sector_stats = final_projects.groupby('sector1').agg({
             'delay': 'mean',
             'cost_change_numeric': 'mean'
@@ -1509,7 +1509,7 @@ with tab6:
             'app_S_pct': 'mean',
             'app_G_pct': 'mean'
         }).reset_index()
-        sector_colors = {'Energy': '#FF6B6B', 'Transportation': '#A9C25E', 'Water': '#45B7D1'}
+        sector_colors = {'Energy': '#FF6B6B', 'Transport': '#A9C25E', 'Water': '#45B7D1'}
         fig_esg = go.Figure()
         for pillar, color in [('app_E_pct', '#81C784'), ('app_S_pct', '#64B5F6'), ('app_G_pct', '#FFB74D')]:
             pillar_label = pillar.replace('app_', '').replace('_pct', '')
