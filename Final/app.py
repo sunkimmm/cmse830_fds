@@ -504,7 +504,7 @@ with tab3:
     st.markdown("---")
 
 with tab4:
-    st.header("Data Processing for Metadata")
+    st.title("Data Processing for Metadata")
     st.markdown("##### This page summarizes the data preprocessing steps, including cost conversion and missing data handling to convert World Bank project costs to comparable **2019 USD values** for analysis. Project cost data are in nominal value at the year of approval, but the data spans from 1989 to 2012 (for the approval year) or 1999 to 2019 (for the completion year). For apple-to-apple comparison, every value was converted to 2019, to adjust for the following discrepancies. Essentially, it takes care of _What was the economic scale and resource commitment of this project within its own national economy?_ question.")
     st.markdown("""
     - Purchasing Power Parity adjustment: What $500M USD buys in developing countries is different from what it buys in developed countries.
@@ -641,14 +641,6 @@ with tab4:
         st.metric("Year Range", f"{df['approval_year'].min()} - {df['approval_year'].max()}")
         
     st.dataframe(df.head(100), use_container_width=True)
-        
-    with st.expander("View Column Schema"):
-        schema_df = pd.DataFrame({
-            'Column': df.columns,
-            'Type': df.dtypes.astype(str).values,
-            'Non-Null': df.notna().sum().values
-        })
-        st.dataframe(schema_df, use_container_width=True, hide_index=True)
 
     st.header("Project Metadata (Processed)")
     final_projects = pd.read_csv(BASE / "fin_project_metadata_280.csv")
