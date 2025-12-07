@@ -15,7 +15,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-st.title("Large-scale Infrastructure Project: ESG Risk Analysis")
+st.title("ESG Challenges in Large-scale Infrastructure Project with Text Analysis")
 
 # create tab
 tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
