@@ -1040,24 +1040,22 @@ with tab5:
                 key="subtab2_pillar"
             )
         with col2:
-            cat_options = esg_dict[esg_dict['pillar'] == selected_pillar][['category', 'category_display']].drop_duplicates()
-            selected_category = st.selectbox(
+            filtered_by_pillar = esg_dict[esg_dict['pillar'] == selected_pillar]
+            category_displays = filtered_by_pillar['category_display'].unique().tolist()
+            selected_category_display = st.selectbox(
                 "Select Category",
-                options=cat_options['category'].tolist(),
-                format_func=lambda x: cat_options[cat_options['category'] == x]['category_display'].values[0],
+                options=category_displays,
                 key="subtab2_category"
             )
         filtered_df = esg_dict[
             (esg_dict['pillar'] == selected_pillar) &
-            (esg_dict['category'] == selected_category)
+            (esg_dict['category_display'] == selected_category_display)
         ]
-        category_display_name = filtered_df['category_display'].values[0]
         seed_terms_list = filtered_df[filtered_df['is_seed'] == True]['term'].tolist()
         expanded_terms_list = filtered_df[filtered_df['is_seed'] == False]['term'].tolist()
-        st.markdown(f"**{len(filtered_df)} terms in {category_display_name}** ({len(seed_terms_list)} seed, {len(expanded_terms_list)} expanded)")
+        st.markdown(f"**{len(filtered_df)} terms in {selected_category_display}** ({len(seed_terms_list)} seed, {len(expanded_terms_list)} expanded)")
         color_seed = pillar_colors[selected_pillar]
         color_expanded = pillar_colors_light[selected_pillar]
-        # Show by subcategory
         subcategories = filtered_df['subcategory'].unique()
         for subcat in subcategories:
             subcat_df = filtered_df[filtered_df['subcategory'] == subcat]
