@@ -1117,8 +1117,8 @@ with tab5:
                 ))
                 fig.update_layout(
                 height=500,
-                xaxis=dict(showgrid=False, zeroline=False, showticklabels=False, title='t-SNE 1'),
-                yaxis=dict(showgrid=False, zeroline=False, showticklabels=False, title='t-SNE 2'),
+                xaxis=dict(showgrid=False, showline = True, zeroline=False, showticklabels=False, title='Dimension 1'),
+                yaxis=dict(showgrid=False, showline = True, zeroline=False, showticklabels=False, title='Dimension 2'),
                 legend=dict(orientation='v', yanchor='top', y=1, xanchor='left', x=1.02),
                 margin=dict(l=20, r=20, t=20, b=20),
                 plot_bgcolor='white'
