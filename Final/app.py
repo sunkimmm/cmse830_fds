@@ -722,7 +722,7 @@ with tab4:
                 height=400
             )
             st.plotly_chart(fig_year, use_container_width=True)
-            st.caption(f"Approval: {int(final_projects['approval_year'].min())}–{int(final_projects['approval_year'].max())} | Completion: {int(final_projects['completion_year'].min())}–{int(final_projects['completion_year'].max())}")
+            st.caption(f"Approval: {int(final_projects['approval_year'].min())}–{int(final_projects['approval_year'].max())} | Completion: {int(final_projects['closingyear'].min())}–{int(final_projects['closingyear'].max())}")
         st.markdown("---")
     
 
