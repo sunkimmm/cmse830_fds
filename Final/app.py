@@ -1003,7 +1003,7 @@ with tab5:
                 selected_cats.append(cat)
     with viz_col2:
 
-    fig = go.Figure()
+        fig = go.Figure()
         other_df = viz_df[viz_df['pillar'] != viz_pillar]
         fig.add_trace(go.Scatter(
             x=other_df['x'], y=other_df['y'],
