@@ -1248,6 +1248,69 @@ with tab6:
         st.header("Exploratory Data Analysis")
         df_app = pd.read_csv(BASE / "df_app_streamlit.csv")
         
+        # Outcomes by Sector
+        st.subheader("Outcomes by Sector")
+        st.markdown("This study's key outcome variables are cost change (in %), delay, and cancellation of subprojects.")
+        sector_outcomes = df_app.groupby('sector_group').agg({
+            'delay': 'mean',
+            'cost_change_perc_num': 'mean',
+            'cancellation': 'mean'
+        }).reset_index()
+        sector_outcomes['delay_years'] = sector_outcomes['delay'] / 12
+        sector_outcomes['cancellation_pct'] = sector_outcomes['cancellation'] * 100
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.markdown("**Cancellation Rate**")
+            fig_cancel = go.Figure(data=[go.Bar(
+                x=sector_outcomes['sector_group'],
+                y=sector_outcomes['cancellation_pct'],
+                marker_color=[sector_colors.get(s, '#888888') for s in sector_outcomes['sector_group']],
+                text=[f"{v:.1f}%" for v in sector_outcomes['cancellation_pct']],
+                textposition='outside',
+                textfont=dict(size=12)
+            )])
+            fig_cancel.update_layout(
+                yaxis_title='Cancellation Rate (%)',
+                yaxis=dict(range=[0, sector_outcomes['cancellation_pct'].max() * 1.2]),
+                margin=dict(t=20, b=20, l=20, r=20),
+                height=300
+            )
+            st.plotly_chart(fig_cancel, use_container_width=True)
+        with col2:
+            st.markdown("**Average Cost Change**")
+            fig_cost = go.Figure(data=[go.Bar(
+                x=sector_outcomes['sector_group'],
+                y=sector_outcomes['cost_change_perc_num'],
+                marker_color=[sector_colors.get(s, '#888888') for s in sector_outcomes['sector_group']],
+                text=[f"{v:.1f}%" for v in sector_outcomes['cost_change_perc_num']],
+                textposition='outside',
+                textfont=dict(size=12)
+            )])
+            fig_cost.update_layout(
+                yaxis_title='Cost Change (%)',
+                yaxis=dict(range=[0, sector_outcomes['cost_change_perc_num'].max() * 1.2]),
+                margin=dict(t=20, b=20, l=20, r=20),
+                height=300
+            )
+            st.plotly_chart(fig_cost, use_container_width=True)
+        with col3:
+            st.markdown("**Average Delay**")
+            fig_delay = go.Figure(data=[go.Bar(
+                x=sector_outcomes['sector_group'],
+                y=sector_outcomes['delay_years'],
+                marker_color=[sector_colors.get(s, '#888888') for s in sector_outcomes['sector_group']],
+                text=[f"{v:.1f}" for v in sector_outcomes['delay_years']],
+                textposition='outside',
+                textfont=dict(size=12)
+            )])
+            fig_delay.update_layout(
+                yaxis_title='Delay (years)',
+                yaxis=dict(range=[0, sector_outcomes['delay_years'].max() * 1.2]),
+                margin=dict(t=20, b=20, l=20, r=20),
+                height=300
+            )
+            st.plotly_chart(fig_delay, use_container_width=True)
+        st.markdown("---")
         # ESG Frequency Heatmaps by Sector
         st.subheader("ESG Term Frequency by Sector and Category")
         st.markdown("Heatmaps showing the percentage of ESG-related terms in project documents at appraisal and completion stages.")
@@ -1516,68 +1579,6 @@ with tab6:
         st.caption(f"Correlation: r = {corr:.2f} — Lower coverage at planning stage is associated with higher emergence of issues during implementation.")
         st.markdown("---")
         
-        # Outcomes by Sector
-        st.subheader("Outcomes by Sector")
-        sector_outcomes = df_app.groupby('sector_group').agg({
-            'delay': 'mean',
-            'cost_change_perc_num': 'mean',
-            'cancellation': 'mean'
-        }).reset_index()
-        sector_outcomes['delay_years'] = sector_outcomes['delay'] / 12
-        sector_outcomes['cancellation_pct'] = sector_outcomes['cancellation'] * 100
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            st.markdown("**Average Delay**")
-            fig_delay = go.Figure(data=[go.Bar(
-                x=sector_outcomes['sector_group'],
-                y=sector_outcomes['delay_years'],
-                marker_color=[sector_colors.get(s, '#888888') for s in sector_outcomes['sector_group']],
-                text=[f"{v:.1f}" for v in sector_outcomes['delay_years']],
-                textposition='outside',
-                textfont=dict(size=12)
-            )])
-            fig_delay.update_layout(
-                yaxis_title='Delay (years)',
-                yaxis=dict(range=[0, sector_outcomes['delay_years'].max() * 1.2]),
-                margin=dict(t=20, b=20, l=20, r=20),
-                height=300
-            )
-            st.plotly_chart(fig_delay, use_container_width=True)
-        with col2:
-            st.markdown("**Average Cost Change**")
-            fig_cost = go.Figure(data=[go.Bar(
-                x=sector_outcomes['sector_group'],
-                y=sector_outcomes['cost_change_perc_num'],
-                marker_color=[sector_colors.get(s, '#888888') for s in sector_outcomes['sector_group']],
-                text=[f"{v:.1f}%" for v in sector_outcomes['cost_change_perc_num']],
-                textposition='outside',
-                textfont=dict(size=12)
-            )])
-            fig_cost.update_layout(
-                yaxis_title='Cost Change (%)',
-                yaxis=dict(range=[0, sector_outcomes['cost_change_perc_num'].max() * 1.2]),
-                margin=dict(t=20, b=20, l=20, r=20),
-                height=300
-            )
-            st.plotly_chart(fig_cost, use_container_width=True)
-        with col3:
-            st.markdown("**Cancellation Rate**")
-            fig_cancel = go.Figure(data=[go.Bar(
-                x=sector_outcomes['sector_group'],
-                y=sector_outcomes['cancellation_pct'],
-                marker_color=[sector_colors.get(s, '#888888') for s in sector_outcomes['sector_group']],
-                text=[f"{v:.1f}%" for v in sector_outcomes['cancellation_pct']],
-                textposition='outside',
-                textfont=dict(size=12)
-            )])
-            fig_cancel.update_layout(
-                yaxis_title='Cancellation Rate (%)',
-                yaxis=dict(range=[0, sector_outcomes['cancellation_pct'].max() * 1.2]),
-                margin=dict(t=20, b=20, l=20, r=20),
-                height=300
-            )
-            st.plotly_chart(fig_cancel, use_container_width=True)
-        st.markdown("---")
 
     with subtab3:
         st.header("Regression Analysis")
