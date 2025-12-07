@@ -623,48 +623,46 @@ with tab4:
     st.success("**Selected for analysis: 280 projects (≥$500M threshold)**")
     st.markdown("Final project list can be downloaded in the next tab.")
 
-    with subtab2:
-        st.header("Project Metadata (Raw)")
-        st.markdown("""
-        Source: World Bank\n
-        This data was complied using various data sources in World Bank.
-        """)
-        DATA_PATH = BASE / "cost_converted_462projects.csv"
-        df = pd.read_csv(DATA_PATH)
+    st.markdown("---")
+    st.header("Project Metadata (Raw)")
+    st.markdown("""
+    Source: World Bank\n
+    This data was complied using various data sources in World Bank.
+    """)
+    DATA_PATH = BASE / "cost_converted_462projects.csv"
+    df = pd.read_csv(DATA_PATH)
         
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            st.metric("Projects", len(df))
-        with col2:
-            st.metric("Columns", len(df.columns))
-        with col3:
-            st.metric("Year Range", f"{df['approval_year'].min()} - {df['approval_year'].max()}")
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("Projects", len(df))
+    with col2:
+        st.metric("Columns", len(df.columns))
+    with col3:
+        st.metric("Year Range", f"{df['approval_year'].min()} - {df['approval_year'].max()}")
         
-        st.dataframe(df.head(100), use_container_width=True)
+    st.dataframe(df.head(100), use_container_width=True)
         
-        with st.expander("View Column Schema"):
-            schema_df = pd.DataFrame({
-                'Column': df.columns,
-                'Type': df.dtypes.astype(str).values,
-                'Non-Null': df.notna().sum().values
-            })
-            st.dataframe(schema_df, use_container_width=True, hide_index=True)
+    with st.expander("View Column Schema"):
+        schema_df = pd.DataFrame({
+            'Column': df.columns,
+            'Type': df.dtypes.astype(str).values,
+            'Non-Null': df.notna().sum().values
+        })
+        st.dataframe(schema_df, use_container_width=True, hide_index=True)
 
-        st.header("Project Metadata (Processed)")
-        final_projects = pd.read_csv(BASE / "fin_project_metadata_280.csv")
+    st.header("Project Metadata (Processed)")
+    final_projects = pd.read_csv(BASE / "fin_project_metadata_280.csv")
         
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            st.metric("Projects", len(final_projects))
-        with col2:
-            st.metric("Columns", len(final_projects.columns))
-        with col3:
-            st.metric("Year Range", f"{final_projects['approval_year'].min()} - {final_projects['approval_year'].max()}")
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("Projects", len(final_projects))
+    with col2:
+        st.metric("Columns", len(final_projects.columns))
+    with col3:
+        st.metric("Year Range", f"{final_projects['approval_year'].min()} - {final_projects['approval_year'].max()}")
         
-        st.dataframe(final_projects, use_container_width=True, hide_index=True)
+    st.dataframe(final_projects, use_container_width=True, hide_index=True)
     
-
-
 
 with tab5:
     subtab1, subtab2, subtab3 = st.tabs(["Text Data & Preprocessing", "Final ESG Taxonomy", "Initial/Exploratory Analysis"])
