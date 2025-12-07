@@ -1034,7 +1034,7 @@ with tab5:
         fig.update_layout(
             height=600,
             xaxis=dict(showgrid=False, zeroline=False, showticklabels=False, showline=True, linecolor='black', title='Dimension 1'),
-            yaxis=dict(showgrid=False, zeroline=False, showticklabels=False, showline=True, linecolor='black', title='Dimension' 2'),
+            yaxis=dict(showgrid=False, zeroline=False, showticklabels=False, showline=True, linecolor='black', title='Dimension 2'),
             legend=dict(orientation='v', yanchor='top', y=1, xanchor='left', x=1.02, title='Categories', tracegroupgap=10),
             margin=dict(l=20, r=20, t=20, b=20),
             plot_bgcolor='white'
