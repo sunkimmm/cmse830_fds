@@ -893,7 +893,7 @@ with tab5:
         st.subheader("Embedding Analysis & Final ESG Taxonomy")
         st.markdown("##### The seed terms and candidate terms (extracted unigrams and ngrams from the project corpus) were embedded using the pretrained MPNET model. Currently used the vanilla model, but in the future, I will train this model with my corpus to enhance the contextual understanding of the model.")
         esg_dict = pd.read_csv(BASE / "esg_dictionary_final_2407.csv")
-col1, col2 = st.columns(2)
+        col1, col2 = st.columns(2)
         with col1:
             st.markdown("""
             <div style="background-color:#f5f5f5; padding:15px; border-radius:10px; height:100%;">
