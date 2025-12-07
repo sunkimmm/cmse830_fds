@@ -31,7 +31,7 @@ tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
 BASE = Path(__file__).parent
 
 with tab1:
-    st.title("Research Overview")
+    st.header("Research Overview")
     st.markdown("##### This research investigates ESG-related risks in large-scale infrastructure construction projects, combining metadata (e.g., region, country, project sector, cancellation of subprojects, cost, duration, etc.) and text data that are extracted from project documents. I first develop an ESG Taxonomy (i.e., dictionary) from the extracted text data using NLP considering TFIDF scores and N-gram extractions, conduct contextual embedding using Transformer-based NLP model, and run regression to see how ESG risks influence various infrastructure project performance outcomes.")
     st.markdown("---")
     st.subheader("Research Process")
@@ -138,7 +138,7 @@ with tab1:
     st.markdown("---")
 
 with tab2:
-    st.title("Infrastructure Projects Overview")
+    st.header("Infrastructure Projects Overview")
     st.markdown("##### This research uses data from the World Bank, and this page shows the introductory overview of the infrastructure projects, and some basic summary statistics.")
     st.markdown("---")
     st.subheader("Summary Statistics")
@@ -344,7 +344,7 @@ with tab2:
     # st.plotly_chart(fig_timeline, use_container_width=True)
 
 with tab3:
-    st.title("ESG Risks in Infrastructure Projects")
+    st.header("ESG Risks in Infrastructure Projects")
     st.markdown("##### Large-scale infrastructure projects are physically large, complex, unique, involve a lot of stakeholders and shareholders, and have great impacts on society. Due to this nature, they inherently involve various environmental, social, and governance (ESG) challenges. According to World Bank, those risks can be categorized into the following categories.")        
     with st.container(border=True):
         col1, col2= st.columns([1, 4])
@@ -504,7 +504,7 @@ with tab3:
     st.markdown("---")
 
 with tab4:
-    st.title("Data Processing for Metadata")
+    st.header("Data Processing for Metadata")
     st.markdown("##### This page summarizes the data preprocessing steps, including cost conversion and missing data handling to convert World Bank project costs to comparable **2019 USD values** for analysis. Project cost data are in nominal value at the year of approval, but the data spans from 1989 to 2012 (for the approval year) or 1999 to 2019 (for the completion year). For apple-to-apple comparison, every value was converted to 2019, to adjust for the following discrepancies. Essentially, it takes care of _What was the economic scale and resource commitment of this project within its own national economy?_ question.")
     st.markdown("""
     - Purchasing Power Parity adjustment: What $500M USD buys in developing countries is different from what it buys in developed countries.
@@ -1046,7 +1046,7 @@ with tab5:
         st.markdown("## COMING SOON")
 
 with tab6:
-    st.title("Analysis")
+    st.header("Analysis")
     subtab1, subtab2 = st.tabs(["Initial/Exploratory Data Analysis", "Regression Analysis"])
     with subtab1:
         final_projects = pd.read_csv(BASE / "fin_project_metadata_280.csv")
