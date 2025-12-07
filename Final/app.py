@@ -1086,7 +1086,7 @@ with tab5:
         st.markdown("---")
         st.subheader("Interactive Cluster Visualization")
         viz_df = pd.read_csv(BASE / "esg_dictionary_viz.csv")
-        viz_col1, viz_col2 = st.columns([1, 3])
+    viz_col1, viz_col2 = st.columns([1, 3])
         with viz_col1:
             viz_pillar = st.radio("Select Pillar", ['E', 'S', 'G'], 
                                 format_func=lambda x: pillar_labels[x],
@@ -1107,25 +1107,13 @@ with tab5:
                 'DIM7': 'G4: Operations and Performance',
                 'DIM8_9': 'G5: Transparency and Integrity'
             }
-            pillar_display_options = [cat_to_display.get(cat, cat) for cat in pillar_categories]
-            st.markdown("""
-            <style>
-            div[data-baseweb="select"] span {
-                white-space: normal !important;
-                overflow: visible !important;
-                text-overflow: unset !important;
-            }
-            </style>
-            """, unsafe_allow_html=True)
-            selected_displays = st.multiselect(
-                "Categories", 
-                options=pillar_display_options, 
-                default=pillar_display_options, 
-                key="viz_cats"
-            )
-            display_to_cat = {v: k for k, v in cat_to_display.items()}
-            selected_cats = [display_to_cat[d] for d in selected_displays]
+            st.markdown("**Categories**")
+            selected_cats = []
+            for cat in pillar_categories:
+                if st.checkbox(cat_to_display.get(cat, cat), value=True, key=f"viz_cat_{cat}"):
+                    selected_cats.append(cat)
         with viz_col2:
+            # ... rest of the code stays the same
             fig = go.Figure()
             other_df = viz_df[viz_df['pillar'] != viz_pillar]
             fig.add_trace(go.Scatter(
