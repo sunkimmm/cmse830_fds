@@ -451,9 +451,9 @@ with tab3:
     with subtab2:
         # Load seed terms
         seed_terms = pd.read_csv(BASE / "seed_final_314.csv")
-        st.subheader("Seed Term Extraction Result")
-        st.markdown("##### Important terms are extracted from the corpus for each pillar, and for each category. Categories include different themes, so sub-categories were created based on embedding scores, clustering, and manual curation.")
-        st.markdown("Seed terms were embedded using mpnet and clustered using dendrogram.")
+        st.header("Seed Term Extraction Result")
+        st.markdown("##### Important terms are extracted from the corpus for each pillar, and for each category. Categories include different themes, so sub-categories were created based on embedding scores using transformer-based MPNET model, clustering, and manual curation.")
+        st.markdown("---")
         st.markdown("Select a category to view extracted seed terms.")
         col1, col2 = st.columns(2)
         pillar_order = ['E', 'S', 'G']
