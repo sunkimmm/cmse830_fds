@@ -1301,7 +1301,7 @@ with tab6:
                 texttemplate="%{text}",
                 textfont=dict(size=12),
                 colorscale='YlGn',
-                colorbar=dict(title='Frequency (%)', titlefont=dict(size=12)),
+                colorbar=dict(title='Frequency (%)', title_font=dict(size=12)),
                 hovertemplate='Category: %{y}<br>Sector: %{x}<br>Frequency: %{z:.2f}%<extra></extra>'
             ))
             fig_app.update_layout(
@@ -1322,7 +1322,7 @@ with tab6:
                 texttemplate="%{text}",
                 textfont=dict(size=12),
                 colorscale='YlGn',
-                colorbar=dict(title='Frequency (%)', titlefont=dict(size=12)),
+                colorbar=dict(title='Frequency (%)', title_font=dict(size=12)),
                 hovertemplate='Category: %{y}<br>Sector: %{x}<br>Frequency: %{z:.2f}%<extra></extra>'
             ))
             fig_comp.update_layout(
@@ -1350,7 +1350,7 @@ with tab6:
                 texttemplate="%{text}",
                 textfont=dict(size=12),
                 colorscale='RdYlGn_r',
-                colorbar=dict(title='Emergence Rate', titlefont=dict(size=12)),
+                colorbar=dict(title='Emergence Rate', title_font=dict(size=12)),
                 hovertemplate='Category: %{y}<br>Sector: %{x}<br>Emergence: %{z:.2f}<extra></extra>'
             ))
             fig_emerg.update_layout(
