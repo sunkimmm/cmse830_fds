@@ -1772,3 +1772,176 @@ with tab6:
             st.plotly_chart(fig_scatter, use_container_width=True)
         st.caption(f"Correlation: r = {corr:.2f} — Lower coverage at planning stage is associated with higher emergence of issues during implementation.")
         st.markdown("---")
+        # Subcategory Decomposition (Detailed)
+        st.subheader("Subcategory Decomposition: Identifying the Drivers")
+        st.markdown("We decomposed significant category-level findings into their constituent subcategories to identify which specific aspects drive the effects.")
+        
+        # S3 Subcategories → Cancellation
+        st.markdown("#### S3 (Land & Resettlement) → Cancellation")
+        col1, col2 = st.columns([1, 2])
+        with col1:
+            st.markdown("""
+            <div style="background-color:#f5f5f5; padding:15px; border-radius:10px;">
+            <b>Category-level finding:</b><br>
+            S3 Coverage OR = 0.10***<br>
+            (90% reduction in cancellation risk)<br><br>
+            <b>Question:</b> Which aspect matters more?<br>
+            • Land Acquisition (S3a)<br>
+            • Displacement & Resettlement (S3b)
+            </div>
+            """, unsafe_allow_html=True)
+        with col2:
+            s3_data = pd.DataFrame({
+                'Subcategory': ['S3a: Land Acquisition\n& Property Rights', 'S3b: Displacement\n& Resettlement'],
+                'OR': [0.012, 0.059],
+                'Terms': [61, 51],
+                'p': [0.0001, 0.011]
+            })
+            fig_s3 = go.Figure()
+            fig_s3.add_trace(go.Bar(
+                x=s3_data['Subcategory'],
+                y=s3_data['OR'],
+                marker_color=['#C62828', '#EF5350'],
+                text=[f"OR={v:.3f}<br>p={p:.4f}" for v, p in zip(s3_data['OR'], s3_data['p'])],
+                textposition='outside',
+                textfont=dict(size=12)
+            ))
+            fig_s3.update_layout(
+                yaxis_title='Odds Ratio (lower = more protective)',
+                yaxis=dict(range=[0, 0.12], tickfont=dict(size=12), title_font=dict(size=14)),
+                xaxis=dict(tickfont=dict(size=11)),
+                margin=dict(t=30, b=20, l=20, r=20),
+                height=300
+            )
+            st.plotly_chart(fig_s3, use_container_width=True)
+        st.markdown("""
+        <div style="background-color:#FFEBEE; padding:12px; border-radius:8px; border-left:4px solid #C62828;">
+        <b>Finding:</b> Both subcategories are significant, but <b>Land Acquisition (S3a)</b> has a stronger protective effect (99% reduction vs 94%).<br>
+        <b>Implication:</b> Prioritize thorough property rights documentation and land acquisition planning — this has the highest ROI for preventing cancellation.
+        </div>
+        """, unsafe_allow_html=True)
+        st.markdown("---")
+        
+        # G2 Subcategories → Cancellation (Emergence)
+        st.markdown("#### G2 (Financial Management) Emergence → Cancellation")
+        col1, col2 = st.columns([1, 2])
+        with col1:
+            st.markdown("""
+            <div style="background-color:#f5f5f5; padding:15px; border-radius:10px;">
+            <b>Category-level finding:</b><br>
+            G2 Emergence OR = 33.9*<br>
+            (34x higher cancellation risk)<br><br>
+            <b>Question:</b> Which type of financial surprise matters?<br>
+            • Cost Analysis (G2a)<br>
+            • Fiscal Management (G2b)<br>
+            • Economic Efficiency (G2c)
+            </div>
+            """, unsafe_allow_html=True)
+        with col2:
+            g2_data = pd.DataFrame({
+                'Subcategory': ['G2a: Cost Analysis', 'G2b: Fiscal Management', 'G2c: Economic Efficiency'],
+                'OR': [1.09, 3.30, 1.39],
+                'Terms': [111, 206, 100],
+                'p': [0.837, 0.049, 0.497],
+                'Significant': [False, True, False]
+            })
+            colors = ['#CCCCCC', '#FF6F00', '#CCCCCC']
+            fig_g2 = go.Figure()
+            fig_g2.add_trace(go.Bar(
+                x=g2_data['Subcategory'],
+                y=g2_data['OR'],
+                marker_color=colors,
+                text=[f"OR={v:.2f}<br>p={p:.3f}" for v, p in zip(g2_data['OR'], g2_data['p'])],
+                textposition='outside',
+                textfont=dict(size=12)
+            ))
+            fig_g2.add_hline(y=1, line_dash="dash", line_color="black", annotation_text="OR=1 (no effect)")
+            fig_g2.update_layout(
+                yaxis_title='Odds Ratio (higher = more risk)',
+                yaxis=dict(range=[0, 4.5], tickfont=dict(size=12), title_font=dict(size=14)),
+                xaxis=dict(tickfont=dict(size=11)),
+                margin=dict(t=30, b=20, l=20, r=20),
+                height=300
+            )
+            st.plotly_chart(fig_g2, use_container_width=True)
+        st.markdown("""
+        <div style="background-color:#FFF3E0; padding:12px; border-radius:8px; border-left:4px solid #FF6F00;">
+        <b>Finding:</b> Only <b>Fiscal Management (G2b)</b> emergence significantly predicts cancellation. Cost analysis and economic efficiency surprises do not.<br>
+        <b>Implication:</b> Monitor specifically for fiscal management vocabulary (budget execution, disbursement, funding flows). Budget EXECUTION problems — not just cost estimates — signal project failure.
+        </div>
+        """, unsafe_allow_html=True)
+        st.markdown("---")
+        
+        # E3 Subcategories → Delay
+        st.markdown("#### E3 (Biodiversity) Coverage → Delay")
+        col1, col2 = st.columns([1, 2])
+        with col1:
+            st.markdown("""
+            <div style="background-color:#f5f5f5; padding:15px; border-radius:10px;">
+            <b>Category-level finding:</b><br>
+            E3 Coverage: -35.4 months*<br>
+            (~3 years less delay)<br><br>
+            <b>Question:</b> Which biodiversity aspect matters?<br>
+            • Habitats & Ecosystems (E3a)<br>
+            • Species & Wildlife (E3b)<br>
+            • Forestry (E3c)<br>
+            • Biodiversity Conservation (E3d)
+            </div>
+            """, unsafe_allow_html=True)
+        with col2:
+            e3_data = pd.DataFrame({
+                'Subcategory': ['E3a: Habitats', 'E3b: Species', 'E3c: Forestry', 'E3d: Biodiversity'],
+                'Coef': [-78.2, -36.4, -36.9, -675.7],
+                'Terms': [75, 32, 34, 15],
+                'p': [0.0002, 0.356, 0.354, 0.009],
+                'Significant': [True, False, False, True]
+            })
+            colors = ['#1565C0', '#CCCCCC', '#CCCCCC', '#42A5F5']
+            fig_e3 = go.Figure()
+            fig_e3.add_trace(go.Bar(
+                x=e3_data['Subcategory'],
+                y=e3_data['Coef'],
+                marker_color=colors,
+                text=[f"{v:.0f}mo<br>p={p:.3f}" for v, p in zip(e3_data['Coef'], e3_data['p'])],
+                textposition='outside',
+                textfont=dict(size=11)
+            ))
+            fig_e3.add_hline(y=0, line_dash="dash", line_color="black")
+            fig_e3.update_layout(
+                yaxis_title='Effect on Delay (months)',
+                yaxis=dict(range=[-800, 100], tickfont=dict(size=12), title_font=dict(size=14)),
+                xaxis=dict(tickfont=dict(size=11)),
+                margin=dict(t=30, b=20, l=20, r=20),
+                height=300
+            )
+            st.plotly_chart(fig_e3, use_container_width=True)
+        st.markdown("""
+        <div style="background-color:#E3F2FD; padding:12px; border-radius:8px; border-left:4px solid #1565C0;">
+        <b>Finding:</b> <b>Habitat & Ecosystem (E3a)</b> coverage is the primary driver (-78 months). E3d (Biodiversity) shows a large effect but has only 15 terms — interpret with caution.<br>
+        <b>Implication:</b> Prioritize habitat/ecosystem impact assessments at appraisal. These are often required by regulators — missing them causes downstream regulatory delays.
+        </div>
+        """, unsafe_allow_html=True)
+        st.markdown("---")
+        
+        # Summary Table
+        st.subheader("Summary: Targeted Interventions")
+        summary_subcat = {
+            'Category': ['S3: Land & Resettlement', 'S3: Land & Resettlement', 'G2: Financial (Emergence)', 'E3: Biodiversity'],
+            'Key Subcategory': ['S3a: Land Acquisition', 'S3b: Resettlement', 'G2b: Fiscal Management', 'E3a: Habitats & Ecosystems'],
+            'Effect': ['OR=0.01 (99% ↓)', 'OR=0.06 (94% ↓)', 'OR=3.3 (3.3x ↑)', '-78 months'],
+            'Outcome': ['Cancellation', 'Cancellation', 'Cancellation', 'Delay'],
+            'Action': [
+                'Document property rights thoroughly',
+                'Plan resettlement early',
+                'Monitor budget execution language',
+                'Conduct habitat assessments upfront'
+            ]
+        }
+        st.dataframe(pd.DataFrame(summary_subcat), use_container_width=True, hide_index=True)
+        
+        st.markdown("""
+        <div style="background-color:#E8F5E9; padding:15px; border-radius:10px; border-left:4px solid #4CAF50; margin-top:15px;">
+        <b>Key Takeaway:</b> Subcategory analysis enables <b>targeted interventions</b>. Instead of broadly addressing "Land & Resettlement," focus specifically on land acquisition documentation. Instead of monitoring all financial metrics, track fiscal management vocabulary. Instead of general environmental assessments, prioritize habitat impact studies.
+        </div>
+        """, unsafe_allow_html=True)
+        st.markdown("---")
