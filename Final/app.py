@@ -1141,6 +1141,13 @@ with tab5:
 with tab6:
     subtab1, subtab2, subtab3 = st.tabs(["Initial Data Analysis", "Explolatory Data Analysis", "Regression Analysis"])
     with subtab1:
+        st.subheader("Variable Encoding")
+        st.markdown("There are three main dependent variables and for binary indicator, it was encoded as 1 and 0.")
+        st.markdown("""
+        - **Delay** in months
+        - **Cost change** in percentage
+        - **Cancellation of subcomponents** in True/False""")
+        st.markdown("---")
         final_projects = pd.read_csv(BASE / "fin_project_metadata_280.csv")
         import plotly.express as px
         import plotly.graph_objects as go
@@ -1535,10 +1542,7 @@ with tab6:
     with subtab3:
         df_app = pd.read_csv(BASE / "df_app_streamlit.csv")
         
-        # Summary of Key Findings
-        st.subheader("Summary: ESG Predictors of Project Outcomes")
-        st.markdown("Logistic regression for cancellation; OLS with robust standard errors for delay and cost change. Single-variable models with controls for sector, region, environmental category, cost, year, and duration.")
-        
+        # Summary of Key Findings        
         summary_data = {
             'Outcome': ['Cancellation', 'Cancellation', 'Cancellation', 'Delay', 'Delay', 'Cost Change'],
             'ESG Predictor': ['S3: Land & Resettlement (Coverage)', 'S4: Indigenous Peoples (Coverage)', 'G2: Fiscal (Emergence)', 'E3: Biodiversity (Coverage)', 'G5: Transparency (Coverage)', '—'],
