@@ -698,7 +698,7 @@ with tab4:
             st.subheader("Project Timeline: Approval vs Completion Year")
             approval_counts = final_projects['approval_year'].value_counts().sort_index().reset_index()
             approval_counts.columns = ['Year', 'Count']
-            completion_counts = final_projects['completion_year'].value_counts().sort_index().reset_index()
+            completion_counts = final_projects['closingyear'].value_counts().sort_index().reset_index()
             completion_counts.columns = ['Year', 'Count']
             fig_year = go.Figure()
             fig_year.add_trace(go.Bar(
