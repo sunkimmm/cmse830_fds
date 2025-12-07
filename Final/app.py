@@ -1144,6 +1144,8 @@ with tab6:
         final_projects = pd.read_csv(BASE / "fin_project_metadata_280.csv")
         import plotly.express as px
         import plotly.graph_objects as go
+        # Convert cost_change_perc to numeric
+        final_projects['cost_change_numeric'] = final_projects['cost_change_perc'].str.replace('%', '').astype(float)
         # Calculate stats
         cancel_count = (final_projects['cancellation'].astype(str).str.lower() == 'true').sum()
         cancel_pct = cancel_count / len(final_projects) * 100
@@ -1153,7 +1155,7 @@ with tab6:
         add_count = (final_projects['addition_label'] == 'Yes').sum()
         add_pct = add_count / len(final_projects) * 100
         avg_delay = final_projects['delay'].mean()
-        avg_cost_change = final_projects['cost_change_perc'].str.replace('%', '').astype(float).mean()
+        avg_cost_change = final_projects['cost_change_numeric'].mean()
         # Summary statistics first
         st.subheader("Summary Statistics for the 280 Projects")
         col1, col2, col3, col4 = st.columns(4)
@@ -1170,7 +1172,7 @@ with tab6:
         sector_colors = {'Energy': '#FF6B6B', 'Transportation': '#A9C25E', 'Water': '#45B7D1'}
         sector_stats = final_projects.groupby('sector1').agg({
             'delay': 'mean',
-            'cost_change_perc': 'mean'
+            'cost_change_numeric': 'mean'
         }).reset_index()
         col1, col2 = st.columns(2)
         with col1:
@@ -1194,12 +1196,12 @@ with tab6:
             st.subheader("Average Cost Change by Sector")
             fig_cost = go.Figure(data=[go.Bar(
                 x=sector_stats['sector1'],
-                y=sector_stats['cost_change_perc'],
+                y=sector_stats['cost_change_numeric'],
                 marker_color=[sector_colors.get(s, '#888888') for s in sector_stats['sector1']],
-                text=[f"{v:.1f}%" for v in sector_stats['cost_change_perc']],
+                text=[f"{v:.1f}%" for v in sector_stats['cost_change_numeric']],
                 textposition='outside'
             )])
-            max_cost = sector_stats['cost_change_perc'].max()
+            max_cost = sector_stats['cost_change_numeric'].max()
             fig_cost.update_layout(
                 yaxis_title='Cost Change (%)',
                 yaxis=dict(range=[0, max_cost * 1.2]),
