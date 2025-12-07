@@ -106,7 +106,7 @@ with tab1:
         st.markdown("""
         <div class="sub-box">
             <b>1-2. Embedding Analysis</b><br>
-            Dictionary expansion via semantic similarity → <i>See Tab 4</i>
+            Dictionary expansion via semantic similarity → <i>See Tab 5</i>
         </div>
         """, unsafe_allow_html=True)
     with arrow:
