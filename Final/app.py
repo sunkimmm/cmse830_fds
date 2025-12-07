@@ -21,7 +21,7 @@ st.title("Large-scale Infrastructure Project: ESG Risk Analysis")
 tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
     "Research Introduction",
     "Infrastructure Projects Introduction",
-    "ESG Risks Seed Term Extraxtion",
+    "ESG challenges Seed Term Extraxtion",
     "Project Metadata",
     "Project Text Data",
     "Analysis",
@@ -32,7 +32,7 @@ BASE = Path(__file__).parent
 
 with tab1:
     st.header("Research Overview")
-    st.markdown("##### This research investigates ESG-related risks in large-scale infrastructure construction projects, combining metadata (e.g., region, country, project sector, cancellation of subprojects, cost, duration, etc.) and text data that are extracted from project documents. I first develop an ESG Taxonomy (i.e., dictionary) from the extracted text data using NLP considering TFIDF scores and N-gram extractions, conduct contextual embedding using Transformer-based NLP model, and run regression to see how ESG risks influence various infrastructure project performance outcomes.")
+    st.markdown("##### This research investigates ESG-related challenges in large-scale infrastructure construction projects, combining metadata (e.g., region, country, project sector, cancellation of subprojects, cost, duration, etc.) and text data that are extracted from project documents. I first develop an ESG Taxonomy (i.e., dictionary) from the extracted text data using NLP considering TFIDF scores and N-gram extractions, conduct contextual embedding using Transformer-based NLP model, and run regression to see how ESG challenges influence various infrastructure project performance outcomes.")
     st.markdown("---")
     st.subheader("Research Process")
 
@@ -94,7 +94,7 @@ with tab1:
         """, unsafe_allow_html=True)
         st.markdown("""
         <div class="rq-box">
-            Research Question: What are the ESG-related risks associated with infrastructure projects?
+            Research Question: What are the ESG-related challenges associated with infrastructure projects?
         </div>
         """, unsafe_allow_html=True)
         st.markdown("""
@@ -346,8 +346,8 @@ with tab2:
 with tab3:
     subtab1, subtab2 = st.tabs(["Data & Processing", "Result"])
     with subtab1:
-        st.header("ESG Risks in Infrastructure Projects")
-        st.markdown("##### Large-scale infrastructure projects are physically large, complex, unique, involve a lot of stakeholders and shareholders, and have great impacts on society. Due to this nature, they inherently involve various environmental, social, and governance (ESG) challenges. According to World Bank, those risks can be categorized into the following categories.")        
+        st.header("ESG Challenges in Infrastructure Projects")
+        st.markdown("##### Large-scale infrastructure projects are physically large, complex, unique, involve a lot of stakeholders and shareholders, and have great impacts on society. Due to this nature, they inherently involve various environmental, social, and governance (ESG) challenges. According to World Bank, those challenges can be categorized into the following categories.")        
 
         
         with st.container(border=True):
@@ -410,7 +410,7 @@ with tab3:
         st.markdown("##### Step 2. N-gram Extraction & Preservation")
         
         st.markdown("""
-        Bigrams and trigrams were extracted using specific POS (Part-of-Speech) patterns to capture meaningful multi-word terms relevant to ESG risks.
+        Bigrams and trigrams were extracted using specific POS (Part-of-Speech) patterns to capture meaningful multi-word terms relevant to ESG challenges.
         """)
         
         col1, col2 = st.columns(2)
@@ -792,7 +792,7 @@ with tab5:
         st.markdown("##### N-gram Extraction")
         st.markdown("""
         For text analysis, bigrams and trigrams were extracted using specific POS (Part-of-Speech) patterns 
-        to capture meaningful multi-word terms relevant to ESG risks.
+        to capture meaningful multi-word terms relevant to ESG challenges.
         """)
         col1, col2 = st.columns(2)
         with col1:
@@ -1439,7 +1439,7 @@ with tab6:
                 'Category': ['S2: Safety', 'G3: Procurement', 'G4: Operations', 'G2: Fiscal', 'E1: Climate'],
                 'Rate': ['48.7%', '44.2%', '39.6%', '39.4%', '38.2%'],
                 'Implication': [
-                    'Safety risks systematically underestimated',
+                    'Safety challenges systematically underestimated',
                     'Procurement complexity exceeds expectations',
                     'Operational challenges not anticipated',
                     'Financial surprises despite heavy planning',
@@ -1469,7 +1469,7 @@ with tab6:
             <div style="background-color:#FFEBEE; padding:15px; border-radius:10px; border-left:4px solid #EF553B;">
             <b>⚠️ The Safety Paradox</b><br><br>
             S2 Safety has the <b>highest emergence rate (48.7%)</b> — nearly half of safety vocabulary appears only in completion reports.<br><br>
-            <i>Implication: Safety risks are systematically underestimated in megaproject appraisals.</i>
+            <i>Implication: Safety challenges are systematically underestimated in megaproject appraisals.</i>
             </div>
             """, unsafe_allow_html=True)
         
