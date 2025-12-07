@@ -895,27 +895,62 @@ with tab5:
         esg_dict = pd.read_csv(BASE / "esg_dictionary_final_2407.csv")
         col1, col2 = st.columns(2)
         with col1:
-            st.info("""**1. Embedding**
-    - 314 seed terms + 8,067 corpus candidates \n
-    - Model: `all-mpnet-base-v2` (768-dim)\n
-    - Source: World Bank ESF + InfraSAP""")
+            with st.container(border=True):
+                st.markdown("""**1. Seed Term Curation**
+- Started with **314 seed terms** manually curated from ESG frameworks
+- Sources: IFC Performance Standards, Equator Principles, World Bank ESS
+- Organized into hierarchical taxonomy:
+  - **E:** E1 (Pollution & Waste), E2 (Resources), E3 (Biodiversity)
+  - **S:** S1 (Labor), S2 (Safety), S3 (Land), S4 (Indigenous), S5 (Heritage)
+  - **G:** G1 (Institutional), G2 (Financial), G3 (Procurement), G4 (Operations), G5 (Accountability)""")
         with col2:
-            st.info("""**2. Subcategory Clustering**
-    - K-means within each ESG category\n
-    - Silhouette score for optimal k (2–7)\n
-    - Creates semantic subgroups""")
+            with st.container(border=True):
+                st.markdown("""**2. Embedding-Based Expansion**
+- Trained Word2Vec on 280 World Bank project documents
+- Computed subcategory centroids from seed term embeddings
+- Expanded dictionary via cosine similarity to centroids
+- Applied **max-similarity matching**: each term → highest-scoring subcategory""")
         col1, col2 = st.columns(2)
         with col1:
-            st.success("""**3. Dictionary Expansion**
-    - Dual threshold filtering (both ≥ 0.55):\n
-    - Seed-term similarity\n
-    - Subcategory centroid similarity\n
-    - Single-category assignment only""")
+            with st.container(border=True):
+                st.markdown("""**3. Threshold Optimization**
+- Baseline similarity threshold: **0.40**
+- **Variable thresholds by subcategory** (0.30–0.80) based on noise levels
+- Technical categories (e.g., Disease & Health): lower thresholds allowed
+- Generic-prone categories (e.g., Forced Labor): higher thresholds required""")
         with col2:
-            st.success("""**4. Manual Curation**
-    - Removed problematic seed terms\n
-    - Blacklisted ~40 noise terms\n
-    - Final quality control pass""")
+            with st.container(border=True):
+                st.markdown("""**4. Manual Curation**
+- Systematically reviewed expanded terms by subcategory
+- Removed: generic project terms, Bank-specific terminology, overly broad terms, cross-pillar misassignments""")
+        st.markdown("---")
+        st.markdown("##### 📊 Final Dictionary Statistics")
+        col1, col2, col3, col4 = st.columns(4)
+        with col1:
+            st.metric("Environmental (E)", "710 terms", "3 categories")
+        with col2:
+            st.metric("Social (S)", "566 terms", "5 categories")
+        with col3:
+            st.metric("Governance (G)", "1,131 terms", "5 categories")
+        with col4:
+            st.metric("Total", "2,407 terms", "13 categories, 35 subcategories")
+        st.markdown("---")
+        st.markdown("##### ✅ Validation")
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown("**Coverage Analysis**")
+            st.markdown("Expansion dramatically improved coverage for under-represented categories:")
+            coverage_data = {
+                'Category': ['S4 (Indigenous Peoples)', 'S5 (Cultural Heritage)', 'G1 (Institutional)', 'G5 (Accountability)'],
+                'Seed Coverage': ['49%', '17%', '67%', '68%'],
+                'Expanded Coverage': ['99%', '100%', '100%', '100%']
+            }
+            st.dataframe(pd.DataFrame(coverage_data), use_container_width=True, hide_index=True)
+        with col2:
+            st.markdown("**Cluster Quality**")
+            st.metric("Overall Silhouette Score", "0.054", "subcategory level")
+            st.markdown("- 32/35 subcategories have positive mean silhouette")
+            st.markdown("- t-SNE visualization confirms reasonable separation between pillars and categories")
         st.markdown("---")
     with subtab2:
         st.markdown("##### Final Result")
