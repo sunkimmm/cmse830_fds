@@ -733,7 +733,6 @@ with tab5:
         - **Implementation Completion Report (ICR)**: Written after project completion
         """)
         st.markdown("##### It allows us to see _what happened during the project_, and the sample documents can be downloaded in the following.")
-        st.subheader("Sample Documents")
         col1, col2 = st.columns(2)
         with col1:
             st.markdown("**Project Appraisal Document (at Planning stage)**")
