@@ -789,7 +789,7 @@ with tab5:
             st.markdown("• Preserves semantic meaning of phrases")
         st.markdown("---")
         st.subheader("N-gram Processing")
-        st.markdown("##### N-gram Extraction Process")
+        st.markdown("##### N-gram Extraction")
         st.markdown("""
         For text analysis, bigrams and trigrams were extracted using specific POS (Part-of-Speech) patterns 
         to capture meaningful multi-word terms relevant to ESG risks.
@@ -812,7 +812,7 @@ with tab5:
             ('NOUN', 'NOUN', 'NOUN')   # e.g., "water treatment plant"
         }
         """, language="python")
-        st.markdown("##### Filtering and Selection Process")
+        st.markdown("##### Filtering and Selection")
         col1, col2, col3 = st.columns(3)
         with col1:
             st.info("**Step 1: Pattern Matching**\n\nExtract n-grams matching the defined POS patterns using spaCy NLP")
