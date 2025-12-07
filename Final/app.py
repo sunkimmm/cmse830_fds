@@ -658,13 +658,12 @@ with tab4:
 
 with tab5:
     st.header("Data Processing for Text Data")
-    st.header("Data Processing for Text data")
+    st.markdown("##### This page summarizes the data preprocessing steps for the text data extracted from the project-related reports from the World Bank. For each of the 280 projects, there are two types of projects:")
     st.markdown("""
-    Source: World Bank\n
-    Each project has two key documents that are analyzed:
     - **Project Appraisal Document (PAD)**: Written at planning stage
     - **Implementation Completion Report (ICR)**: Written after project completion
     """)
+    st.markdown("##### It allows us to see _what happened during the project_, and the sample documents can be downloaded in the following.")
     st.subheader("Sample Documents")
     col1, col2 = st.columns(2)
     with col1:
