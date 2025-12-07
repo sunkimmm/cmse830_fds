@@ -1141,6 +1141,10 @@ with tab5:
 with tab6:
     subtab1, subtab2 = st.tabs(["Initial/Exploratory Data Analysis", "Regression Analysis"])
     with subtab1:
+        cancel_count = (final_projects['cancellation'].astype(str).str.lower() == 'true').sum()
+        cancel_pct = cancel_count / len(final_projects) * 100
+        add_count = (final_projects['addition_label'] == 'Yes').sum()
+        add_pct = add_count / len(final_projects) * 100
         st.subheader("Summary Statistics")
         col1, col2, col3, col4 = st.columns(4)
         with col1:
