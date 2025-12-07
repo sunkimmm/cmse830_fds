@@ -734,11 +734,9 @@ with tab5:
         """)
         col1, col2 = st.columns(2)
         with col1:
-            st.markdown("**Project Appraisal Document (at Planning stage)**")
             with open(BASE / "P130164_PAD.pdf", "rb") as f:
                 st.download_button("📥 Download Sample PAD", f, file_name="P130164_PAD.pdf")
         with col2:
-            st.markdown("**Implementation Completion Report (after completion)**")
             with open(BASE / "P130164_ICR.pdf", "rb") as f:
                 st.download_button("📥 Download Sample ICR", f, file_name="P130164_ICR.pdf")
         st.markdown("---")
