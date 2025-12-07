@@ -938,7 +938,7 @@ with tab5:
                 trigrams_df = pd.DataFrame(trigrams_data, columns=["term", "tfidf", "doc_freq_%"])
                 st.dataframe(trigrams_df, height=400, use_container_width=True, hide_index=True)
     
-with subtab2:
+    with subtab2:
         st.header("Embedding Analysis & Final ESG Taxonomy")
         esg_dict = pd.read_csv(BASE / "esg_dictionary_final_2407.csv")
         col1, col2 = st.columns(2)
