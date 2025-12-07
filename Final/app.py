@@ -1086,7 +1086,7 @@ with tab5:
         st.markdown("---")
         st.subheader("Interactive Cluster Visualization")
         viz_df = pd.read_csv(BASE / "esg_dictionary_viz.csv")
-    viz_col1, viz_col2 = st.columns([1, 3])
+        viz_col1, viz_col2 = st.columns([1, 3])
         with viz_col1:
             viz_pillar = st.radio("Select Pillar", ['E', 'S', 'G'], 
                                 format_func=lambda x: pillar_labels[x],
