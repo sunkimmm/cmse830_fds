@@ -1092,16 +1092,28 @@ with tab5:
                                 format_func=lambda x: pillar_labels[x],
                                 key="viz_pillar")
             pillar_categories = viz_df[viz_df['pillar'] == viz_pillar]['category'].unique().tolist()
-            # Create display mapping from esg_dict (category -> category_display)
-            cat_to_display = esg_dict[['category', 'category_display']].drop_duplicates().set_index('category')['category_display'].to_dict()
-            category_options = {cat: cat_to_display.get(cat, cat) for cat in pillar_categories}
+            # Build display mapping: category -> "category_display: subcategory"
+            cat_to_display = {}
+            for cat in pillar_categories:
+                match = esg_dict[esg_dict['category'] == cat][['category_display', 'subcategory']].drop_duplicates()
+                if len(match) > 0:
+                    # Get unique subcategories for this category
+                    subcats = match['subcategory'].unique().tolist()
+                    cat_disp = match['category_display'].values[0]
+                    if len(subcats) == 1:
+                        cat_to_display[cat] = f"{cat_disp}: {subcats[0]}"
+                    else:
+                        # Multiple subcategories - just show category_display
+                        cat_to_display[cat] = f"{cat_disp}: {', '.join(subcats[:2])}..." if len(subcats) > 2 else f"{cat_disp}: {', '.join(subcats)}"
+                else:
+                    cat_to_display[cat] = cat
             selected_displays = st.multiselect(
                 "Categories", 
-                options=list(category_options.values()), 
-                default=list(category_options.values()), 
+                options=list(cat_to_display.values()), 
+                default=list(cat_to_display.values()), 
                 key="viz_cats"
             )
-            display_to_cat = {v: k for k, v in category_options.items()}
+            display_to_cat = {v: k for k, v in cat_to_display.items()}
             selected_cats = [display_to_cat[d] for d in selected_displays]
         with viz_col2:
             fig = go.Figure()
@@ -1134,7 +1146,6 @@ with tab5:
                 plot_bgcolor='white'
             )
             st.plotly_chart(fig, use_container_width=True)
-
     with subtab3:
         #st.header("Initial/Exploratory Analysis")
         st.markdown("## COMING SOON")
