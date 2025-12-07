@@ -1153,7 +1153,7 @@ with tab6:
         add_count = (final_projects['addition_label'] == 'Yes').sum()
         add_pct = add_count / len(final_projects) * 100
         avg_delay = final_projects['delay'].mean()
-        avg_cost_change = final_projects['cost_change_perc'].mean()
+        avg_cost_change = final_projects['cost_change_perc'].str.replace('%', '').astype(float).mean()
         # Summary statistics first
         st.subheader("Summary Statistics for the 280 Projects")
         col1, col2, col3, col4 = st.columns(4)
