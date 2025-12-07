@@ -1309,23 +1309,20 @@ with tab6:
             st.plotly_chart(fig_delay, use_container_width=True)
         st.markdown("---")
         # ESG Frequency Heatmaps by Sector
-        st.subheader("ESG Term Frequency by Sector and Category")
-        st.markdown("Heatmaps showing the percentage of ESG-related terms in project documents at appraisal and completion stages.")
-        
-        # Category labels
         cat_order = ['E1', 'E2', 'E3', 'S1', 'S2', 'S3', 'S4', 'S5', 'G1', 'G2', 'G3', 'G4', 'G5']
         label_mapping = {
             'E1': 'Climate & GHG', 'E2': 'Natural Resources', 'E3': 'Pollution',
             'S1': 'Community', 'S2': 'Safety', 'S3': 'Labor', 'S4': 'Indigenous', 'S5': 'Cultural Heritage',
             'G1': 'Institutional', 'G2': 'Fiscal', 'G3': 'Procurement', 'G4': 'Operations', 'G5': 'Transparency'
         }
-        sectors = ['Transportation', 'Water', 'Energy']
+        sectors_data = ['Transport', 'Water', 'Energy']  # Actual values in data
+        sectors_display = ['Transportation', 'Water', 'Energy']  # For display
         
         # Calculate appraisal frequency by sector
         appraisal_data = []
         for cat in cat_order:
             row = []
-            for sector in sectors:
+            for sector in sectors_data:  # Use data values for filtering
                 sector_data = df_app[df_app['sector_group'] == sector]
                 row.append(sector_data[f'app_{cat}_pct'].mean())
             appraisal_data.append(row)
@@ -1334,7 +1331,7 @@ with tab6:
         completion_data = []
         for cat in cat_order:
             row = []
-            for sector in sectors:
+            for sector in sectors_data:  # Use data values for filtering
                 sector_data = df_app[df_app['sector_group'] == sector]
                 app_val = sector_data[f'app_{cat}_pct'].mean()
                 emerg_val = sector_data[f'{cat}_emergence_rate'].mean()
@@ -1345,7 +1342,7 @@ with tab6:
         emergence_data = []
         for cat in cat_order:
             row = []
-            for sector in sectors:
+            for sector in sectors_data:  # Use data values for filtering
                 sector_data = df_app[df_app['sector_group'] == sector]
                 row.append(sector_data[f'{cat}_emergence_rate'].mean())
             emergence_data.append(row)
@@ -1355,13 +1352,13 @@ with tab6:
             st.markdown("**ESG Term Frequency at Appraisal**")
             fig_app = go.Figure(data=go.Heatmap(
                 z=appraisal_data,
-                x=sectors,
+                x=sectors_display,  # Use display values for x-axis
                 y=[label_mapping[c] for c in cat_order],
                 text=[[f"{v:.2f}" for v in row] for row in appraisal_data],
                 texttemplate="%{text}",
                 textfont=dict(size=12),
                 colorscale='YlGn',
-                colorbar=dict(title='Frequency (%)', title_font=dict(size=12)),
+                colorbar=dict(title=dict(text='Frequency (%)', font=dict(size=12))),
                 hovertemplate='Category: %{y}<br>Sector: %{x}<br>Frequency: %{z:.2f}%<extra></extra>'
             ))
             fig_app.update_layout(
@@ -1376,13 +1373,13 @@ with tab6:
             st.markdown("**ESG Term Frequency at Completion**")
             fig_comp = go.Figure(data=go.Heatmap(
                 z=completion_data,
-                x=sectors,
+                x=sectors_display,  # Use display values for x-axis
                 y=[label_mapping[c] for c in cat_order],
                 text=[[f"{v:.2f}" for v in row] for row in completion_data],
                 texttemplate="%{text}",
                 textfont=dict(size=12),
                 colorscale='YlGn',
-                colorbar=dict(title='Frequency (%)', title_font=dict(size=12)),
+                colorbar=dict(title=dict(text='Frequency (%)', font=dict(size=12))),
                 hovertemplate='Category: %{y}<br>Sector: %{x}<br>Frequency: %{z:.2f}%<extra></extra>'
             ))
             fig_comp.update_layout(
@@ -1404,13 +1401,13 @@ with tab6:
         with col2:
             fig_emerg = go.Figure(data=go.Heatmap(
                 z=emergence_data,
-                x=sectors,
+                x=sectors_display,  # Use display values for x-axis
                 y=[label_mapping[c] for c in cat_order],
                 text=[[f"{v:.2f}" for v in row] for row in emergence_data],
                 texttemplate="%{text}",
                 textfont=dict(size=12),
                 colorscale='RdYlGn_r',
-                colorbar=dict(title='Emergence Rate', title_font=dict(size=12)),
+                colorbar=dict(title=dict(text='Emergence Rate', font=dict(size=12))),
                 hovertemplate='Category: %{y}<br>Sector: %{x}<br>Emergence: %{z:.2f}<extra></extra>'
             ))
             fig_emerg.update_layout(
