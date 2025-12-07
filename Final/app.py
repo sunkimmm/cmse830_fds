@@ -530,7 +530,7 @@ with tab4:
             st.metric("Target Year", "2019 USD")
         with col4:
             avg_cost = final_projects['base+contingency'].mean()
-            st.metric("Avg Cost", f"${avg_cost:.0f}M")
+            st.metric("Avg Cost (at appraisal)", f"${avg_cost:.0f}M")
             
         # 2. Step 1: PLR Adjustment
         st.markdown("#### Step 1: PLR (Price Level Ratio) Adjustment")
@@ -659,7 +659,8 @@ with tab4:
         with col1:
             st.metric("Projects", len(final_projects))
         with col2:
-            st.metric("Columns", len(final_projects.columns))
+            avg_cost = final_projects['planned_cost_adj_both'].mean()
+            st.metric("Avg Cost", f"${avg_cost:.0f}M")
         with col3:
             st.metric("Approval Year Range", f"{final_projects['approval_year'].min()} - {final_projects['approval_year'].max()}")
         with col4:
