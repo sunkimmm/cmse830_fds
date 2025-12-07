@@ -1247,8 +1247,7 @@ with tab6:
     with subtab2:
         st.header("Exploratory Data Analysis")
         df_app = pd.read_csv(BASE / "df_app_streamlit.csv")
-        
-        # Outcomes by Sector
+
         st.subheader("Outcomes by Sector")
         st.markdown("This study's key outcome variables are cost change (in %), delay, and cancellation of subprojects.")
         sector_outcomes = df_app.groupby('sector_group').agg({
