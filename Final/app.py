@@ -1533,7 +1533,6 @@ with tab6:
         
 
     with subtab3:
-        st.header("Regression Analysis")
         df_app = pd.read_csv(BASE / "df_app_streamlit.csv")
         
         # Summary of Key Findings
