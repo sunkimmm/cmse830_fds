@@ -1092,24 +1092,32 @@ with tab5:
                                 format_func=lambda x: pillar_labels[x],
                                 key="viz_pillar")
             pillar_categories = viz_df[viz_df['pillar'] == viz_pillar]['category'].unique().tolist()
-            # Fixed display labels
             cat_to_display = {
-                'ESS3_P': 'E1: Pollution Prevention and Management',
+                'ESS3_P': 'E1: Pollution Prevention',
                 'ESS3_R': 'E2: Resource Efficiency',
-                'ESS6': 'E3: Biodiversity Conservation',
-                'ESS2': 'S1: Labor and Working Conditions',
-                'ESS4': 'S2: Community Health and Safety',
-                'ESS5': 'S3: Land Acquisition and Involuntary Resettlement',
+                'ESS6': 'E3: Biodiversity',
+                'ESS2': 'S1: Labor Conditions',
+                'ESS4': 'S2: Community Health',
+                'ESS5': 'S3: Land Acquisition',
                 'ESS7': 'S4: Indigenous Peoples',
                 'ESS8': 'S5: Cultural Heritage',
-                'DIM1': 'G1: Legal Framework and Institutional Capacity',
-                'DIM2_3': 'G2: Financial and Economic',
-                'DIM6': 'G3: Procurement and Contract Management',
-                'DIM7': 'G4: Operations and Performance',
-                'DIM8_9': 'G5: Transparency and Integrity'
+                'DIM1': 'G1: Legal Framework',
+                'DIM2_3': 'G2: Financial & Economic',
+                'DIM6': 'G3: Procurement',
+                'DIM7': 'G4: Operations',
+                'DIM8_9': 'G5: Transparency'
             }
-            # Get display names for current pillar's categories
             pillar_display_options = [cat_to_display.get(cat, cat) for cat in pillar_categories]
+            # CSS to show full text in multiselect
+            st.markdown("""
+            <style>
+            div[data-baseweb="select"] span {
+                white-space: normal !important;
+                overflow: visible !important;
+                text-overflow: unset !important;
+            }
+            </style>
+            """, unsafe_allow_html=True)
             selected_displays = st.multiselect(
                 "Categories", 
                 options=pillar_display_options, 
