@@ -1154,13 +1154,13 @@ with tab6:
         )
         add_count = (final_projects['addition_label'] == 'Yes').sum()
         add_pct = add_count / len(final_projects) * 100
-        avg_delay = final_projects['delay'].mean()
+        avg_delay = final_projects['delay'].mean() / 12
         avg_cost_change = final_projects['cost_change_numeric'].mean()
         # Summary statistics first
         st.subheader("Summary Statistics for the 280 Projects")
         col1, col2, col3, col4 = st.columns(4)
         with col1:
-            st.metric("Avg Delay", f"{avg_delay:.1f} months")
+            st.metric("Avg Delay", f"{avg_delay:.1f} years")
         with col2:
             st.metric("Avg Cost Change", f"{avg_cost_change:.1f}%")
         with col3:
@@ -1174,20 +1174,23 @@ with tab6:
             'delay': 'mean',
             'cost_change_numeric': 'mean'
         }).reset_index()
+        sector_stats['delay_years'] = sector_stats['delay'] / 12
         col1, col2 = st.columns(2)
         with col1:
             st.subheader("Average Delay by Sector")
             fig_delay = go.Figure(data=[go.Bar(
                 x=sector_stats['sector1'],
-                y=sector_stats['delay'],
+                y=sector_stats['delay_years'],
                 marker_color=[sector_colors.get(s, '#888888') for s in sector_stats['sector1']],
-                text=[f"{v:.1f}" for v in sector_stats['delay']],
-                textposition='outside'
+                text=[f"{v:.1f}" for v in sector_stats['delay_years']],
+                textposition='outside',
+                textfont=dict(size=14)
             )])
-            max_delay = sector_stats['delay'].max()
+            max_delay = sector_stats['delay_years'].max()
             fig_delay.update_layout(
-                yaxis_title='Delay (months)',
-                yaxis=dict(range=[0, max_delay * 1.2]),
+                yaxis_title='Delay (years)',
+                yaxis=dict(range=[0, max_delay * 1.2], tickfont=dict(size=14), title_font=dict(size=16)),
+                xaxis=dict(tickfont=dict(size=14)),
                 margin=dict(t=20, b=20, l=20, r=20),
                 height=350
             )
@@ -1199,12 +1202,14 @@ with tab6:
                 y=sector_stats['cost_change_numeric'],
                 marker_color=[sector_colors.get(s, '#888888') for s in sector_stats['sector1']],
                 text=[f"{v:.1f}%" for v in sector_stats['cost_change_numeric']],
-                textposition='outside'
+                textposition='outside',
+                textfont=dict(size=14)
             )])
             max_cost = sector_stats['cost_change_numeric'].max()
             fig_cost.update_layout(
                 yaxis_title='Cost Change (%)',
-                yaxis=dict(range=[0, max_cost * 1.2]),
+                yaxis=dict(range=[0, max_cost * 1.2], tickfont=dict(size=14), title_font=dict(size=16)),
+                xaxis=dict(tickfont=dict(size=14)),
                 margin=dict(t=20, b=20, l=20, r=20),
                 height=350
             )
@@ -1221,7 +1226,7 @@ with tab6:
                                color='Cancellation',
                                color_discrete_map={'Yes': '#EF553B', 'No': '#00CC96'},
                                hole=0.3)
-            fig_cancel.update_traces(textposition='inside', textinfo='percent+label')
+            fig_cancel.update_traces(textposition='inside', textinfo='percent+label', textfont_size=14)
             fig_cancel.update_layout(showlegend=False, margin=dict(t=20, b=20, l=20, r=20))
             st.plotly_chart(fig_cancel, use_container_width=True)
             st.caption(f"{cancel_count} projects ({cancel_pct:.1f}%) had subcomponent cancellations")
@@ -1233,7 +1238,7 @@ with tab6:
                             color='Addition',
                             color_discrete_map={'Yes': '#636EFA', 'No': '#FECB52', 'Unknown': '#999999'},
                             hole=0.3)
-            fig_add.update_traces(textposition='inside', textinfo='percent+label')
+            fig_add.update_traces(textposition='inside', textinfo='percent+label', textfont_size=14)
             fig_add.update_layout(showlegend=False, margin=dict(t=20, b=20, l=20, r=20))
             st.plotly_chart(fig_add, use_container_width=True)
             st.caption(f"{add_count} projects ({add_pct:.1f}%) had subcomponent expansions")
