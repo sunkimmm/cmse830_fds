@@ -52,16 +52,11 @@ This research investigates how ESG-related challenges influence project performa
 ## Data Sources
 
 - **World Bank**: Sovereign infrastructure development project data
-- **ESG Frameworks**: IFC Performance Standards, World Bank Environmental and Social Framework, Infrastructure Governance Assessment Framework
+- **ESG Frameworks**: World Bank Environmental and Social Framework, Infrastructure Governance Assessment Framework
 
 ## Technical Stack
 
 - **Frontend**: Streamlit
 - **Visualization**: Plotly, Plotly Express
 - **Data Processing**: Pandas, NumPy, SciPy
-- **NLP**: Word2Vec embeddings, MPNET transformer model, spaCy
-
-## Author
-
-S. Kim (sunkim@msu.edu)  
-Michigan State University
+- **NLP**: MPNET transformer model embedding, spaCy
