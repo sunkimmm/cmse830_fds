@@ -1092,25 +1092,28 @@ with tab5:
                                 format_func=lambda x: pillar_labels[x],
                                 key="viz_pillar")
             pillar_categories = viz_df[viz_df['pillar'] == viz_pillar]['category'].unique().tolist()
-            # Build display mapping: category -> "category_display: subcategory"
-            cat_to_display = {}
-            for cat in pillar_categories:
-                match = esg_dict[esg_dict['category'] == cat][['category_display', 'subcategory']].drop_duplicates()
-                if len(match) > 0:
-                    # Get unique subcategories for this category
-                    subcats = match['subcategory'].unique().tolist()
-                    cat_disp = match['category_display'].values[0]
-                    if len(subcats) == 1:
-                        cat_to_display[cat] = f"{cat_disp}: {subcats[0]}"
-                    else:
-                        # Multiple subcategories - just show category_display
-                        cat_to_display[cat] = f"{cat_disp}: {', '.join(subcats[:2])}..." if len(subcats) > 2 else f"{cat_disp}: {', '.join(subcats)}"
-                else:
-                    cat_to_display[cat] = cat
+            # Fixed display labels
+            cat_to_display = {
+                'ESS3_P': 'E1: Pollution Prevention and Management',
+                'ESS3_R': 'E2: Resource Efficiency',
+                'ESS6': 'E3: Biodiversity Conservation',
+                'ESS2': 'S1: Labor and Working Conditions',
+                'ESS4': 'S2: Community Health and Safety',
+                'ESS5': 'S3: Land Acquisition and Involuntary Resettlement',
+                'ESS7': 'S4: Indigenous Peoples',
+                'ESS8': 'S5: Cultural Heritage',
+                'DIM1': 'G1: Legal Framework and Institutional Capacity',
+                'DIM2_3': 'G2: Financial and Economic',
+                'DIM6': 'G3: Procurement and Contract Management',
+                'DIM7': 'G4: Operations and Performance',
+                'DIM8_9': 'G5: Transparency and Integrity'
+            }
+            # Get display names for current pillar's categories
+            pillar_display_options = [cat_to_display.get(cat, cat) for cat in pillar_categories]
             selected_displays = st.multiselect(
                 "Categories", 
-                options=list(cat_to_display.values()), 
-                default=list(cat_to_display.values()), 
+                options=pillar_display_options, 
+                default=pillar_display_options, 
                 key="viz_cats"
             )
             display_to_cat = {v: k for k, v in cat_to_display.items()}
